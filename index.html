@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Etho — For the love of dog</title>
+<meta name="description" content="Ever wondered if your dog is actually happy? Etho is a smart collar and app that tracks your dog's health, behaviour and happiness.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500&family=Manrope:wght@500&family=Albert+Sans:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="nav-bar">
+      <div class="logo">eтho</div>
+      <nav class="links">
+        <a href="#care">Care</a>
+        <a href="shop.html">Shop</a>
+        <a href="#about">About</a>
+        <span class="btn-outline">Get the app</span>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1 class="hero-title">
+      <span class="drop-cap">F</span>or <span class="tau-char">т</span>he love of <span class="highlight">dog</span>
+    </h1>
+    <p class="hero-sub">Ever wondered if your dog is actually happy?</p>
+    <div class="hero-actions">
+      <span class="btn-outline-lg">Try Etho</span>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-image">
+        <img src="assets/images/hero-dog.jpg" alt="A happy dog wearing an Etho smart collar" onerror="this.remove()">
+      </div>
+
+      <div class="float-card float-card--score">
+        <div class="score-ring">
+          <svg width="56" height="56" viewBox="0 0 96 96">
+            <circle cx="48" cy="48" r="41" fill="none" stroke="#EDEAE2" stroke-width="10"></circle>
+            <circle cx="48" cy="48" r="41" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="180.2 257.6" transform="rotate(-90 48 48)"></circle>
+          </svg>
+          <div class="score-num">70</div>
+        </div>
+        <div>
+          <div class="title">Ruffles is energetic today</div>
+          <div class="subtitle">High happiness level</div>
+        </div>
+      </div>
+
+      <div class="float-card float-card--sleep">
+        <div class="sleep-row">
+          <div class="sleep-label">Sleep</div>
+          <div class="sleep-status">On track</div>
+        </div>
+        <div class="sleep-value">11 h 40 m</div>
+        <div class="sleep-bars">
+          <span style="height:20%"></span>
+          <span class="half" style="height:55%"></span>
+          <span class="on" style="height:100%"></span>
+          <span class="on" style="height:100%"></span>
+          <span class="half" style="height:55%"></span>
+          <span class="on" style="height:100%"></span>
+          <span style="height:20%"></span>
+          <span class="half" style="height:55%"></span>
+          <span class="on" style="height:100%"></span>
+          <span style="height:20%"></span>
+        </div>
+      </div>
+
+      <div class="float-card float-card--dose">
+        <span class="dose-dot"></span>
+        <div class="title">Omega-3 drops with breakfast</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="care" class="care">
+    <div class="section-head">
+      <div class="eyebrow">The next unlock</div>
+      <h2 class="section-title">u<span class="tau-char">и</span>ders<span class="tau-char">т</span>a<span class="tau-char">и</span>d your dog's heal<span class="tau-char">т</span>h a<span class="tau-char">и</span>d happi<span class="tau-char">и</span>ess</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-dot"></span>
+        <div class="card-title">Behaviour &amp; activity</div>
+        <p class="card-copy">Track and analyse everything they do, from calories burnt, to eating, drinking, barking, licking and scratching.</p>
+      </div>
+      <div class="card card--offset">
+        <span class="card-dot"></span>
+        <div class="card-title">Gentle reminders</div>
+        <p class="card-copy">Dogs thrive when their routine is right. Set reminders and build consistent habits.</p>
+      </div>
+      <div class="card">
+        <span class="card-dot"></span>
+        <div class="card-title">Speak their language</div>
+        <p class="card-copy">Learn to recognise your dog's instincts, with insights into their physical, emotional and social needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop" class="shop">
+    <div class="shop-inner" data-shop-configurator>
+      <div class="shop-stage">
+        <div class="shop-collar" style="background:#F4E4A8">
+          <div class="shop-device" style="background:#3A3A3C"></div>
+        </div>
+        <div class="shop-render-label">product render</div>
+      </div>
+      <div class="shop-details">
+        <div class="shop-heading">
+          <div class="eyebrow">Shop</div>
+          <h2 class="shop-title"><span class="drop-cap">T</span>he collar</h2>
+          <p class="shop-copy">A featherlight tracker that reads your dog's vitals, sleep and mood. Pick a band, pick a finish.</p>
+        </div>
+
+        <div class="picker-group">
+          <div class="picker-label">Band color — <span class="value" data-collar-value>Butter</span></div>
+          <div class="swatches">
+            <button type="button" class="swatch selected" data-collar-index="0" style="background:#F4E4A8" aria-label="Butter"></button>
+            <button type="button" class="swatch" data-collar-index="1" style="background:#F7C9BE" aria-label="Salmon"></button>
+            <button type="button" class="swatch" data-collar-index="2" style="background:#D6EBA8" aria-label="Lime"></button>
+            <button type="button" class="swatch" data-collar-index="3" style="background:#A8DBD4" aria-label="Teal"></button>
+            <button type="button" class="swatch" data-collar-index="4" style="background:#CFC1E9" aria-label="Purple"></button>
+          </div>
+        </div>
+
+        <div class="picker-group">
+          <div class="picker-label">Device finish — <span class="value" data-device-value>Graphite</span></div>
+          <div class="finishes">
+            <button type="button" class="finish" data-device-key="nude">
+              <span class="finish-swatch" style="background:#E4CDB6"></span>
+              <span class="finish-label">Nude</span>
+            </button>
+            <button type="button" class="finish selected" data-device-key="graphite">
+              <span class="finish-swatch" style="background:#3A3A3C"></span>
+              <span class="finish-label">Graphite</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="shop-cta">
+          <span class="btn-solid">Coming soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about-wrap">
+    <div class="about">
+      <h2 class="about-title">Adva<span class="tau-char">и</span>ced <span class="tau-char">в</span>iohacki<span class="tau-char">и</span>g for your pe<span class="tau-char">т</span></h2>
+      <span class="btn-outline-lg">Try Etho</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo" style="font-size:17px">eтho</div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop — Etho</title>
+<meta name="description" content="The Etho collar is coming soon. Preview band colors and device finishes and be the first to know when it launches.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500&family=Manrope:wght@500&family=Albert+Sans:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="nav-bar">
+      <a href="index.html" class="logo" style="color:inherit">eтho</a>
+      <nav class="links">
+        <a href="index.html#care">Care</a>
+        <a href="shop.html">Shop</a>
+        <a href="index.html#about">About</a>
+        <span class="btn-outline">Get the app</span>
+      </nav>
+    </div>
+  </header>
+
+  <section class="shop-page-hero">
+    <div class="eyebrow">Shop</div>
+    <h1 class="hero-title" style="font-size:clamp(36px,6vw,64px)">Coming soon</h1>
+    <p class="hero-sub">The Etho collar is on its way. Get a preview below, and try the app while you wait.</p>
+  </section>
+
+  <section class="shop">
+    <div class="shop-inner" data-shop-configurator>
+      <div class="shop-stage">
+        <div class="shop-collar" style="background:#F4E4A8">
+          <div class="shop-device" style="background:#3A3A3C"></div>
+        </div>
+        <div class="shop-render-label">product render</div>
+      </div>
+      <div class="shop-details">
+        <div class="shop-heading">
+          <div class="eyebrow">Shop</div>
+          <h2 class="shop-title"><span class="drop-cap">T</span>he collar</h2>
+          <p class="shop-copy">A featherlight tracker that reads your dog's vitals, sleep and mood. Pick a band, pick a finish.</p>
+        </div>
+
+        <div class="picker-group">
+          <div class="picker-label">Band color — <span class="value" data-collar-value>Butter</span></div>
+          <div class="swatches">
+            <button type="button" class="swatch selected" data-collar-index="0" style="background:#F4E4A8" aria-label="Butter"></button>
+            <button type="button" class="swatch" data-collar-index="1" style="background:#F7C9BE" aria-label="Salmon"></button>
+            <button type="button" class="swatch" data-collar-index="2" style="background:#D6EBA8" aria-label="Lime"></button>
+            <button type="button" class="swatch" data-collar-index="3" style="background:#A8DBD4" aria-label="Teal"></button>
+            <button type="button" class="swatch" data-collar-index="4" style="background:#CFC1E9" aria-label="Purple"></button>
+          </div>
+        </div>
+
+        <div class="picker-group">
+          <div class="picker-label">Device finish — <span class="value" data-device-value>Graphite</span></div>
+          <div class="finishes">
+            <button type="button" class="finish" data-device-key="nude">
+              <span class="finish-swatch" style="background:#E4CDB6"></span>
+              <span class="finish-label">Nude</span>
+            </button>
+            <button type="button" class="finish selected" data-device-key="graphite">
+              <span class="finish-swatch" style="background:#3A3A3C"></span>
+              <span class="finish-label">Graphite</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="shop-cta">
+          <span class="btn-solid">Coming soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html" class="logo" style="font-size:17px; color:inherit">eтho</a>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
