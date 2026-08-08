@@ -568,7 +568,9 @@ nav.links {
 .about-wrap { display: flex; justify-content: center; padding: 0 24px 160px; }
 .about {
   width: min(1120px, 100%);
-  background: var(--about-bg);
+  background-image: url('assets/images/gradient-b.png'), var(--about-bg);
+  background-size: cover, cover;
+  background-position: center, center;
   border: 1px solid var(--about-border);
   border-radius: 36px;
   display: flex;
