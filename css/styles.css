@@ -166,9 +166,9 @@ nav.links {
   max-width: 1060px;
   text-wrap: balance;
 }
-.drop-cap { font-size: 0.78em; font-weight: 800; }
+.drop-cap { font-size: 0.7273em; font-weight: 800; }
 .tau-char { font-family: var(--tau-font); }
-.cap-n { font-size: 0.78em; font-weight: 800; }
+.cap-n { font-size: 0.7273em; font-weight: 800; }
 .highlight {
   background: var(--hl-bg);
   color: var(--hl-color);
