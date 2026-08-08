@@ -168,6 +168,7 @@ nav.links {
 }
 .drop-cap { font-size: 0.78em; font-weight: 800; }
 .tau-char { font-family: var(--tau-font); }
+.tau-char--n { display: inline-block; transform: scaleX(-1); }
 .highlight {
   background: var(--hl-bg);
   color: var(--hl-color);
