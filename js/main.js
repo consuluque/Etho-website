@@ -93,3 +93,33 @@ function initNavToggle(toggle) {
 }
 
 document.querySelectorAll('.nav-toggle').forEach(initNavToggle);
+
+function initIntroParallax() {
+  const frame = document.querySelector('.intro-frame--photo');
+  const img = frame && frame.querySelector('.intro-bg img');
+  if (!frame || !img) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const maxShift = 70;
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const stuckRange = frame.offsetHeight - window.innerHeight;
+    if (stuckRange <= 0) return;
+    const rect = frame.getBoundingClientRect();
+    const progress = Math.min(Math.max(-rect.top / stuckRange, 0), 1);
+    img.style.transform = 'scale(1.15) translateY(' + (progress * maxShift) + 'px)';
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+
+  update();
+}
+
+initIntroParallax();
