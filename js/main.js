@@ -94,25 +94,60 @@ function initNavToggle(toggle) {
 
 document.querySelectorAll('.nav-toggle').forEach(initNavToggle);
 
+const WAITLIST_EMAIL = 'consuluque@gmail.com';
+
 function initInlineWaitlist(button) {
   button.addEventListener('click', (e) => {
     e.preventDefault();
-    const formId = button.dataset.waitlistForm;
     const slot = button.closest('.waitlist-slot');
-    if (!slot || !formId) return;
+    if (!slot) return;
 
-    // Declarative data-tf-widget attribute, not the imperative createWidget()
-    // JS call — Typeform's embed.js watches the DOM for elements with this
-    // attribute and initializes them itself, which is the documented,
-    // reliable way to add a widget after page load.
-    const container = document.createElement('div');
-    container.setAttribute('data-tf-widget', formId);
-    container.setAttribute('data-tf-opacity', '100');
-    container.style.width = '100%';
-    container.style.height = '100%';
-    slot.replaceChildren(container);
+    const form = document.createElement('form');
+    form.className = 'waitlist-form';
+    form.innerHTML =
+      '<input type="email" name="email" class="waitlist-input" placeholder="you@example.com" required autofocus>' +
+      '<button type="submit" class="btn-solid waitlist-submit">Join</button>';
+
+    const status = document.createElement('p');
+    status.className = 'waitlist-status';
+    status.setAttribute('aria-live', 'polite');
+
+    slot.replaceChildren(form, status);
     slot.classList.add('is-active');
+
+    form.addEventListener('submit', async (evt) => {
+      evt.preventDefault();
+      const input = form.querySelector('.waitlist-input');
+      const submitBtn = form.querySelector('.waitlist-submit');
+      const email = input.value.trim();
+      if (!email) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      status.textContent = '';
+      status.classList.remove('is-error');
+
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/' + WAITLIST_EMAIL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ email, _subject: 'New Etho waitlist signup' }),
+        });
+        if (!res.ok) throw new Error('Request failed');
+
+        slot.replaceChildren();
+        const done = document.createElement('p');
+        done.className = 'waitlist-status waitlist-status--done';
+        done.textContent = "You're on the list — we'll be in touch.";
+        slot.append(done);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Join';
+        status.textContent = "Something went wrong — please try again.";
+        status.classList.add('is-error');
+      }
+    });
   });
 }
 
-document.querySelectorAll('[data-waitlist-form]').forEach(initInlineWaitlist);
+document.querySelectorAll('.waitlist-btn').forEach(initInlineWaitlist);
