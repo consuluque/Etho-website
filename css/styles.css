@@ -220,7 +220,7 @@ nav.links {
   box-shadow: 0 20px 50px rgba(35, 43, 36, 0.12);
 }
 
-.hero-visual { position: relative; width: min(1080px, 100%); margin-top: 110px; }
+.hero-visual { position: relative; width: min(1080px, 100%); margin-top: 170px; }
 
 .hero-image {
   width: 100%;
@@ -650,7 +650,7 @@ footer {
   .shop-stage { width: 100%; min-height: 400px; }
   .about { padding: 90px 32px; }
   .hero { padding: 150px 24px 90px; }
-  .hero-visual { margin-top: 140px; }
+  .hero-visual { margin-top: 190px; }
   .feature-section { padding: 0 32px 140px; }
   .feature-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
 }
@@ -688,7 +688,7 @@ footer {
 
   .hero { padding: 130px 20px 70px; gap: 24px; }
   .hero-sub { font-size: 19px; }
-  .hero-visual { margin-top: 48px; }
+  .hero-visual { margin-top: 70px; }
   .hero-image { height: 380px; max-height: none; }
   .float-card { position: static; width: 100%; }
   .hero-visual {
