@@ -15,9 +15,12 @@
   --title-weight: 500;
   --title-spacing: -0.035em;
   --card-title-weight: 500;
-  --tau-font: 'Manrope', sans-serif;
   --body-font: 'Albert Sans', sans-serif;
   --body-weight: 300;
+
+  /* --tau-font was used by the disabled Cyrillic-lookalike letterform
+     treatment below (.tau-char / .cap-n). Left out of :root on purpose
+     now that nothing references it. */
 }
 
 * { box-sizing: border-box; }
@@ -167,8 +170,18 @@ nav.links {
   text-wrap: balance;
 }
 .drop-cap { font-size: 0.7273em; font-weight: 800; }
+
+/* Disabled: .tau-char and .cap-n supported a brand letterform treatment
+   (literal Cyrillic-lookalike characters substituted for "t"/"b", plus a
+   mid-word capital "N" for "n") that was implemented incorrectly, as a
+   text-content hack rather than a font feature. Rolled back to plain
+   Latin text sitewide. Not deleted so intent/history is visible if this
+   is revisited. A correct version should use OpenType stylistic-alternate
+   glyphs via font-feature-settings (once the chosen typeface supports
+   it), not character substitution. No markup currently references these.
 .tau-char { font-family: var(--tau-font); }
 .cap-n { font-size: 0.7273em; font-weight: 800; }
+*/
 .highlight {
   background: var(--hl-bg);
   color: var(--hl-color);
