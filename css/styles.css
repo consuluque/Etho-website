@@ -27,7 +27,10 @@
 
 h1, h2, h3, p { margin: 0; }
 
-html { overflow-x: hidden; }
+/* overflow-x: clip (not hidden) — hidden forces the y-axis to auto per
+   spec, which turns html/body into a scroll container and silently
+   breaks position: sticky for every descendant on the page. */
+html { overflow-x: clip; }
 
 body {
   margin: 0;
@@ -35,7 +38,7 @@ body {
   font-family: var(--body-font);
   font-weight: var(--body-weight);
   color: var(--ink);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 a { color: var(--ink); text-decoration: none; }
@@ -191,17 +194,42 @@ nav.links {
   line-height: 1.6;
 }
 
-/* Intro hero — a large rounded photo card inset from the viewport edges,
-   sitting in normal document flow (no pinning). It scrolls away like any
-   other section; .intro-next is the plain section revealed underneath. */
-.intro-hero {
+/* Intro — a pinned stage where the hero photo card shrinks and fades as
+   you scroll, revealing the plain section sitting behind it. JS drives
+   the card's transform/opacity; see initIntroStack() in main.js. */
+.intro-stack {
+  position: relative;
+  height: 200vh;
+}
+
+.intro-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.intro-next-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-hero-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
   padding: 20px;
 }
 
 .intro-hero-card {
   position: relative;
-  height: calc(100vh - 40px);
-  min-height: 560px;
+  width: 100%;
+  height: 100%;
   border-radius: 40px;
   overflow: hidden;
   display: flex;
@@ -210,6 +238,7 @@ nav.links {
   justify-content: center;
   text-align: center;
   background: #F2F0EA;
+  transform-origin: center center;
 }
 
 .intro-hero-bg {
@@ -224,6 +253,16 @@ nav.links {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(35, 43, 36, 0.35) 0%, rgba(35, 43, 36, 0.55) 100%);
+}
+
+.intro-hero-logo {
+  position: absolute;
+  z-index: 1;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 30px;
+  width: auto;
 }
 
 .intro-content {
@@ -285,14 +324,15 @@ nav.links {
   80%, 100% { opacity: 0; transform: translate(-50%, 14px); }
 }
 
-/* Intro next — plain full-bleed section revealed as the hero scrolls away */
+/* Intro next — plain content revealed behind the shrinking hero card */
 .intro-next {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 26px;
-  padding: 140px 40px;
+  padding: 40px;
+  max-width: 720px;
 }
 .intro-next-title {
   font-family: var(--title-font);
@@ -774,12 +814,13 @@ footer {
   }
 
   .hero-sub { font-size: 19px; }
-  .intro-hero { padding: 12px; }
-  .intro-hero-card { height: calc(100vh - 24px); min-height: 480px; border-radius: 28px; }
+  .intro-hero-layer { padding: 12px; }
+  .intro-hero-card { border-radius: 28px; }
+  .intro-hero-logo { top: 22px; height: 22px; }
   .intro-title { font-size: clamp(28px, 8vw, 40px); }
   .intro-sub { font-size: 18px; }
   .intro-content { padding: 24px; gap: 20px; }
-  .intro-next { padding: 90px 24px; gap: 20px; }
+  .intro-next { padding: 24px; gap: 20px; }
   .intro-next-title { font-size: clamp(28px, 8vw, 40px); }
   .intro-next-sub { font-size: 18px; }
   .care-visual { flex-direction: column; align-items: stretch; }

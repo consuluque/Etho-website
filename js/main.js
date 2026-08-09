@@ -93,3 +93,53 @@ function initNavToggle(toggle) {
 }
 
 document.querySelectorAll('.nav-toggle').forEach(initNavToggle);
+
+function initIntroStack() {
+  const stack = document.querySelector('.intro-stack');
+  const layer = document.querySelector('.intro-hero-layer');
+  const card = document.querySelector('.intro-hero-card');
+  const content = document.querySelector('.intro-hero-card .intro-content');
+  const cue = document.querySelector('.intro-hero-card .scroll-cue');
+  const logo = document.querySelector('.intro-hero-card .intro-hero-logo');
+  if (!stack || !layer || !card) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const minScale = 0.32;
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const scrollRange = stack.offsetHeight - window.innerHeight;
+    if (scrollRange <= 0) return;
+    const rect = stack.getBoundingClientRect();
+    const raw = Math.min(Math.max(-rect.top / scrollRange, 0), 1);
+
+    const shrink = Math.min(raw / 0.5, 1);
+    const scale = 1 - shrink * (1 - minScale);
+    card.style.transform = 'scale(' + scale + ')';
+    // Stay fully opaque while shrinking (so the card only reveals what's
+    // behind it around its shrinking edges, not through it), then fade
+    // the remaining small card away at the very end of the shrink.
+    const cardFade = Math.min(Math.max((shrink - 0.75) / 0.25, 0), 1);
+    card.style.opacity = String(1 - cardFade);
+
+    const fade = Math.min(raw / 0.28, 1);
+    const fadeOpacity = String(1 - fade);
+    if (content) content.style.opacity = fadeOpacity;
+    if (cue) cue.style.opacity = fadeOpacity;
+    if (logo) logo.style.opacity = fadeOpacity;
+
+    layer.style.pointerEvents = shrink >= 0.98 ? 'none' : 'auto';
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}
+
+initIntroStack();
