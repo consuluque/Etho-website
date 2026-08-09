@@ -196,6 +196,7 @@ nav.links {
   color: var(--muted);
   max-width: 580px;
   line-height: 1.6;
+  margin-top: -20px;
 }
 
 .hero-actions { display: flex; gap: 18px; align-items: center; margin-top: 8px; }
