@@ -25,6 +25,8 @@
 
 * { box-sizing: border-box; }
 
+h1, h2, h3, p { margin: 0; }
+
 html { overflow-x: hidden; }
 
 body {
@@ -196,7 +198,6 @@ nav.links {
   color: var(--muted);
   max-width: 580px;
   line-height: 1.6;
-  margin-top: -20px;
 }
 
 .hero-actions { display: flex; gap: 18px; align-items: center; margin-top: 8px; }
