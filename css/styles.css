@@ -336,6 +336,7 @@ nav.links {
   font-weight: var(--body-weight);
   color: var(--muted);
   line-height: 1.65;
+  text-wrap: balance;
 }
 
 /* Shop */
