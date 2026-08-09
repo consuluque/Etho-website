@@ -93,3 +93,24 @@ function initNavToggle(toggle) {
 }
 
 document.querySelectorAll('.nav-toggle').forEach(initNavToggle);
+
+function initInlineWaitlist(button) {
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
+    const formId = button.dataset.waitlistForm;
+    const slot = button.closest('.waitlist-slot');
+    if (!slot || !formId) return;
+
+    const container = document.createElement('div');
+    container.style.width = '100%';
+    container.style.height = '100%';
+    slot.replaceChildren(container);
+    slot.classList.add('is-active');
+
+    if (window.tf && typeof window.tf.createWidget === 'function') {
+      window.tf.createWidget(formId, { container, hideHeaders: true, hideFooter: true });
+    }
+  });
+}
+
+document.querySelectorAll('[data-waitlist-form]').forEach(initInlineWaitlist);
