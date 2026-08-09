@@ -101,15 +101,17 @@ function initInlineWaitlist(button) {
     const slot = button.closest('.waitlist-slot');
     if (!slot || !formId) return;
 
+    // Declarative data-tf-widget attribute, not the imperative createWidget()
+    // JS call — Typeform's embed.js watches the DOM for elements with this
+    // attribute and initializes them itself, which is the documented,
+    // reliable way to add a widget after page load.
     const container = document.createElement('div');
+    container.setAttribute('data-tf-widget', formId);
+    container.setAttribute('data-tf-opacity', '100');
     container.style.width = '100%';
     container.style.height = '100%';
     slot.replaceChildren(container);
     slot.classList.add('is-active');
-
-    if (window.tf && typeof window.tf.createWidget === 'function') {
-      window.tf.createWidget(formId, { container, hideHeaders: true, hideFooter: true });
-    }
   });
 }
 
