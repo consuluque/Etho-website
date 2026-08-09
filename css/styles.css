@@ -191,6 +191,12 @@ nav.links {
   -webkit-box-decoration-break: clone;
 }
 
+.cursive {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
 .hero-sub {
   font-family: var(--body-font);
   font-size: 24px;
