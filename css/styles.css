@@ -69,12 +69,10 @@ header {
   box-shadow: 0 8px 32px rgba(35, 43, 36, 0.06);
 }
 
-.logo {
-  font-family: 'Unbounded', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  letter-spacing: -0.03em;
-  color: var(--ink);
+.logo-img {
+  height: 22px;
+  width: auto;
+  display: block;
 }
 
 nav.links {
