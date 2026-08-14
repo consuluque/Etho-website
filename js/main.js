@@ -151,3 +151,42 @@ function initInlineWaitlist(button) {
 }
 
 document.querySelectorAll('.waitlist-btn').forEach(initInlineWaitlist);
+
+function initScrollReveal() {
+  const targets = document.querySelectorAll('.feature-stack');
+  if (!targets.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach((t) => t.classList.add('in-view'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+  targets.forEach((t) => observer.observe(t));
+}
+
+initScrollReveal();
+
+function initFaqAccordion() {
+  const items = document.querySelectorAll('.faq-item');
+  items.forEach((item) => {
+    const question = item.querySelector('.faq-question');
+    question.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      items.forEach((other) => other.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+}
+
+initFaqAccordion();
