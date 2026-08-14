@@ -455,11 +455,11 @@ nav.links {
   position: relative;
   flex: 1;
   max-width: 420px;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 7 / 6;
   border-radius: 28px;
   overflow: hidden;
 }
-.feature-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.feature-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
 .feature-photo-scrim {
   position: absolute;
   inset: 0;
@@ -472,16 +472,16 @@ nav.links {
   bottom: 20px;
   background: #FFFFFF;
   border-radius: 20px;
-  padding: 24px;
+  padding: 18px 20px;
   box-shadow: 0 20px 50px rgba(35, 43, 36, 0.18);
 }
 .alert-title {
   font-family: var(--title-font);
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: var(--title-spacing);
   color: var(--ink);
-  margin: 8px 0 10px;
+  margin: 6px 0 8px;
 }
 
 .stack-card {
@@ -526,7 +526,7 @@ nav.links {
   color: var(--ink);
   line-height: 1.5;
 }
-.stack-body--muted { color: var(--muted); font-size: 14px; margin-top: 14px; }
+.stack-body--muted { color: var(--muted); font-size: 14px; margin-top: 10px; }
 
 .stack-link { font-size: 14px; font-weight: 600; color: var(--eyebrow); white-space: nowrap; }
 
@@ -585,7 +585,14 @@ nav.links {
 .closing-btn.btn-outline-lg:hover { background: rgba(255, 255, 255, 0.85); }
 
 /* FAQ */
-.faq { padding: 0 24px; display: flex; flex-direction: column; align-items: center; gap: 50px; margin-top: 120px; padding-bottom: 160px; }
+.faq { padding: 0 24px; display: flex; flex-direction: column; align-items: center; gap: 50px; margin-top: 180px; padding-bottom: 160px; }
+.faq-title {
+  font-family: var(--title-font);
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: var(--title-weight);
+  color: var(--ink);
+  letter-spacing: var(--title-spacing);
+}
 .faq-list { width: min(880px, 100%); }
 .faq-item { border-bottom: 1px solid rgba(35, 43, 36, 0.1); }
 .faq-item:first-child { border-top: 1px solid rgba(35, 43, 36, 0.1); }
@@ -942,7 +949,7 @@ footer {
   .closing-cta { min-height: 420px; }
   .closing-content { padding: 40px; }
 
-  .faq { padding: 0 32px 130px; margin-top: 90px; }
+  .faq { padding: 0 32px 130px; margin-top: 130px; }
 }
 
 /* Mobile: collapse nav into a dropdown menu, stack hero badges */
@@ -995,7 +1002,7 @@ footer {
   .feature-panel { padding: 36px 24px; }
   .closing-wrap { padding: 0 20px; margin-top: 70px; }
   .closing-content { padding: 30px; }
-  .faq { padding: 0 20px 100px; margin-top: 70px; }
+  .faq { padding: 0 20px 100px; margin-top: 100px; }
   .faq-question { font-size: 18px; padding: 20px 2px; }
 
   .shop { padding: 0 20px 110px; }
