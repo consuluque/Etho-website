@@ -85,7 +85,7 @@ header {
 }
 
 .logo-img {
-  height: 40px;
+  height: 20px;
   width: auto;
   display: block;
 }
@@ -265,7 +265,7 @@ nav.links {
 .waitlist-status--done {
   font-family: var(--title-font);
   font-size: 19px;
-  font-weight: 500;
+  font-weight: var(--title-weight);
   color: var(--ink);
   margin-top: 0;
 }
@@ -487,7 +487,7 @@ nav.links {
 .alert-title {
   font-family: var(--title-font);
   font-size: 18px;
-  font-weight: 600;
+  font-weight: var(--title-weight);
   letter-spacing: var(--title-spacing);
   color: var(--ink);
   margin: 6px 0 8px;
