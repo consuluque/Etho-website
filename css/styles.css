@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Soyuz Grotesk';
+  src: url('../assets/fonts/SoyuzGrotesk-Bold.woff2') format('woff2'),
+       url('../assets/fonts/SoyuzGrotesk-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --page: #F8F6F4;
   --panel: #F3EEE6;
@@ -11,10 +20,10 @@
   --about-bg: radial-gradient(120% 120% at 15% 12%, #FFF6C4 0%, #E4DCF7 60%, #C3B4EE 100%);
   --about-border: rgba(43, 39, 36, 0.08);
 
-  --title-font: 'Manrope', sans-serif;
-  --title-weight: 500;
+  --title-font: 'Soyuz Grotesk', sans-serif;
+  --title-weight: 700;
   --title-spacing: -0.035em;
-  --card-title-weight: 500;
+  --card-title-weight: 700;
   --body-font: 'Albert Sans', sans-serif;
   --body-weight: 300;
 
@@ -387,7 +396,7 @@ nav.links {
 }
 .card-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--accent2); }
 .card-title {
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--title-font);
   font-weight: var(--card-title-weight);
   font-size: 24px;
   letter-spacing: -0.02em;
@@ -870,7 +879,7 @@ nav.links {
   gap: 14px;
 }
 .feature-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--accent2); }
-.feature-title { font-family: 'Manrope', sans-serif; font-weight: var(--card-title-weight); font-size: 18px; }
+.feature-title { font-family: var(--title-font); font-weight: var(--card-title-weight); font-size: 18px; }
 .feature-copy { font-family: var(--body-font); font-size: 15px; color: var(--muted); line-height: 1.55; }
 
 /* About */
