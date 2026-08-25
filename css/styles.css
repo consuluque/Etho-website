@@ -31,10 +31,6 @@
   --card-title-weight: 500;
   --body-font: 'Manrope', sans-serif;
   --body-weight: 400;
-
-  /* --tau-font was used by the disabled Cyrillic-lookalike letterform
-     treatment below (.tau-char / .cap-n). Left out of :root on purpose
-     now that nothing references it. */
 }
 
 * { box-sizing: border-box; }
@@ -43,8 +39,8 @@ h1, h2, h3, p { margin: 0; }
 
 /* overflow-x: clip (not hidden) — hidden forces the y-axis to auto per
    spec, which turns html/body into a scroll container and silently
-   breaks position: sticky for every descendant on the page. Needed
-   here for the sticky card-stack effect below. */
+   breaks position: sticky for every descendant, including the sticky
+   header. Do not swap this back to hidden. */
 html { overflow-x: clip; }
 
 body {
@@ -75,6 +71,11 @@ header {
   justify-content: center;
   padding: 0 24px;
 }
+
+/* The home page header is a bare centred logo with no .nav-bar plate
+   behind it, so it must not stick — it would otherwise float over the
+   content as the page scrolls. */
+.header-logo-only { position: static; }
 
 .nav-bar {
   width: min(1080px, 100%);
@@ -189,17 +190,6 @@ nav.links {
 }
 .drop-cap { font-size: 0.7273em; font-weight: 800; }
 
-/* Disabled: .tau-char and .cap-n supported a brand letterform treatment
-   (literal Cyrillic-lookalike characters substituted for "t"/"b", plus a
-   mid-word capital "N" for "n") that was implemented incorrectly, as a
-   text-content hack rather than a font feature. Rolled back to plain
-   Latin text sitewide. Not deleted so intent/history is visible if this
-   is revisited. A correct version should use OpenType stylistic-alternate
-   glyphs via font-feature-settings (once the chosen typeface supports
-   it), not character substitution. No markup currently references these.
-.tau-char { font-family: var(--tau-font); }
-.cap-n { font-size: 0.7273em; font-weight: 800; }
-*/
 .highlight {
   background: var(--hl-bg);
   color: var(--hl-color);
@@ -927,15 +917,17 @@ footer {
   font-weight: 400;
   color: #8A857C;
 }
-.footer-links { display: flex; gap: 22px; }
-.footer-links a { color: #8A857C; }
+.footer-links { display: flex; gap: 10px; }
+/* Padding rather than a bare inline link, so each one clears the ~44px
+   touch target on phones. */
+.footer-links a { color: #8A857C; padding: 12px; }
 .footer-links a:hover { color: var(--ink); }
 
 /* Responsive */
 
 /* Tablet */
 @media (max-width: 900px) {
-  .care { padding: 160px 32px 120px; gap: 70px; }
+  .care { padding: 160px 32px 0; gap: 56px; }
   .card-grid { grid-template-columns: 1fr; }
   .shop { padding: 0 32px 160px; }
   .shop-inner { flex-direction: column; gap: 50px; align-items: stretch; }
@@ -944,6 +936,11 @@ footer {
   .about { padding: 90px 32px; }
   .hero { padding: 150px 24px 90px; }
   .hero-visual { margin-top: 190px; }
+  /* The float cards hang outside the hero image by design; once the
+     viewport is narrow enough that the image fills it, those negative
+     offsets push them past the edge, so pull them flush. */
+  .float-card--score { left: 0; }
+  .float-card--sleep { right: 0; }
   .feature-section { padding: 0 32px 140px; }
   .feature-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
 
@@ -1012,17 +1009,18 @@ footer {
 
   .hero { padding: 130px 20px 70px; gap: 24px; }
   .hero-sub { font-size: 19px; }
-  .hero-visual { margin-top: 70px; }
-  .hero-image { height: 380px; max-height: none; }
-  .float-card { position: static; width: 100%; }
+  /* Float cards stop floating and stack under the image. */
   .hero-visual {
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+  .hero-image { height: 380px; max-height: none; }
+  .float-card { position: static; width: 100%; }
   .float-card--sleep { min-width: 0; }
 
-  .care { padding: 100px 20px 90px; gap: 48px; }
+  .care { padding: 100px 20px 0; gap: 40px; }
   .section-title { font-size: clamp(28px, 8vw, 40px); }
 
   .feature-block { padding: 0 20px; margin-top: 70px; }
