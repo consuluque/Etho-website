@@ -159,6 +159,8 @@ nav.links {
 
 .btn-solid {
   display: inline-block;
+  /* Reset the UA button border, which otherwise draws a dark stroke. */
+  border: none;
   background: var(--ink);
   color: #FFFFFF;
   font-family: var(--body-font);
