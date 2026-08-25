@@ -102,7 +102,7 @@ function initWaitlist(slot) {
   const form = document.createElement('form');
   form.className = 'waitlist-form';
   form.innerHTML =
-    '<input type="email" name="email" class="waitlist-input" placeholder="you@example.com" required>' +
+    '<input type="email" name="email" class="waitlist-input" placeholder="goodhuman@mail.com" required>' +
     '<button type="submit" class="btn-solid waitlist-submit">Join waitlist</button>';
 
   const status = document.createElement('p');
