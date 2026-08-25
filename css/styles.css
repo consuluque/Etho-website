@@ -20,17 +20,17 @@
   --about-bg: radial-gradient(120% 120% at 15% 12%, #FFF6C4 0%, #E4DCF7 60%, #C3B4EE 100%);
   --about-border: rgba(43, 39, 36, 0.08);
 
-  /* Soyuz Grotesk is bold-only and reads poorly at small sizes, so it is
-     reserved for the big section titles; Manrope carries everything
-     smaller (card titles, FAQ, inline headings). */
+  /* Soyuz Grotesk is bold-only, so it is reserved for the four big
+     display titles. Manrope carries everything else — smaller titles at
+     500/600 and all body copy at 400. */
   --title-font: 'Soyuz Grotesk', sans-serif;
   --title-weight: 700;
   --title-spacing: -0.035em;
   --subtitle-font: 'Manrope', sans-serif;
   --subtitle-weight: 500;
   --card-title-weight: 500;
-  --body-font: 'Albert Sans', sans-serif;
-  --body-weight: 300;
+  --body-font: 'Manrope', sans-serif;
+  --body-weight: 400;
 
   /* --tau-font was used by the disabled Cyrillic-lookalike letterform
      treatment below (.tau-char / .cap-n). Left out of :root on purpose
@@ -431,9 +431,9 @@ nav.links {
 
 .feature-text { flex: 1; display: flex; flex-direction: column; gap: 16px; text-align: left; }
 .feature-heading {
-  font-family: var(--title-font);
+  font-family: var(--subtitle-font);
   font-size: clamp(30px, 3.6vw, 44px);
-  font-weight: var(--title-weight);
+  font-weight: 600;
   letter-spacing: var(--title-spacing);
   line-height: 1.15;
   color: var(--ink);
@@ -601,9 +601,9 @@ nav.links {
 /* FAQ */
 .faq { padding: 0 24px; display: flex; flex-direction: column; align-items: center; gap: 50px; margin-top: 180px; padding-bottom: 160px; }
 .faq-title {
-  font-family: var(--subtitle-font);
+  font-family: var(--title-font);
   font-size: clamp(28px, 3.2vw, 36px);
-  font-weight: 600;
+  font-weight: var(--title-weight);
   color: var(--ink);
   letter-spacing: var(--title-spacing);
 }
@@ -731,9 +731,9 @@ nav.links {
 .shop-details { flex: 1; display: flex; flex-direction: column; gap: 26px; }
 .shop-heading { display: flex; flex-direction: column; gap: 10px; }
 .shop-title {
-  font-family: var(--title-font);
+  font-family: var(--subtitle-font);
   font-size: clamp(34px, 4.5vw, 56px);
-  font-weight: var(--title-weight);
+  font-weight: 600;
   color: var(--ink);
   letter-spacing: var(--title-spacing);
   line-height: 1.08;
@@ -905,9 +905,9 @@ nav.links {
   padding: 150px 60px;
 }
 .about-title {
-  font-family: var(--title-font);
+  font-family: var(--subtitle-font);
   font-size: clamp(34px, 5vw, 60px);
-  font-weight: var(--title-weight);
+  font-weight: 600;
   color: #FFFFFF;
   letter-spacing: var(--title-spacing);
   line-height: 1.08;
