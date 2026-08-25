@@ -313,9 +313,9 @@ nav.links {
 .score-ring svg circle:last-child { stroke: var(--accent2); }
 .score-ring .score-num {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 700;
+  font-size: 16px; font-weight: 600;
 }
-.float-card--score .title { font-size: 19px; font-weight: 600; }
+.float-card--score .title { font-size: 19px; font-weight: 500; }
 .float-card--score .subtitle { font-size: 17px; font-weight: 400; color: var(--muted); }
 
 .float-card--sleep {
@@ -329,8 +329,8 @@ nav.links {
 }
 .sleep-row { display: flex; justify-content: space-between; align-items: baseline; }
 .sleep-label { font-size: 17px; font-weight: 500; color: var(--muted); }
-.sleep-status { font-size: 17px; font-weight: 600; color: var(--eyebrow); }
-.sleep-value { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
+.sleep-status { font-size: 17px; font-weight: 500; color: var(--eyebrow); }
+.sleep-value { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; }
 .sleep-bars { display: flex; align-items: flex-end; gap: 3px; height: 34px; }
 .sleep-bars span { flex: 1; border-radius: 2px; background: #EDEAE2; }
 .sleep-bars span.on { background: var(--accent2); }
@@ -347,7 +347,7 @@ nav.links {
   gap: 10px;
 }
 .dose-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent2); }
-.float-card--dose .title { font-size: 18px; font-weight: 600; }
+.float-card--dose .title { font-size: 18px; font-weight: 500; }
 
 /* Care section */
 .care {
