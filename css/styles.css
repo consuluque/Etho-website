@@ -351,10 +351,10 @@ nav.links {
 
 /* Care section */
 .care {
-  padding: 260px 64px 200px;
+  padding: 260px 64px 0;
   display: flex;
   flex-direction: column;
-  gap: 110px;
+  gap: 70px;
   align-items: center;
 }
 .section-head {
@@ -386,7 +386,8 @@ nav.links {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
-  max-width: 784px;
+  /* Matches .feature-panel so the page keeps one content width. */
+  max-width: 1120px;
   width: 100%;
 }
 .card {
@@ -403,12 +404,12 @@ nav.links {
 .card-title {
   font-family: var(--subtitle-font);
   font-weight: 600;
-  font-size: 20px;
+  font-size: 24px;
   letter-spacing: -0.02em;
 }
 .card-copy {
   font-family: var(--body-font);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: var(--body-weight);
   color: var(--muted);
   line-height: 1.65;
