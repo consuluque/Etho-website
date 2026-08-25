@@ -385,30 +385,30 @@ nav.links {
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  max-width: 1120px;
+  gap: 28px;
+  max-width: 784px;
   width: 100%;
 }
 .card {
   background: var(--panel);
   border: 1px solid rgba(35, 43, 36, 0.06);
-  border-radius: 28px;
-  padding: 48px 38px;
+  border-radius: 20px;
+  padding: 34px 27px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 13px;
   box-shadow: 0 20px 50px rgba(35, 43, 36, 0.06);
 }
-.card-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--accent2); }
+.card-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--accent2); }
 .card-title {
   font-family: var(--subtitle-font);
   font-weight: 600;
-  font-size: 26px;
+  font-size: 20px;
   letter-spacing: -0.02em;
 }
 .card-copy {
   font-family: var(--body-font);
-  font-size: 21px;
+  font-size: 14px;
   font-weight: var(--body-weight);
   color: var(--muted);
   line-height: 1.65;
@@ -955,7 +955,19 @@ footer {
   }
   .feature-desc { max-width: none; }
   .feature-stack { max-width: none; }
-  .feature-photo { max-width: none; }
+  /* The alert card is absolutely positioned inside a fixed-ratio photo on
+     desktop; once the panel narrows its text wraps taller than the photo
+     and gets clipped, so stack them in normal flow instead. */
+  .feature-photo {
+    max-width: none;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    flex: none;
+  }
+  .feature-photo img { position: relative; inset: auto; height: 240px; }
+  .feature-photo-scrim { display: none; }
+  .alert-card { position: relative; left: auto; right: auto; bottom: auto; margin: -40px 16px 16px; }
   .stack-card:nth-child(2) { margin-left: 14px; margin-right: -6px; }
   .stack-card:nth-child(3) { margin-left: 28px; margin-right: -12px; }
 
@@ -1041,7 +1053,6 @@ footer {
 /* Small phones */
 @media (max-width: 380px) {
   .hero-title { font-size: clamp(38px, 12vw, 56px); }
-  .card { padding: 36px 26px; }
-  .card-copy { font-size: 18px; }
+  .card { padding: 25px 18px; }
   .size-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
 }
