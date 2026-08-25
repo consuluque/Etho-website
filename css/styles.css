@@ -216,21 +216,25 @@ nav.links {
 
 .hero-actions { display: flex; gap: 18px; align-items: center; margin-top: 8px; }
 
-/* Waitlist — the button is replaced in place by a native email form on
-   click, which posts to FormSubmit.co; see initInlineWaitlist() in
+/* Waitlist — the email form renders open on load, replacing the no-JS
+   fallback link, and posts to FormSubmit.co; see initWaitlist() in
    main.js. */
 .waitlist-slot { display: flex; flex-direction: column; align-items: center; }
-.waitlist-slot.is-active { width: min(420px, 100%); }
+.waitlist-slot.is-active { width: min(460px, 100%); }
 
 .waitlist-form {
   display: flex;
   align-items: center;
   width: 100%;
-  background: #FFFFFF;
-  border: 1.5px solid rgba(35, 43, 36, 0.15);
+  /* Glass: a translucent fill over a blurred backdrop, so it reads on
+     the light hero and over the closing photo alike. */
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(35, 43, 36, 0.14);
   border-radius: 999px;
-  padding: 6px 6px 6px 22px;
-  gap: 8px;
+  padding: 7px 7px 7px 24px;
+  gap: 10px;
   box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08);
 }
 .waitlist-input {
@@ -246,9 +250,22 @@ nav.links {
 .waitlist-input::placeholder { color: var(--muted); }
 .waitlist-submit {
   flex: none;
-  padding: 12px 24px;
+  padding: 13px 26px;
   font-size: 15px;
+  white-space: nowrap;
 }
+
+/* Over the closing photo the glass sits on a dark scrim, so flip the
+   fill, border and text to light. */
+.closing-cta .waitlist-form {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.closing-cta .waitlist-input { color: #FFFFFF; }
+.closing-cta .waitlist-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.closing-cta .waitlist-submit { background: #FFFFFF; color: var(--ink); }
+.closing-cta .waitlist-status { color: rgba(255, 255, 255, 0.85); }
+.closing-cta .waitlist-status--done { color: #FFFFFF; }
 
 .waitlist-status {
   margin-top: 12px;
@@ -577,6 +594,11 @@ nav.links {
   gap: 26px;
   text-align: left;
   padding: 56px;
+  /* Flex item defaults to min-width:auto, which would refuse to shrink
+     below the waitlist form's intrinsic width and push it out of the
+     rounded frame on phones. */
+  width: 100%;
+  min-width: 0;
 }
 .closing-title {
   font-family: var(--title-font);
@@ -917,7 +939,7 @@ footer {
   font-weight: 400;
   color: #8A857C;
 }
-.footer-links { display: flex; gap: 10px; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 /* Padding rather than a bare inline link, so each one clears the ~44px
    touch target on phones. */
 .footer-links a { color: #8A857C; padding: 12px; }
@@ -1049,9 +1071,23 @@ footer {
   footer { flex-direction: column; gap: 20px; padding: 40px 24px 60px; text-align: center; }
 }
 
+/* The closing form sits inside a padded card, so it runs out of room for
+   a side-by-side field and button well before the hero form does. */
+@media (max-width: 480px) {
+  .closing-cta .waitlist-form { flex-wrap: wrap; border-radius: 24px; padding: 10px; gap: 8px; }
+  .closing-cta .waitlist-input { flex: 1 0 100%; padding: 8px 12px; }
+  .closing-cta .waitlist-submit { flex: 1 0 100%; }
+}
+
 /* Small phones */
 @media (max-width: 380px) {
   .hero-title { font-size: clamp(38px, 12vw, 56px); }
   .card { padding: 25px 18px; }
   .size-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  /* Too narrow to hold the field and the button side by side, so stack
+     them: the pill becomes a rounded block with a full-width button. */
+  .waitlist-form { flex-wrap: wrap; border-radius: 24px; padding: 10px; gap: 8px; }
+  .waitlist-input { flex: 1 0 100%; padding: 8px 12px; font-size: 15px; }
+  .waitlist-submit { flex: 1 0 100%; padding: 13px 16px; }
+  .closing-content { padding: 22px; }
 }

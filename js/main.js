@@ -96,61 +96,57 @@ document.querySelectorAll('.nav-toggle').forEach(initNavToggle);
 
 const WAITLIST_EMAIL = 'consuluque@gmail.com';
 
-function initInlineWaitlist(button) {
-  button.addEventListener('click', (e) => {
-    e.preventDefault();
-    const slot = button.closest('.waitlist-slot');
-    if (!slot) return;
+// The markup ships a plain link as the no-JS fallback; here it is swapped
+// for the real email form, which posts to FormSubmit.co.
+function initWaitlist(slot) {
+  const form = document.createElement('form');
+  form.className = 'waitlist-form';
+  form.innerHTML =
+    '<input type="email" name="email" class="waitlist-input" placeholder="you@example.com" required>' +
+    '<button type="submit" class="btn-solid waitlist-submit">Join waitlist</button>';
 
-    const form = document.createElement('form');
-    form.className = 'waitlist-form';
-    form.innerHTML =
-      '<input type="email" name="email" class="waitlist-input" placeholder="you@example.com" required autofocus>' +
-      '<button type="submit" class="btn-solid waitlist-submit">Join</button>';
+  const status = document.createElement('p');
+  status.className = 'waitlist-status';
+  status.setAttribute('aria-live', 'polite');
 
-    const status = document.createElement('p');
-    status.className = 'waitlist-status';
-    status.setAttribute('aria-live', 'polite');
+  slot.replaceChildren(form, status);
+  slot.classList.add('is-active');
 
-    slot.replaceChildren(form, status);
-    slot.classList.add('is-active');
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const input = form.querySelector('.waitlist-input');
+    const submitBtn = form.querySelector('.waitlist-submit');
+    const email = input.value.trim();
+    if (!email) return;
 
-    form.addEventListener('submit', async (evt) => {
-      evt.preventDefault();
-      const input = form.querySelector('.waitlist-input');
-      const submitBtn = form.querySelector('.waitlist-submit');
-      const email = input.value.trim();
-      if (!email) return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    status.textContent = '';
+    status.classList.remove('is-error');
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
-      status.textContent = '';
-      status.classList.remove('is-error');
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/' + WAITLIST_EMAIL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email, _subject: 'New Etho waitlist signup' }),
+      });
+      if (!res.ok) throw new Error('Request failed');
 
-      try {
-        const res = await fetch('https://formsubmit.co/ajax/' + WAITLIST_EMAIL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ email, _subject: 'New Etho waitlist signup' }),
-        });
-        if (!res.ok) throw new Error('Request failed');
-
-        slot.replaceChildren();
-        const done = document.createElement('p');
-        done.className = 'waitlist-status waitlist-status--done';
-        done.textContent = "You're on the list — we'll be in touch.";
-        slot.append(done);
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Join';
-        status.textContent = "Something went wrong — please try again.";
-        status.classList.add('is-error');
-      }
-    });
+      slot.replaceChildren();
+      const done = document.createElement('p');
+      done.className = 'waitlist-status waitlist-status--done';
+      done.textContent = "You're on the list — we'll be in touch.";
+      slot.append(done);
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Join waitlist';
+      status.textContent = 'Something went wrong — please try again.';
+      status.classList.add('is-error');
+    }
   });
 }
 
-document.querySelectorAll('.waitlist-btn').forEach(initInlineWaitlist);
+document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 
 function initScrollReveal() {
   const targets = document.querySelectorAll('.feature-stack');
