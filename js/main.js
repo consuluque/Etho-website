@@ -149,8 +149,8 @@ function initWaitlist(slot) {
 document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 
 // Some browsers ignore the autoplay attribute, so ask explicitly and let a
-// refusal pass — the poster frame stands in. Reduced motion holds on the
-// poster instead of playing.
+// refusal pass — the hero's background still frame stands in. Reduced
+// motion holds on that still instead of playing.
 function initHeroVideo(video) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -168,6 +168,11 @@ function initHeroVideo(video) {
       tryPlay();
     }
   };
+
+  // Only reveal the element once frames are actually running, so a video
+  // iOS has refused to play never shows its start-playback button.
+  video.addEventListener('playing', () => video.classList.add('is-playing'));
+  video.addEventListener('pause', () => video.classList.remove('is-playing'));
 
   // A first play() can be refused while the file is still buffering, so ask
   // again as it becomes playable, and once more on the first interaction —

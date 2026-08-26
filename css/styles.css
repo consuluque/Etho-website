@@ -176,6 +176,20 @@ nav.links {
   flex-direction: column;
   justify-content: flex-end;
 }
+/* The still frame is painted here rather than by the video's poster
+   attribute, so the hero looks right whether or not the video ever runs. */
+.hero {
+  background-image: url('../assets/images/hero-poster.jpg');
+  background-size: cover;
+  background-position: 50% 40%;
+  background-repeat: no-repeat;
+}
+
+/* This is a backdrop, not a player. iOS draws its own start-playback
+   button over any video it has refused to autoplay — in Low Power Mode it
+   refuses every time — and CSS cannot reliably suppress that control on
+   current versions. So the element stays invisible until it is actually
+   playing: no visible video surface, no button, just the still above. */
 .hero__media {
   position: absolute;
   inset: 0;
@@ -184,18 +198,10 @@ nav.links {
   object-fit: cover;
   object-position: 50% 40%;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease);
 }
-/* This is a backdrop, not a player. When iOS refuses autoplay — in Low
-   Power Mode it always does — Safari draws its own start-playback button
-   over the poster, so suppress the native controls entirely. */
-.hero__media::-webkit-media-controls,
-.hero__media::-webkit-media-controls-panel,
-.hero__media::-webkit-media-controls-start-playback-button,
-.hero__media::-webkit-media-controls-play-button {
-  display: none !important;
-  -webkit-appearance: none;
-  appearance: none;
-}
+.hero__media.is-playing { opacity: 1; }
 /* The spec's stops (0.30 / 0.02 / 0.62 / 0.85) were calibrated against the
    dark tiled photo. The video is a light scene, so the near-transparent
    window at 34% left the cream H1 at 1.5:1. Same colour and shape, deeper
