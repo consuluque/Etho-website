@@ -199,17 +199,17 @@ nav.links {
     rgba(50, 48, 49, 0.88) 100%);
 }
 
-/* Absolute, so the nav sits on the hero and does not follow the scroll. */
+/* Absolute, so the nav sits on the hero and does not follow the scroll.
+   It holds only the wordmark, so it hugs it and centres on the page. */
 .hero-nav {
   position: absolute;
   top: clamp(14px, 3vw, 28px);
-  left: clamp(14px, 3vw, 28px);
-  right: clamp(14px, 3vw, 28px);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 8px 8px clamp(16px, 3vw, 22px);
+  padding: 11px clamp(20px, 4vw, 28px);
   border-radius: 999px;
   background: rgba(247, 245, 240, 0.14);
   backdrop-filter: blur(16px) saturate(140%);
@@ -223,17 +223,6 @@ nav.links {
   line-height: 1;
   color: #F7F5F0;
 }
-.hero-nav__cta {
-  font-family: var(--body-font);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 18px;
-  border-radius: 999px;
-  background: rgba(247, 245, 240, 0.92);
-  color: #323031;
-  transition: background 120ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.hero-nav__cta:hover { background: #FFFDF0; }
 
 .hero-content {
   position: relative;
@@ -365,14 +354,6 @@ nav.links {
   font-size: clamp(18px, 4.4vw, 22px);
   line-height: 1.5;
   color: var(--ink);
-  max-width: 38ch;
-  text-wrap: pretty;
-}
-.action__sub {
-  font-family: var(--body-font);
-  font-size: clamp(16px, 4vw, 18px);
-  line-height: 1.6;
-  color: var(--muted);
   max-width: 38ch;
   text-wrap: pretty;
 }
@@ -888,14 +869,6 @@ footer {
    spec value. */
 @media (min-width: 901px) {
   .hero { min-height: clamp(720px, 92vh, 1040px); }
-  /* Centred and held to 65% rather than running the full width. */
-  .hero-nav {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: 65%;
-  }
-
 }
 
 /* The pillar splits into two columns once there is room for them. */

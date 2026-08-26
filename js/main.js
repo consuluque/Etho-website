@@ -148,16 +148,6 @@ function initWaitlist(slot) {
 
 document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 
-// The nav CTA points at the hero form; put the cursor in it on arrival.
-function initHeroCta(link) {
-  link.addEventListener('click', () => {
-    const input = document.querySelector('.hero .waitlist-input');
-    if (input) input.focus({ preventScroll: true });
-  });
-}
-
-document.querySelectorAll('.hero-nav__cta').forEach(initHeroCta);
-
 // Some browsers ignore the autoplay attribute, so ask explicitly and let a
 // refusal pass — the poster frame stands in. Reduced motion holds on the
 // poster instead of playing.
