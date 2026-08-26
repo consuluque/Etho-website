@@ -72,49 +72,11 @@ header {
   padding: 0 24px;
 }
 
-/* The home nav floats over the hero photo, so it is fixed rather than
-   sticky — it has no space of its own in the flow. */
-.header-fixed {
-  position: fixed;
-  top: 16px;
-  left: 0;
-  right: 0;
-}
-.header-fixed .logo-img { height: 18px; }
-
-/* Glass pill for the nav sitting on the hero photo. */
-.nav-bar--glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-color: rgba(255, 255, 255, 0.26);
-  box-shadow: 0 10px 34px rgba(20, 16, 12, 0.18);
-}
-/* Scoped past .btn-solid, which is defined later and would otherwise
-   keep its dark fill. */
-.nav-bar .nav-cta {
-  background: #FFFFFF;
-  color: var(--ink);
-  font-size: 15px;
-  padding: 12px 26px;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-.nav-bar .nav-cta:hover { background: rgba(255, 255, 255, 0.86); }
-
-/* Past the hero the nav sits on the light page, where a white logo and a
-   white button would vanish — so swap to the light pill and dark marks.
-   initFixedNav() in main.js toggles .is-scrolled. */
-/* Scoped to .header-fixed so these outrank the later .logo-img rule. */
-.header-fixed .logo-on-light { display: none; }
-.header-fixed.is-scrolled .logo-on-dark { display: none; }
-.header-fixed.is-scrolled .logo-on-light { display: block; }
-.header-fixed.is-scrolled .nav-bar--glass {
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(35, 43, 36, 0.08);
-  box-shadow: 0 8px 32px rgba(35, 43, 36, 0.06);
-}
-.header-fixed.is-scrolled .nav-cta { background: var(--ink); color: #FFFFFF; }
-.header-fixed.is-scrolled .nav-cta:hover { background: #000000; }
+/* The home page header is a bare centred logo with no .nav-bar plate
+   behind it, so it must not stick — it would otherwise float over the
+   content as the page scrolls. */
+.header-logo-only { position: static; padding-top: 44px; }
+.header-logo-only .logo-img { height: 16px; }
 
 .nav-bar {
   width: min(1080px, 100%);
@@ -211,37 +173,12 @@ nav.links {
 
 /* Hero */
 .hero {
-  position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
-  padding: 150px 40px 100px;
-  overflow: hidden;
-}
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.hero-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(20, 16, 12, 0.5) 0%, rgba(20, 16, 12, 0.28) 42%, rgba(20, 16, 12, 0.62) 100%);
-}
-.hero-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  width: 100%;
+  gap: 36px;
+  padding: 190px 40px 120px;
 }
 
 .hero-title {
@@ -282,13 +219,6 @@ nav.links {
 
 .hero-actions { display: flex; gap: 18px; align-items: center; margin-top: 8px; }
 
-.on-dark .hero-title { color: #FFFFFF; }
-.on-dark .hero-sub { color: rgba(255, 255, 255, 0.82); }
-
-/* The app-UI mockup that used to sit inside the hero, now that the hero
-   is a full-bleed photo. */
-.showcase { display: flex; justify-content: center; padding: 120px 40px 0; }
-
 /* Waitlist — the email form renders open on load, replacing the no-JS
    fallback link, and posts to FormSubmit.co; see initWaitlist() in
    main.js. */
@@ -328,18 +258,17 @@ nav.links {
   white-space: nowrap;
 }
 
-/* .on-dark marks a section whose content sits on a photo behind a dark
-   scrim — the hero and the closing CTA — so the glass and its text flip
-   to light. */
-.on-dark .waitlist-form {
+/* Over the closing photo the glass sits on a dark scrim, so flip the
+   fill, border and text to light. */
+.closing-cta .waitlist-form {
   background: rgba(255, 255, 255, 0.16);
   border-color: rgba(255, 255, 255, 0.4);
 }
-.on-dark .waitlist-input { color: #FFFFFF; }
-.on-dark .waitlist-input::placeholder { color: rgba(255, 255, 255, 0.7); }
-.on-dark .waitlist-submit { background: #FFFFFF; color: var(--ink); }
-.on-dark .waitlist-status { color: rgba(255, 255, 255, 0.85); }
-.on-dark .waitlist-status--done { color: #FFFFFF; }
+.closing-cta .waitlist-input { color: #FFFFFF; }
+.closing-cta .waitlist-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.closing-cta .waitlist-submit { background: #FFFFFF; color: var(--ink); }
+.closing-cta .waitlist-status { color: rgba(255, 255, 255, 0.85); }
+.closing-cta .waitlist-status--done { color: #FFFFFF; }
 
 .waitlist-status {
   margin-top: 12px;
@@ -359,7 +288,7 @@ nav.links {
 .about .waitlist-status { color: rgba(255, 255, 255, 0.85); }
 .about .waitlist-status--done { color: #FFFFFF; }
 
-.hero-visual { position: relative; width: min(1080px, 100%); }
+.hero-visual { position: relative; width: min(1080px, 100%); margin-top: 170px; }
 
 .hero-image {
   width: 100%;
@@ -1030,8 +959,8 @@ footer {
   .shop-media { width: 100%; }
   .shop-stage { width: 100%; min-height: 400px; }
   .about { padding: 90px 32px; }
-  .hero { padding: 130px 24px 80px; }
-  .showcase { padding: 90px 24px 0; }
+  .hero { padding: 150px 24px 90px; }
+  .hero-visual { margin-top: 190px; }
   /* The float cards hang outside the hero image by design; once the
      viewport is narrow enough that the image fills it, those negative
      offsets push them past the edge, so pull them flush. */
@@ -1104,12 +1033,11 @@ footer {
     margin-top: 6px;
   }
 
-  .hero { padding: 110px 20px 70px; }
-  .hero-content { gap: 24px; }
+  .hero { padding: 130px 20px 70px; gap: 24px; }
   .hero-sub { font-size: 19px; }
-  .showcase { padding: 70px 20px 0; }
   /* Float cards stop floating and stack under the image. */
   .hero-visual {
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -1157,7 +1085,7 @@ footer {
      stack it instead. */
   .closing-cta .waitlist-form { flex-wrap: wrap; border-radius: 24px; padding: 10px; gap: 8px; }
   .closing-cta .waitlist-input { flex: 1 0 100%; padding: 8px 12px; }
-  .closing-cta .waitlist-submit { flex: 1 0 100%; width: 100%; }
+  .closing-cta .waitlist-submit { flex: 1 0 100%; }
 }
 
 /* Small phones */

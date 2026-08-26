@@ -148,37 +148,6 @@ function initWaitlist(slot) {
 
 document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 
-// The nav CTA sends you back to the hero form and puts the cursor in it.
-function initHeroCta(button) {
-  button.addEventListener('click', () => {
-    const input = document.querySelector('.hero .waitlist-input');
-    if (!input) return;
-    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    input.focus({ preventScroll: true });
-  });
-}
-
-document.querySelectorAll('[data-hero-cta]').forEach(initHeroCta);
-
-// The fixed nav is light-on-dark over the hero photo and has to flip once
-// it is over the light page below it.
-function initFixedNav(header) {
-  const hero = document.querySelector('.hero');
-  if (!hero) return;
-
-  if (!('IntersectionObserver' in window)) {
-    header.classList.add('is-scrolled');
-    return;
-  }
-
-  new IntersectionObserver(
-    ([entry]) => header.classList.toggle('is-scrolled', !entry.isIntersecting),
-    { rootMargin: '-80px 0px 0px 0px', threshold: 0 }
-  ).observe(hero);
-}
-
-document.querySelectorAll('.header-fixed').forEach(initFixedNav);
-
 function initScrollReveal() {
   const targets = document.querySelectorAll('.feature-stack');
   if (!targets.length) return;
