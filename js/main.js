@@ -179,3 +179,32 @@ function initHeroVideo(video) {
 }
 
 document.querySelectorAll('.hero__media').forEach(initHeroVideo);
+
+// Fade each headline, paragraph and card in once, staggered within its
+// group. The transform is dropped under prefers-reduced-motion by CSS.
+function initReveal() {
+  const targets = document.querySelectorAll('[data-reveal]');
+  if (!targets.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach((t) => t.classList.add('is-revealed'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const group = [...entry.target.parentElement.querySelectorAll('[data-reveal]')];
+        const step = Math.max(0, group.indexOf(entry.target));
+        entry.target.style.transitionDelay = step * 70 + 'ms';
+        entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.05 }
+  );
+  targets.forEach((t) => observer.observe(t));
+}
+
+initReveal();

@@ -8,12 +8,20 @@
 }
 
 :root {
-  --page: #F8F6F4;
+  --page: #F7F5F0;
   --panel: #F3EEE6;
-  --ink: #232B24;
-  --muted: #6E6960;
+  --ink: #323031;
+  --muted: rgba(50, 48, 49, 0.60);
+  --rule: rgba(50, 48, 49, 0.10);
   --eyebrow: #8A7250;
   --accent2: #FFF6C4;
+
+  /* App-card palette, mirroring the product's own card primitives. */
+  --app-ink: #0E0F0C;
+  --app-muted: rgba(14, 15, 12, 0.55);
+  --app-accent: #D2B893;
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Soyuz Grotesk is bold-only, so it is reserved for the big display
      titles. Manrope carries everything else — smaller titles at 500/600
@@ -262,6 +270,234 @@ nav.links {
 
 .hero-actions { display: flex; gap: 18px; align-items: center; }
 
+/* Sections below the hero all share one container. width:100% is
+   load-bearing: they are flex items of .page, and auto side margins would
+   otherwise shrink them to fit-content instead of stretching. */
+.lede,
+.pillar,
+.action,
+.site-footer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Intro paragraph */
+.lede { padding: clamp(88px, 16vw, 168px) clamp(20px, 5vw, 64px); }
+.lede__copy {
+  font-family: var(--body-font);
+  font-size: clamp(20px, 5vw, 30px);
+  font-weight: var(--body-weight);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
+/* Pillar — heading, copy and an optional photo. */
+.pillar {
+  padding: 16px clamp(20px, 5vw, 64px) clamp(88px, 14vw, 140px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.pillar--text-only { padding-top: clamp(88px, 14vw, 140px); }
+.pillar__text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 3vw, 26px);
+}
+.pillar__title {
+  font-family: var(--title-font);
+  font-size: clamp(40px, 10vw, 74px);
+  font-weight: var(--title-weight);
+  letter-spacing: var(--title-spacing);
+  line-height: 0.98;
+  color: var(--ink);
+  max-width: 14ch;
+  text-wrap: balance;
+}
+.pillar__title--wide { max-width: 16ch; }
+.pillar__copy {
+  font-family: var(--body-font);
+  font-size: clamp(18px, 4.4vw, 22px);
+  font-weight: var(--body-weight);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 36ch;
+  text-wrap: pretty;
+}
+.pillar__media {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3.6;
+  background: var(--panel);
+}
+.pillar__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 35%;
+}
+
+/* From data to action */
+.action {
+  padding: clamp(88px, 14vw, 140px) clamp(20px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 7vw, 72px);
+}
+.action__head { display: flex; flex-direction: column; gap: 18px; }
+.action__title {
+  font-family: var(--title-font);
+  font-size: clamp(40px, 10vw, 74px);
+  font-weight: var(--title-weight);
+  letter-spacing: var(--title-spacing);
+  line-height: 0.98;
+  color: var(--ink);
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.action__lead {
+  font-family: var(--body-font);
+  font-size: clamp(18px, 4.4vw, 22px);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 38ch;
+  text-wrap: pretty;
+}
+.action__sub {
+  font-family: var(--body-font);
+  font-size: clamp(16px, 4vw, 18px);
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 38ch;
+  text-wrap: pretty;
+}
+
+/* App UI example cards — glass primitives mirroring the product's own. */
+.app-cards { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.app-card {
+  flex: 1 1 300px;
+  max-width: 360px;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 24px;
+  color: var(--app-ink);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(26px) saturate(1.7);
+  -webkit-backdrop-filter: blur(26px) saturate(1.7);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 14px 40px rgba(50, 48, 49, 0.10);
+}
+.app-card__pillar { display: flex; align-items: center; gap: 8px; }
+.app-card__glyph { fill: var(--app-accent); flex: none; display: block; }
+.app-card__label {
+  font-family: var(--body-font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--app-muted);
+}
+.app-card__title {
+  font-family: var(--body-font);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin-top: 12px;
+}
+.app-card__body {
+  font-family: var(--body-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--app-muted);
+  margin-top: 6px;
+}
+
+.app-card--row { display: flex; align-items: center; gap: 14px; }
+.app-card__col { flex: 1; min-width: 0; }
+.app-card__title--row { font-size: 16px; margin-top: 0; }
+.app-card__meta {
+  font-family: var(--body-font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-muted);
+  margin-top: 4px;
+}
+.app-toggle {
+  position: relative;
+  flex: none;
+  width: 51px;
+  height: 31px;
+  border-radius: 16px;
+  background: var(--app-accent);
+}
+.app-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 22px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.16);
+}
+
+/* Footer */
+.site-footer {
+  padding: 56px clamp(20px, 5vw, 64px) 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(28px, 5vw, 44px);
+  text-align: left;
+}
+.site-footer__mark {
+  font-family: var(--title-font);
+  font-size: clamp(32px, 8vw, 52px);
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  color: var(--ink);
+}
+.site-footer__tagline {
+  font-family: var(--body-font);
+  font-size: clamp(20px, 5vw, 28px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 22ch;
+}
+.site-footer__links { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.site-footer__links a {
+  font-family: var(--body-font);
+  font-size: clamp(17px, 4.2vw, 20px);
+  color: rgba(50, 48, 49, 0.55);
+  transition: color 120ms var(--ease);
+}
+.site-footer__links a:hover { color: var(--ink); }
+.site-footer__domain {
+  font-family: var(--body-font);
+  font-size: 15px;
+  color: rgba(50, 48, 49, 0.35);
+}
+
+/* Reveal on scroll — see initReveal() in main.js. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 420ms var(--ease), transform 420ms var(--ease);
+}
+[data-reveal].is-revealed { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { transform: none; }
+}
+
 /* Waitlist — the email form renders open on load, replacing the no-JS
    fallback link, and posts to FormSubmit.co; see initWaitlist() in
    main.js. */
@@ -338,10 +574,19 @@ nav.links {
 }
 
 /* Closing CTA */
-.closing-wrap { padding: 0 24px; display: flex; justify-content: center; margin-top: 120px; }
+/* Same container and padding as the sections above, so the panel's edges
+   line up with their text rather than sitting 24px wider. */
+.closing-wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 64px);
+  display: flex;
+  justify-content: center;
+}
 .closing-cta {
   position: relative;
-  width: min(1120px, 100%);
+  width: 100%;
   min-height: 480px;
   border-radius: 36px;
   overflow: hidden;
@@ -650,6 +895,49 @@ footer {
     transform: translateX(-50%);
     width: 65%;
   }
+
+}
+
+/* The pillar splits into two columns once there is room for them. */
+@media (min-width: 740px) {
+  .pillar {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: clamp(32px, 5vw, 72px);
+  }
+  /* Text-only pillars keep a single column so the copy is not stranded
+     across the full width. */
+  .pillar--text-only { grid-template-columns: 1fr; }
+  .pillar--reverse .pillar__text { order: 2; }
+}
+
+/* Desktop — the footer spreads out and the app cards sit beside the copy. */
+@media (min-width: 901px) {
+  .site-footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'mark  links'
+      'tag   links'
+      'domain links';
+    align-items: start;
+    column-gap: 64px;
+    row-gap: 20px;
+    padding-top: 96px;
+    padding-bottom: 64px;
+  }
+  .site-footer__mark { grid-area: mark; }
+  .site-footer__tagline { grid-area: tag; }
+  .site-footer__links { grid-area: links; align-items: flex-end; gap: 14px; }
+  .site-footer__domain { grid-area: domain; align-self: end; }
+
+  .action {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(48px, 6vw, 96px);
+  }
+  .app-cards { flex-direction: column; flex-wrap: nowrap; }
+  .app-card { max-width: none; flex: 0 0 auto; width: 100%; }
 }
 
 /* Tablet */
@@ -674,7 +962,7 @@ footer {
 
   
 
-  .closing-wrap { padding: 0 32px; margin-top: 90px; }
+  .closing-wrap { padding: 0 clamp(20px, 5vw, 64px); }
   .closing-cta { min-height: 420px; }
   .closing-content { padding: 40px; }
 
@@ -718,7 +1006,7 @@ footer {
   
 
   
-  .closing-wrap { padding: 0 20px; margin-top: 70px; }
+  .closing-wrap { padding: 0 20px; }
   .closing-content { padding: 30px; }
 
   .shop { padding: 0 20px 110px; }
