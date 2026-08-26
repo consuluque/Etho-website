@@ -1025,6 +1025,13 @@ footer {
    spec value. */
 @media (min-width: 901px) {
   .hero { min-height: clamp(720px, 92vh, 1040px); }
+  /* Centred and held to 65% rather than running the full width. */
+  .hero-nav {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 65%;
+  }
 }
 
 /* Tablet */
