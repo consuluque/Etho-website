@@ -154,15 +154,29 @@ document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 function initHeroVideo(video) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  const tryPlay = () => {
+    if (reduced.matches || !video.paused) return;
+    const played = video.play();
+    if (played) played.catch(() => {});
+  };
+
   const apply = () => {
     if (reduced.matches) {
       video.pause();
       video.currentTime = 0;
     } else {
-      const played = video.play();
-      if (played) played.catch(() => {});
+      tryPlay();
     }
   };
+
+  // A first play() can be refused while the file is still buffering, so ask
+  // again as it becomes playable, and once more on the first interaction —
+  // that gesture satisfies browsers that hold autoplay back entirely.
+  video.addEventListener('loadeddata', tryPlay);
+  video.addEventListener('canplay', tryPlay);
+  ['pointerdown', 'touchstart', 'keydown'].forEach((evt) => {
+    window.addEventListener(evt, tryPlay, { once: true, passive: true });
+  });
 
   apply();
   reduced.addEventListener('change', apply);
