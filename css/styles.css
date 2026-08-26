@@ -214,7 +214,6 @@ nav.links {
   background: rgba(247, 245, 240, 0.14);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
-  border: 1px solid rgba(247, 245, 240, 0.22);
 }
 .hero-nav__mark {
   font-family: var(--title-font);
@@ -361,8 +360,10 @@ nav.links {
 /* App UI example cards — glass primitives mirroring the product's own. */
 .app-cards { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
 .app-card {
+  /* No max-width: the spec's 360px cap left the cards hugging the left of
+     the column on wider phones. They pair up when there is room for two
+     and otherwise fill the width. */
   flex: 1 1 300px;
-  max-width: 360px;
   box-sizing: border-box;
   padding: 20px;
   border-radius: 24px;
@@ -910,7 +911,7 @@ footer {
     column-gap: clamp(48px, 6vw, 96px);
   }
   .app-cards { flex-direction: column; flex-wrap: nowrap; }
-  .app-card { max-width: none; flex: 0 0 auto; width: 100%; }
+  .app-card { flex: 0 0 auto; width: 100%; }
 }
 
 /* Tablet */
