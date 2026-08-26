@@ -148,26 +148,48 @@ function initWaitlist(slot) {
 
 document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 
-// Some browsers ignore the autoplay attribute, so ask explicitly and let a
-// refusal pass — the poster frame stands in. Reduced motion holds on the
-// poster instead of playing.
+// The hero video is a backdrop. iOS paints its own start-playback button
+// over any video it has refused to autoplay — in Low Power Mode it refuses
+// every time — and neither CSS nor opacity reliably suppresses that
+// control. So a video that will not play is taken out of the document
+// entirely: with no element there is no button, and the hero's background
+// still frame carries the section. A later tap puts it back and plays it.
 function initHeroVideo(video) {
+  const hero = video.parentElement;
+  const anchor = video.nextSibling;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let detached = false;
+
+  const detach = () => {
+    if (detached) return;
+    detached = true;
+    video.classList.remove('is-playing');
+    video.remove();
+  };
+
+  const attach = () => {
+    if (!detached) return;
+    detached = false;
+    hero.insertBefore(video, anchor);
+  };
 
   const tryPlay = () => {
-    if (reduced.matches || !video.paused) return;
+    if (reduced.matches) {
+      detach();
+      return;
+    }
+    attach();
+    if (!video.paused) return;
     const played = video.play();
-    if (played) played.catch(() => {});
+    // A rejection is the browser refusing outright, which is exactly the
+    // case that would draw the button.
+    if (played) played.catch(detach);
   };
 
-  const apply = () => {
-    if (reduced.matches) {
-      video.pause();
-      video.currentTime = 0;
-    } else {
-      tryPlay();
-    }
-  };
+  // Only reveal the element once frames are actually running.
+  video.addEventListener('playing', () => video.classList.add('is-playing'));
+  video.addEventListener('pause', () => video.classList.remove('is-playing'));
+  video.addEventListener('error', detach);
 
   // A first play() can be refused while the file is still buffering, so ask
   // again as it becomes playable, and once more on the first interaction —
@@ -178,8 +200,14 @@ function initHeroVideo(video) {
     window.addEventListener(evt, tryPlay, { once: true, passive: true });
   });
 
-  apply();
-  reduced.addEventListener('change', apply);
+  // Nothing running shortly after load means autoplay was declined without
+  // rejecting the promise; drop the element rather than leave it showing.
+  setTimeout(() => {
+    if (!detached && video.paused) detach();
+  }, 2500);
+
+  tryPlay();
+  reduced.addEventListener('change', tryPlay);
 }
 
 document.querySelectorAll('.hero__media').forEach(initHeroVideo);
