@@ -1020,6 +1020,13 @@ footer {
 
 /* Responsive */
 
+/* Desktop — the spec's 780px cap leaves the hero short of the fold on a
+   wide screen, so let it run taller here. Phone and tablet keep the
+   spec value. */
+@media (min-width: 901px) {
+  .hero { min-height: clamp(720px, 92vh, 1040px); }
+}
+
 /* Tablet */
 @media (max-width: 900px) {
   .care { padding: 160px 32px 0; gap: 56px; }
