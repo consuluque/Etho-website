@@ -198,3 +198,22 @@ function initReveal() {
 }
 
 initReveal();
+
+// The fixed wordmark is cream over the hero video and has to darken once
+// it is over the light page below.
+function initFixedNav(nav) {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  if (!('IntersectionObserver' in window)) {
+    nav.classList.add('is-past-hero');
+    return;
+  }
+
+  new IntersectionObserver(
+    ([entry]) => nav.classList.toggle('is-past-hero', !entry.isIntersecting),
+    { rootMargin: '-80px 0px 0px 0px', threshold: 0 }
+  ).observe(hero);
+}
+
+document.querySelectorAll('.site-nav').forEach(initFixedNav);
