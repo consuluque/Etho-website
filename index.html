@@ -13,163 +13,77 @@
 <body>
 <div class="page">
 
-  <header class="header-logo-only">
-    <img class="logo-img" src="assets/images/etho%20logo%20dark.png" alt="Etho" width="73" height="20">
-  </header>
+  <section id="top" class="hero on-dark">
+    <video class="hero__media" src="assets/videos/grey-dog.mp4"
+           poster="assets/images/hero-poster.jpg"
+           autoplay muted loop playsinline preload="auto"
+           aria-label="Grey dog moving in warm daylight"></video>
+    <div class="hero-scrim"></div>
 
-  <section class="hero">
-    <h1 class="hero-title">
-      <span class="drop-cap">F</span>or the love of <span class="highlight">dogs</span>
-    </h1>
-    <p class="hero-sub">Ever wondered if your dog is <em class="cursive">actually</em> happy?</p>
-    <div class="hero-actions waitlist-slot">
-      <a class="btn-outline-lg waitlist-btn" href="#">Join the waitlist</a>
+    <nav class="hero-nav" aria-label="Primary">
+      <a class="hero-nav__mark" href="#top">etho</a>
+    </nav>
+
+    <div class="hero-content">
+      <h1 class="hero-title">For the love of dog</h1>
+      <p class="hero-sub">Ever wondered if your dog is actually happy?</p>
+      <div id="waitlist" class="hero-actions waitlist-slot">
+        <a class="btn-outline-lg waitlist-btn" href="#">Join the waitlist</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lede">
+    <p class="lede__copy" data-reveal>Etho connects your dog's biology, medical history and everyday changes to build a fuller picture of their health, helping you make proactive choices to keep them happy and healthy.</p>
+  </section>
+
+  <section class="pillar">
+    <div class="pillar__text">
+      <h2 class="pillar__title" data-reveal>Speak their language</h2>
+      <p class="pillar__copy" data-reveal>Understand your dog's instincts, behaviour, and physical, emotional and social needs.</p>
+    </div>
+    <div class="pillar__media" data-reveal>
+      <img src="assets/images/Doggie2.jpg" alt="A dog with its ears lifted, looking straight at the camera" loading="lazy" onerror="this.remove()">
+    </div>
+  </section>
+
+  <section class="action">
+    <div class="action__head">
+      <h2 class="action__title" data-reveal>From data to action</h2>
+      <p class="action__lead" data-reveal>Personalised health, nutrition and lifestyle guidance, built around your dog.</p>
     </div>
 
-    <div class="hero-visual">
-      <div class="hero-image">
-        <img src="assets/images/Doggie2.jpg" alt="A happy dog wearing an Etho smart collar" onerror="this.remove()">
-      </div>
-
-      <div class="float-card float-card--score">
-        <div class="score-ring">
-          <svg width="56" height="56" viewBox="0 0 96 96">
-            <circle cx="48" cy="48" r="41" fill="none" stroke="#EDEAE2" stroke-width="10"></circle>
-            <circle cx="48" cy="48" r="41" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="180.2 257.6" transform="rotate(-90 48 48)"></circle>
+    <div class="app-cards">
+      <article class="app-card" data-reveal>
+        <div class="app-card__pillar">
+          <svg class="app-card__glyph" viewBox="0 0 100 100" width="15" height="15" aria-hidden="true">
+            <path d="M50 6c7 0 12 6 11 13l-1 9 7-6c5-4 13-3 17 3s3 13-3 17l-8 5 9 3c7 2 10 9 8 15s-9 10-15 8l-9-3 3 9c2 7-2 14-8 15s-13-2-15-8l-3-9-5 8c-4 6-11 7-17 3s-7-12-3-17l6-7-9 1c-7 1-13-4-13-11s6-12 13-11l9 1-6-7c-4-5-3-13 3-17s13-3 17 3l5 8 3-9c2-6 8-10 14-8Z"/>
           </svg>
-          <div class="score-num">70</div>
+          <span class="app-card__label">Sense</span>
         </div>
-        <div>
-          <div class="title">Ruffles is energetic today</div>
-          <div class="subtitle">High happiness level</div>
-        </div>
-      </div>
+        <h3 class="app-card__title">Today's enrichment</h3>
+        <p class="app-card__body">Give Luna part of her daily food allowance through a sniffing or foraging activity.</p>
+      </article>
 
-      <div class="float-card float-card--sleep">
-        <div class="sleep-row">
-          <div class="sleep-label">Sleep</div>
-          <div class="sleep-status">On track</div>
+      <article class="app-card app-card--row" data-reveal>
+        <div class="app-card__col">
+          <h3 class="app-card__title app-card__title--row">Omega-3 daily, for joints.</h3>
+          <p class="app-card__meta">8:00 am · Daily reminder</p>
         </div>
-        <div class="sleep-value">11 h 40 m</div>
-        <div class="sleep-bars">
-          <span style="height:20%"></span>
-          <span class="half" style="height:55%"></span>
-          <span class="on" style="height:100%"></span>
-          <span class="on" style="height:100%"></span>
-          <span class="half" style="height:55%"></span>
-          <span class="on" style="height:100%"></span>
-          <span style="height:20%"></span>
-          <span class="half" style="height:55%"></span>
-          <span class="on" style="height:100%"></span>
-          <span style="height:20%"></span>
-        </div>
-      </div>
-
-      <div class="float-card float-card--dose">
-        <span class="dose-dot"></span>
-        <div class="title">Omega-3 drops with breakfast</div>
-      </div>
+        <span class="app-toggle" role="img" aria-label="Reminder on"></span>
+      </article>
     </div>
   </section>
 
-  <section id="care" class="care">
-    <div class="section-head">
-      <div class="eyebrow">The next unlock</div>
-      <h2 class="section-title">understand your dog's health and happiness</h2>
-    </div>
-    <div class="card-grid">
-      <div class="card">
-        <span class="card-dot"></span>
-        <div class="card-title">Behaviour &amp; activity</div>
-        <p class="card-copy">Track and analyse everything they do, from calories burnt, to eating, drinking, barking, licking and scratching.</p>
-      </div>
-      <div class="card">
-        <span class="card-dot"></span>
-        <div class="card-title">Gentle reminders</div>
-        <p class="card-copy">Dogs thrive when their routine is right. Set reminders and build consistent habits.</p>
-      </div>
-      <div class="card">
-        <span class="card-dot"></span>
-        <div class="card-title">Speak their language</div>
-        <p class="card-copy">Learn to recognise your dog's instincts, with insights into their physical, emotional and social needs.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature-block">
-    <div class="feature-panel">
-      <div class="feature-text">
-        <div class="eyebrow">Nutrition</div>
-        <h2 class="feature-heading">Nutrition that fits their breed and biology</h2>
-        <p class="feature-desc">Enrichment, prevention and precision, based on breed, genetics and lifestyle.</p>
-      </div>
-      <div class="feature-stack">
-        <div class="stack-card">
-          <div class="stack-eyebrow"><span class="dose-dot"></span>Today's enrichment</div>
-          <p class="stack-body">Give Luna part of her daily food allowance through a sniffing or foraging activity.</p>
-        </div>
-        <div class="stack-card stack-card--row">
-          <span class="stack-body">Omega-3 daily, for joints</span>
-          <span class="stack-link">Reminder</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature-block feature-block--reverse">
-    <div class="feature-panel">
-      <div class="feature-text">
-        <div class="eyebrow">Behaviour &amp; lifestyle</div>
-        <h2 class="feature-heading">The five ways dogs express themselves</h2>
-        <p class="feature-desc">The more fulfilled these five needs are, the happier they are.</p>
-        <div class="need-tags">
-          <span class="need-tag">Senses</span>
-          <span class="need-tag">Move</span>
-          <span class="need-tag">Think</span>
-          <span class="need-tag">Connect</span>
-          <span class="need-tag">Feel safe</span>
-        </div>
-      </div>
-      <div class="feature-stack">
-        <div class="stack-card">
-          <div class="stack-eyebrow">George, today</div>
-          <ul class="activity-log">
-            <li><span class="log-dot log-dot--good"></span>Walked 45 min</li>
-            <li><span class="log-dot log-dot--good"></span>Played 20 min</li>
-            <li><span class="log-dot log-dot--low"></span>Sniffing time: little</li>
-            <li><span class="log-dot log-dot--low"></span>Training: 0 min</li>
-          </ul>
-          <p class="stack-body stack-body--muted">Plenty of physical activity, very little mental and olfactory enrichment.</p>
-        </div>
-        <div class="stack-card stack-card--highlight">
-          <div class="stack-eyebrow">Try instead</div>
-          <p class="stack-body">A 10-minute food-search game with part of his dinner.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature-block">
-    <div class="feature-panel">
-      <div class="feature-text">
-        <div class="eyebrow">Predictive health</div>
-        <h2 class="feature-heading">Behavioural changes, detected early</h2>
-      </div>
-      <div class="feature-photo">
-        <img src="assets/images/Doggie3.jpg" alt="A dog looking up close at the camera" onerror="this.remove()">
-        <div class="feature-photo-scrim"></div>
-        <div class="alert-card">
-          <div class="stack-eyebrow stack-eyebrow--alert"><span class="alert-dot"></span>Health alert</div>
-          <div class="alert-title">Changes in Bella's resting heart rate</div>
-          <p class="stack-body">Up 12% over the last four days, with overnight respiratory rate trending upward and HRV decreasing.</p>
-          <p class="stack-body stack-body--muted">This may indicate pain, infection or heat stress. Consider monitoring her closely or consulting your veterinarian.</p>
-        </div>
-      </div>
+  <section class="pillar pillar--text-only">
+    <div class="pillar__text">
+      <h2 class="pillar__title pillar__title--wide" data-reveal>Nutrition that fits their breed and biology</h2>
+      <p class="pillar__copy" data-reveal>Enrichment, prevention and precision, based on breed, genetics and lifestyle.</p>
     </div>
   </section>
 
   <section class="closing-wrap">
-    <div class="closing-cta">
+    <div class="closing-cta on-dark">
       <img class="closing-bg" src="assets/images/Doggie5.jpg" alt="A dog standing in a warm patch of sunlight" onerror="this.remove()">
       <div class="closing-scrim"></div>
       <div class="closing-content">
@@ -181,61 +95,16 @@
     </div>
   </section>
 
-  <section class="faq">
-    <div class="section-head">
-      <h2 class="faq-title">FAQs</h2>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-question" type="button">
-          <span>What is etho?</span>
-          <span class="faq-toggle" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer">
-          <p>A pet health app for dog owners who want to understand their pet's real wellbeing and happiness, with daily goal tracking, reminders and health insights.</p>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" type="button">
-          <span>How does the tracker work?</span>
-          <span class="faq-toggle" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer">
-          <p>A tiny tracker goes in the collar or harness and continuously monitors biometrics and behavioural actions: heart rate, how many times they have eaten, how much they have barked and for how long, how many calories they burnt &amp; more.</p>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" type="button">
-          <span>Can etho identify my dog's health problems?</span>
-          <span class="faq-toggle" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer">
-          <p>Etho is focused on predictive health. It identifies changes in behaviour and flags developing health issues, so you can be proactive rather than reactive.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hidden for now — re-enable by uncommenting.
-  <section id="about" class="about-wrap">
-    <div class="about">
-      <h2 class="about-title"><span class="drop-cap">A</span>dvanced biohacking for your pet</h2>
-      <div class="waitlist-slot">
-        <a class="btn-outline-lg waitlist-btn" href="#">Join the waitlist</a>
-      </div>
-    </div>
-  </section>
-  -->
-
-  <footer>
-    <img class="logo-img" src="assets/images/etho%20logo%20dark.png" alt="Etho" width="73" height="20" style="height:20px">
-    <div class="footer-links">
-      <a href="#">Shop</a>
-      <a href="#">Become a partner</a>
+  <footer class="site-footer">
+    <p class="site-footer__mark">etho</p>
+    <p class="site-footer__tagline">Know their nature</p>
+    <nav class="site-footer__links" aria-label="Footer">
+      <a href="#">Contact</a>
+      <a href="#">Partnerships</a>
       <a href="#">Privacy</a>
       <a href="#">Terms</a>
-      <a href="#">Contact</a>
-    </div>
+    </nav>
+    <p class="site-footer__domain">etho.pet</p>
   </footer>
 </div>
 

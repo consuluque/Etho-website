@@ -148,41 +148,53 @@ function initWaitlist(slot) {
 
 document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 
-function initScrollReveal() {
-  const targets = document.querySelectorAll('.feature-stack');
+// Some browsers ignore the autoplay attribute, so ask explicitly and let a
+// refusal pass — the poster frame stands in. Reduced motion holds on the
+// poster instead of playing.
+function initHeroVideo(video) {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const apply = () => {
+    if (reduced.matches) {
+      video.pause();
+      video.currentTime = 0;
+    } else {
+      const played = video.play();
+      if (played) played.catch(() => {});
+    }
+  };
+
+  apply();
+  reduced.addEventListener('change', apply);
+}
+
+document.querySelectorAll('.hero__media').forEach(initHeroVideo);
+
+// Fade each headline, paragraph and card in once, staggered within its
+// group. The transform is dropped under prefers-reduced-motion by CSS.
+function initReveal() {
+  const targets = document.querySelectorAll('[data-reveal]');
   if (!targets.length) return;
 
   if (!('IntersectionObserver' in window)) {
-    targets.forEach((t) => t.classList.add('in-view'));
+    targets.forEach((t) => t.classList.add('is-revealed'));
     return;
   }
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        const group = [...entry.target.parentElement.querySelectorAll('[data-reveal]')];
+        const step = Math.max(0, group.indexOf(entry.target));
+        entry.target.style.transitionDelay = step * 70 + 'ms';
+        entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.3 }
+    { threshold: 0.05 }
   );
   targets.forEach((t) => observer.observe(t));
 }
 
-initScrollReveal();
-
-function initFaqAccordion() {
-  const items = document.querySelectorAll('.faq-item');
-  items.forEach((item) => {
-    const question = item.querySelector('.faq-question');
-    question.addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-      items.forEach((other) => other.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
-  });
-}
-
-initFaqAccordion();
+initReveal();
