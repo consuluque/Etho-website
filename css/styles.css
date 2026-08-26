@@ -13,22 +13,16 @@
   --ink: #232B24;
   --muted: #6E6960;
   --eyebrow: #8A7250;
-  --accent: #EBE2D5;
   --accent2: #FFF6C4;
-  --hl-bg: #FFF6C4;
-  --hl-color: #232B24;
-  --about-bg: radial-gradient(120% 120% at 15% 12%, #FFF6C4 0%, #E4DCF7 60%, #C3B4EE 100%);
-  --about-border: rgba(43, 39, 36, 0.08);
 
-  /* Soyuz Grotesk is bold-only, so it is reserved for the four big
-     display titles. Manrope carries everything else — smaller titles at
-     500/600 and all body copy at 400. */
+  /* Soyuz Grotesk is bold-only, so it is reserved for the big display
+     titles. Manrope carries everything else — smaller titles at 500/600
+     and all body copy at 400. */
   --title-font: 'Soyuz Grotesk', sans-serif;
   --title-weight: 700;
   --title-spacing: -0.02em;
   --subtitle-font: 'Manrope', sans-serif;
   --subtitle-weight: 500;
-  --card-title-weight: 500;
   --body-font: 'Manrope', sans-serif;
   --body-weight: 400;
 }
@@ -255,22 +249,6 @@ nav.links {
   text-wrap: balance;
   margin: 0;
 }
-.drop-cap { font-size: 0.7273em; font-weight: 800; }
-
-.highlight {
-  background: var(--hl-bg);
-  color: var(--hl-color);
-  padding: 0.02em 0.18em;
-  border-radius: 0.12em;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-.cursive {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-weight: 500;
-}
 
 .hero-sub {
   font-family: var(--body-font);
@@ -283,10 +261,6 @@ nav.links {
 }
 
 .hero-actions { display: flex; gap: 18px; align-items: center; }
-
-/* The app-UI mockup that used to sit inside the hero, now that the hero
-   is a full-bleed photo. */
-.showcase { display: flex; justify-content: center; padding: 120px 40px 0; }
 
 /* Waitlist — the email form renders open on load, replacing the no-JS
    fallback link, and posts to FormSubmit.co; see initWaitlist() in
@@ -355,95 +329,6 @@ nav.links {
   margin-top: 0;
 }
 
-.about .waitlist-status { color: rgba(255, 255, 255, 0.85); }
-.about .waitlist-status--done { color: #FFFFFF; }
-
-.hero-visual { position: relative; width: min(1080px, 100%); }
-
-.hero-image {
-  width: 100%;
-  height: 580px;
-  max-height: 60vh;
-  border-radius: 32px;
-  overflow: hidden;
-  position: relative;
-  background: #F2F0EA;
-}
-.hero-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-
-.float-card {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(35, 43, 36, 0.07);
-  border-radius: 22px;
-  box-shadow: 0 24px 60px rgba(35, 43, 36, 0.14);
-  text-align: left;
-}
-
-.float-card--score {
-  top: 48px;
-  left: -24px;
-  padding: 20px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.score-ring { position: relative; width: 56px; height: 56px; flex: none; }
-.score-ring svg circle:last-child { stroke: var(--accent2); }
-.score-ring .score-num {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 400;
-}
-.float-card--score .title { font-size: 19px; font-weight: 400; }
-.float-card--score .subtitle { font-size: 17px; font-weight: 400; color: var(--muted); }
-
-.float-card--sleep {
-  bottom: 56px;
-  right: -28px;
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 210px;
-}
-.sleep-row { display: flex; justify-content: space-between; align-items: baseline; }
-.sleep-label { font-size: 17px; font-weight: 400; color: var(--muted); }
-.sleep-status { font-size: 17px; font-weight: 400; color: var(--eyebrow); }
-.sleep-value { font-size: 30px; font-weight: 400; letter-spacing: -0.02em; }
-.sleep-bars { display: flex; align-items: flex-end; gap: 3px; height: 34px; }
-.sleep-bars span { flex: 1; border-radius: 2px; background: #EDEAE2; }
-.sleep-bars span.on { background: var(--accent2); }
-.sleep-bars span.half { background: var(--accent2); opacity: 0.5; }
-
-.float-card--dose {
-  top: -22px;
-  right: 120px;
-  border-radius: 999px;
-  padding: 12px 22px;
-  box-shadow: 0 18px 44px rgba(35, 43, 36, 0.12);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.dose-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent2); }
-.float-card--dose .title { font-size: 18px; font-weight: 400; }
-
-/* Care section */
-.care {
-  padding: 260px 64px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 70px;
-  align-items: center;
-}
-.section-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  text-align: center;
-}
 .eyebrow {
   font-size: 16px;
   font-weight: 600;
@@ -451,195 +336,6 @@ nav.links {
   text-transform: uppercase;
   color: var(--eyebrow);
 }
-.section-title {
-  font-family: var(--title-font);
-  font-size: clamp(36px, 5.5vw, 68px);
-  font-weight: var(--title-weight);
-  color: var(--ink);
-  letter-spacing: var(--title-spacing);
-  max-width: 720px;
-  line-height: 1.08;
-  text-wrap: balance;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  /* Matches .feature-panel so the page keeps one content width. */
-  max-width: 1120px;
-  width: 100%;
-}
-.card {
-  background: var(--panel);
-  border: 1px solid rgba(35, 43, 36, 0.06);
-  border-radius: 20px;
-  padding: 34px 27px;
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.06);
-}
-.card-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--accent2); }
-.card-title {
-  font-family: var(--subtitle-font);
-  font-weight: 600;
-  font-size: 24px;
-  letter-spacing: -0.02em;
-}
-.card-copy {
-  font-family: var(--body-font);
-  font-size: 18px;
-  font-weight: var(--body-weight);
-  color: var(--muted);
-  line-height: 1.65;
-  text-wrap: balance;
-}
-
-/* Feature blocks — Nutrition / Lifestyle */
-.feature-block { padding: 0 64px; display: flex; justify-content: center; margin-top: 120px; }
-.feature-panel {
-  width: min(1120px, 100%);
-  background: var(--panel);
-  border: 1px solid rgba(35, 43, 36, 0.06);
-  border-radius: 36px;
-  padding: 80px 64px;
-  display: flex;
-  align-items: center;
-  gap: 64px;
-}
-.feature-block--reverse .feature-panel { flex-direction: row-reverse; }
-
-.feature-text { flex: 1; display: flex; flex-direction: column; gap: 16px; text-align: left; }
-.feature-heading {
-  font-family: var(--subtitle-font);
-  font-size: clamp(30px, 3.6vw, 44px);
-  font-weight: 600;
-  letter-spacing: var(--title-spacing);
-  line-height: 1.15;
-  color: var(--ink);
-}
-.feature-desc {
-  font-family: var(--body-font);
-  font-size: 18px;
-  color: var(--muted);
-  line-height: 1.6;
-  max-width: 380px;
-}
-
-.need-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-.need-tag {
-  background: #FFFFFF;
-  border: 1px solid rgba(35, 43, 36, 0.08);
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-family: var(--body-font);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.feature-stack {
-  flex: 1;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-}
-
-.feature-photo {
-  position: relative;
-  flex: 1;
-  max-width: 420px;
-  aspect-ratio: 7 / 6;
-  border-radius: 28px;
-  overflow: hidden;
-}
-.feature-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
-.feature-photo-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(20, 16, 12, 0.4) 0%, rgba(20, 16, 12, 0) 45%);
-}
-.alert-card {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-  background: #FFFFFF;
-  border-radius: 20px;
-  padding: 18px 20px;
-  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.18);
-}
-.alert-title {
-  font-family: var(--subtitle-font);
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: var(--title-spacing);
-  color: var(--ink);
-  margin: 6px 0 8px;
-}
-
-.stack-card {
-  position: relative;
-  background: #FFFFFF;
-  border-radius: 22px;
-  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.1);
-  padding: 22px 24px;
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.stack-card:not(:first-child) { margin-top: -16px; }
-.stack-card:nth-child(1) { z-index: 3; }
-.stack-card:nth-child(2) { z-index: 2; margin-left: 22px; margin-right: -10px; }
-.stack-card:nth-child(3) { z-index: 1; margin-left: 44px; margin-right: -20px; }
-
-.feature-stack.in-view .stack-card { opacity: 1; transform: translateY(0); }
-.feature-stack.in-view .stack-card:nth-child(2) { transition-delay: 0.12s; }
-.feature-stack.in-view .stack-card:nth-child(3) { transition-delay: 0.24s; }
-
-.stack-card--row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.stack-card--highlight { background: var(--accent2); box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08); }
-
-.stack-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--eyebrow);
-  margin-bottom: 10px;
-}
-.stack-eyebrow--alert { color: #B5563F; }
-.alert-dot { width: 8px; height: 8px; border-radius: 50%; background: #E28A6E; flex: none; }
-
-.stack-body {
-  font-family: var(--body-font);
-  font-size: 16px;
-  color: var(--ink);
-  line-height: 1.5;
-}
-.stack-body--muted { color: var(--muted); font-size: 14px; margin-top: 10px; }
-
-.stack-link { font-size: 14px; font-weight: 600; color: var(--eyebrow); white-space: nowrap; }
-
-.activity-log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.activity-log li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--body-font);
-  font-size: 15px;
-  color: var(--ink);
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(35, 43, 36, 0.06);
-}
-.activity-log li:last-child { border-bottom: none; padding-bottom: 0; }
-.log-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-.log-dot--good { background: #7FA872; }
-.log-dot--low { background: #C97B5C; }
 
 /* Closing CTA */
 .closing-wrap { padding: 0 24px; display: flex; justify-content: center; margin-top: 120px; }
@@ -683,57 +379,6 @@ nav.links {
 }
 .closing-btn.btn-outline-lg { background: #FFFFFF; color: var(--ink); border-color: #FFFFFF; }
 .closing-btn.btn-outline-lg:hover { background: rgba(255, 255, 255, 0.85); }
-
-/* FAQ */
-.faq { padding: 0 24px; display: flex; flex-direction: column; align-items: center; gap: 50px; margin-top: 180px; padding-bottom: 160px; }
-.faq-title {
-  font-family: var(--title-font);
-  font-size: clamp(28px, 3.2vw, 36px);
-  font-weight: var(--title-weight);
-  color: var(--ink);
-  letter-spacing: var(--title-spacing);
-}
-.faq-list { width: min(880px, 100%); }
-.faq-item { border-bottom: 1px solid rgba(35, 43, 36, 0.1); }
-.faq-item:first-child { border-top: 1px solid rgba(35, 43, 36, 0.1); }
-.faq-question {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 26px 4px;
-  font-family: var(--subtitle-font);
-  font-size: clamp(19px, 2.1vw, 24px);
-  font-weight: var(--subtitle-weight);
-  color: var(--ink);
-  text-align: left;
-}
-.faq-toggle { position: relative; width: 16px; height: 16px; flex: none; }
-.faq-toggle::before,
-.faq-toggle::after {
-  content: '';
-  position: absolute;
-  background: var(--eyebrow);
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-.faq-toggle::before { left: 0; right: 0; top: 50%; height: 2px; transform: translateY(-50%); }
-.faq-toggle::after { top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-50%); }
-.faq-item.open .faq-toggle::after { transform: translateX(-50%) scaleY(0); }
-
-.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-.faq-answer p {
-  font-family: var(--body-font);
-  font-size: 17px;
-  color: var(--muted);
-  line-height: 1.6;
-  max-width: 680px;
-  padding: 0 4px 26px;
-}
-.faq-item.open .faq-answer { max-height: 240px; }
 
 /* Shop */
 .shop {
@@ -974,33 +619,6 @@ nav.links {
 .feature-copy { font-family: var(--body-font); font-size: 15px; color: var(--muted); line-height: 1.55; }
 
 /* About */
-.about-wrap { display: flex; justify-content: center; padding: 0 24px 160px; }
-.about {
-  width: min(1120px, 100%);
-  background-color: #C3B4EE;
-  background-image: url('../assets/images/gradient-b.png');
-  background-size: cover;
-  background-position: center;
-  border: 1px solid var(--about-border);
-  border-radius: 36px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 30px;
-  padding: 150px 60px;
-}
-.about-title {
-  font-family: var(--subtitle-font);
-  font-size: clamp(34px, 5vw, 60px);
-  font-weight: 600;
-  color: #FFFFFF;
-  letter-spacing: var(--title-spacing);
-  line-height: 1.08;
-  text-wrap: balance;
-}
-.about .btn-outline-lg { color: #FFFFFF; border-color: #FFFFFF; }
-.about .btn-outline-lg:hover { background: rgba(255, 255, 255, 0.15); color: #FFFFFF; }
 
 /* Footer */
 footer {
@@ -1036,52 +654,30 @@ footer {
 
 /* Tablet */
 @media (max-width: 900px) {
-  .care { padding: 160px 32px 0; gap: 56px; }
-  .card-grid { grid-template-columns: 1fr; }
   .shop { padding: 0 32px 160px; }
   .shop-inner { flex-direction: column; gap: 50px; align-items: stretch; }
   .shop-media { width: 100%; }
   .shop-stage { width: 100%; min-height: 400px; }
-  .about { padding: 90px 32px; }
-  .showcase { padding: 90px 24px 0; }
-  /* The float cards hang outside the hero image by design; once the
-     viewport is narrow enough that the image fills it, those negative
-     offsets push them past the edge, so pull them flush. */
-  .float-card--score { left: 0; }
-  .float-card--sleep { right: 0; }
+
+    
+  
   .feature-section { padding: 0 32px 140px; }
   .feature-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
 
-  .feature-block { padding: 0 32px; margin-top: 90px; }
-  .feature-panel, .feature-block--reverse .feature-panel {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 48px 36px;
-    gap: 44px;
-  }
-  .feature-desc { max-width: none; }
-  .feature-stack { max-width: none; }
+  
+
   /* The alert card is absolutely positioned inside a fixed-ratio photo on
      desktop; once the panel narrows its text wraps taller than the photo
      and gets clipped, so stack them in normal flow instead. */
-  .feature-photo {
-    max-width: none;
-    aspect-ratio: auto;
-    display: flex;
-    flex-direction: column;
-    flex: none;
-  }
-  .feature-photo img { position: relative; inset: auto; height: 240px; }
-  .feature-photo-scrim { display: none; }
-  .alert-card { position: relative; left: auto; right: auto; bottom: auto; margin: -40px 16px 16px; }
-  .stack-card:nth-child(2) { margin-left: 14px; margin-right: -6px; }
-  .stack-card:nth-child(3) { margin-left: 28px; margin-right: -12px; }
+
+  
+
+  
 
   .closing-wrap { padding: 0 32px; margin-top: 90px; }
   .closing-cta { min-height: 420px; }
   .closing-content { padding: 40px; }
 
-  .faq { padding: 0 32px 130px; margin-top: 130px; }
 }
 
 /* Mobile: collapse nav into a dropdown menu, stack hero badges */
@@ -1115,26 +711,15 @@ footer {
     margin-top: 6px;
   }
 
-  .showcase { padding: 70px 20px 0; }
-  /* Float cards stop floating and stack under the image. */
-  .hero-visual {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .hero-image { height: 380px; max-height: none; }
-  .float-card { position: static; width: 100%; }
-  .float-card--sleep { min-width: 0; }
+    
 
-  .care { padding: 100px 20px 0; gap: 40px; }
-  .section-title { font-size: clamp(28px, 8vw, 40px); }
+  
 
-  .feature-block { padding: 0 20px; margin-top: 70px; }
-  .feature-panel { padding: 36px 24px; }
+  
+
+  
   .closing-wrap { padding: 0 20px; margin-top: 70px; }
   .closing-content { padding: 30px; }
-  .faq { padding: 0 20px 100px; margin-top: 100px; }
-  .faq-question { font-size: 18px; padding: 20px 2px; }
 
   .shop { padding: 0 20px 110px; }
   .shop-page-hero { padding: 130px 20px 40px; }
@@ -1149,8 +734,7 @@ footer {
   .feature-section { padding: 0 20px 100px; }
   .feature-grid { grid-template-columns: 1fr; gap: 16px; }
 
-  .about-wrap { padding: 0 16px 100px; }
-  .about { padding: 70px 24px; border-radius: 28px; gap: 22px; }
+  
 
   footer { flex-direction: column; gap: 20px; padding: 40px 24px 60px; text-align: center; }
 }
@@ -1170,7 +754,7 @@ footer {
 
 /* Small phones */
 @media (max-width: 380px) {
-  .card { padding: 25px 18px; }
+  
   .size-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   /* Too narrow to hold the field and the button side by side, so stack
      them: the pill becomes a rounded block with a full-width button. */
