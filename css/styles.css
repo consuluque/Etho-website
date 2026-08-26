@@ -183,6 +183,18 @@ nav.links {
   height: 100%;
   object-fit: cover;
   object-position: 50% 40%;
+  pointer-events: none;
+}
+/* This is a backdrop, not a player. When iOS refuses autoplay — in Low
+   Power Mode it always does — Safari draws its own start-playback button
+   over the poster, so suppress the native controls entirely. */
+.hero__media::-webkit-media-controls,
+.hero__media::-webkit-media-controls-panel,
+.hero__media::-webkit-media-controls-start-playback-button,
+.hero__media::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+  appearance: none;
 }
 /* The spec's stops (0.30 / 0.02 / 0.62 / 0.85) were calibrated against the
    dark tiled photo. The video is a light scene, so the near-transparent
