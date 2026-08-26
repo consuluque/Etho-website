@@ -199,14 +199,14 @@ nav.links {
     rgba(50, 48, 49, 0.88) 100%);
 }
 
-/* Absolute, so the nav sits on the hero and does not follow the scroll.
-   It holds only the wordmark, so it hugs it and centres on the page. */
-.hero-nav {
-  position: absolute;
+/* Fixed, so the wordmark stays put as the page scrolls. It holds only the
+   wordmark, so it hugs it and centres on the page. */
+.site-nav {
+  position: fixed;
   top: clamp(14px, 3vw, 28px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 50;
   display: flex;
   align-items: center;
   padding: 11px clamp(20px, 4vw, 28px);
@@ -214,14 +214,27 @@ nav.links {
   background: rgba(247, 245, 240, 0.14);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
+  transition: background 120ms var(--ease);
 }
-.hero-nav__mark {
+.site-nav__mark {
   font-family: var(--title-font);
   font-size: 20px;
   letter-spacing: -0.02em;
   line-height: 1;
   color: #F7F5F0;
+  transition: color 120ms var(--ease);
 }
+
+/* Past the hero the pill sits on the light page, where a cream wordmark
+   would disappear — so darken the mark and lift the fill.
+   initFixedNav() in main.js toggles .is-past-hero. */
+/* A cream fill would match the page exactly and leave the mark reading as
+   a stray word, so lift the pill off the content instead. */
+.site-nav.is-past-hero {
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 6px 24px rgba(50, 48, 49, 0.10);
+}
+.site-nav.is-past-hero .site-nav__mark { color: var(--ink); }
 
 .hero-content {
   position: relative;
