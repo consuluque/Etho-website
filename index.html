@@ -13,23 +13,22 @@
 <body>
 <div class="page">
 
-  <header class="header-fixed">
-    <div class="nav-bar nav-bar--glass">
-      <img class="logo-img logo-on-dark" src="assets/images/etho%20logo%20white.png" alt="Etho" width="73" height="20">
-      <img class="logo-img logo-on-light" src="assets/images/etho%20logo%20dark.png" alt="Etho" width="73" height="20">
-      <button type="button" class="btn-solid nav-cta" data-hero-cta>Join waitlist</button>
-    </div>
-  </header>
-
-  <section class="hero on-dark">
-    <img class="hero-bg" src="assets/images/Doggie1.jpg" alt="" onerror="this.remove()">
+  <section id="top" class="hero on-dark">
+    <video class="hero__media" src="assets/videos/grey-dog.mp4"
+           poster="assets/images/hero-poster.jpg"
+           autoplay muted loop playsinline preload="auto"
+           aria-label="Grey dog moving in warm daylight"></video>
     <div class="hero-scrim"></div>
+
+    <nav class="hero-nav" aria-label="Primary">
+      <a class="hero-nav__mark" href="#top">etho</a>
+      <a class="hero-nav__cta" href="#waitlist">Join waitlist</a>
+    </nav>
+
     <div class="hero-content">
-      <h1 class="hero-title">
-        <span class="drop-cap">F</span>or the love of dog
-      </h1>
-      <p class="hero-sub">Ever wondered if your dog is <em class="cursive">actually</em> happy?</p>
-      <div class="hero-actions waitlist-slot">
+      <h1 class="hero-title">For the love of dog</h1>
+      <p class="hero-sub">Ever wondered if your dog is actually happy?</p>
+      <div id="waitlist" class="hero-actions waitlist-slot">
         <a class="btn-outline-lg waitlist-btn" href="#">Join the waitlist</a>
       </div>
     </div>

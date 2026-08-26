@@ -148,36 +148,37 @@ function initWaitlist(slot) {
 
 document.querySelectorAll('.waitlist-slot').forEach(initWaitlist);
 
-// The nav CTA sends you back to the hero form and puts the cursor in it.
-function initHeroCta(button) {
-  button.addEventListener('click', () => {
+// The nav CTA points at the hero form; put the cursor in it on arrival.
+function initHeroCta(link) {
+  link.addEventListener('click', () => {
     const input = document.querySelector('.hero .waitlist-input');
-    if (!input) return;
-    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    input.focus({ preventScroll: true });
+    if (input) input.focus({ preventScroll: true });
   });
 }
 
-document.querySelectorAll('[data-hero-cta]').forEach(initHeroCta);
+document.querySelectorAll('.hero-nav__cta').forEach(initHeroCta);
 
-// The fixed nav is light-on-dark over the hero photo and has to flip once
-// it is over the light page below it.
-function initFixedNav(header) {
-  const hero = document.querySelector('.hero');
-  if (!hero) return;
+// Some browsers ignore the autoplay attribute, so ask explicitly and let a
+// refusal pass — the poster frame stands in. Reduced motion holds on the
+// poster instead of playing.
+function initHeroVideo(video) {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  if (!('IntersectionObserver' in window)) {
-    header.classList.add('is-scrolled');
-    return;
-  }
+  const apply = () => {
+    if (reduced.matches) {
+      video.pause();
+      video.currentTime = 0;
+    } else {
+      const played = video.play();
+      if (played) played.catch(() => {});
+    }
+  };
 
-  new IntersectionObserver(
-    ([entry]) => header.classList.toggle('is-scrolled', !entry.isIntersecting),
-    { rootMargin: '-80px 0px 0px 0px', threshold: 0 }
-  ).observe(hero);
+  apply();
+  reduced.addEventListener('change', apply);
 }
 
-document.querySelectorAll('.header-fixed').forEach(initFixedNav);
+document.querySelectorAll('.hero__media').forEach(initHeroVideo);
 
 function initScrollReveal() {
   const targets = document.querySelectorAll('.feature-stack');

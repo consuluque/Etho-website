@@ -72,50 +72,6 @@ header {
   padding: 0 24px;
 }
 
-/* The home nav floats over the hero photo, so it is fixed rather than
-   sticky — it has no space of its own in the flow. */
-.header-fixed {
-  position: fixed;
-  top: 16px;
-  left: 0;
-  right: 0;
-}
-.header-fixed .logo-img { height: 18px; }
-
-/* Glass pill for the nav sitting on the hero photo. */
-.nav-bar--glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-color: rgba(255, 255, 255, 0.26);
-  box-shadow: 0 10px 34px rgba(20, 16, 12, 0.18);
-}
-/* Scoped past .btn-solid, which is defined later and would otherwise
-   keep its dark fill. */
-.nav-bar .nav-cta {
-  background: #FFFFFF;
-  color: var(--ink);
-  font-size: 15px;
-  padding: 12px 26px;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-.nav-bar .nav-cta:hover { background: rgba(255, 255, 255, 0.86); }
-
-/* Past the hero the nav sits on the light page, where a white logo and a
-   white button would vanish — so swap to the light pill and dark marks.
-   initFixedNav() in main.js toggles .is-scrolled. */
-/* Scoped to .header-fixed so these outrank the later .logo-img rule. */
-.header-fixed .logo-on-light { display: none; }
-.header-fixed.is-scrolled .logo-on-dark { display: none; }
-.header-fixed.is-scrolled .logo-on-light { display: block; }
-.header-fixed.is-scrolled .nav-bar--glass {
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(35, 43, 36, 0.08);
-  box-shadow: 0 8px 32px rgba(35, 43, 36, 0.06);
-}
-.header-fixed.is-scrolled .nav-cta { background: var(--ink); color: #FFFFFF; }
-.header-fixed.is-scrolled .nav-cta:hover { background: #000000; }
-
 .nav-bar {
   width: min(1080px, 100%);
   display: flex;
@@ -212,47 +168,92 @@ nav.links {
 /* Hero */
 .hero {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+  overflow: hidden;
+  min-height: clamp(620px, 78vh, 780px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 150px 40px 100px;
-  overflow: hidden;
+  justify-content: flex-end;
 }
-.hero-bg {
+.hero__media {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 40%;
 }
+/* The spec's stops (0.30 / 0.02 / 0.62 / 0.85) were calibrated against the
+   dark tiled photo. The video is a light scene, so the near-transparent
+   window at 34% left the cream H1 at 1.5:1. Same colour and shape, deeper
+   through the middle, so the type clears WCAG while the top stays open. */
 .hero-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(20, 16, 12, 0.5) 0%, rgba(20, 16, 12, 0.28) 42%, rgba(20, 16, 12, 0.62) 100%);
+  background: linear-gradient(180deg,
+    rgba(50, 48, 49, 0.62) 0%,
+    rgba(50, 48, 49, 0.46) 20%,
+    rgba(50, 48, 49, 0.60) 48%,
+    rgba(50, 48, 49, 0.78) 78%,
+    rgba(50, 48, 49, 0.88) 100%);
 }
+
+/* Absolute, so the nav sits on the hero and does not follow the scroll. */
+.hero-nav {
+  position: absolute;
+  top: clamp(14px, 3vw, 28px);
+  left: clamp(14px, 3vw, 28px);
+  right: clamp(14px, 3vw, 28px);
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 8px 8px clamp(16px, 3vw, 22px);
+  border-radius: 999px;
+  background: rgba(247, 245, 240, 0.14);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(247, 245, 240, 0.22);
+}
+.hero-nav__mark {
+  font-family: var(--title-font);
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #F7F5F0;
+}
+.hero-nav__cta {
+  font-family: var(--body-font);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(247, 245, 240, 0.92);
+  color: #323031;
+  transition: background 120ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-nav__cta:hover { background: #FFFDF0; }
+
 .hero-content {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
-  width: 100%;
+  text-align: center;
+  gap: clamp(20px, 3.5vw, 28px);
+  padding: clamp(28px, 6vw, 72px) clamp(20px, 5vw, 64px) clamp(64px, 14vw, 96px);
+  color: #F7F5F0;
 }
 
 .hero-title {
   font-family: var(--title-font);
-  font-size: clamp(54px, 10.5vw, 124px);
+  font-size: clamp(56px, 11vw, 140px);
   font-weight: var(--title-weight);
-  line-height: 1.05;
+  line-height: 0.9;
   letter-spacing: var(--title-spacing);
-  color: var(--ink);
-  max-width: 1060px;
+  max-width: 13ch;
   text-wrap: balance;
+  margin: 0;
 }
 .drop-cap { font-size: 0.7273em; font-weight: 800; }
 
@@ -273,18 +274,15 @@ nav.links {
 
 .hero-sub {
   font-family: var(--body-font);
-  font-size: 24px;
+  font-size: clamp(18px, 2.4vw, 23px);
   font-weight: var(--body-weight);
-  color: var(--muted);
-  max-width: 580px;
-  line-height: 1.6;
-  text-wrap: balance;
+  color: rgba(247, 245, 240, 0.82);
+  max-width: 32ch;
+  line-height: 1.5;
+  text-wrap: pretty;
 }
 
-.hero-actions { display: flex; gap: 18px; align-items: center; margin-top: 8px; }
-
-.on-dark .hero-title { color: #FFFFFF; }
-.on-dark .hero-sub { color: rgba(255, 255, 255, 0.82); }
+.hero-actions { display: flex; gap: 18px; align-items: center; }
 
 /* The app-UI mockup that used to sit inside the hero, now that the hero
    is a full-bleed photo. */
@@ -1031,7 +1029,6 @@ footer {
   .shop-media { width: 100%; }
   .shop-stage { width: 100%; min-height: 400px; }
   .about { padding: 90px 32px; }
-  .hero { padding: 130px 24px 80px; }
   .showcase { padding: 90px 24px 0; }
   /* The float cards hang outside the hero image by design; once the
      viewport is narrow enough that the image fills it, those negative
@@ -1076,7 +1073,6 @@ footer {
 /* Mobile: collapse nav into a dropdown menu, stack hero badges */
 @media (max-width: 760px) {
   header { top: 12px; padding: 0 16px; }
-  .header-logo-only { padding-top: 30px; }
   .nav-bar {
     padding: 12px 16px;
     flex-wrap: wrap;
@@ -1105,9 +1101,6 @@ footer {
     margin-top: 6px;
   }
 
-  .hero { padding: 110px 20px 70px; }
-  .hero-content { gap: 24px; }
-  .hero-sub { font-size: 19px; }
   .showcase { padding: 70px 20px 0; }
   /* Float cards stop floating and stack under the image. */
   .hero-visual {
@@ -1163,7 +1156,6 @@ footer {
 
 /* Small phones */
 @media (max-width: 380px) {
-  .hero-title { font-size: clamp(42px, 13vw, 62px); }
   .card { padding: 25px 18px; }
   .size-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   /* Too narrow to hold the field and the button side by side, so stack
