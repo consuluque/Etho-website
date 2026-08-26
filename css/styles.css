@@ -246,7 +246,7 @@ nav.links {
 
 .hero-title {
   font-family: var(--title-font);
-  font-size: clamp(48px, 9vw, 108px);
+  font-size: clamp(54px, 10.5vw, 124px);
   font-weight: var(--title-weight);
   line-height: 1.05;
   letter-spacing: var(--title-spacing);
@@ -278,6 +278,7 @@ nav.links {
   color: var(--muted);
   max-width: 580px;
   line-height: 1.6;
+  text-wrap: balance;
 }
 
 .hero-actions { display: flex; gap: 18px; align-items: center; margin-top: 8px; }
@@ -1162,7 +1163,7 @@ footer {
 
 /* Small phones */
 @media (max-width: 380px) {
-  .hero-title { font-size: clamp(38px, 12vw, 56px); }
+  .hero-title { font-size: clamp(42px, 13vw, 62px); }
   .card { padding: 25px 18px; }
   .size-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   /* Too narrow to hold the field and the button side by side, so stack
