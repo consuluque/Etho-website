@@ -1058,3 +1058,125 @@ footer {
   .waitlist-submit { flex: 1 0 100%; padding: 13px 16px; }
   .closing-content { padding: 22px; }
 }
+
+/* ---------------------------------------------------------------
+   Legal pages (privacy, terms)
+   Long-form reading: one narrow column, generous leading, and a
+   numbered structure so a clause can be pointed at by name.
+   --------------------------------------------------------------- */
+
+.legal {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(40px, 8vw, 96px) clamp(20px, 5vw, 40px) clamp(80px, 12vw, 140px);
+}
+
+.legal__title {
+  font-family: var(--title-font);
+  font-weight: var(--title-weight);
+  letter-spacing: var(--title-spacing);
+  font-size: clamp(34px, 6vw, 56px);
+  line-height: 1.05;
+  margin: 12px 0 0;
+  color: var(--ink);
+}
+
+.legal__meta {
+  font-family: var(--body-font);
+  font-size: 14px;
+  color: var(--muted);
+  margin: 18px 0 0;
+}
+
+.legal__intro {
+  font-family: var(--body-font);
+  font-size: clamp(17px, 2.2vw, 19px);
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 32px 0 0;
+  text-wrap: pretty;
+}
+
+.legal section { margin-top: clamp(40px, 6vw, 64px); }
+
+/* Clear the sticky nav when a section is linked to directly. */
+.legal h2, .legal h3 { scroll-margin-top: 120px; }
+
+.legal h2 {
+  font-family: var(--subtitle-font);
+  font-weight: 600;
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+
+.legal h3 {
+  font-family: var(--subtitle-font);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  margin: 28px 0 8px;
+}
+
+.legal p,
+.legal li {
+  font-family: var(--body-font);
+  font-weight: var(--body-weight);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.legal p { margin: 0 0 14px; }
+.legal ul { margin: 0 0 14px; padding-left: 20px; }
+.legal li { margin-bottom: 8px; }
+.legal li::marker { color: var(--muted); }
+
+.legal a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.legal a:hover { color: var(--eyebrow); }
+
+.legal strong { font-weight: 600; }
+
+/* A clause that carries more weight than the ones around it. */
+.legal__callout {
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+.legal__callout p:last-child { margin-bottom: 0; }
+
+/* Definition-style rows for the third parties table. */
+.legal__parties { list-style: none; padding: 0; margin: 0; }
+.legal__parties li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  margin: 0;
+}
+.legal__parties li:first-child { border-top: 1px solid var(--rule); }
+.legal__parties span {
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+}
+.legal__parties em {
+  display: block;
+  font-style: normal;
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Marks text the operator still has to fill in before launch. */
+.legal__todo {
+  background: #FFF3CD;
+  color: #6B4E00;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
