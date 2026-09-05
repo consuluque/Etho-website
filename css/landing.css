@@ -1,0 +1,363 @@
+/* ---------------------------------------------------------------
+   preview.html — the candidate landing page.
+
+   Layered on top of styles.css so the preview inherits the live
+   site's tokens, type scale, hero, nav and footer unchanged. Only
+   the new sections live here; nothing in this file is loaded by
+   index.html, so the live page is untouched.
+   --------------------------------------------------------------- */
+
+/* Visible to a screen reader, not on screen. */
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The hero headline is a full sentence rather than three words, so it
+   needs more measure than the live page's 13ch. */
+.hero-title { max-width: 17ch; }
+
+/* 20% down on every stop of the shared clamp(56px, 11vw, 140px). Scoped to
+   the home hero so the partners hero and the archived v1 keep theirs. */
+.hero--home .hero-title { font-size: clamp(45px, 8.8vw, 112px); }
+.hero-sub { max-width: 46ch; }
+
+/* Early-access form — same glass pill as the waitlist, but the markup
+   ships open, so it takes the sizing the live page applies via JS. */
+.access-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(440px, 100%);
+}
+.access-slot .waitlist-status:empty { display: none; }
+
+/* Below this the placeholder no longer clears the button, so the field
+   becomes a full-width row above it. */
+@media (max-width: 480px) {
+  .access-slot .waitlist-form {
+    flex-wrap: wrap;
+    border-radius: 24px;
+    padding: 10px;
+    gap: 8px;
+  }
+  .access-slot .waitlist-input { flex: 1 0 100%; padding: 10px 14px; }
+  .access-slot .waitlist-submit { flex: 1 0 100%; width: 100%; }
+}
+
+/* Sections share the page container. */
+.logos,
+.steps,
+.pillars {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* A quiet label above a section. */
+.kicker {
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--eyebrow);
+}
+
+/* ---------------------------------------------------------------
+   2 — Provider and brand wall
+   --------------------------------------------------------------- */
+
+/* No bottom padding: the next section's top padding already carries the
+   gap, and doubling them left a dead band under the wall. */
+.logos {
+  padding: clamp(72px, 12vw, 128px) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vw, 52px);
+}
+/* The kicker keeps the page gutter; the wall runs to the edge so the
+   marquee can slide off it. */
+.logos .kicker { padding: 0 clamp(20px, 5vw, 64px); }
+
+.logo-wall { overflow: hidden; }
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 20px;
+  color: var(--ink);
+  opacity: 0.55;
+  transition: opacity 200ms var(--ease);
+}
+.logo:hover { opacity: 1; }
+
+.logo__svg {
+  width: 100%;
+  max-width: 190px;
+  height: auto;
+  fill: currentColor;
+}
+.logo__word {
+  font-family: var(--body-font);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  fill: currentColor;
+}
+.logo__word--tracked { font-size: 13px; font-weight: 700; letter-spacing: 1.4px; }
+.logo__word--bold { font-size: 17px; font-weight: 700; letter-spacing: 0.4px; }
+.logo__word--serif { font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; }
+
+/* Mobile: one continuous row. preview.js clones .logo-set so the track
+   can loop seamlessly; the animation shifts by exactly one set. */
+.logo-track { display: flex; width: max-content; }
+.logo-set { display: flex; flex: none; }
+.logo-set .logo { width: 190px; flex: none; }
+
+.logo-track.is-marquee { animation: logo-marquee 48s linear infinite; }
+.logo-wall:hover .logo-track.is-marquee,
+.logo-track.is-marquee:focus-within { animation-play-state: paused; }
+
+@keyframes logo-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-track.is-marquee { animation: none; }
+}
+
+/* Tablet and up: a static grid, no marquee. */
+@media (min-width: 741px) {
+  .logo-track { display: block; width: 100%; }
+  .logo-set {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 24px);
+    width: 100%;
+    padding: 0 clamp(20px, 5vw, 64px);
+  }
+  .logo-set .logo { width: auto; }
+  /* The clone only exists to close the loop. */
+  .logo-set[data-logo-clone] { display: none; }
+}
+
+@media (min-width: 1001px) {
+  .logo-set { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------------------------------------------------------------
+   3 — How it works
+   --------------------------------------------------------------- */
+
+.steps {
+  padding: clamp(72px, 12vw, 128px) clamp(20px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 8vw, 88px);
+}
+
+.steps__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 6vw, 48px);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+}
+.step__num {
+  font-family: var(--title-font);
+  font-size: clamp(28px, 5vw, 38px);
+  line-height: 1;
+  letter-spacing: var(--title-spacing);
+  color: var(--eyebrow);
+}
+.step__title {
+  font-family: var(--subtitle-font);
+  font-size: clamp(22px, 4vw, 27px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.step__copy {
+  font-family: var(--body-font);
+  font-size: clamp(16px, 3.6vw, 18px);
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 32ch;
+  text-wrap: pretty;
+}
+
+.steps__punch {
+  font-family: var(--title-font);
+  font-size: clamp(38px, 9vw, 74px);
+  font-weight: var(--title-weight);
+  letter-spacing: var(--title-spacing);
+  line-height: 0.98;
+  color: var(--ink);
+}
+
+@media (min-width: 741px) {
+  .steps__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 48px); }
+}
+
+/* ---------------------------------------------------------------
+   4 — The four pillars
+   --------------------------------------------------------------- */
+
+.pillars {
+  padding: 0 clamp(20px, 5vw, 64px) clamp(88px, 14vw, 140px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 44px);
+}
+
+.pillar-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(14px, 2vw, 20px);
+}
+
+.pillar-card {
+  background: var(--panel);
+  border: 1px solid rgba(35, 43, 36, 0.06);
+  border-radius: 24px;
+  padding: clamp(24px, 3vw, 30px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pillar-card__icon {
+  width: 26px;
+  height: 26px;
+  color: var(--eyebrow);
+  margin-bottom: 6px;
+}
+.pillar-card__title {
+  font-family: var(--title-font);
+  font-size: clamp(26px, 4vw, 32px);
+  font-weight: var(--title-weight);
+  letter-spacing: var(--title-spacing);
+  line-height: 1;
+  color: var(--ink);
+}
+.pillar-card__copy {
+  font-family: var(--body-font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.pillar-card__list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pillar-card__list li {
+  position: relative;
+  padding-left: 16px;
+  font-family: var(--body-font);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.pillar-card__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--app-accent);
+}
+
+@media (min-width: 641px) {
+  .pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1001px) {
+  .pillar-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------------------------------------------------------------
+   Sticky mobile CTA — see initStickyCta() in preview.js
+   --------------------------------------------------------------- */
+
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  display: none;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(247, 245, 240, 0) 0%, rgba(247, 245, 240, 0.92) 42%);
+  /* Kept out of the tab order and off the pointer until it is shown. */
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease);
+}
+.sticky-cta.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+.sticky-cta__btn { display: block; width: 100%; text-align: center; }
+
+@media (max-width: 760px) {
+  .sticky-cta { display: block; }
+  /* Room for the bar, so it never covers the last footer line. */
+  .site-footer { padding-bottom: 96px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-cta { transition: opacity 220ms var(--ease); transform: none; }
+}
+
+/* ---------------------------------------------------------------
+   partners.html — a single hero for providers and brands.
+   --------------------------------------------------------------- */
+
+/* No video here, so the hero carries a photo instead. There is nothing
+   under it but the footer, so it runs taller than the home page's. */
+.hero--partners {
+  background-image: url('../assets/images/Doggie5.jpg');
+  background-position: 50% 45%;
+  min-height: clamp(560px, 72vh, 720px);
+}
+@media (min-width: 901px) {
+  .hero--partners { min-height: clamp(640px, 80vh, 860px); }
+}
+
+.hero-kicker {
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: rgba(247, 245, 240, 0.75);
+}
+/* The gap between hero children is sized for the headline block, which
+   leaves the kicker floating; pull it back onto the title. */
+.hero-content .hero-kicker { margin-bottom: calc(clamp(20px, 3.5vw, 28px) * -0.5); }
