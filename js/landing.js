@@ -1,6 +1,6 @@
-/* preview.html only — the new sections, the sticky mobile CTA and the
-   analytics events. main.js still carries the hero video, the reveal
-   animation and the fixed wordmark, which the preview reuses as-is. */
+/* The landing pages — the home page and the partners page. main.js still
+   carries the hero video, the reveal animation and the fixed wordmark,
+   which both reuse as-is. */
 
 /* ---------------------------------------------------------------
    Analytics
@@ -100,12 +100,15 @@ function initAccessForm(form) {
   const submitLabel = submitBtn.textContent;
   // The address lives in the markup's action, so it is written once.
   const endpoint = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+  // Each page names its own form, so the events say which one converted.
+  const name = form.dataset.formName || 'early_access';
+  const subject = form.querySelector('[name="_subject"]');
   let started = false;
 
   const markStarted = () => {
     if (started) return;
     started = true;
-    track('form_start', { form: 'early_access' });
+    track('form_start', { form: name });
   };
   input.addEventListener('focus', markStarted);
   input.addEventListener('input', markStarted);
@@ -125,7 +128,7 @@ function initAccessForm(form) {
     }
 
     markStarted();
-    track('form_submit', { form: 'early_access' });
+    track('form_submit', { form: name });
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
@@ -135,19 +138,22 @@ function initAccessForm(form) {
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ email: email, _subject: 'New Etho early access signup' }),
+        body: JSON.stringify({
+          email: email,
+          _subject: subject ? subject.value : 'New Etho signup',
+        }),
       });
       if (!res.ok) throw new Error('Request failed');
 
       form.remove();
-      setStatus("You're on the list — we'll be in touch.", false);
+      setStatus(form.dataset.doneMessage || "You're on the list — we'll be in touch.", false);
       if (status) status.classList.add('waitlist-status--done');
-      track('form_success', { form: 'early_access' });
+      track('form_success', { form: name });
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.textContent = submitLabel;
       setStatus('Something went wrong — please try again.', true);
-      track('form_error', { form: 'early_access' });
+      track('form_error', { form: name });
     }
   });
 }
