@@ -24,6 +24,10 @@
 /* The hero headline is a full sentence rather than three words, so it
    needs more measure than the live page's 13ch. */
 .hero-title { max-width: 17ch; }
+
+/* 20% down on every stop of the shared clamp(56px, 11vw, 140px). Scoped to
+   the home hero so the partners hero and the archived v1 keep theirs. */
+.hero--home .hero-title { font-size: clamp(45px, 8.8vw, 112px); }
 .hero-sub { max-width: 46ch; }
 
 /* Early-access form — same glass pill as the waitlist, but the markup
@@ -332,11 +336,11 @@
 }
 
 /* ---------------------------------------------------------------
-   partners.html — a two-section page for providers and brands.
+   partners.html — a single hero for providers and brands.
    --------------------------------------------------------------- */
 
-/* No video here, so the hero carries a photo instead. It is shorter than
-   the home page's: there is one section under it, not four. */
+/* No video here, so the hero carries a photo instead. There is nothing
+   under it but the footer, so it runs taller than the home page's. */
 .hero--partners {
   background-image: url('../assets/images/Doggie5.jpg');
   background-position: 50% 45%;
@@ -357,86 +361,3 @@
 /* The gap between hero children is sized for the headline block, which
    leaves the kicker floating; pull it back onto the title. */
 .hero-content .hero-kicker { margin-bottom: calc(clamp(20px, 3.5vw, 28px) * -0.5); }
-
-.hero-aside {
-  font-family: var(--body-font);
-  font-size: 15px;
-  color: rgba(247, 245, 240, 0.75);
-}
-.hero-aside a {
-  color: #F7F5F0;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.partner-why {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  /* The footer brings its own top padding, so this stops short of the
-     full section rhythm rather than doubling it. */
-  padding: clamp(72px, 12vw, 128px) clamp(20px, 5vw, 64px) clamp(40px, 6vw, 72px);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(28px, 4vw, 44px);
-}
-
-.partner-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(28px, 4vw, 40px);
-}
-
-.partner-point {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 22px;
-  border-top: 1px solid var(--rule);
-}
-.partner-point__title {
-  font-family: var(--subtitle-font);
-  font-size: clamp(21px, 3.4vw, 25px);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  max-width: 20ch;
-  text-wrap: balance;
-}
-.partner-point__copy {
-  font-family: var(--body-font);
-  font-size: clamp(16px, 3.6vw, 17px);
-  line-height: 1.55;
-  color: var(--muted);
-  max-width: 40ch;
-  text-wrap: pretty;
-}
-
-.partner-close {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding-top: clamp(28px, 5vw, 44px);
-}
-.partner-close__line {
-  font-family: var(--title-font);
-  font-size: clamp(28px, 6vw, 44px);
-  font-weight: var(--title-weight);
-  letter-spacing: var(--title-spacing);
-  line-height: 1.05;
-  color: var(--ink);
-  max-width: 18ch;
-}
-.partner-close__btn { flex: none; }
-
-@media (min-width: 741px) {
-  .partner-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 40px); }
-  .partner-close {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-  }
-}
