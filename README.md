@@ -4,62 +4,52 @@ Pre-launch marketing site for Etho. Plain static HTML/CSS/JS, no backend, no bui
 
 ## Structure
 
+The site is currently a holding page. Everything else is kept in the repo
+but redirected to it — see "Putting the site back" below.
+
 ```
-index.html     — home page
-partners.html  — providers and brands page (/partners)
-home-v1.html   — the previous home page, kept for reference (noindex)
+index.html     — the holding page ("Coming soon"), all that is served
+404.html       — a copy of it, so unknown URLs read the same
+vercel.json    — the redirects that point every other page at /
+css/coming-soon.css  — self-contained; shares nothing with the pages below
+
+home-v2.html   — the landing page that was live before the holding page
+home-v1.html   — the original home page, before that
+partners.html  — providers and brands page
 shop.html      — shop page ("coming soon")
 privacy.html, terms.html
-css/styles.css   — shared tokens, hero, nav, footer
+css/styles.css   — shared tokens, hero, nav, footer (used by the above)
 css/landing.css  — the home and partners sections
 js/main.js       — hero video, reveal-on-scroll, fixed nav, v1 waitlist form
 js/landing.js    — email forms, logo marquee, sticky CTA, analytics
 assets/images/ — drop product/lifestyle photos here (see below)
 ```
 
-## Going back to the previous home page
+The Commission Factory verification file is deliberately **not** redirected:
+it is a domain-ownership proof read by a machine, not a page, and it has to
+keep serving its token at its own URL.
 
-The home page was replaced in September 2026. The old one is kept two ways:
+## Putting the site back
 
-- **`home-v1.html`** — the same file, live at `/home-v1` but held out of search
-  so it never competes with the home page. To restore it, copy it back over
-  `index.html`. It only needs `css/styles.css` and `js/main.js`, both unchanged.
-- **Commit `4a207e4`** — the last commit before the change, if an exact
-  rollback of the whole site is wanted: `git checkout 4a207e4`. Worth tagging
-  so it stays easy to find:
+Nothing was deleted, so restoring is two steps:
 
-  ```
-  git tag -a home-v1 4a207e4 -m "Home page before the landing redesign"
-  git push origin home-v1
-  ```
+1. Copy the version you want over `index.html` — `home-v2.html` for the
+   landing page that was live most recently, `home-v1.html` for the
+   original.
+2. Delete the redirects from `vercel.json` (or the whole file) so the other
+   pages serve again.
 
-## Landing page notes
+The redirects are temporary (307), not permanent, so no browser or crawler
+caches them as final — the old URLs start working again the moment the
+config is removed.
 
-Two things are still placeholders on the home page:
+Earlier versions are also in git: commit `4a207e4` is the site before the
+landing redesign. Worth tagging so it stays easy to find:
 
-- **Provider and brand logos** are invented — plain SVG wordmarks in one house
-  style, standing in for the real partners. Replace them in the `.logo-set`
-  block of `index.html`.
-- **Analytics** has no vendor wired up. `track()` in `js/landing.js` pushes
-  `page_view`, `form_start`, `form_submit`, `form_success` / `form_error`,
-  `section_view` and `scroll_depth` to `window.dataLayer`, calls `gtag` or
-  `plausible` if either is on the page, and re-dispatches each one as an
-  `etho:analytics` DOM event. Set `window.ETHO_DEBUG_ANALYTICS = true` in the
-  console to watch them fire.
-
-Both landing pages post their email forms to FormSubmit; each names its own
-`_subject` and `data-form-name`, so signups and partner applications arrive
-separately and report separately.
-
-## Assets still needed
-
-The original design referenced a hero photo and a decorative gradient background that
-weren't included in the export, so the site currently ships with clean fallbacks instead
-(a neutral background behind the hero, a CSS gradient behind the About section). To match
-the original design exactly, add:
-
-- `assets/images/hero-dog.jpg` — hero shot of a dog wearing the collar (referenced by `index.html`; falls back to a solid background if missing)
-- `assets/images/gradient-b.png` — the "Gradient B" background used behind the About section's CTA (referenced by `css/styles.css`; falls back to a CSS gradient approximation if missing)
+```
+git tag -a home-v1 4a207e4 -m "Home page before the landing redesign"
+git push origin home-v1
+```
 
 ## Local preview
 

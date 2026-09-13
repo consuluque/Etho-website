@@ -1,0 +1,104 @@
+/* ---------------------------------------------------------------
+   The holding page.
+
+   Deliberately self-contained: it shares no stylesheet with the
+   archived pages, so they can be deleted, restored or rewritten
+   without touching what the site currently serves.
+   --------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Soyuz Grotesk';
+  src: url('../assets/fonts/SoyuzGrotesk-Bold.woff2') format('woff2'),
+       url('../assets/fonts/SoyuzGrotesk-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --page: #F7F5F0;
+  --ink: #323031;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+
+body {
+  background: var(--ink);
+  color: var(--page);
+  font-family: 'Manrope', sans-serif;
+  overflow: hidden;
+}
+
+/* svh, so the bar-less viewport on a phone does not push the content
+   below the fold as the browser chrome retracts. */
+.cs {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.5vw, 20px);
+  padding: clamp(24px, 6vw, 64px);
+  text-align: center;
+  overflow: hidden;
+
+  /* The still frame is painted here rather than by the video's poster
+     attribute, so the page looks right whether or not the video runs. */
+  background-image: url('../assets/images/hero-poster.jpg');
+  background-size: cover;
+  background-position: 50% 40%;
+  background-repeat: no-repeat;
+}
+
+/* A backdrop, not a player. iOS draws its own start-playback button over
+   any video it has refused to autoplay, so the element stays invisible
+   until frames are actually running; see the script in index.html. */
+.cs__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease);
+}
+.cs__media.is-playing { opacity: 1; }
+
+.cs__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(50, 48, 49, 0.58) 0%,
+    rgba(50, 48, 49, 0.50) 45%,
+    rgba(50, 48, 49, 0.72) 100%);
+}
+
+.cs__mark,
+.cs__line { position: relative; z-index: 1; }
+
+.cs__mark {
+  font-family: 'Soyuz Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(52px, 14vw, 132px);
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  margin: 0;
+}
+
+.cs__line {
+  font-size: clamp(16px, 3.4vw, 21px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(247, 245, 240, 0.82);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs__media { transition: none; }
+}

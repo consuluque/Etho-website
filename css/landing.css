@@ -21,13 +21,15 @@
   border: 0;
 }
 
-/* The hero headline is a full sentence rather than three words, so it
-   needs more measure than the live page's 13ch. */
-.hero-title { max-width: 17ch; }
-
-/* 20% down on every stop of the shared clamp(56px, 11vw, 140px). Scoped to
-   the home hero so the partners hero and the archived v1 keep theirs. */
-.hero--home .hero-title { font-size: clamp(45px, 8.8vw, 112px); }
+/* Both landing heroes carry a sentence rather than three words, so they
+   need more measure, and less size, than the v1 headline they inherit
+   from styles.css — one shared step down from its clamp(56px, 11vw,
+   140px) so the home and partners titles set at the same size. Only
+   these two pages load this file, so home-v1 keeps the original. */
+.hero-title {
+  max-width: 17ch;
+  font-size: clamp(36px, 7vw, 90px);
+}
 .hero-sub { max-width: 46ch; }
 
 /* Early-access form — same glass pill as the waitlist, but the markup
