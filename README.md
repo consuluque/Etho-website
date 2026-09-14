@@ -8,7 +8,7 @@ The site is currently a holding page. Everything else is kept in the repo
 but redirected to it — see "Putting the site back" below.
 
 ```
-index.html     — the holding page ("Coming soon"), all that is served
+index.html     — the holding page ("Coming soon" + waitlist), all that is served
 404.html       — a copy of it, so unknown URLs read the same
 vercel.json    — the redirects that point every other page at /
 css/coming-soon.css  — self-contained; shares nothing with the pages below
@@ -24,6 +24,11 @@ js/main.js       — hero video, reveal-on-scroll, fixed nav, v1 waitlist form
 js/landing.js    — email forms, logo marquee, sticky CTA, analytics
 assets/images/ — drop product/lifestyle photos here (see below)
 ```
+
+Waitlist signups from the holding page post to FormSubmit and arrive at the
+address in the form's `action`. The form and its styles are written into the
+holding page itself rather than pulled from `styles.css`, so it stays
+independent of the archived pages.
 
 The Commission Factory verification file is deliberately **not** redirected:
 it is a domain-ownership proof read by a machine, not a page, and it has to

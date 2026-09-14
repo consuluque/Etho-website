@@ -7,7 +7,7 @@
 <meta name="description" content="Etho is coming soon.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/coming-soon.css">
 </head>
 <body>
@@ -20,6 +20,19 @@
 
   <h1 class="cs__mark">etho</h1>
   <p class="cs__line">Coming soon</p>
+
+  <!-- Ships in the markup rather than being built by script, so it still
+       submits with JS off; the script below upgrades it to a fetch. -->
+  <div class="cs__slot">
+    <form class="cs__form" action="https://formsubmit.co/consuluque@gmail.com" method="POST">
+      <label class="cs__label" for="waitlist-email">Email address</label>
+      <input id="waitlist-email" type="email" name="email" class="cs__input"
+             placeholder="goodhuman@mail.com" autocomplete="email" required>
+      <input type="hidden" name="_subject" value="New Etho waitlist signup">
+      <button type="submit" class="cs__submit">Join waitlist</button>
+    </form>
+    <p class="cs__status" aria-live="polite"></p>
+  </div>
 </main>
 
 <script>
@@ -72,6 +85,47 @@
 
   tryPlay();
   reduced.addEventListener('change', tryPlay);
+})();
+
+// The waitlist form posts to FormSubmit. This upgrades it to a fetch so
+// the holding page never navigates away.
+(function () {
+  var form = document.querySelector('.cs__form');
+  if (!form) return;
+
+  var slot = form.parentElement;
+  var status = slot.querySelector('.cs__status');
+  var input = form.querySelector('.cs__input');
+  var button = form.querySelector('.cs__submit');
+  var label = button.textContent;
+  // The address lives in the markup's action, so it is written once.
+  var endpoint = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    status.textContent = '';
+    status.classList.remove('is-error');
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ email: input.value.trim(), _subject: 'New Etho waitlist signup' })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('Request failed');
+      form.remove();
+      status.textContent = "You're on the list — we'll be in touch.";
+      status.classList.add('is-done');
+    }).catch(function () {
+      button.disabled = false;
+      button.textContent = label;
+      status.textContent = 'Something went wrong — please try again.';
+      status.classList.add('is-error');
+    });
+  });
 })();
 </script>
 </body>
