@@ -99,6 +99,86 @@ body {
   margin: 0;
 }
 
+/* Waitlist — the same glass pill the rest of the site used, rebuilt here
+   rather than pulled from styles.css so the holding page keeps sharing no
+   stylesheet with the archived pages. */
+.cs__slot {
+  position: relative;
+  z-index: 1;
+  width: min(400px, 100%);
+  margin-top: clamp(8px, 1.5vw, 14px);
+}
+
+.cs__form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  padding: 7px 7px 7px 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08);
+}
+
+/* Visible to a screen reader, not on screen. */
+.cs__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cs__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: inherit;
+  font-size: 16px;
+  color: #FFFFFF;
+}
+.cs__input::placeholder { color: rgba(255, 255, 255, 0.7); }
+
+.cs__submit {
+  flex: none;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cs__submit:disabled { cursor: default; opacity: 0.7; }
+
+.cs__status {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: rgba(247, 245, 240, 0.85);
+}
+.cs__status:empty { display: none; }
+.cs__status.is-error { color: #FFC9C2; }
+.cs__status.is-done { font-size: 17px; font-weight: 500; color: #FFFFFF; }
+
+/* Below this the placeholder no longer clears the button, so the field
+   becomes a full-width row above it. */
+@media (max-width: 480px) {
+  .cs__form { flex-wrap: wrap; border-radius: 24px; padding: 10px; gap: 8px; }
+  .cs__input { flex: 1 0 100%; padding: 10px 14px; }
+  .cs__submit { flex: 1 0 100%; width: 100%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cs__media { transition: none; }
 }
