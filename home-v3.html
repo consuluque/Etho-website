@@ -20,10 +20,21 @@
     <a class="site-nav__mark" href="#top">etho</a>
   </nav>
 
-  <!-- Desktop only; below 760px the sticky bar at the foot of the page
-       takes over. -->
-  <div class="site-nav site-nav--cta">
-    <a class="btn-solid site-nav__cta" href="#early-access">Join the waitlist</a>
+  <!-- Appears once the hero is half scrolled past; see initNavForm() in
+       home-v3.js. Desktop only — below 901px the sticky bar at the foot
+       of the page takes over. -->
+  <div class="site-nav site-nav--cta" data-nav-form>
+    <div id="nav-access" class="access-slot">
+      <form class="waitlist-form access-form" data-form-name="nav"
+            action="https://formsubmit.co/consuluque@gmail.com" method="POST">
+        <label class="u-visually-hidden" for="nav-email">Email address</label>
+        <input id="nav-email" type="email" name="email" class="waitlist-input"
+               placeholder="goodhuman@mail.com" autocomplete="email" required>
+        <input type="hidden" name="_subject" value="New Etho waitlist signup">
+        <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
+      </form>
+      <p class="waitlist-status" aria-live="polite"></p>
+    </div>
   </div>
 
   <!-- 1 — Hero ---------------------------------------------------------- -->
@@ -131,14 +142,13 @@
   </section>
 
   <!-- 3 — More ways to love them ------------------------------------------ -->
-  <!-- Flipped: what you can actually buy and book sits left, words hard right. -->
+  <!-- Words left; what you can actually buy and book stands on the right. -->
   <section class="v3-section" id="ways" data-section="ways">
-    <div class="v3-split v3-split--flip">
+    <div class="v3-split">
 
       <div class="v3-split__text">
         <h2 class="v3-title" data-reveal>More ways to love them</h2>
         <p class="v3-copy" data-reveal>Turn understanding into better care. Discover products picked for your dog, exclusive offers from premium brands, and great local services, from groomers and trainers to daycare and more.</p>
-        <a class="btn-outline-lg" href="#early-access" data-reveal>Join the waitlist</a>
       </div>
 
       <div class="v3-split__media" data-reveal>
@@ -253,5 +263,6 @@
 
 <script src="js/main.js"></script>
 <script src="js/landing.js"></script>
+<script src="js/home-v3.js"></script>
 </body>
 </html>

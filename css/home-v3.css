@@ -8,10 +8,9 @@
    index.html.
 
    The layout rule for the whole page: on desktop a section is two
-   columns — the words in one, something to look at in the other — and
-   the words sit hard against their own edge, alternating left and
-   right down the page. Under 901px that all collapses to one centred
-   column, stacked vertically.
+   columns — the words on the left, something to look at on the right.
+   Under 901px that collapses to one centred column, stacked
+   vertically.
    --------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------
@@ -56,44 +55,94 @@
 }
 
 /* ---------------------------------------------------------------
-   The fixed desktop CTA
+   The waitlist form pinned to the top of the page
 
-   It sits at the top right, opposite the centred wordmark, and stays
-   there for the whole page. It carries .site-nav so main.js toggles
-   .is-past-hero on it along with the wordmark, but it is a bare button
-   rather than a glass pill, so the pill's own chrome is cleared here.
-   Below 760px it gives way to the sticky bar at the foot of the page.
+   It sits at the top right, opposite the centred wordmark, and is
+   hidden until the hero is half scrolled past — initNavForm() in
+   home-v3.js adds .is-visible. It carries .site-nav as well, so
+   main.js toggles .is-past-hero on it along with the wordmark: that is
+   what takes it from glass over the video to solid over the page
+   below. The pill's own chrome is cleared here, since the form brings
+   its own.
+
+   Below 901px it is hidden outright and the sticky bar at the foot of
+   the page does the same job.
    --------------------------------------------------------------- */
 
 .site-nav--cta {
   left: auto;
   right: clamp(16px, 3vw, 28px);
-  transform: none;
   padding: 0;
   background: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  /* visibility, not just opacity: a hidden form must be out of the tab
+     order too. It is delayed so it only takes effect once the fade has
+     finished. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  pointer-events: none;
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease),
+              visibility 0s linear 220ms;
+}
+.site-nav--cta.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease),
+              visibility 0s;
 }
 .site-nav--cta.is-past-hero { background: none; box-shadow: none; }
 
-/* Cream over the hero video, where an ink button would disappear into
-   the scrim; ink once the page below is light. */
-.site-nav__cta {
-  font-size: 15px;
-  padding: 12px 24px;
-  background: #F7F5F0;
-  color: var(--ink);
-  box-shadow: 0 8px 28px rgba(50, 48, 49, 0.22);
-  transition: background 120ms var(--ease), color 120ms var(--ease);
+.site-nav--cta .access-slot { width: min(360px, 42vw); }
+
+/* Smaller than the hero's form — it has to share the top of the page
+   with the wordmark. */
+.site-nav--cta .waitlist-form {
+  padding: 5px 5px 5px 18px;
+  gap: 8px;
+  box-shadow: 0 8px 28px rgba(50, 48, 49, 0.14);
 }
-.site-nav--cta.is-past-hero .site-nav__cta {
-  background: var(--ink);
-  color: #FFFFFF;
-  box-shadow: 0 8px 28px rgba(50, 48, 49, 0.16);
+.site-nav--cta .waitlist-input { font-size: 14px; }
+.site-nav--cta .waitlist-submit { padding: 10px 18px; font-size: 14px; }
+.site-nav--cta .waitlist-status { font-size: 13px; }
+
+/* Over the hero video, where the page's own ink would disappear into
+   the scrim: the same glass the hero form uses. */
+.site-nav--cta .waitlist-form {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+.site-nav--cta .waitlist-input { color: #FFFFFF; }
+.site-nav--cta .waitlist-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.site-nav--cta .waitlist-submit { background: #FFFFFF; color: var(--ink); }
+.site-nav--cta .waitlist-status { color: rgba(255, 255, 255, 0.9); }
+
+/* Past the hero, on the light page. */
+.site-nav--cta.is-past-hero .waitlist-form {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(35, 43, 36, 0.12);
+}
+.site-nav--cta.is-past-hero .waitlist-input { color: var(--ink); }
+.site-nav--cta.is-past-hero .waitlist-input::placeholder { color: var(--muted); }
+.site-nav--cta.is-past-hero .waitlist-submit { background: var(--ink); color: #FFFFFF; }
+.site-nav--cta.is-past-hero .waitlist-status { color: var(--muted); }
+
+/* One or the other, never both, and they change over at the same width
+   the layout does. landing.css turns the bar on at 760px, so the band
+   between would otherwise carry neither. */
+@media (max-width: 900px) {
+  .site-nav--cta { display: none; }
+  .sticky-cta { display: block; }
+  .site-footer { padding-bottom: 96px; }
 }
 
-@media (max-width: 760px) {
-  .site-nav--cta { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .site-nav--cta { transform: none; }
 }
 
 /* ---------------------------------------------------------------
@@ -129,12 +178,6 @@
   .v3-split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .v3-split__text { align-items: flex-start; text-align: left; }
-
-  /* Media first in source order would put the picture before the words
-     for a screen reader on mobile; instead the markup always leads with
-     the text and the columns are swapped here. */
-  .v3-split--flip .v3-split__text { order: 2; align-items: flex-end; text-align: right; }
-  .v3-split--flip .v3-split__media { order: 1; }
 }
 
 /* ---------------------------------------------------------------
