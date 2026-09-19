@@ -1,0 +1,476 @@
+/* ---------------------------------------------------------------
+   home-v3.css — the two-column landing page.
+
+   Layered on styles.css (tokens, hero, waitlist glass, closing panel,
+   footer) and landing.css (.kicker, .access-slot, .sticky-cta), so v3
+   only adds what is genuinely new: the split layout and the sections
+   built on it. Nothing here is loaded by index.html.
+
+   The layout rule for the whole page: on desktop a section is two
+   columns — the words in one, something to look at in the other — and
+   the words sit hard against their own edge, alternating left and
+   right down the page. Under 901px that all collapses to one centred
+   column, stacked vertically.
+   --------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------
+   1 — Hero
+
+   Full-screen, with the dog video behind it. The copy takes the left
+   half on desktop so the video is never fully covered; on a phone it
+   centres like everything else.
+   --------------------------------------------------------------- */
+
+.hero--v3 {
+  /* svh, not vh: on iOS vh is the tallest viewport, so the CTA would
+     start life hidden behind the browser chrome. */
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.hero-content--v3 {
+  padding-bottom: clamp(56px, 12vw, 104px);
+}
+
+.hero--v3 .hero-title {
+  font-size: clamp(40px, 7.4vw, 96px);
+  max-width: 14ch;
+}
+
+/* The third paragraph carries the detail, so it steps down from the
+   lead and takes a wider measure. */
+.hero-note {
+  font-family: var(--body-font);
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.6;
+  color: rgba(247, 245, 240, 0.7);
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+
+@media (min-width: 901px) {
+  .hero-content--v3 {
+    align-items: flex-start;
+    text-align: left;
+    /* Just over half the 1200px container, so the words read as one
+       column and the dog holds the other. */
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .hero-content--v3 > * { max-width: 640px; }
+  .hero-content--v3 .access-slot { align-items: flex-start; }
+  .hero-content--v3 .waitlist-status { text-align: left; }
+}
+
+/* ---------------------------------------------------------------
+   The split — one section, two columns
+   --------------------------------------------------------------- */
+
+.v3-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(72px, 11vw, 124px) clamp(20px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vw, 72px);
+}
+
+.v3-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 6vw, 80px);
+  align-items: center;
+}
+
+.v3-split__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(16px, 2.4vw, 24px);
+  min-width: 0;
+}
+
+.v3-split__media { min-width: 0; }
+
+@media (min-width: 901px) {
+  .v3-split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .v3-split__text { align-items: flex-start; text-align: left; }
+
+  /* Media first in source order would put the image before the words
+     for a screen reader on mobile; instead the markup always leads
+     with the text and the columns are swapped here. */
+  .v3-split--flip .v3-split__text { order: 2; align-items: flex-end; text-align: right; }
+  .v3-split--flip .v3-split__media { order: 1; }
+  /* The flipped title reads better over two lines than three. */
+  .v3-split--flip .v3-title { max-width: 17ch; }
+}
+
+/* ---------------------------------------------------------------
+   Section type
+   --------------------------------------------------------------- */
+
+.v3-title {
+  font-family: var(--title-font);
+  font-size: clamp(36px, 5.4vw, 64px);
+  font-weight: var(--title-weight);
+  letter-spacing: var(--title-spacing);
+  line-height: 0.98;
+  color: var(--ink);
+  max-width: 14ch;
+  text-wrap: balance;
+}
+
+/* The line under a title: still a statement, set in Manrope so it does
+   not compete with the display face above it. */
+.v3-sub {
+  font-family: var(--subtitle-font);
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: var(--subtitle-weight);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--eyebrow);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+.v3-copy {
+  font-family: var(--body-font);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
+.v3-cta { margin-top: clamp(8px, 1.5vw, 16px); }
+
+/* ---------------------------------------------------------------
+   3 — More ways to love them
+
+   A right-aligned heading on its own row, then the four use cases.
+   --------------------------------------------------------------- */
+
+.v3-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+@media (min-width: 901px) {
+  .v3-head--right { align-items: flex-end; text-align: right; }
+  .v3-head--right .v3-title { max-width: 16ch; }
+}
+
+.v3-cases {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 44px);
+}
+
+@media (min-width: 641px) {
+  .v3-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.v3-case {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+@media (min-width: 641px) {
+  .v3-case { align-items: flex-start; text-align: left; }
+}
+
+.v3-case__label {
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--eyebrow);
+  margin: 4px 0 0;
+}
+
+.v3-case__copy {
+  font-family: var(--body-font);
+  font-size: clamp(16px, 1.8vw, 18px);
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------
+   Image slots
+
+   Every photo on this page is a placeholder until the real shot
+   lands, so the frame is designed rather than left as a grey box:
+   a warm wash in the brand's own tones, the intended subject named
+   in the corner, and the final aspect ratio already set so swapping
+   in the photo changes nothing but the pixels.
+   --------------------------------------------------------------- */
+
+.v3-slot {
+  position: relative;
+  /* The case column aligns its children to one edge, so without this the
+     frame collapses around the icon inside it. */
+  width: 100%;
+  align-self: stretch;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background:
+    radial-gradient(120% 90% at 20% 0%, rgba(255, 246, 196, 0.55) 0%, rgba(255, 246, 196, 0) 60%),
+    linear-gradient(155deg, #F3EEE6 0%, #E8DFD1 100%);
+  border: 1px solid rgba(50, 48, 49, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.v3-slot--square { aspect-ratio: 1 / 1; }
+
+.v3-slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v3-slot__icon {
+  width: clamp(34px, 5vw, 46px);
+  height: clamp(34px, 5vw, 46px);
+  color: var(--eyebrow);
+  opacity: 0.45;
+}
+
+.v3-slot__note {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-family: var(--body-font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(50, 48, 49, 0.38);
+}
+
+/* ---------------------------------------------------------------
+   App mock — the "other column" where the visual is product UI
+   rather than a photo. Built from the .app-card glass primitives in
+   styles.css so it matches the real thing.
+   --------------------------------------------------------------- */
+
+.v3-stage {
+  border-radius: 28px;
+  padding: clamp(20px, 3vw, 32px);
+  background:
+    radial-gradient(110% 80% at 80% 0%, rgba(255, 246, 196, 0.5) 0%, rgba(255, 246, 196, 0) 62%),
+    linear-gradient(155deg, #F3EEE6 0%, #E9E1D4 100%);
+  border: 1px solid rgba(50, 48, 49, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* A thin caption over the stage, naming the step each card stands for. */
+.v3-stage__step {
+  font-family: var(--body-font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: rgba(50, 48, 49, 0.4);
+}
+
+/* The cards inside a stage stack rather than pair up. */
+.v3-stage .app-card { flex: 1 1 auto; width: 100%; }
+
+/* Profile chips — the "data" the product starts from. */
+.v3-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.v3-tag {
+  font-family: var(--body-font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-muted);
+  background: rgba(210, 184, 147, 0.22);
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+
+.v3-avatar {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #D2B893 0%, #B08E63 100%);
+}
+
+/* A small progress read-out, as the product shows a pillar's state. */
+.v3-meter {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(14, 15, 12, 0.08);
+  margin-top: 12px;
+  overflow: hidden;
+}
+.v3-meter span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--app-accent);
+}
+
+/* ---------------------------------------------------------------
+   4 — Better care, picked for them
+
+   The four pillars as product cards, and the benefits as a ruled
+   list that reads correctly aligned to either edge.
+   --------------------------------------------------------------- */
+
+.v3-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.v3-pillar {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  padding: clamp(16px, 2.2vw, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 10px 30px rgba(50, 48, 49, 0.07);
+}
+.v3-pillar__icon {
+  width: 22px;
+  height: 22px;
+  color: var(--eyebrow);
+}
+.v3-pillar__name {
+  font-family: var(--body-font);
+  font-size: clamp(15px, 1.7vw, 17px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--app-ink);
+}
+.v3-pillar__state {
+  font-family: var(--body-font);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--app-muted);
+}
+
+.v3-benefits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.6vw, 26px);
+  width: 100%;
+}
+
+/* A rule above each item rather than a bullet beside it — a bullet
+   would sit on the wrong side of a right-aligned column. */
+.v3-benefit {
+  padding-top: clamp(16px, 2vw, 20px);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  /* The copy is capped at a readable measure, so the item has to say
+     which edge that shorter block hangs off — text-align alone would
+     leave it sitting at the start of a full-width box. */
+  align-items: center;
+  gap: 6px;
+}
+.v3-benefit__title {
+  font-family: var(--subtitle-font);
+  font-size: clamp(18px, 2vw, 21px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.v3-benefit__copy {
+  font-family: var(--body-font);
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
+/* The four pillar names, named in the copy of the first benefit. */
+.v3-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+.v3-chip {
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--eyebrow);
+  border: 1px solid rgba(138, 114, 80, 0.3);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+@media (min-width: 901px) {
+  .v3-benefit { align-items: flex-start; }
+  .v3-split--flip .v3-benefit { align-items: flex-end; }
+  .v3-chips { justify-content: flex-start; }
+  .v3-split--flip .v3-chips { justify-content: flex-end; }
+}
+
+/* ---------------------------------------------------------------
+   5 — Closing
+
+   The photo panel from styles.css, with its content left-aligned as
+   on the other landing pages and centred on a phone.
+   --------------------------------------------------------------- */
+
+.closing-wrap--v3 { padding-bottom: clamp(24px, 5vw, 48px); }
+
+/* The closing title breaks by hand on a wide panel; on a phone the
+   measure is short enough to break on its own. */
+.br-wide { display: none; }
+@media (min-width: 641px) {
+  .br-wide { display: inline; }
+}
+
+.closing-copy {
+  font-family: var(--body-font);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+.closing-content .access-slot { align-items: flex-start; }
+.closing-content .waitlist-status { text-align: left; }
+
+@media (max-width: 640px) {
+  .closing-content { align-items: center; text-align: center; }
+  .closing-content .access-slot { align-items: center; width: 100%; }
+  .closing-content .waitlist-status { text-align: center; }
+}
