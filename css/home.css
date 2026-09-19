@@ -1,5 +1,5 @@
 /* ---------------------------------------------------------------
-   home-v3.css — the landing page.
+   home.css — the landing page at the site root.
 
    One screen: the wordmark, the dog video, the headline and the
    waitlist form. Layered on styles.css (tokens, hero, waitlist glass)
@@ -52,4 +52,29 @@
 
 @media (min-width: 481px) {
   .hero-content--v3 .waitlist-input { padding: 12px 0; }
+}
+
+/* ---------------------------------------------------------------
+   Phones
+
+   The headline bottoms out at its floor here while the line beneath it
+   sits at its ceiling, so the two ran 1.9x apart where a wide screen
+   runs 3.6x — the headline read as a heading rather than as the page.
+   This scales it with the viewport instead, from 2.4x at 320px to 3.1x
+   at 414px.
+
+   Below 481px landing.css stacks the pill into a full-width field with
+   a full-width button under it. At that width the button is twice the
+   one a desktop gets, so it sizes to its own label and centres.
+   --------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .hero--v3 .hero-title { font-size: clamp(40px, 13.5vw, 56px); }
+
+  .hero-content--v3 .waitlist-submit {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0 auto;
+    padding: 12px 30px;
+  }
 }
