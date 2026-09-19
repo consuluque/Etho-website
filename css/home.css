@@ -39,6 +39,12 @@
   max-width: 14ch;
 }
 
+/* styles.css runs the line under the headline up to 23px on a wide
+   screen; it holds at 20px here. Phones keep their 18px. */
+@media (min-width: 901px) {
+  .hero--v3 .hero-sub { font-size: clamp(18px, 1.35vw, 20px); }
+}
+
 /* ---------------------------------------------------------------
    Waitlist field tap target
 
