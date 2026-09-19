@@ -16,9 +16,10 @@
 /* ---------------------------------------------------------------
    1 — Hero
 
-   Full-screen, with the dog video behind it. The copy is centred at
-   every width, as .hero-content in styles.css already sets it — only
-   the headline size and the foot of the block change here.
+   Full-screen, with the dog video behind it, and only two things in
+   front of it: the form, then the headline sitting on the floor of the
+   section. Centred at every width, as .hero-content in styles.css
+   already sets it.
    --------------------------------------------------------------- */
 
 .hero--v3 {
@@ -29,12 +30,31 @@
 }
 
 .hero-content--v3 {
-  padding-bottom: clamp(56px, 12vw, 104px);
+  /* Close to the foot of the section, so the headline reads as its
+     baseline rather than as a block floating above it. */
+  padding-bottom: clamp(40px, 5vw, 64px);
+  gap: clamp(24px, 4vw, 44px);
 }
+
+/* The form leads and the headline lands under it. Only the order is
+   swapped — the h1 stays first in the markup. */
+.hero-content--v3 .access-slot { order: -1; }
 
 .hero--v3 .hero-title {
   font-size: clamp(40px, 7.4vw, 96px);
   max-width: 14ch;
+}
+
+@media (min-width: 901px) {
+  .hero--v3 .hero-title {
+    max-width: none;
+    /* The line measures 13.83px of width for every 1px of font-size, so
+       this holds it inside the gutters at every desktop width with a few
+       per cent to spare. Deliberately not white-space: nowrap — if the
+       webfont ever fails to load, a wider fallback should wrap rather
+       than push the page sideways. */
+    font-size: min(6.2vw, 112px);
+  }
 }
 
 /* ---------------------------------------------------------------
