@@ -56,6 +56,47 @@
 }
 
 /* ---------------------------------------------------------------
+   The fixed desktop CTA
+
+   It sits at the top right, opposite the centred wordmark, and stays
+   there for the whole page. It carries .site-nav so main.js toggles
+   .is-past-hero on it along with the wordmark, but it is a bare button
+   rather than a glass pill, so the pill's own chrome is cleared here.
+   Below 760px it gives way to the sticky bar at the foot of the page.
+   --------------------------------------------------------------- */
+
+.site-nav--cta {
+  left: auto;
+  right: clamp(16px, 3vw, 28px);
+  transform: none;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.site-nav--cta.is-past-hero { background: none; box-shadow: none; }
+
+/* Cream over the hero video, where an ink button would disappear into
+   the scrim; ink once the page below is light. */
+.site-nav__cta {
+  font-size: 15px;
+  padding: 12px 24px;
+  background: #F7F5F0;
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(50, 48, 49, 0.22);
+  transition: background 120ms var(--ease), color 120ms var(--ease);
+}
+.site-nav--cta.is-past-hero .site-nav__cta {
+  background: var(--ink);
+  color: #FFFFFF;
+  box-shadow: 0 8px 28px rgba(50, 48, 49, 0.16);
+}
+
+@media (max-width: 760px) {
+  .site-nav--cta { display: none; }
+}
+
+/* ---------------------------------------------------------------
    The split — one section, two columns
    --------------------------------------------------------------- */
 
@@ -331,6 +372,36 @@
    --------------------------------------------------------------- */
 
 .closing-wrap--v3 { padding-bottom: clamp(24px, 5vw, 48px); }
+
+/* The frame is far wider than the square photo, so the crop has to be
+   aimed: this holds the dog and the shaft of light in view and keeps
+   the empty sunlit wall under the copy. */
+.closing-bg--v3 { object-position: 50% 56%; }
+
+/* That photo is a sunlit wall where the copy sits, so the panel's own
+   bottom-up scrim leaves the white title at 1.96:1. This darkens along
+   the copy's side instead and clears before the dog, so the type passes
+   while the light on the right is left alone. */
+.closing-cta--v3 .closing-scrim {
+  background:
+    linear-gradient(90deg,
+      rgba(20, 16, 12, 0.70) 0%,
+      rgba(20, 16, 12, 0.62) 42%,
+      rgba(20, 16, 12, 0.26) 68%,
+      rgba(20, 16, 12, 0) 85%),
+    linear-gradient(0deg, rgba(20, 16, 12, 0.42) 0%, rgba(20, 16, 12, 0.06) 60%);
+}
+
+/* Centred copy fills the panel on a phone, so there is no clear side to
+   spare — the whole frame goes down instead. */
+@media (max-width: 640px) {
+  .closing-cta--v3 .closing-scrim {
+    background: linear-gradient(0deg,
+      rgba(20, 16, 12, 0.74) 0%,
+      rgba(20, 16, 12, 0.62) 55%,
+      rgba(20, 16, 12, 0.48) 100%);
+  }
+}
 
 .closing-copy {
   font-family: var(--body-font);
