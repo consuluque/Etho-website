@@ -85,24 +85,24 @@
 .site-nav--cta .access-slot { width: min(360px, 42vw); }
 
 /* Smaller than the hero's form — it has to share the top of the page
-   with the wordmark. */
+   with the wordmark — and solid rather than glass, since it only ever
+   appears over the light page. */
 .site-nav--cta .waitlist-form {
   padding: 5px 5px 5px 18px;
   gap: 8px;
-  box-shadow: 0 8px 28px rgba(50, 48, 49, 0.14);
-}
-.site-nav--cta .waitlist-input { font-size: 14px; }
-.site-nav--cta .waitlist-submit { padding: 10px 18px; font-size: 14px; }
-.site-nav--cta .waitlist-status { font-size: 13px; }
-
-.site-nav--cta .waitlist-form {
   background: rgba(255, 255, 255, 0.82);
   border-color: rgba(35, 43, 36, 0.12);
+  box-shadow: 0 8px 28px rgba(50, 48, 49, 0.14);
 }
-.site-nav--cta .waitlist-input { color: var(--ink); }
+.site-nav--cta .waitlist-input { font-size: 14px; color: var(--ink); padding: 11px 0; }
 .site-nav--cta .waitlist-input::placeholder { color: var(--muted); }
-.site-nav--cta .waitlist-submit { background: var(--ink); color: #FFFFFF; }
-.site-nav--cta .waitlist-status { color: var(--muted); }
+.site-nav--cta .waitlist-submit {
+  padding: 10px 18px;
+  font-size: 14px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+.site-nav--cta .waitlist-status { font-size: 13px; color: var(--muted); }
 
 /* One or the other, never both, and they change over at the same width
    the layout does. landing.css turns the bar on at 760px, so the band
@@ -115,6 +115,34 @@
 
 @media (prefers-reduced-motion: reduce) {
   .site-nav--cta { transform: none; }
+}
+
+/* ---------------------------------------------------------------
+   Reveal on scroll, only when there is a script to finish it
+
+   styles.css starts every [data-reveal] at opacity 0 and waits for
+   main.js to add .is-revealed. With no JavaScript nothing ever does,
+   and both middle sections — headings, copy and their whole visual
+   column — stay blank for good. So the page opts into the animation
+   only once the flag in the document head says a script ran.
+   --------------------------------------------------------------- */
+
+html:not(.js) [data-reveal] { opacity: 1; transform: none; }
+
+/* ---------------------------------------------------------------
+   Waitlist field tap targets
+
+   The field's own box is only as tall as its line, so the top and
+   bottom of the pill around it did not focus it — a 20px target, well
+   under the 44px a touch device wants, on every tablet. Padding fills
+   the pill instead. landing.css already handles this below 481px, where
+   the pill wraps and the field takes its own horizontal padding, so
+   this starts above that and leaves the wrapped layout alone.
+   --------------------------------------------------------------- */
+
+@media (min-width: 481px) {
+  .hero-content--v3 .waitlist-input,
+  .closing-content .waitlist-input { padding: 12px 0; }
 }
 
 /* ---------------------------------------------------------------
@@ -202,7 +230,6 @@
   align-items: center;
   justify-content: center;
 }
-.v3-slot--wide { aspect-ratio: 16 / 10; }
 
 .v3-slot img {
   position: absolute;
@@ -369,9 +396,11 @@
   padding: 5px 10px;
 }
 
-/* The thumbnail on the service row, small and square. */
-.v3-thumb {
+/* The thumbnail on the service row: a fixed square rather than a slot
+   filling its column, so it has to outrank .v3-slot's own width. */
+.v3-slot.v3-thumb {
   flex: none;
+  align-self: center;
   width: 46px;
   height: 46px;
   border-radius: 12px;
@@ -407,17 +436,6 @@
     linear-gradient(0deg, rgba(20, 16, 12, 0.42) 0%, rgba(20, 16, 12, 0.06) 60%);
 }
 
-/* Centred copy fills the panel on a phone, so there is no clear side to
-   spare — the whole frame goes down instead. */
-@media (max-width: 640px) {
-  .closing-cta--v3 .closing-scrim {
-    background: linear-gradient(0deg,
-      rgba(20, 16, 12, 0.74) 0%,
-      rgba(20, 16, 12, 0.62) 55%,
-      rgba(20, 16, 12, 0.48) 100%);
-  }
-}
-
 .closing-copy {
   font-family: var(--body-font);
   font-size: clamp(17px, 2vw, 20px);
@@ -437,10 +455,18 @@
   .br-wide { display: inline; }
 }
 
+/* On a phone the copy is centred and fills the panel, so there is no
+   clear side to spare — the whole frame goes down instead. */
 @media (max-width: 640px) {
   .closing-content { align-items: center; text-align: center; }
   .closing-content .access-slot { align-items: center; width: 100%; }
   .closing-content .waitlist-status { text-align: center; }
+  .closing-cta--v3 .closing-scrim {
+    background: linear-gradient(0deg,
+      rgba(20, 16, 12, 0.74) 0%,
+      rgba(20, 16, 12, 0.62) 55%,
+      rgba(20, 16, 12, 0.48) 100%);
+  }
 }
 
 /* ---------------------------------------------------------------
