@@ -48,6 +48,7 @@
 
     <div class="hero-content hero-content--v3">
       <h1 class="hero-title">Give them more of the good life</h1>
+      <p class="hero-sub">Personalised wellbeing for your dog, with products, experiences and local care picked for them.</p>
 
       <!-- The form ships in the markup rather than being built by script,
            so it still submits with JS off; landing.js upgrades it to a
@@ -66,85 +67,23 @@
     </div>
   </section>
 
-  <!-- 2 — Know them better ------------------------------------------------ -->
-  <!-- Words left; the four pillars named in the copy stand on the right. -->
-  <section class="v3-section" id="know-them" data-section="know-them">
-    <div class="v3-split">
+  <!-- 2 — More ways to love them ------------------------------------------ -->
+  <!-- Full-bleed film behind it; words left, what you can actually buy and
+       book on the right. -->
+  <section class="v3-section v3-section--film on-dark" id="ways" data-section="ways">
 
-      <div class="v3-split__text">
-        <h2 class="v3-title" data-reveal>Know them better. Give them better</h2>
-        <p class="v3-copy" data-reveal>Etho gets to know your dog and brings together what matters across nutrition, physical health, mental wellbeing, and comfort &amp; rest. So you can understand how they&rsquo;re doing, what they need, and where you can make a difference.</p>
-      </div>
+    <!-- PLACEHOLDER FILM — grey-dog.mp4 is the hero's, standing in so the
+         section can be judged. Swap the src for this section's own file
+         once it is in assets/videos/, and the still behind it in
+         .v3-section--film for a frame of that film.
+         .hero__media is deliberate: it is what initHeroVideo() in main.js
+         looks for, and that is what keeps iOS from painting its own play
+         button over a video it has refused to autoplay. -->
+    <video class="hero__media" src="assets/videos/grey-dog.mp4"
+           autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    <div class="v3-film__scrim"></div>
 
-      <div class="v3-split__media" data-reveal>
-        <div class="v3-stage" role="img"
-             aria-label="Example of the Etho app: a dog's profile, and how they are doing across nutrition, physical health, mental wellbeing, and comfort and rest.">
-
-          <div class="app-card app-card--row">
-            <div class="v3-avatar" aria-hidden="true"></div>
-            <div class="app-card__col">
-              <p class="app-card__title app-card__title--row">Luna</p>
-              <p class="app-card__meta">Border Collie &middot; 3 years &middot; 17kg</p>
-            </div>
-          </div>
-
-          <div class="v3-pillars">
-
-            <div class="v3-pillar">
-              <!-- Lucide: bone -->
-              <svg class="v3-pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                <path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z"/>
-              </svg>
-              <p class="v3-pillar__name">Nutrition</p>
-              <p class="v3-pillar__state">Fresh food matched to her breed and weight</p>
-              <div class="v3-meter" aria-hidden="true"><span style="width: 78%"></span></div>
-            </div>
-
-            <div class="v3-pillar">
-              <!-- Lucide: activity -->
-              <svg class="v3-pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
-              </svg>
-              <p class="v3-pillar__name">Physical health</p>
-              <p class="v3-pillar__state">Weight and joints on the right side of the line</p>
-              <div class="v3-meter" aria-hidden="true"><span style="width: 66%"></span></div>
-            </div>
-
-            <div class="v3-pillar">
-              <!-- Lucide: lightbulb -->
-              <svg class="v3-pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
-                <path d="M9 18h6"/><path d="M10 22h4"/>
-              </svg>
-              <p class="v3-pillar__name">Mental wellbeing</p>
-              <p class="v3-pillar__state">Two ideas to keep her busy this week</p>
-              <div class="v3-meter" aria-hidden="true"><span style="width: 42%"></span></div>
-            </div>
-
-            <div class="v3-pillar">
-              <!-- Lucide: moon -->
-              <svg class="v3-pillar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-              </svg>
-              <p class="v3-pillar__name">Comfort &amp; rest</p>
-              <p class="v3-pillar__state">A quieter corner would help her settle</p>
-              <div class="v3-meter" aria-hidden="true"><span style="width: 54%"></span></div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 3 — More ways to love them ------------------------------------------ -->
-  <!-- Words left; what you can actually buy and book stands on the right. -->
-  <section class="v3-section" id="ways" data-section="ways">
+    <div class="v3-section__inner">
     <div class="v3-split">
 
       <div class="v3-split__text">
@@ -153,7 +92,7 @@
       </div>
 
       <div class="v3-split__media" data-reveal>
-        <div class="v3-stage" role="img"
+        <div class="v3-stage v3-stage--bare" role="img"
              aria-label="Example of the Etho app: two products picked for your dog at member prices, and a local groomer nearby.">
 
           <div class="v3-tiles">
@@ -214,39 +153,13 @@
       </div>
 
     </div>
-  </section>
-
-  <!-- 4 — Closing --------------------------------------------------------- -->
-  <section class="closing-wrap closing-wrap--v3" id="closing" data-section="closing">
-    <div class="closing-cta closing-cta--v3 on-dark">
-      <!-- Image slot: the closing shot — a dog and their person together. -->
-      <img class="closing-bg closing-bg--v3" src="assets/images/Doggie5.jpg"
-           alt="A dog with its head raised into a shaft of afternoon sunlight" onerror="this.remove()">
-      <div class="closing-scrim"></div>
-
-      <div class="closing-content">
-        <h2 class="closing-title">Their life is your life too.<br class="br-wide">Make more of it.</h2>
-        <p class="closing-copy">Join Etho for personalised wellbeing, better care and more good things to do together.</p>
-
-        <div id="closing-access" class="access-slot">
-          <form class="waitlist-form access-form" data-form-name="closing"
-                action="https://formsubmit.co/consuluque@gmail.com" method="POST">
-            <label class="u-visually-hidden" for="closing-email">Email address</label>
-            <input id="closing-email" type="email" name="email" class="waitlist-input"
-                   placeholder="goodhuman@mail.com" autocomplete="email" required>
-            <input type="hidden" name="_subject" value="New Etho waitlist signup">
-            <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
-          </form>
-          <p class="waitlist-status" aria-live="polite"></p>
-        </div>
-      </div>
     </div>
   </section>
 
   <footer class="site-footer site-footer--v3" data-section="footer">
     <p class="site-footer__mark">etho</p>
-    <p class="site-footer__tagline">Know their nature. Give them a better life.</p>
-    <p class="site-footer__blurb">Everything you need to give them more and better care, in one place.</p>
+    <p class="site-footer__tagline">Better care makes better days.</p>
+    <p class="site-footer__blurb">For more of the good life, together.</p>
     <nav class="site-footer__links" aria-label="Footer">
       <a href="mailto:hello@ethopethealth.com">Contact</a>
       <a href="partners.html">Partnerships</a>

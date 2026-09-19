@@ -16,10 +16,9 @@
 /* ---------------------------------------------------------------
    1 — Hero
 
-   Full-screen, with the dog video behind it, and only two things in
-   front of it: the form, then the headline sitting on the floor of the
-   section. Centred at every width, as .hero-content in styles.css
-   already sets it.
+   Full-screen, with the dog video behind it. The copy is centred at
+   every width, as .hero-content in styles.css already sets it — only
+   the headline size and the foot of the block change here.
    --------------------------------------------------------------- */
 
 .hero--v3 {
@@ -30,31 +29,12 @@
 }
 
 .hero-content--v3 {
-  /* Close to the foot of the section, so the headline reads as its
-     baseline rather than as a block floating above it. */
-  padding-bottom: clamp(40px, 5vw, 64px);
-  gap: clamp(24px, 4vw, 44px);
+  padding-bottom: clamp(56px, 12vw, 104px);
 }
-
-/* The form leads and the headline lands under it. Only the order is
-   swapped — the h1 stays first in the markup. */
-.hero-content--v3 .access-slot { order: -1; }
 
 .hero--v3 .hero-title {
   font-size: clamp(40px, 7.4vw, 96px);
   max-width: 14ch;
-}
-
-@media (min-width: 901px) {
-  .hero--v3 .hero-title {
-    max-width: none;
-    /* The line measures 13.83px of width for every 1px of font-size, so
-       this holds it inside the gutters at every desktop width with a few
-       per cent to spare. Deliberately not white-space: nowrap — if the
-       webfont ever fails to load, a wider fallback should wrap rather
-       than push the page sideways. */
-    font-size: min(6.2vw, 112px);
-  }
 }
 
 /* ---------------------------------------------------------------
@@ -174,6 +154,84 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
   max-width: 1200px;
   margin: 0 auto;
   padding: clamp(72px, 11vw, 124px) clamp(20px, 5vw, 64px);
+}
+
+/* ---------------------------------------------------------------
+   A section carried by film
+
+   Full-bleed and full-height, so the video runs edge to edge rather
+   than sitting in a box. The section itself loses the page container;
+   __inner carries it instead, so the words still line up with the
+   hero's above.
+   --------------------------------------------------------------- */
+
+.v3-section--film {
+  position: relative;
+  overflow: hidden;
+  max-width: none;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  /* The still carries the section whenever the film does not: iOS in
+     Low Power Mode refuses autoplay outright, and main.js answers that
+     by taking the video out of the document altogether. Same job as the
+     hero's poster — PLACEHOLDER, swap it for a frame of the real film.  */
+  background-color: #2A2829;
+  background-image: url('../assets/images/Doggie5.jpg');
+  background-size: cover;
+  background-position: 50% 45%;
+  background-repeat: no-repeat;
+}
+
+.v3-section--film .hero__media { object-position: 50% 45%; }
+
+/* Deepest on the left, under the words; the right stays open for the
+   cards and whatever the film is doing behind them. */
+.v3-film__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(20, 16, 12, 0.78) 0%,
+      rgba(20, 16, 12, 0.66) 45%,
+      rgba(20, 16, 12, 0.46) 75%,
+      rgba(20, 16, 12, 0.40) 100%),
+    linear-gradient(0deg, rgba(20, 16, 12, 0.35) 0%, rgba(20, 16, 12, 0.10) 50%);
+}
+
+.v3-section__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(88px, 12vw, 132px) clamp(20px, 5vw, 64px);
+}
+
+/* On film the type goes light. */
+.v3-section--film .v3-title { color: #F7F5F0; }
+.v3-section--film .v3-copy { color: rgba(247, 245, 240, 0.92); }
+
+/* The cards float on the film, so they lift off it rather than sitting
+   behind a translucent wash meant for the cream page. */
+.v3-section--film .app-card,
+.v3-section--film .v3-tile {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* On a phone the copy is centred and fills the width, so there is no
+   clear side to spare — the whole frame goes down evenly instead. */
+@media (max-width: 900px) {
+  .v3-film__scrim {
+    background: linear-gradient(0deg,
+      rgba(20, 16, 12, 0.78) 0%,
+      rgba(20, 16, 12, 0.70) 55%,
+      rgba(20, 16, 12, 0.66) 100%);
+  }
 }
 
 .v3-split {
@@ -296,68 +354,15 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
   gap: 12px;
 }
 
+/* Over film the cards float on their own. */
+.v3-stage--bare {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
 /* Cards in a stage fill its width rather than pairing up. */
 .v3-stage .app-card { flex: 1 1 auto; width: 100%; }
-
-.v3-avatar {
-  flex: none;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(150deg, #D2B893 0%, #B08E63 100%);
-}
-
-/* A small progress read-out, as the product shows a pillar's state. */
-.v3-meter {
-  height: 5px;
-  border-radius: 999px;
-  background: rgba(14, 15, 12, 0.08);
-  margin-top: 12px;
-  overflow: hidden;
-}
-.v3-meter span {
-  display: block;
-  height: 100%;
-  border-radius: 999px;
-  background: var(--app-accent);
-}
-
-/* --- The four pillars, as product cards ------------------------- */
-
-.v3-pillars {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.v3-pillar {
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 20px;
-  padding: clamp(14px, 2vw, 20px);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 10px 30px rgba(50, 48, 49, 0.07);
-}
-.v3-pillar__icon {
-  width: 20px;
-  height: 20px;
-  color: var(--eyebrow);
-}
-.v3-pillar__name {
-  font-family: var(--body-font);
-  font-size: clamp(14px, 1.6vw, 16px);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--app-ink);
-}
-.v3-pillar__state {
-  font-family: var(--body-font);
-  font-size: 13px;
-  line-height: 1.4;
-  color: var(--app-muted);
-}
 
 /* --- Product tiles and a local service row ---------------------- */
 
@@ -427,67 +432,6 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
 }
 .v3-thumb .v3-slot__note { display: none; }
 .v3-thumb .v3-slot__icon { width: 18px; height: 18px; }
-
-/* ---------------------------------------------------------------
-   Closing
-
-   The photo panel from styles.css, left-aligned as on the other
-   landing pages and centred on a phone.
-   --------------------------------------------------------------- */
-
-.closing-wrap--v3 { padding-bottom: clamp(24px, 5vw, 48px); }
-
-/* The frame is far wider than the square photo, so the crop has to be
-   aimed: this holds the dog and the shaft of light in view and keeps
-   the empty sunlit wall under the copy. */
-.closing-bg--v3 { object-position: 50% 56%; }
-
-/* That photo is a sunlit wall where the copy sits, so the panel's own
-   bottom-up scrim leaves the white title at 1.96:1. This darkens along
-   the copy's side instead and clears before the dog, so the type passes
-   while the light on the right is left alone. */
-.closing-cta--v3 .closing-scrim {
-  background:
-    linear-gradient(90deg,
-      rgba(20, 16, 12, 0.70) 0%,
-      rgba(20, 16, 12, 0.62) 42%,
-      rgba(20, 16, 12, 0.26) 68%,
-      rgba(20, 16, 12, 0) 85%),
-    linear-gradient(0deg, rgba(20, 16, 12, 0.42) 0%, rgba(20, 16, 12, 0.06) 60%);
-}
-
-.closing-copy {
-  font-family: var(--body-font);
-  font-size: clamp(17px, 2vw, 20px);
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.82);
-  max-width: 44ch;
-  text-wrap: pretty;
-}
-
-.closing-content .access-slot { align-items: flex-start; }
-.closing-content .waitlist-status { text-align: left; }
-
-/* The closing title breaks by hand on a wide panel; on a phone the
-   measure is short enough to break on its own. */
-.br-wide { display: none; }
-@media (min-width: 641px) {
-  .br-wide { display: inline; }
-}
-
-/* On a phone the copy is centred and fills the panel, so there is no
-   clear side to spare — the whole frame goes down instead. */
-@media (max-width: 640px) {
-  .closing-content { align-items: center; text-align: center; }
-  .closing-content .access-slot { align-items: center; width: 100%; }
-  .closing-content .waitlist-status { text-align: center; }
-  .closing-cta--v3 .closing-scrim {
-    background: linear-gradient(0deg,
-      rgba(20, 16, 12, 0.74) 0%,
-      rgba(20, 16, 12, 0.62) 55%,
-      rgba(20, 16, 12, 0.48) 100%);
-  }
-}
 
 /* ---------------------------------------------------------------
    Footer
