@@ -16,9 +16,9 @@
 /* ---------------------------------------------------------------
    1 — Hero
 
-   Full-screen, with the dog video behind it. The copy takes the left
-   half on desktop so the video is never fully covered; on a phone it
-   centres like everything else.
+   Full-screen, with the dog video behind it. The copy is centred at
+   every width, as .hero-content in styles.css already sets it — only
+   the headline size and the foot of the block change here.
    --------------------------------------------------------------- */
 
 .hero--v3 {
@@ -37,33 +37,18 @@
   max-width: 14ch;
 }
 
-@media (min-width: 901px) {
-  .hero-content--v3 {
-    align-items: flex-start;
-    text-align: left;
-    /* Matches the container the sections below use, so the copy starts
-       on the same line they do. */
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-  }
-  /* Just over half the container: the words read as one column and the
-     dog holds the other. */
-  .hero-content--v3 > * { max-width: 640px; }
-  .hero-content--v3 .access-slot { align-items: flex-start; }
-  .hero-content--v3 .waitlist-status { text-align: left; }
-}
-
 /* ---------------------------------------------------------------
    The waitlist form pinned to the top of the page
 
-   It sits at the top right, opposite the centred wordmark, and is
-   hidden until the hero is half scrolled past — initNavForm() in
-   home-v3.js adds .is-visible. It carries .site-nav as well, so
-   main.js toggles .is-past-hero on it along with the wordmark: that is
-   what takes it from glass over the video to solid over the page
-   below. The pill's own chrome is cleared here, since the form brings
-   its own.
+   It sits at the top right, opposite the centred wordmark, and stays
+   hidden until the whole hero has been scrolled past. It carries
+   .site-nav, so initFixedNav() in main.js toggles .is-past-hero on it
+   along with the wordmark — that class is the cue, so the page needs no
+   scroll code of its own. The pill's own chrome is cleared here, since
+   the form brings its own.
+
+   It is only ever on screen over the light page below the hero, so it
+   is styled for that alone.
 
    Below 901px it is hidden outright and the sticky bar at the foot of
    the page does the same job.
@@ -86,7 +71,9 @@
   transition: opacity 220ms var(--ease), transform 220ms var(--ease),
               visibility 0s linear 220ms;
 }
-.site-nav--cta.is-visible {
+.site-nav--cta.is-past-hero {
+  background: none;
+  box-shadow: none;
   opacity: 1;
   visibility: visible;
   transform: none;
@@ -94,7 +81,6 @@
   transition: opacity 220ms var(--ease), transform 220ms var(--ease),
               visibility 0s;
 }
-.site-nav--cta.is-past-hero { background: none; box-shadow: none; }
 
 .site-nav--cta .access-slot { width: min(360px, 42vw); }
 
@@ -109,28 +95,14 @@
 .site-nav--cta .waitlist-submit { padding: 10px 18px; font-size: 14px; }
 .site-nav--cta .waitlist-status { font-size: 13px; }
 
-/* Over the hero video, where the page's own ink would disappear into
-   the scrim: the same glass the hero form uses. */
 .site-nav--cta .waitlist-form {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-}
-.site-nav--cta .waitlist-input { color: #FFFFFF; }
-.site-nav--cta .waitlist-input::placeholder { color: rgba(255, 255, 255, 0.7); }
-.site-nav--cta .waitlist-submit { background: #FFFFFF; color: var(--ink); }
-.site-nav--cta .waitlist-status { color: rgba(255, 255, 255, 0.9); }
-
-/* Past the hero, on the light page. */
-.site-nav--cta.is-past-hero .waitlist-form {
   background: rgba(255, 255, 255, 0.82);
   border-color: rgba(35, 43, 36, 0.12);
 }
-.site-nav--cta.is-past-hero .waitlist-input { color: var(--ink); }
-.site-nav--cta.is-past-hero .waitlist-input::placeholder { color: var(--muted); }
-.site-nav--cta.is-past-hero .waitlist-submit { background: var(--ink); color: #FFFFFF; }
-.site-nav--cta.is-past-hero .waitlist-status { color: var(--muted); }
+.site-nav--cta .waitlist-input { color: var(--ink); }
+.site-nav--cta .waitlist-input::placeholder { color: var(--muted); }
+.site-nav--cta .waitlist-submit { background: var(--ink); color: #FFFFFF; }
+.site-nav--cta .waitlist-status { color: var(--muted); }
 
 /* One or the other, never both, and they change over at the same width
    the layout does. landing.css turns the bar on at 760px, so the band
