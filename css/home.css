@@ -39,6 +39,21 @@
   max-width: 14ch;
 }
 
+/* styles.css runs the line under the headline up to 23px on a wide
+   screen and lets it out to 46ch, which at some widths left it wider
+   than the headline it sits under. It holds at 20px here, and its
+   measure follows the headline's: the widest headline line is about
+   43vw until the type caps at 82px around 1300px and is 565px from
+   there, so this keeps the sub line to roughly four fifths of it
+   throughout. Phones keep their 18px and their own measure. */
+@media (min-width: 901px) {
+  .hero--v3 .hero-sub {
+    font-size: clamp(18px, 1.35vw, 20px);
+    max-width: min(36vw, 460px);
+    text-wrap: balance;
+  }
+}
+
 /* ---------------------------------------------------------------
    Waitlist field tap target
 
