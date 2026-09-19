@@ -72,14 +72,12 @@
        book on the right. -->
   <section class="v3-section v3-section--film on-dark" id="ways" data-section="ways">
 
-    <!-- PLACEHOLDER FILM — grey-dog.mp4 is the hero's, standing in so the
-         section can be judged. Swap the src for this section's own file
-         once it is in assets/videos/, and the still behind it in
-         .v3-section--film for a frame of that film.
-         .hero__media is deliberate: it is what initHeroVideo() in main.js
+    <!-- .hero__media is deliberate: it is what initHeroVideo() in main.js
          looks for, and that is what keeps iOS from painting its own play
-         button over a video it has refused to autoplay. -->
-    <video class="hero__media" src="assets/videos/grey-dog.mp4"
+         button over a video it has refused to autoplay. That same code
+         drops the element when autoplay is refused, so the still behind
+         it in .v3-section--film has to carry the section alone. -->
+    <video class="hero__media" src="assets/videos/puppies.mp4"
            autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
     <div class="v3-film__scrim"></div>
 
