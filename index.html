@@ -3,130 +3,54 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Etho — Coming soon</title>
-<meta name="description" content="Etho is coming soon.">
+<title>Etho — Give them more of the good life</title>
+<meta name="description" content="Understand what your dog needs, then discover better ways to care for them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/coming-soon.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/landing.css">
+<link rel="stylesheet" href="css/home.css">
 </head>
 <body>
+<div class="page">
 
-<main class="cs">
-  <video class="cs__media" src="assets/videos/grey-dog.mp4"
-         autoplay muted loop playsinline preload="auto"
-         aria-label="Grey dog moving in warm daylight"></video>
-  <div class="cs__scrim"></div>
+  <!-- The wordmark, small and centred at the top of the page. -->
+  <nav class="site-nav" aria-label="Primary">
+    <a class="site-nav__mark" href="#top">etho</a>
+  </nav>
 
-  <h1 class="cs__mark">etho</h1>
-  <p class="cs__line">Coming soon</p>
+  <!-- 1 — Hero ---------------------------------------------------------- -->
+  <section id="top" class="hero hero--v3 on-dark" data-section="hero">
+    <video class="hero__media" src="assets/videos/grey-dog.mp4"
+           autoplay muted loop playsinline preload="auto"
+           aria-label="Grey dog moving in warm daylight"></video>
+    <div class="hero-scrim"></div>
 
-  <!-- Ships in the markup rather than being built by script, so it still
-       submits with JS off; the script below upgrades it to a fetch. -->
-  <div class="cs__slot">
-    <form class="cs__form" action="https://formsubmit.co/consuluque@gmail.com" method="POST">
-      <label class="cs__label" for="waitlist-email">Email address</label>
-      <input id="waitlist-email" type="email" name="email" class="cs__input"
-             placeholder="goodhuman@mail.com" autocomplete="email" required>
-      <input type="hidden" name="_subject" value="New Etho waitlist signup">
-      <button type="submit" class="cs__submit">Join waitlist</button>
-    </form>
-    <p class="cs__status" aria-live="polite"></p>
-  </div>
-</main>
+    <div class="hero-content hero-content--v3">
+      <h1 class="hero-title">Give them more of the good life</h1>
+      <p class="hero-sub">Understand what your dog needs, then discover better ways to care for them.</p>
 
-<script>
-// The video is a backdrop. iOS paints its own start-playback button over
-// any video it has refused to autoplay — in Low Power Mode it refuses
-// every time — and neither CSS nor opacity reliably suppresses that
-// control. So a video that will not play is taken out of the document:
-// with no element there is no button, and the still frame behind it
-// carries the page. A later tap puts it back and plays it.
-(function () {
-  var video = document.querySelector('.cs__media');
-  if (!video) return;
+      <!-- The form ships in the markup rather than being built by script,
+           so it still submits with JS off; landing.js upgrades it to a
+           fetch. -->
+      <div id="early-access" class="access-slot">
+        <form class="waitlist-form access-form" data-form-name="hero"
+              action="https://formsubmit.co/consuluque@gmail.com" method="POST">
+          <label class="u-visually-hidden" for="access-email">Email address</label>
+          <input id="access-email" type="email" name="email" class="waitlist-input"
+                 placeholder="goodhuman@mail.com" autocomplete="email" required>
+          <input type="hidden" name="_subject" value="New Etho waitlist signup">
+          <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
+        </form>
+        <p class="waitlist-status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
 
-  var parent = video.parentElement;
-  var anchor = video.nextSibling;
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var detached = false;
+</div>
 
-  function detach() {
-    if (detached) return;
-    detached = true;
-    video.classList.remove('is-playing');
-    video.remove();
-  }
-
-  function tryPlay() {
-    if (reduced.matches) { detach(); return; }
-    if (detached) { detached = false; parent.insertBefore(video, anchor); }
-    if (!video.paused) return;
-    var played = video.play();
-    // A rejection is the browser refusing outright, which is exactly the
-    // case that would draw the button.
-    if (played) played.catch(detach);
-  }
-
-  video.addEventListener('playing', function () { video.classList.add('is-playing'); });
-  video.addEventListener('pause', function () { video.classList.remove('is-playing'); });
-  video.addEventListener('error', detach);
-  video.addEventListener('loadeddata', tryPlay);
-  video.addEventListener('canplay', tryPlay);
-
-  ['pointerdown', 'touchstart', 'keydown'].forEach(function (evt) {
-    window.addEventListener(evt, tryPlay, { once: true, passive: true });
-  });
-
-  // Nothing running shortly after load means autoplay was declined
-  // without rejecting the promise; drop the element rather than leave it
-  // showing a control.
-  setTimeout(function () { if (!detached && video.paused) detach(); }, 2500);
-
-  tryPlay();
-  reduced.addEventListener('change', tryPlay);
-})();
-
-// The waitlist form posts to FormSubmit. This upgrades it to a fetch so
-// the holding page never navigates away.
-(function () {
-  var form = document.querySelector('.cs__form');
-  if (!form) return;
-
-  var slot = form.parentElement;
-  var status = slot.querySelector('.cs__status');
-  var input = form.querySelector('.cs__input');
-  var button = form.querySelector('.cs__submit');
-  var label = button.textContent;
-  // The address lives in the markup's action, so it is written once.
-  var endpoint = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
-
-  form.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-
-    button.disabled = true;
-    button.textContent = 'Sending…';
-    status.textContent = '';
-    status.classList.remove('is-error');
-
-    fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ email: input.value.trim(), _subject: 'New Etho waitlist signup' })
-    }).then(function (res) {
-      if (!res.ok) throw new Error('Request failed');
-      form.remove();
-      status.textContent = "You're on the list — we'll be in touch.";
-      status.classList.add('is-done');
-    }).catch(function () {
-      button.disabled = false;
-      button.textContent = label;
-      status.textContent = 'Something went wrong — please try again.';
-      status.classList.add('is-error');
-    });
-  });
-})();
-</script>
+<script src="js/main.js"></script>
+<script src="js/landing.js"></script>
 </body>
 </html>

@@ -5,6 +5,8 @@
     { "source": "/home-v1.html", "destination": "/", "permanent": false },
     { "source": "/home-v2", "destination": "/", "permanent": false },
     { "source": "/home-v2.html", "destination": "/", "permanent": false },
+    { "source": "/home-v3.html", "destination": "/", "permanent": false },
+    { "source": "/home-v3", "destination": "/", "permanent": false },
     { "source": "/partners", "destination": "/", "permanent": false },
     { "source": "/partners.html", "destination": "/", "permanent": false },
     { "source": "/shop", "destination": "/", "permanent": false },

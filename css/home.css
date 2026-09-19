@@ -1,0 +1,97 @@
+/* ---------------------------------------------------------------
+   home.css — the landing page at the site root.
+
+   One screen: the wordmark, the dog video, the headline and the
+   waitlist form. Layered on styles.css (tokens, hero, waitlist glass)
+   and landing.css (.u-visually-hidden, .access-slot, the hero type
+   scale), so only what is genuinely new lives here.
+
+   Everything this file used to carry for the second section and the
+   footer went with them; it is in this branch's history if they come
+   back.
+   --------------------------------------------------------------- */
+
+.hero--v3 {
+  /* svh, not vh: on iOS vh is the tallest viewport, so the form would
+     start life hidden behind the browser chrome. */
+  min-height: 100vh;
+  min-height: 100svh;
+  /* styles.css sits .hero-content on the floor of the section; here the
+     whole block is centred and then weighted down. */
+  justify-content: center;
+}
+
+/* The dog sits high in the frame, so an even split put the headline
+   across its face. The extra padding sits on top, which drops the block
+   by half of whatever the two differ by: 95px in a tall window, easing
+   off as the window shortens. Both are capped on height as well as
+   width — at their full size they pushed the form under the fold in a
+   short one. */
+.hero-content--v3 {
+  padding-top: clamp(150px, 23vw, min(302px, 34vh));
+  padding-bottom: clamp(84px, 12vw, min(112px, 13vh));
+}
+
+/* Each stop 15% under the size in landing.css: 40/7.4vw/96 becomes
+   34/6.3vw/82. */
+.hero--v3 .hero-title {
+  font-size: clamp(34px, 6.3vw, 82px);
+  max-width: 14ch;
+}
+
+/* ---------------------------------------------------------------
+   Waitlist field tap target
+
+   The field's own box is only as tall as its line, so the top and
+   bottom of the pill around it did not focus it — a 20px target, well
+   under the 44px a touch device wants, on every tablet. Padding fills
+   the pill instead. landing.css already handles this below 481px, where
+   the pill wraps and the field takes its own horizontal padding, so
+   this starts above that and leaves the wrapped layout alone.
+   --------------------------------------------------------------- */
+
+@media (min-width: 481px) {
+  .hero-content--v3 .waitlist-input { padding: 12px 0; }
+}
+
+/* ---------------------------------------------------------------
+   Phones
+
+   The headline bottoms out at its floor here while the line beneath it
+   sits at its ceiling, so the two ran 1.9x apart where a wide screen
+   runs 3.6x — the headline read as a heading rather than as the page.
+   This scales it with the viewport instead, from 2.4x at 320px to 3.1x
+   at 414px.
+
+   Below 481px landing.css stacks the pill into a full-width field with
+   a full-width button under it, 108px tall. At phone widths the pill
+   the desktop gets still fits — a shade less padding either side of
+   the button and the whole thing is 50px — so the stack is held back
+   for the phones that genuinely cannot: below 371px the placeholder
+   would no longer clear the button.
+
+   The field stays at 16px on purpose. iOS zooms the page in on focus
+   for any input set smaller, and undoing that afterwards is worse than
+   the room the 16px costs.
+   --------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .hero--v3 .hero-title { font-size: clamp(40px, 13.5vw, 56px); }
+
+  .hero-content--v3 .access-slot { width: min(340px, 100%); }
+  .hero-content--v3 .waitlist-form {
+    flex-wrap: nowrap;
+    border-radius: 999px;
+    padding: 5px 5px 5px 16px;
+    gap: 6px;
+  }
+  .hero-content--v3 .waitlist-input { flex: 1 1 0; padding: 10px 0; font-size: 16px; }
+  .hero-content--v3 .waitlist-submit { flex: none; width: auto; padding: 11px 14px; font-size: 14px; }
+}
+
+@media (max-width: 370px) {
+  .hero-content--v3 .waitlist-form { flex-wrap: wrap; border-radius: 24px; padding: 8px; gap: 6px; }
+  .hero-content--v3 .waitlist-input { flex: 1 0 100%; padding: 8px 10px; }
+  .hero-content--v3 .waitlist-submit { flex: 1 0 100%; width: 100%; }
+}
+}
