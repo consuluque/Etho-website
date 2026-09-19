@@ -31,11 +31,13 @@
   justify-content: center;
 }
 
-/* Even top and bottom, so the block centres on the section rather than
-   on whatever the two paddings happen to differ by. Enough of it to
-   clear the fixed wordmark on a short viewport. */
+/* Centred, then weighted downward: the dog sits high in the frame, and
+   an even split put the headline across its face. The extra sits on top,
+   so the block drops by half of whatever the two paddings differ by —
+   70px at 1440, tapering to 20px on a phone, where the copy is taller
+   and there is less room to give away. */
 .hero-content--v3 {
-  padding-top: clamp(84px, 12vw, 112px);
+  padding-top: clamp(124px, 20vw, 252px);
   padding-bottom: clamp(84px, 12vw, 112px);
 }
 
@@ -470,28 +472,20 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
 /* ---------------------------------------------------------------
    Footer
 
-   Two lines under the wordmark rather than one, so the footer grid
-   from styles.css gains a row for the second.
+   The wordmark and one line, nothing else.
    --------------------------------------------------------------- */
 
-.site-footer__blurb {
-  font-family: var(--body-font);
-  font-size: clamp(16px, 2vw, 18px);
-  line-height: 1.5;
-  color: var(--muted);
-  max-width: 40ch;
-  text-wrap: pretty;
-}
-
-.site-footer--v3 .site-footer__tagline { max-width: 26ch; }
+/* styles.css caps the tagline at 22ch to keep it stacked under the
+   wordmark. It is the only line here, so let it run. */
+.site-footer--v3 .site-footer__tagline { max-width: none; }
 
 @media (min-width: 901px) {
+  /* styles.css lays the footer out as a two-column grid, with a column
+     for the links and a row each for the tagline and the domain. With
+     neither of those left there is nothing for it to arrange, so this
+     goes back to the stack it uses on a phone. */
   .site-footer--v3 {
-    grid-template-areas:
-      'mark   links'
-      'tag    links'
-      'blurb  links'
-      'domain links';
+    display: flex;
+    gap: clamp(18px, 2.2vw, 24px);
   }
-  .site-footer--v3 .site-footer__blurb { grid-area: blurb; }
 }
