@@ -353,6 +353,12 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
   object-fit: cover;
 }
 
+/* A slot holding a real product shot rather than a placeholder frame.
+   Both shots are cut out on white, so the slot goes white behind them
+   instead of carrying the warm wash the empty frames use — otherwise
+   the photo's own background reads as a panel sitting inside the tile. */
+.v3-slot--shot { background: #FFFFFF; }
+
 .v3-slot__icon {
   width: clamp(26px, 3.4vw, 34px);
   height: clamp(26px, 3.4vw, 34px);
