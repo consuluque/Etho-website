@@ -26,10 +26,17 @@
      start life hidden behind the browser chrome. */
   min-height: 100vh;
   min-height: 100svh;
+  /* styles.css sits .hero-content on the floor of the section; here the
+     whole block is centred instead. */
+  justify-content: center;
 }
 
+/* Even top and bottom, so the block centres on the section rather than
+   on whatever the two paddings happen to differ by. Enough of it to
+   clear the fixed wordmark on a short viewport. */
 .hero-content--v3 {
-  padding-bottom: clamp(56px, 12vw, 104px);
+  padding-top: clamp(84px, 12vw, 112px);
+  padding-bottom: clamp(84px, 12vw, 112px);
 }
 
 .hero--v3 .hero-title {
@@ -183,6 +190,9 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
   background-size: cover;
   background-position: 50% 45%;
   background-repeat: no-repeat;
+  /* The grain blends with the film and the scrim below it, and must not
+     reach past them to the page behind. */
+  isolation: isolate;
 }
 
 .v3-section--film .hero__media { object-position: 50% 45%; }
@@ -198,7 +208,31 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
       rgba(20, 16, 12, 0.66) 45%,
       rgba(20, 16, 12, 0.46) 75%,
       rgba(20, 16, 12, 0.40) 100%),
-    linear-gradient(0deg, rgba(20, 16, 12, 0.35) 0%, rgba(20, 16, 12, 0.10) 50%);
+    linear-gradient(0deg, rgba(20, 16, 12, 0.35) 0%, rgba(20, 16, 12, 0.10) 50%),
+    /* A flat warm wash under both, so the picture reads aged rather
+       than simply darkened. */
+    linear-gradient(0deg, rgba(104, 72, 38, 0.20) 0%, rgba(104, 72, 38, 0.20) 100%);
+}
+
+/* Film grain, for a little age on the picture. One tiled patch of
+   monochrome fractal noise, blended so it lands as light and dark
+   speckle across the film rather than as a grey haze over it. It sits
+   above the scrim and below the content, so only the picture is aged —
+   never the type or the cards. */
+.v3-film__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* soft-light, not overlay: overlay multiplies in the shadows, and this
+     picture is mostly shadow, so it crushed the speckle to almost
+     nothing. Measured on a flat patch of the backdrop, this reads about
+     three times the pixel-to-pixel variation of no grain at all, for
+     roughly half the lightening that screen blending would cost. */
+  opacity: 0.65;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='180'%20height='180'><filter%20id='g'><feTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='3'%20stitchTiles='stitch'/><feColorMatrix%20type='saturate'%20values='0'/></filter><rect%20width='180'%20height='180'%20filter='url%28%23g%29'/></svg>");
+  background-size: 180px 180px;
+  background-repeat: repeat;
 }
 
 .v3-section__inner {
@@ -228,9 +262,9 @@ html:not(.js) [data-reveal] { opacity: 1; transform: none; }
 @media (max-width: 900px) {
   .v3-film__scrim {
     background: linear-gradient(0deg,
-      rgba(20, 16, 12, 0.78) 0%,
-      rgba(20, 16, 12, 0.70) 55%,
-      rgba(20, 16, 12, 0.66) 100%);
+      rgba(20, 16, 12, 0.83) 0%,
+      rgba(20, 16, 12, 0.76) 55%,
+      rgba(20, 16, 12, 0.72) 100%);
   }
 }
 
