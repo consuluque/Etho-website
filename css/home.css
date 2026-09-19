@@ -64,17 +64,34 @@
    at 414px.
 
    Below 481px landing.css stacks the pill into a full-width field with
-   a full-width button under it. At that width the button is twice the
-   one a desktop gets, so it sizes to its own label and centres.
+   a full-width button under it, 108px tall. At phone widths the pill
+   the desktop gets still fits — a shade less padding either side of
+   the button and the whole thing is 50px — so the stack is held back
+   for the phones that genuinely cannot: below 371px the placeholder
+   would no longer clear the button.
+
+   The field stays at 16px on purpose. iOS zooms the page in on focus
+   for any input set smaller, and undoing that afterwards is worse than
+   the room the 16px costs.
    --------------------------------------------------------------- */
 
 @media (max-width: 480px) {
   .hero--v3 .hero-title { font-size: clamp(40px, 13.5vw, 56px); }
 
-  .hero-content--v3 .waitlist-submit {
-    flex: 0 0 auto;
-    width: auto;
-    margin: 0 auto;
-    padding: 12px 30px;
+  .hero-content--v3 .access-slot { width: min(340px, 100%); }
+  .hero-content--v3 .waitlist-form {
+    flex-wrap: nowrap;
+    border-radius: 999px;
+    padding: 5px 5px 5px 16px;
+    gap: 6px;
   }
+  .hero-content--v3 .waitlist-input { flex: 1 1 0; padding: 10px 0; font-size: 16px; }
+  .hero-content--v3 .waitlist-submit { flex: none; width: auto; padding: 11px 14px; font-size: 14px; }
+}
+
+@media (max-width: 370px) {
+  .hero-content--v3 .waitlist-form { flex-wrap: wrap; border-radius: 24px; padding: 8px; gap: 6px; }
+  .hero-content--v3 .waitlist-input { flex: 1 0 100%; padding: 8px 10px; }
+  .hero-content--v3 .waitlist-submit { flex: 1 0 100%; width: 100%; }
+}
 }
