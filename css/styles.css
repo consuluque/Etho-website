@@ -28,7 +28,7 @@
      and all body copy at 400. */
   --title-font: 'Soyuz Grotesk', sans-serif;
   --title-weight: 700;
-  --title-spacing: -0.02em;
+  --title-spacing: 0;
   --subtitle-font: 'Manrope', sans-serif;
   --subtitle-weight: 500;
   --body-font: 'Manrope', sans-serif;
@@ -237,7 +237,7 @@ nav.links {
 .site-nav__mark {
   font-family: var(--title-font);
   font-size: 20px;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--title-spacing);
   line-height: 1;
   color: #F7F5F0;
   transition: color 120ms var(--ease);
@@ -472,7 +472,7 @@ nav.links {
 .site-footer__mark {
   font-family: var(--title-font);
   font-size: clamp(32px, 8vw, 52px);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--title-spacing);
   line-height: 0.9;
   color: var(--ink);
 }

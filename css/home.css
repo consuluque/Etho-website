@@ -149,10 +149,10 @@
   width: min(100%, 940px);
   margin: 0 auto;
   font-family: var(--body-font);
-  font-size: clamp(18px, 3.3vw, 44px);
+  font-size: clamp(15px, 2.8vw, 37px);
   font-weight: 500;
   line-height: 1.4;
-  letter-spacing: var(--title-spacing);
+  letter-spacing: -0.02em;
   color: var(--ink);
 }
 
@@ -208,15 +208,9 @@
   text-wrap: balance;
 }
 
-/* The PNG carries a wide transparent margin around the mark — roughly
-   a quarter of its height above and below — so the box is set larger
-   than the mark should read, and the spare height is folded back into
-   the margins. */
 .foot__logo {
-  --logo-w: clamp(150px, 20vw, 190px);
-  width: var(--logo-w);
+  width: clamp(110px, 14vw, 132px);
   height: auto;
-  margin: calc(var(--logo-w) * -0.1) 0;
 }
 
 .foot__links {
