@@ -1,14 +1,38 @@
 /* ---------------------------------------------------------------
    home.css — the landing page at the site root.
 
-   One screen: the wordmark, the dog video, the headline and the
-   waitlist form. Layered on styles.css (tokens, hero, waitlist glass)
-   and landing.css (.u-visually-hidden, .access-slot, the hero type
-   scale), so only what is genuinely new lives here.
+   Three sections: the hero (wordmark, dog video, headline, waitlist
+   form), one paragraph that darkens word by word as it is read, and
+   the footer. Under all of it, once the hero has scrolled away, the
+   waitlist form pinned to the foot of the screen.
 
-   Everything this file used to carry for the second section and the
-   footer went with them; it is in this branch's history if they come
-   back.
+   Layered on styles.css (tokens, hero, waitlist glass) and landing.css
+   (.u-visually-hidden, .access-slot, the pinned bar's mechanics), so
+   only what is genuinely new lives here.
+   --------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------
+   Wordmark
+
+   styles.css draws the fixed wordmark inside a frosted pill and lifts
+   the pill with a shadow once it is over the light page. Here it is
+   the word alone: no fill, no blur, no shadow, in either state. The
+   colour swap it does past the hero is kept, or the cream mark would
+   vanish on the cream page.
+   --------------------------------------------------------------- */
+
+.site-nav--bare,
+.site-nav--bare.is-past-hero {
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  /* Enough around the word for a finger to land on. */
+  padding: 10px 14px;
+}
+
+/* ---------------------------------------------------------------
+   Hero
    --------------------------------------------------------------- */
 
 .hero--v3 {
@@ -51,7 +75,8 @@
    --------------------------------------------------------------- */
 
 @media (min-width: 481px) {
-  .hero-content--v3 .waitlist-input { padding: 12px 0; }
+  .hero-content--v3 .waitlist-input,
+  .sticky-cta__slot .waitlist-input { padding: 12px 0; }
 }
 
 /* ---------------------------------------------------------------
@@ -68,7 +93,9 @@
    the desktop gets still fits — a shade less padding either side of
    the button and the whole thing is 50px — so the stack is held back
    for the phones that genuinely cannot: below 371px the placeholder
-   would no longer clear the button.
+   would no longer clear the button. The pinned bar takes the same
+   rules: two rows at the foot of a phone screen would cover a third
+   of it.
 
    The field stays at 16px on purpose. iOS zooms the page in on focus
    for any input set smaller, and undoing that afterwards is worse than
@@ -78,20 +105,172 @@
 @media (max-width: 480px) {
   .hero--v3 .hero-title { font-size: clamp(40px, 13.5vw, 56px); }
 
-  .hero-content--v3 .access-slot { width: min(340px, 100%); }
-  .hero-content--v3 .waitlist-form {
+  .hero-content--v3 .access-slot,
+  .sticky-cta__slot { width: min(340px, 100%); }
+  .hero-content--v3 .waitlist-form,
+  .sticky-cta__slot .waitlist-form {
     flex-wrap: nowrap;
     border-radius: 999px;
     padding: 5px 5px 5px 16px;
     gap: 6px;
   }
-  .hero-content--v3 .waitlist-input { flex: 1 1 0; padding: 10px 0; font-size: 16px; }
-  .hero-content--v3 .waitlist-submit { flex: none; width: auto; padding: 11px 14px; font-size: 14px; }
+  .hero-content--v3 .waitlist-input,
+  .sticky-cta__slot .waitlist-input { flex: 1 1 0; padding: 10px 0; font-size: 16px; }
+  .hero-content--v3 .waitlist-submit,
+  .sticky-cta__slot .waitlist-submit { flex: none; width: auto; padding: 11px 14px; font-size: 14px; }
 }
 
 @media (max-width: 370px) {
-  .hero-content--v3 .waitlist-form { flex-wrap: wrap; border-radius: 24px; padding: 8px; gap: 6px; }
-  .hero-content--v3 .waitlist-input { flex: 1 0 100%; padding: 8px 10px; }
-  .hero-content--v3 .waitlist-submit { flex: 1 0 100%; width: 100%; }
+  .hero-content--v3 .waitlist-form,
+  .sticky-cta__slot .waitlist-form { flex-wrap: wrap; border-radius: 24px; padding: 8px; gap: 6px; }
+  .hero-content--v3 .waitlist-input,
+  .sticky-cta__slot .waitlist-input { flex: 1 0 100%; padding: 8px 10px; }
+  .hero-content--v3 .waitlist-submit,
+  .sticky-cta__slot .waitlist-submit { flex: 1 0 100%; width: 100%; }
 }
+
+/* ---------------------------------------------------------------
+   The story — one paragraph, read word by word
+
+   home.js wraps each word in a span and lights them in order as the
+   paragraph climbs the screen. Unlit words are the ink at a third
+   strength, like the line still to be typed; lit ones are the ink.
+   With no script there are no spans and the paragraph is plain ink.
+   --------------------------------------------------------------- */
+
+.story {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(96px, 18vw, 224px) clamp(20px, 5vw, 64px);
+}
+
+.story__copy {
+  width: min(100%, 940px);
+  margin: 0 auto;
+  font-family: var(--body-font);
+  font-size: clamp(18px, 3.3vw, 44px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.story__word {
+  color: rgba(50, 48, 49, 0.34);
+  transition: color 260ms var(--ease);
+}
+.story__word.is-lit { color: var(--ink); }
+
+/* The reference sets the paragraph as a justified block; on a phone
+   that would open rivers between the few words on each line, so it is
+   ragged there. */
+@media (min-width: 741px) {
+  .story__copy { text-align: justify; }
+}
+
+/* ---------------------------------------------------------------
+   Footer
+
+   The tagline and the logo on one side, the links on the other. On a
+   phone it is one centred column: tagline, logo, links, with the
+   pinned form beneath. The bottom padding leaves room for that form
+   at every width, so it never covers the last link.
+   --------------------------------------------------------------- */
+
+.foot {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(72px, 12vw, 120px) clamp(20px, 5vw, 64px) calc(clamp(72px, 12vw, 120px) + 96px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(48px, 10vw, 80px);
+}
+
+.foot__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(56px, 14vw, 120px);
+}
+
+.foot__tagline {
+  font-family: var(--body-font);
+  font-size: clamp(24px, 6vw, 30px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 14ch;
+  text-wrap: balance;
+}
+
+/* The PNG carries a wide transparent margin around the mark — roughly
+   a quarter of its height above and below — so the box is set larger
+   than the mark should read, and the spare height is folded back into
+   the margins. */
+.foot__logo {
+  --logo-w: clamp(150px, 20vw, 190px);
+  width: var(--logo-w);
+  height: auto;
+  margin: calc(var(--logo-w) * -0.1) 0;
+}
+
+.foot__links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.foot__links a {
+  font-family: var(--body-font);
+  font-size: 17px;
+  line-height: 1.35;
+  color: rgba(50, 48, 49, 0.72);
+  transition: color 120ms var(--ease);
+}
+.foot__links a:hover { color: var(--ink); }
+
+@media (min-width: 901px) {
+  .foot {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left;
+    padding-top: clamp(96px, 10vw, 128px);
+  }
+  .foot__brand { align-items: flex-start; gap: 28px; }
+  .foot__tagline { max-width: none; }
+  .foot__links { align-items: flex-end; text-align: right; gap: 4px; }
+}
+
+/* ---------------------------------------------------------------
+   The pinned form
+
+   landing.css draws .sticky-cta as a phone-only bar that fades in once
+   the hero has scrolled away (initStickyCta() in landing.js). Here it
+   is on at every width, and it holds the waitlist form itself rather
+   than a button back up to the hero's: the field and the button leave
+   the hero and stay at the foot of the screen for the rest of the
+   page. The glass takes a heavier fill and shadow than the hero's, so
+   it sits on the cream page rather than dissolving into it.
+   --------------------------------------------------------------- */
+
+.sticky-cta--form {
+  display: block;
+  padding: 24px 16px calc(16px + env(safe-area-inset-bottom));
+}
+
+.sticky-cta__slot {
+  margin: 0 auto;
+  width: min(440px, 100%);
+}
+
+.sticky-cta--form .waitlist-form {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(50, 48, 49, 0.16);
+  box-shadow: 0 14px 40px rgba(50, 48, 49, 0.18);
 }

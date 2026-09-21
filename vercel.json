@@ -10,10 +10,6 @@
     { "source": "/partners", "destination": "/", "permanent": false },
     { "source": "/partners.html", "destination": "/", "permanent": false },
     { "source": "/shop", "destination": "/", "permanent": false },
-    { "source": "/shop.html", "destination": "/", "permanent": false },
-    { "source": "/privacy", "destination": "/", "permanent": false },
-    { "source": "/privacy.html", "destination": "/", "permanent": false },
-    { "source": "/terms", "destination": "/", "permanent": false },
-    { "source": "/terms.html", "destination": "/", "permanent": false }
+    { "source": "/shop.html", "destination": "/", "permanent": false }
   ]
 }
