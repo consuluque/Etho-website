@@ -145,8 +145,10 @@
   padding: clamp(96px, 18vw, 224px) clamp(20px, 5vw, 64px);
 }
 
+/* Capped to the width the hero's headline and subtitle run at on a
+   wide screen (roughly 590–660px), so the two read as one column. */
 .story__copy {
-  width: min(100%, 940px);
+  width: min(100%, 640px);
   margin: 0 auto;
   font-family: var(--body-font);
   font-size: clamp(15px, 2.8vw, 37px);
