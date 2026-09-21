@@ -28,11 +28,37 @@
      and all body copy at 400. */
   --title-font: 'Soyuz Grotesk', sans-serif;
   --title-weight: 700;
-  --title-spacing: -0.02em;
+  --title-spacing: 0;
   --subtitle-font: 'Manrope', sans-serif;
   --subtitle-weight: 500;
   --body-font: 'Manrope', sans-serif;
   --body-weight: 400;
+
+  /* Type scale. Every size of running text comes from one of these
+     five, so a change here moves the whole page together. --type-lead
+     is the hero subtitle and the footer line; --type-lead-lg is one
+     step up from it for the story paragraph, and meets it at 18px on a
+     phone so the two read at one size there. --type-body is the form
+     field, and stays at 16px because iOS zooms the page in on focus for
+     anything smaller. */
+  --type-display: clamp(34px, 6.3vw, 82px);
+  --type-lead-lg: clamp(18px, 2.6vw, 26px);
+  --type-lead: clamp(18px, 2.4vw, 23px);
+  --type-body: 16px;
+  --type-small: 14px;
+}
+
+/* On a phone the display size scales with the viewport rather than
+   bottoming out at its floor, so the headline still reads as the page
+   and not as a heading. */
+@media (max-width: 480px) {
+  :root { --type-display: clamp(40px, 13.5vw, 56px); }
+}
+/* The narrowest phones: the two lead sizes step down together, so the
+   hero subtitle's first line still fits on one line and the paragraph
+   still matches it. */
+@media (max-width: 370px) {
+  :root { --type-lead: 16px; --type-lead-lg: 16px; }
 }
 
 * { box-sizing: border-box; }
@@ -237,7 +263,7 @@ nav.links {
 .site-nav__mark {
   font-family: var(--title-font);
   font-size: 20px;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--title-spacing);
   line-height: 1;
   color: #F7F5F0;
   transition: color 120ms var(--ease);
@@ -279,7 +305,7 @@ nav.links {
 
 .hero-sub {
   font-family: var(--body-font);
-  font-size: clamp(18px, 2.4vw, 23px);
+  font-size: var(--type-lead);
   font-weight: var(--body-weight);
   color: rgba(247, 245, 240, 0.82);
   max-width: 32ch;
@@ -472,7 +498,7 @@ nav.links {
 .site-footer__mark {
   font-family: var(--title-font);
   font-size: clamp(32px, 8vw, 52px);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--title-spacing);
   line-height: 0.9;
   color: var(--ink);
 }

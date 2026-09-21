@@ -4,19 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Etho — Give them more of the good life</title>
-<meta name="description" content="Understand what your dog needs, then discover better ways to care for them.">
+<meta name="description" content="Personalised wellbeing for your dog, with better ways to care for them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/landing.css">
 <link rel="stylesheet" href="css/home.css">
+<!-- Flags that scripting is on, before anything paints. The reveal
+     animation and the word-by-word paragraph are opt-in on this, so the
+     page is readable without it. -->
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <div class="page">
 
   <!-- The wordmark, small and centred at the top of the page. -->
-  <nav class="site-nav" aria-label="Primary">
+  <nav class="site-nav site-nav--bare" aria-label="Primary">
     <a class="site-nav__mark" href="#top">etho</a>
   </nav>
 
@@ -29,7 +33,7 @@
 
     <div class="hero-content hero-content--v3">
       <h1 class="hero-title">Give them more of the good life</h1>
-      <p class="hero-sub">Understand what your dog needs, then discover better ways to care for them.</p>
+      <p class="hero-sub"><span class="hero-sub__line">Personalised wellbeing for your dog,</span> <span class="hero-sub__line">with better ways to care for them.</span></p>
 
       <!-- The form ships in the markup rather than being built by script,
            so it still submits with JS off; landing.js upgrades it to a
@@ -48,9 +52,48 @@
     </div>
   </section>
 
+  <!-- 2 — The story ------------------------------------------------------ -->
+  <!-- One paragraph. home.js wraps each word so it can darken them in
+       turn as the reader scrolls, like the line being typed out. -->
+  <section class="story" id="story" data-section="story">
+    <p class="story__copy" data-scroll-words>Every dog is different. Etho gets to know yours, bringing together everything that shapes their wellbeing. From what they eat and how they move, to how they feel, play and rest. So you can understand what they need and give them more of what makes life good.</p>
+  </section>
+
+  <!-- 3 — Footer ---------------------------------------------------------- -->
+  <footer class="foot" data-section="footer">
+    <div class="foot__brand">
+      <img class="foot__logo" src="assets/images/etho%20logo%20dark.png" alt="Etho"
+           width="276" height="76" loading="lazy" decoding="async">
+      <p class="foot__tagline">Better care makes better days.</p>
+    </div>
+    <nav class="foot__links" aria-label="Footer">
+      <a href="mailto:maria@etho.pet">Get in touch</a>
+      <a href="https://www.linkedin.com/company/etho.pet/" target="_blank" rel="noopener">Linkedin</a>
+      <a href="https://www.instagram.com/etho.pet" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61593629438506" target="_blank" rel="noopener">Facebook</a>
+    </nav>
+  </footer>
+</div>
+
+<!-- Pinned to the foot of the screen once the hero has scrolled away, on
+     every screen size — see initStickyCta() in landing.js. It is the same
+     form as the hero's, named so the analytics can tell the two apart. -->
+<div class="sticky-cta sticky-cta--form" data-sticky-cta>
+  <div class="access-slot sticky-cta__slot">
+    <form class="waitlist-form access-form" data-form-name="sticky"
+          action="https://formsubmit.co/consuluque@gmail.com" method="POST">
+      <label class="u-visually-hidden" for="sticky-email">Email address</label>
+      <input id="sticky-email" type="email" name="email" class="waitlist-input"
+             placeholder="goodhuman@mail.com" autocomplete="email" required>
+      <input type="hidden" name="_subject" value="New Etho waitlist signup">
+      <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
+    </form>
+    <p class="waitlist-status" aria-live="polite"></p>
+  </div>
 </div>
 
 <script src="js/main.js"></script>
 <script src="js/landing.js"></script>
+<script src="js/home.js"></script>
 </body>
 </html>
