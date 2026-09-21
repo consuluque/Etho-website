@@ -316,6 +316,15 @@
   pointer-events: none;
   transition: opacity 200ms var(--ease);
 }
+
+/* The films are 9:16 and the screen is 1:2, so the sides are cropped.
+   The third film's captions sit left of centre and its widest line,
+   "More snacks", runs from 10.9% to 95.0% across; the default centred
+   crop clipped its right edge. The window is moved so the line has
+   the same clearance on both sides. The still takes the same crop, so
+   nothing shifts when the film comes in over it. */
+[data-showcase-slide="2"] .showcase__still,
+[data-showcase-slide="2"] .showcase__film { object-position: 77.5% 50%; }
 .showcase__film.is-playing { opacity: 1; }
 
 /* Stacked for a phone: title, phone, copy, all centred, under the
