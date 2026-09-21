@@ -222,10 +222,12 @@
 .foot__links a:hover { color: var(--ink); }
 
 @media (min-width: 901px) {
+  /* Both columns sit on the same baseline: the logo and the line end
+     level with the last link. */
   .foot {
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-end;
     text-align: left;
     padding-top: clamp(96px, 10vw, 128px);
   }
