@@ -281,21 +281,20 @@
    still sits under the film and both fill the screen the same way, so
    the film arrives over exactly the frame the still was showing. The
    film stays invisible until it is genuinely running. */
-/* The same entrance inside the screen: the new chapter's still rises
-   in from a little below while the old one fades where it stands. The
-   phone clips it, so the frame itself never appears to move. */
+/* The chapters stack in order inside the screen, later ones on top,
+   and each one after the first waits below the screen's bottom edge.
+   home.js slides it up into place with the scroll itself, through the
+   last stretch of the chapter before it, so it covers the old still
+   like a card and is fully in exactly as its chapter takes over.
+   Nothing fades: the phone clips the move, and the frame stays put.
+   With no script only the first chapter shows. */
 .showcase__slide {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transform: translateY(6%);
-  transition: opacity 200ms var(--ease), transform 0s 200ms;
+  transform: translateY(100%);
+  will-change: transform;
 }
-.showcase__slide.is-active {
-  opacity: 1;
-  transform: none;
-  transition: opacity 480ms var(--ease), transform 480ms var(--ease);
-}
+.showcase__slide:first-child { transform: none; }
 
 .showcase__still,
 .showcase__film {
@@ -335,10 +334,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .showcase__col > *,
-  .showcase__slide,
   .showcase__film { transition: none; }
-  .showcase__col > *,
-  .showcase__slide { transform: none; }
+  .showcase__col > * { transform: none; }
 }
 
 /* ---------------------------------------------------------------

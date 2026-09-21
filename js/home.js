@@ -132,6 +132,36 @@ function initShowcase(root) {
     if (visible) start(films[active]); else stop(films[active]);
   };
 
+  // The slide-up inside the screen follows the scroll. Through the
+  // last SLIDE_SPAN of each chapter's screen of scroll, the next
+  // chapter's still travels from just below the screen to fully in
+  // place, arriving exactly as its trigger enters view and the chapter
+  // switches; the same run backwards takes it out again. Under
+  // reduced motion it snaps at the switch instead.
+  const SLIDE_SPAN = 0.45;
+  let queued = false;
+  const placeSlides = () => {
+    queued = false;
+    const progress = -root.getBoundingClientRect().top / window.innerHeight;
+    slides.forEach((slide, k) => {
+      if (k === 0) return;
+      let f;
+      if (reduced.matches) {
+        f = k <= active ? 1 : 0;
+      } else {
+        f = Math.min(1, Math.max(0, (progress - (k - SLIDE_SPAN)) / SLIDE_SPAN));
+      }
+      slide.style.transform = f >= 1 ? 'none' : 'translateY(' + ((1 - f) * 100).toFixed(2) + '%)';
+    });
+  };
+  const onScroll = () => {
+    if (queued || !visible) return;
+    queued = true;
+    requestAnimationFrame(placeSlides);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+
   const setActive = (i) => {
     if (i === active && root.dataset.showcaseActive) return;
     active = i;
@@ -141,6 +171,7 @@ function initShowcase(root) {
     // Always from the top, even on a return to a chapter seen before.
     stop(films[i]);
     sync();
+    placeSlides();
     if (typeof track === 'function') track('showcase_state', { state: i + 1 });
   };
 
@@ -186,13 +217,16 @@ function initShowcase(root) {
     ([entry]) => {
       visible = entry.isIntersecting;
       sync();
+      if (visible) placeSlides();
     },
     { threshold: 0 }
   ).observe(stage);
 
   reduced.addEventListener('change', () => {
     if (reduced.matches) films.forEach(stop); else sync();
+    placeSlides();
   });
+
 
   setActive(0);
 }
