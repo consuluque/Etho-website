@@ -60,13 +60,14 @@ Each chapter of the product story has a still and a film, named by
 chapter and looked up at these paths:
 
 ```
-assets/images/Web_Image_1.png   assets/videos/Web_Video_1.mp4
-assets/images/Web_Image_2.png   assets/videos/Web_Video_2.mp4
-assets/images/Web_Image_3.png   assets/videos/Web_Video_3.mp4
+assets/images/Web_Image_1.webp  assets/videos/Web_Video_1.mp4
+assets/images/Web_Image_2.webp  assets/videos/Web_Video_2.mp4
+assets/images/Web_Image_3.webp  assets/videos/Web_Video_3.mp4
 ```
 
-The still is what shows first; the film fades in over it once it is
-actually running, and never shows at all under prefers-reduced-motion.
+The stills are WebP at quality 85, encoded from the supplied PNGs, which
+took them from about 2.2MB each to under 140KB. The still is what shows
+first; the film fades in over it once it is actually running, and never shows at all under prefers-reduced-motion.
 A missing film leaves the still up, so a chapter degrades to its photo.
 
 The Commission Factory verification file is deliberately **not** redirected:
