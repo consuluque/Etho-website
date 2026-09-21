@@ -192,7 +192,7 @@
 
 .foot__tagline {
   font-family: var(--body-font);
-  font-size: var(--type-lead-lg);
+  font-size: var(--type-lead);
   font-weight: var(--body-weight);
   line-height: 1.5;
   letter-spacing: -0.02em;

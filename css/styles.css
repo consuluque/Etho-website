@@ -36,8 +36,8 @@
 
   /* Type scale. Every size of running text comes from one of these
      five, so a change here moves the whole page together. --type-lead
-     is the hero subtitle; --type-lead-lg is one step up from it for the
-     story paragraph and the footer line, and meets it at 18px on a
+     is the hero subtitle and the footer line; --type-lead-lg is one
+     step up from it for the story paragraph, and meets it at 18px on a
      phone so the two read at one size there. --type-body is the form
      field, and stays at 16px because iOS zooms the page in on focus for
      anything smaller. */

@@ -44,8 +44,8 @@ together rather than one rule at a time:
 
 ```
 --type-display   the hero headline (Soyuz Grotesk, 0% tracking)
---type-lead-lg   the story paragraph and the footer line
---type-lead      the hero subtitle
+--type-lead-lg   the story paragraph
+--type-lead      the hero subtitle and the footer line
 --type-body      the form field and the footer links
 --type-small     the form button and its status line
 ```
