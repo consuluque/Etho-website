@@ -59,7 +59,61 @@
     <p class="story__copy" data-scroll-words>Every dog is different. Etho gets to know yours, bringing together everything that shapes their wellbeing. From what they eat and how they move, to how they feel, play and rest. So you can understand what they need and give them more of what makes life good.</p>
   </section>
 
-  <!-- 3 — Footer ---------------------------------------------------------- -->
+  <!-- 3 — Product story --------------------------------------------------- -->
+  <!-- One phone, three chapters. The stage pins to the top of the screen
+       for the length of the section while the trigger blocks after it
+       scroll past underneath; home.js reads which trigger is in view and
+       switches the text and the phone's screen to match. Each chapter's
+       screen is a still with its film on top, so the still is what shows
+       until the film is actually running. The first chapter ships
+       active in the markup, so the section reads without a script. -->
+  <section class="showcase" id="showcase" data-section="showcase" data-showcase>
+    <div class="showcase__stage">
+
+      <div class="showcase__col showcase__col--title">
+        <h2 class="showcase__title is-active" data-showcase-text="0">A good life is made of good days</h2>
+        <h2 class="showcase__title" data-showcase-text="1">Make the most of life together</h2>
+        <h2 class="showcase__title" data-showcase-text="2">Now that’s a dog’s life</h2>
+      </div>
+
+      <div class="showcase__phone">
+        <div class="showcase__screen">
+          <div class="showcase__slide is-active" data-showcase-slide="0">
+            <img class="showcase__still" src="assets/images/Web_Image_1.png"
+                 alt="" width="1024" height="1536" loading="eager" decoding="async">
+            <video class="showcase__film" src="assets/videos/Web_Video_1.mp4"
+                   muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+          </div>
+          <div class="showcase__slide" data-showcase-slide="1">
+            <img class="showcase__still" src="assets/images/Web_Image_2.png"
+                 alt="" width="1024" height="1536" loading="eager" decoding="async">
+            <video class="showcase__film" src="assets/videos/Web_Video_2.mp4"
+                   muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+          </div>
+          <div class="showcase__slide" data-showcase-slide="2">
+            <img class="showcase__still" src="assets/images/Web_Image_3.png"
+                 alt="" width="1024" height="1536" loading="eager" decoding="async">
+            <video class="showcase__film" src="assets/videos/Web_Video_3.mp4"
+                   muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase__col showcase__col--copy">
+        <p class="showcase__copy is-active" data-showcase-text="0">Walks, play, comfort, adventures and all the little things in between.</p>
+        <p class="showcase__copy" data-showcase-text="1">Know what matters most, Give them the care, attention and experiences they deserve.</p>
+        <p class="showcase__copy" data-showcase-text="2">Better care across nutrition, physical health, mental wellbeing, and comfort &amp; rest.</p>
+      </div>
+
+    </div>
+
+    <!-- Structural: one screen of scroll per chapter. -->
+    <div class="showcase__trigger" data-showcase-trigger="0" aria-hidden="true"></div>
+    <div class="showcase__trigger" data-showcase-trigger="1" aria-hidden="true"></div>
+    <div class="showcase__trigger" data-showcase-trigger="2" aria-hidden="true"></div>
+  </section>
+
+  <!-- 4 — Footer ---------------------------------------------------------- -->
   <footer class="foot" data-section="footer">
     <div class="foot__brand">
       <img class="foot__logo" src="assets/images/etho%20logo%20dark.png" alt="Etho"

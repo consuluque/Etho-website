@@ -5,9 +5,9 @@ Pre-launch marketing site for Etho. Plain static HTML/CSS/JS, no backend, no bui
 ## Structure
 
 The site root is the landing page: a hero with the waitlist form, one
-paragraph that darkens word by word as it is read, and the footer, with
-the form pinned to the foot of the screen once the hero has scrolled
-away. Everything else is kept in the repo but redirected to the root —
+paragraph that darkens word by word as it is read, a product story told
+through one pinned phone over three chapters, and the footer, with the
+form pinned to the foot of the screen once the hero has scrolled away. Everything else is kept in the repo but redirected to the root —
 see "Putting the site back" below.
 
 ```
@@ -18,7 +18,7 @@ css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
 css/landing.css — the access form, the pinned bar, the home-v2 sections
 css/coming-soon.css — the holding page's own stylesheet; shares nothing
-js/home.js     — the word-by-word paragraph
+js/home.js     — the word-by-word paragraph and the product story
 
 home-v2.html   — the landing page that was live before the hero-only cut
 home-v1.html   — the original home page, before that
@@ -43,8 +43,9 @@ together rather than one rule at a time:
 
 ```
 --type-display   the hero headline (Soyuz Grotesk, 0% tracking)
+--type-title     the product story's chapter titles
 --type-lead-lg   the story paragraph
---type-lead      the hero subtitle and the footer line
+--type-lead      the hero subtitle, the chapter copy and the footer line
 --type-body      the form field and the footer links
 --type-small     the form button and its status line
 ```
@@ -52,6 +53,21 @@ together rather than one rule at a time:
 `--type-lead-lg` is one step up from `--type-lead` on a wide screen and
 meets it at 18px on a phone, so the paragraph reads at the subtitle's size
 there. Add a new size only by adding a token here.
+
+## Product story assets
+
+Each chapter of the product story has a still and a film, named by
+chapter and looked up at these paths:
+
+```
+assets/images/Web_Image_1.png   assets/videos/Web_Video_1.mp4
+assets/images/Web_Image_2.png   assets/videos/Web_Video_2.mp4
+assets/images/Web_Image_3.png   assets/videos/Web_Video_3.mp4
+```
+
+The still is what shows first; the film fades in over it once it is
+actually running, and never shows at all under prefers-reduced-motion.
+A missing film leaves the still up, so a chapter degrades to its photo.
 
 The Commission Factory verification file is deliberately **not** redirected:
 it is a domain-ownership proof read by a machine, not a page, and it has to

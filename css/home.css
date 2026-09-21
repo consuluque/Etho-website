@@ -163,6 +163,172 @@
 .story__word.is-lit { color: var(--ink); }
 
 /* ---------------------------------------------------------------
+   Product story — one phone, three chapters
+
+   The section is four screens tall. Its stage sticks to the top of
+   the viewport for the first three of them, while the three trigger
+   blocks that follow it in flow scroll past underneath; home.js sets
+   data-showcase-active from whichever trigger is in view. The stage
+   then scrolls away with the fourth screen, so the footer arrives the
+   way any section does.
+
+   The phone never moves: it is one box, laid out once, and only what
+   is inside its clipped screen changes. The three titles share one
+   grid cell, as do the three lines of copy, so the columns are sized
+   by the tallest and swapping never reflows anything.
+   --------------------------------------------------------------- */
+
+.showcase {
+  position: relative;
+  width: 100%;
+}
+
+.showcase__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(32px, 5vw, 72px);
+  padding: 0 clamp(20px, 8.4vw, 160px);
+  overflow: hidden;
+}
+
+.showcase__trigger {
+  height: 100vh;
+  height: 100svh;
+}
+
+.showcase__col {
+  display: grid;
+}
+.showcase__col > * {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 320ms var(--ease), transform 320ms var(--ease);
+  pointer-events: none;
+}
+.showcase__col > .is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.showcase__title {
+  font-family: var(--body-font);
+  font-size: var(--type-title);
+  font-weight: var(--body-weight);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  max-width: 12ch;
+  text-wrap: balance;
+}
+
+.showcase__col--copy { justify-self: start; }
+.showcase__copy {
+  font-family: var(--body-font);
+  font-size: var(--type-lead);
+  font-weight: var(--body-weight);
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  max-width: 20ch;
+  text-wrap: pretty;
+}
+
+/* The phone: a tall rounded box, half as wide as it is high, with a
+   hairline edge. Its height follows the viewport so the whole stage
+   fits on one screen. */
+.showcase__phone {
+  /* 78% of the screen, as drawn, but never within 100px of its top or
+     bottom, so the pinned form under it has clear room on a short
+     window. */
+  --phone-h: clamp(440px, min(78vh, 100vh - 200px), 720px);
+  position: relative;
+  height: var(--phone-h);
+  aspect-ratio: 1 / 2;
+  border-radius: calc(var(--phone-h) * 0.063);
+  overflow: hidden;
+  background: var(--panel);
+  /* Keeps the rounded clip honest in Safari while children animate. */
+  isolation: isolate;
+  transform: translateZ(0);
+}
+.showcase__phone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(50, 48, 49, 0.18);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.showcase__screen {
+  position: absolute;
+  inset: 0;
+}
+
+/* The three chapters stack in the screen; the active one shows. The
+   still sits under the film and both fill the screen the same way, so
+   the film arrives over exactly the frame the still was showing. The
+   film stays invisible until it is genuinely running. */
+.showcase__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 240ms var(--ease);
+}
+.showcase__slide.is-active { opacity: 1; }
+
+.showcase__still,
+.showcase__film {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  display: block;
+}
+.showcase__film {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--ease);
+}
+.showcase__film.is-playing { opacity: 1; }
+
+/* Stacked for a phone: title, phone, copy, all centred, under the
+   fixed wordmark and above the pinned form. The phone drops to just
+   under half the screen so the three fit on one. */
+@media (max-width: 900px) {
+  .showcase__stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    align-content: center;
+    justify-items: center;
+    row-gap: clamp(24px, 5vh, 48px);
+    padding: 72px clamp(20px, 5vw, 64px) 110px;
+    text-align: center;
+  }
+  .showcase__col--copy { justify-self: center; }
+  .showcase__title { max-width: 14ch; }
+  .showcase__copy { max-width: 26ch; }
+  .showcase__phone { --phone-h: clamp(300px, 47vh, 440px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase__col > *,
+  .showcase__slide,
+  .showcase__film { transition: none; }
+  .showcase__col > * { transform: none; }
+}
+
+/* ---------------------------------------------------------------
    Footer
 
    The tagline and the logo on one side, the links on the other. On a
