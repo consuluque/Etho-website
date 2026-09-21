@@ -204,16 +204,20 @@
 .showcase__col {
   display: grid;
 }
+/* Entering text rises into place at a medium pace; leaving text only
+   fades, and its offset is put back once it is out of sight, so
+   nothing is ever seen moving downward. */
 .showcase__col > * {
   grid-area: 1 / 1;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 320ms var(--ease), transform 320ms var(--ease);
+  transform: translateY(18px);
+  transition: opacity 200ms var(--ease), transform 0s 200ms;
   pointer-events: none;
 }
 .showcase__col > .is-active {
   opacity: 1;
   transform: none;
+  transition: opacity 480ms var(--ease), transform 480ms var(--ease);
   pointer-events: auto;
 }
 
@@ -277,13 +281,21 @@
    still sits under the film and both fill the screen the same way, so
    the film arrives over exactly the frame the still was showing. The
    film stays invisible until it is genuinely running. */
+/* The same entrance inside the screen: the new chapter's still rises
+   in from a little below while the old one fades where it stands. The
+   phone clips it, so the frame itself never appears to move. */
 .showcase__slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 240ms var(--ease);
+  transform: translateY(6%);
+  transition: opacity 200ms var(--ease), transform 0s 200ms;
 }
-.showcase__slide.is-active { opacity: 1; }
+.showcase__slide.is-active {
+  opacity: 1;
+  transform: none;
+  transition: opacity 480ms var(--ease), transform 480ms var(--ease);
+}
 
 .showcase__still,
 .showcase__film {
@@ -325,7 +337,8 @@
   .showcase__col > *,
   .showcase__slide,
   .showcase__film { transition: none; }
-  .showcase__col > * { transform: none; }
+  .showcase__col > *,
+  .showcase__slide { transform: none; }
 }
 
 /* ---------------------------------------------------------------
