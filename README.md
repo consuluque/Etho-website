@@ -7,9 +7,8 @@ Pre-launch marketing site for Etho. Plain static HTML/CSS/JS, no backend, no bui
 The site root is the landing page: a hero with the waitlist form, one
 paragraph that darkens word by word as it is read, and the footer, with
 the form pinned to the foot of the screen once the hero has scrolled
-away. The privacy and terms pages serve alongside it; everything else is
-kept in the repo but redirected to the root — see "Putting the site back"
-below.
+away. Everything else is kept in the repo but redirected to the root —
+see "Putting the site back" below.
 
 ```
 index.html     — the landing page
@@ -25,7 +24,7 @@ home-v2.html   — the landing page that was live before the hero-only cut
 home-v1.html   — the original home page, before that
 partners.html  — providers and brands page
 shop.html      — shop page ("coming soon")
-privacy.html, terms.html — linked from the footer
+privacy.html, terms.html
 js/main.js       — hero video, reveal-on-scroll, fixed nav, v1 waitlist form
 js/landing.js    — email forms, logo marquee, sticky CTA, analytics
 assets/images/ — product/lifestyle photos (see below)
