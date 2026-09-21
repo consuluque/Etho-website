@@ -120,16 +120,33 @@ function initShowcase(root) {
     if (played) played.catch(() => film.classList.remove('is-playing'));
   };
 
+  // The still holds the screen for this long before its film is asked
+  // to play, however fast the film arrives. The film loads through the
+  // hold, so it is ready to run the moment the hold ends.
+  const HOLD_MS = 1500;
+  let hold = 0;
+  const clearHold = () => {
+    if (!hold) return;
+    clearTimeout(hold);
+    hold = 0;
+  };
+
   // Brings the films in line with the active chapter and where the
   // section is: every other film stopped and rewound, this chapter's
   // and the next one's fetched once the section is near, this one
-  // running only while the stage is on screen.
+  // running, after the hold, only while the stage is on screen.
   const sync = () => {
     films.forEach((film, k) => { if (k !== active) stop(film); });
-    if (!near) return;
+    if (!near) { clearHold(); return; }
     load(active);
     load(active + 1);
-    if (visible) start(films[active]); else stop(films[active]);
+    const film = films[active];
+    if (!visible) {
+      clearHold();
+      stop(film);
+    } else if (film && film.paused && !hold) {
+      hold = setTimeout(() => { hold = 0; start(film); }, HOLD_MS);
+    }
   };
 
   // The slide-up inside the screen follows the scroll. Through the
@@ -168,8 +185,10 @@ function initShowcase(root) {
     root.dataset.showcaseActive = String(i);
     slides.forEach((slide, k) => slide.classList.toggle('is-active', k === i));
     texts.forEach((t) => t.classList.toggle('is-active', Number(t.dataset.showcaseText) === i));
-    // Always from the top, even on a return to a chapter seen before.
+    // Always from the top, and after the full hold, even on a return
+    // to a chapter seen before.
     stop(films[i]);
+    clearHold();
     sync();
     placeSlides();
     if (typeof track === 'function') track('showcase_state', { state: i + 1 });
@@ -223,7 +242,7 @@ function initShowcase(root) {
   ).observe(stage);
 
   reduced.addEventListener('change', () => {
-    if (reduced.matches) films.forEach(stop); else sync();
+    if (reduced.matches) { clearHold(); films.forEach(stop); } else sync();
     placeSlides();
   });
 
