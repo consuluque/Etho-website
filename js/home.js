@@ -71,6 +71,7 @@ document.querySelectorAll('[data-scroll-words]').forEach(initScrollWords);
    the films never play and the stills carry each chapter.
    --------------------------------------------------------------- */
 function initShowcase(root) {
+  const stage = root.querySelector('.showcase__stage');
   const slides = [...root.querySelectorAll('[data-showcase-slide]')];
   const texts = [...root.querySelectorAll('[data-showcase-text]')];
   const triggers = [...root.querySelectorAll('[data-showcase-trigger]')];
@@ -78,7 +79,11 @@ function initShowcase(root) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const inView = new Set();
   const loading = new Set();
-  let active = -1;
+  let active = 0;
+  // Nothing is fetched until the section is a screen away, and nothing
+  // plays unless the stage is actually on screen.
+  let near = false;
+  let visible = false;
 
   films.forEach((film, i) => {
     if (!film) return;
@@ -110,22 +115,32 @@ function initShowcase(root) {
   };
 
   const start = (film) => {
-    if (!film || reduced.matches) return;
-    try { film.currentTime = 0; } catch (e) { /* not yet loaded */ }
+    if (!film || reduced.matches || !film.paused) return;
     const played = film.play();
     if (played) played.catch(() => film.classList.remove('is-playing'));
   };
 
+  // Brings the films in line with the active chapter and where the
+  // section is: every other film stopped and rewound, this chapter's
+  // and the next one's fetched once the section is near, this one
+  // running only while the stage is on screen.
+  const sync = () => {
+    films.forEach((film, k) => { if (k !== active) stop(film); });
+    if (!near) return;
+    load(active);
+    load(active + 1);
+    if (visible) start(films[active]); else stop(films[active]);
+  };
+
   const setActive = (i) => {
-    if (i === active) return;
+    if (i === active && root.dataset.showcaseActive) return;
     active = i;
     root.dataset.showcaseActive = String(i);
     slides.forEach((slide, k) => slide.classList.toggle('is-active', k === i));
     texts.forEach((t) => t.classList.toggle('is-active', Number(t.dataset.showcaseText) === i));
-    films.forEach((film, k) => { if (k !== i) stop(film); });
-    load(i);
-    start(films[i]);
-    load(i + 1);
+    // Always from the top, even on a return to a chapter seen before.
+    stop(films[i]);
+    sync();
     if (typeof track === 'function') track('showcase_state', { state: i + 1 });
   };
 
@@ -136,57 +151,47 @@ function initShowcase(root) {
   };
 
   if (!('IntersectionObserver' in window)) {
+    near = true;
+    visible = true;
     setActive(0);
     return;
   }
 
   // The first chapter is on from the moment the stage pins; each later
   // one takes over as its trigger's top edge enters the viewport.
-  new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const k = Number(entry.target.dataset.showcaseTrigger);
-        if (entry.isIntersecting) inView.add(k); else inView.delete(k);
-      });
-      settle();
-    },
-    { threshold: 0 }
-  ).observe(triggers[0]);
-  triggers.slice(1).forEach((t) => {
-    new IntersectionObserver(
-      ([entry]) => {
-        const k = Number(entry.target.dataset.showcaseTrigger);
-        if (entry.isIntersecting) inView.add(k); else inView.delete(k);
-        settle();
-      },
-      { threshold: 0 }
-    ).observe(t);
-  });
+  const onTrigger = (entries) => {
+    entries.forEach((entry) => {
+      const k = Number(entry.target.dataset.showcaseTrigger);
+      if (entry.isIntersecting) inView.add(k); else inView.delete(k);
+    });
+    settle();
+  };
+  const triggerObserver = new IntersectionObserver(onTrigger, { threshold: 0 });
+  triggers.forEach((t) => triggerObserver.observe(t));
 
-  // Warm the first film a screen before the section arrives, so it is
+  // A screen before the section arrives, fetch the first film so it is
   // ready to run the moment the stage pins.
   new IntersectionObserver(
     ([entry], obs) => {
       if (!entry.isIntersecting) return;
-      load(0);
+      near = true;
+      sync();
       obs.disconnect();
     },
     { rootMargin: '100% 0px' }
   ).observe(root);
 
-  // Pause whatever is running if the whole section leaves the screen,
-  // and pick it back up on return.
+  // Run the active film only while the stage is on screen.
   new IntersectionObserver(
     ([entry]) => {
-      const film = films[active];
-      if (!film) return;
-      if (entry.isIntersecting) start(film); else stop(film);
+      visible = entry.isIntersecting;
+      sync();
     },
     { threshold: 0 }
-  ).observe(root.querySelector('.showcase__stage'));
+  ).observe(stage);
 
   reduced.addEventListener('change', () => {
-    if (reduced.matches) films.forEach(stop); else start(films[active]);
+    if (reduced.matches) films.forEach(stop); else sync();
   });
 
   setActive(0);
