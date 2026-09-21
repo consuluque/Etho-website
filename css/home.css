@@ -144,10 +144,9 @@
   padding: clamp(96px, 18vw, 224px) clamp(20px, 5vw, 64px);
 }
 
-/* Capped to the width the hero's headline and subtitle run at on a
-   wide screen (roughly 590–660px), so the two read as one column. */
+/* Held to 65% of the viewport, inside the section's own gutters. */
 .story__copy {
-  width: min(100%, 640px);
+  width: min(100%, 65vw);
   margin: 0 auto;
   font-family: var(--body-font);
   font-size: var(--type-lead-lg);
@@ -188,13 +187,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(56px, 14vw, 120px);
+  gap: 24px;
 }
 
 .foot__tagline {
   font-family: var(--body-font);
   font-size: var(--type-lead-lg);
-  font-weight: 500;
+  font-weight: var(--body-weight);
   line-height: 1.5;
   letter-spacing: -0.02em;
   color: var(--ink);
