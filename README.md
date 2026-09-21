@@ -36,6 +36,24 @@ form's `action`. Both forms on the landing page — the hero's and the
 pinned one — carry a `data-form-name`, so the analytics events say which
 one converted.
 
+## Type scale
+
+Every size of running text on the landing page comes from one of five
+tokens on `:root` in `css/styles.css`, so a change there moves the page
+together rather than one rule at a time:
+
+```
+--type-display   the hero headline (Soyuz Grotesk, 0% tracking)
+--type-lead-lg   the story paragraph and the footer line
+--type-lead      the hero subtitle
+--type-body      the form field and the footer links
+--type-small     the form button and its status line
+```
+
+`--type-lead-lg` is one step up from `--type-lead` on a wide screen and
+meets it at 18px on a phone, so the paragraph reads at the subtitle's size
+there. Add a new size only by adding a token here.
+
 The Commission Factory verification file is deliberately **not** redirected:
 it is a domain-ownership proof read by a machine, not a page, and it has to
 keep serving its token at its own URL.

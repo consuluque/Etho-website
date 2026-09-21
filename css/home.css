@@ -56,12 +56,22 @@
   padding-bottom: clamp(84px, 12vw, min(112px, 13vh));
 }
 
-/* Each stop 15% under the size in landing.css: 40/7.4vw/96 becomes
-   34/6.3vw/82. */
 .hero--v3 .hero-title {
-  font-size: clamp(34px, 6.3vw, 82px);
+  font-size: var(--type-display);
   max-width: 14ch;
 }
+
+/* The subtitle is set as two lines, the same two on every screen:
+   "Personalised wellbeing for your dog," and "with better ways to care
+   for them." Each is its own block, so the break never moves with the
+   width; the measure is loosened so it never forces an earlier one. */
+.hero--v3 .hero-sub { max-width: none; }
+.hero-sub__line { display: block; }
+
+/* Everything the form says sits on the scale too. */
+.waitlist-input { font-size: var(--type-body); }
+.waitlist-submit,
+.waitlist-status { font-size: var(--type-small); }
 
 /* ---------------------------------------------------------------
    Waitlist field tap target
@@ -82,12 +92,6 @@
 /* ---------------------------------------------------------------
    Phones
 
-   The headline bottoms out at its floor here while the line beneath it
-   sits at its ceiling, so the two ran 1.9x apart where a wide screen
-   runs 3.6x — the headline read as a heading rather than as the page.
-   This scales it with the viewport instead, from 2.4x at 320px to 3.1x
-   at 414px.
-
    Below 481px landing.css stacks the pill into a full-width field with
    a full-width button under it, 108px tall. At phone widths the pill
    the desktop gets still fits — a shade less padding either side of
@@ -97,14 +101,9 @@
    rules: two rows at the foot of a phone screen would cover a third
    of it.
 
-   The field stays at 16px on purpose. iOS zooms the page in on focus
-   for any input set smaller, and undoing that afterwards is worse than
-   the room the 16px costs.
    --------------------------------------------------------------- */
 
 @media (max-width: 480px) {
-  .hero--v3 .hero-title { font-size: clamp(40px, 13.5vw, 56px); }
-
   .hero-content--v3 .access-slot,
   .sticky-cta__slot { width: min(340px, 100%); }
   .hero-content--v3 .waitlist-form,
@@ -115,9 +114,9 @@
     gap: 6px;
   }
   .hero-content--v3 .waitlist-input,
-  .sticky-cta__slot .waitlist-input { flex: 1 1 0; padding: 10px 0; font-size: 16px; }
+  .sticky-cta__slot .waitlist-input { flex: 1 1 0; padding: 10px 0; }
   .hero-content--v3 .waitlist-submit,
-  .sticky-cta__slot .waitlist-submit { flex: none; width: auto; padding: 11px 14px; font-size: 14px; }
+  .sticky-cta__slot .waitlist-submit { flex: none; width: auto; padding: 11px 14px; }
 }
 
 @media (max-width: 370px) {
@@ -151,9 +150,9 @@
   width: min(100%, 640px);
   margin: 0 auto;
   font-family: var(--body-font);
-  font-size: clamp(15px, 2.8vw, 37px);
+  font-size: var(--type-lead-lg);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.5;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
@@ -163,13 +162,6 @@
   transition: color 260ms var(--ease);
 }
 .story__word.is-lit { color: var(--ink); }
-
-/* The reference sets the paragraph as a justified block; on a phone
-   that would open rivers between the few words on each line, so it is
-   ragged there. */
-@media (min-width: 741px) {
-  .story__copy { text-align: justify; }
-}
 
 /* ---------------------------------------------------------------
    Footer
@@ -201,12 +193,12 @@
 
 .foot__tagline {
   font-family: var(--body-font);
-  font-size: clamp(24px, 6vw, 30px);
+  font-size: var(--type-lead-lg);
   font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
   color: var(--ink);
-  max-width: 14ch;
+  max-width: 16ch;
   text-wrap: balance;
 }
 
@@ -223,7 +215,7 @@
 }
 .foot__links a {
   font-family: var(--body-font);
-  font-size: 17px;
+  font-size: var(--type-body);
   line-height: 1.35;
   color: rgba(50, 48, 49, 0.72);
   transition: color 120ms var(--ease);
