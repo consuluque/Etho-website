@@ -293,6 +293,11 @@
   inset: 0;
   transform: translateY(100%);
   will-change: transform;
+  /* Rounded across the top at the phone's own radius, so the still
+     reads as a card with the phone's corners as it slides up over the
+     one before. */
+  border-radius: calc(var(--phone-h) * 0.063) calc(var(--phone-h) * 0.063) 0 0;
+  overflow: hidden;
 }
 .showcase__slide:first-child { transform: none; }
 
