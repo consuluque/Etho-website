@@ -35,13 +35,16 @@
   --body-weight: 400;
 
   /* Type scale. Every size of running text comes from one of these
-     five, so a change here moves the whole page together. --type-lead
+     six, so a change here moves the whole page together. --type-title
+     is a section heading set in Manrope, between the display headline
+     and the lead sizes. --type-lead
      is the hero subtitle and the footer line; --type-lead-lg is one
      step up from it for the story paragraph, and meets it at 18px on a
      phone so the two read at one size there. --type-body is the form
      field, and stays at 16px because iOS zooms the page in on focus for
      anything smaller. */
   --type-display: clamp(34px, 6.3vw, 82px);
+  --type-title: clamp(24px, 2.5vw, 48px);
   --type-lead-lg: clamp(18px, 2.6vw, 26px);
   --type-lead: clamp(18px, 2.4vw, 23px);
   --type-body: 16px;
