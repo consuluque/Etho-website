@@ -27,7 +27,8 @@ shop.html      — shop page ("coming soon")
 privacy.html, terms.html
 js/main.js       — hero video, reveal-on-scroll, fixed nav, v1 waitlist form
 js/landing.js    — email forms, logo marquee, sticky CTA, analytics
-assets/images/ — product/lifestyle photos (see below)
+assets/images/ — product/lifestyle photos (see below), and the tab and
+                 home-screen icons (favicon-32/64, apple-touch-icon)
 ```
 
 Waitlist signups post to FormSubmit and arrive at the address in each
