@@ -58,11 +58,13 @@ What the function does with a submission:
   posts natively (urlencoded) and is sent back to `/?joined=1` (or
   `/?joined=0` on failure), which the page turns into the same message.
 
-`landing.js` records first-touch attribution on the first visit — the
-`utm_source`, `utm_medium`, `utm_campaign` and `utm_content` parameters,
-the referring site, and the page landed on — in `localStorage` under
-`etho:attribution`, and sends it with the email. A later visit with
-different parameters does not replace it.
+`landing.js` records first-touch attribution — the `utm_source`,
+`utm_medium`, `utm_campaign` and `utm_content` parameters, the referring
+site, and the page landed on — in `localStorage` under
+`etho:attribution`, and sends it with the email. The first visit is
+recorded whatever it carries. A record without UTMs is provisional and
+is replaced by the first later visit that arrives by a tagged link; a
+record with UTMs is never overwritten.
 
 ### Environment variables
 

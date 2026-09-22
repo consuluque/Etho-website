@@ -90,15 +90,22 @@ function initSectionViews() {
 /* ---------------------------------------------------------------
    First-touch attribution
 
-   Recorded once, on the first visit that lands here, and kept in
-   localStorage until a form sends it: the utm_* parameters on the URL,
-   the page that linked in, and the page that was landed on. A later
-   visit with different parameters does not replace it — the first
-   touch is the one the waitlist wants to know about. If storage is
-   unavailable the current visit stands in at submit time.
+   Kept in localStorage until a form sends it: the utm_* parameters on
+   the URL, the page that linked in, and the page that was landed on.
+   The first visit is recorded whatever it carries, so an untagged
+   arrival still has its referrer and landing page. A record without
+   UTMs is provisional: the first later visit that arrives by a tagged
+   link replaces it. A record with UTMs is the first touch, and nothing
+   overwrites it. If storage is unavailable the current visit stands in
+   at submit time.
    --------------------------------------------------------------- */
 const ATTRIBUTION_STORAGE_KEY = 'etho:attribution';
-const ATTRIBUTION_FIELDS = ['utmSource', 'utmMedium', 'utmCampaign', 'utmContent', 'referrer', 'landingPage'];
+const UTM_FIELDS = ['utmSource', 'utmMedium', 'utmCampaign', 'utmContent'];
+const ATTRIBUTION_FIELDS = UTM_FIELDS.concat(['referrer', 'landingPage']);
+
+function hasUtms(attribution) {
+  return UTM_FIELDS.some((key) => typeof attribution[key] === 'string' && attribution[key] !== '');
+}
 
 function currentAttribution() {
   const params = new URLSearchParams(window.location.search);
@@ -141,9 +148,14 @@ function storedAttribution() {
 }
 
 function captureAttribution() {
-  if (storedAttribution()) return;
+  const stored = storedAttribution();
+  if (stored && hasUtms(stored)) return;
+
+  const current = currentAttribution();
+  if (stored && !hasUtms(current)) return;
+
   try {
-    window.localStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(currentAttribution()));
+    window.localStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(current));
   } catch (_) { /* private mode, storage full, or blocked: fall back at submit */ }
 }
 

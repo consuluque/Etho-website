@@ -587,24 +587,13 @@ nav.links {
 .on-dark .waitlist-status.is-done { color: #FFFFFF; }
 
 .waitlist-status {
-  margin-top: 8px;
+  margin-top: 12px;
   font-size: 14px;
   color: var(--muted);
   text-align: center;
 }
 .waitlist-status.is-error { color: #C0392B; }
 .waitlist-status.is-done { color: var(--ink); font-weight: 600; }
-
-/* The line under the field: what joining signs you up for. */
-.waitlist-note {
-  margin: 10px 0 0;
-  max-width: 40ch;
-  font-size: 13px;
-  line-height: 1.4;
-  color: var(--muted);
-  text-align: center;
-}
-.on-dark .waitlist-note { color: rgba(255, 255, 255, 0.75); }
 
 /* The honeypot: out of the layout and off the screen, but still a real
    field a script can fill. Not display:none, which some bots respect. */
