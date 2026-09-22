@@ -153,13 +153,12 @@ function initShowcase(root) {
   // Through the last SLIDE_SPAN of each chapter's screen of scroll, the
   // next chapter's still travels from just below the screen to fully
   // in place, arriving exactly as its trigger enters view and the
-  // chapter switches; in the same stretch the old title and copy rise
-  // a short way and fade out, then the new ones rise into place and
-  // fade in. The same run backwards takes them all out again. Under
-  // reduced motion everything snaps at the switch.
+  // chapter switches. Once the still is halfway in the title and copy
+  // change too, on a clock of their own. The same run backwards takes
+  // them all out again. Under reduced motion everything snaps at the
+  // switch.
   const SLIDE_SPAN = 0.45;
-  // How far the text travels while it fades, in px.
-  const TEXT_TRIP = 40;
+  let shownText = 0;
   let queued = false;
   const placeSlides = () => {
     queued = false;
@@ -176,19 +175,19 @@ function initShowcase(root) {
       const f = arrived(k);
       slide.style.transform = f >= 1 ? 'none' : 'translateY(' + ((1 - f) * 100).toFixed(2) + '%)';
     });
-    // A text rises in and fades in over the second half of its own
-    // chapter's arrival, and rises on and fades out over the first
-    // half of the next one's, so one is gone before the other comes.
-    const trip = TEXT_TRIP;
-    texts.forEach((t) => {
-      const k = Number(t.dataset.showcaseText);
-      const enter = Math.min(1, Math.max(0, (arrived(k) - 0.5) * 2));
-      const leave = Math.min(1, Math.max(0, arrived(k + 1) * 2));
-      const y = trip * (1 - enter) - trip * leave;
-      const alpha = enter * (1 - leave);
-      t.style.transform = Math.abs(y) < 0.5 ? 'none' : 'translateY(' + y.toFixed(1) + 'px)';
-      t.style.opacity = alpha >= 1 ? '' : alpha.toFixed(3);
-    });
+    // The text follows the still, but on a clock: once a still is
+    // halfway in, its chapter's text takes over and the change plays
+    // out by itself (see .showcase__col in home.css).
+    let shown = 0;
+    for (let k = 1; k < slides.length; k += 1) if (arrived(k) >= 0.5) shown = k;
+    if (shown !== shownText) {
+      shownText = shown;
+      texts.forEach((t) => {
+        const k = Number(t.dataset.showcaseText);
+        t.classList.toggle('is-active', k === shown);
+        t.classList.toggle('is-past', k < shown);
+      });
+    }
   };
   const onScroll = () => {
     if (queued || !visible) return;
@@ -203,7 +202,6 @@ function initShowcase(root) {
     active = i;
     root.dataset.showcaseActive = String(i);
     slides.forEach((slide, k) => slide.classList.toggle('is-active', k === i));
-    texts.forEach((t) => t.classList.toggle('is-active', Number(t.dataset.showcaseText) === i));
     // Always from the top, and after the full hold, even on a return
     // to a chapter seen before.
     stop(films[i]);
