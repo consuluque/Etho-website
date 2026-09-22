@@ -231,19 +231,13 @@ nav.links {
   transition: opacity 300ms var(--ease);
 }
 .hero__media.is-playing { opacity: 1; }
-/* The spec's stops (0.30 / 0.02 / 0.62 / 0.85) were calibrated against the
-   dark tiled photo. The video is a light scene, so the near-transparent
-   window at 34% left the cream H1 at 1.5:1. Same colour and shape, deeper
-   through the middle, so the type clears WCAG while the top stays open. */
+/* One flat tint over the whole video rather than a gradient. The ink
+   at 62% is what the old gradient ran through the middle, where the
+   headline sits, so the cream type keeps the contrast it had. */
 .hero-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg,
-    rgba(50, 48, 49, 0.62) 0%,
-    rgba(50, 48, 49, 0.46) 20%,
-    rgba(50, 48, 49, 0.60) 48%,
-    rgba(50, 48, 49, 0.78) 78%,
-    rgba(50, 48, 49, 0.88) 100%);
+  background: rgba(50, 48, 49, 0.62);
 }
 
 /* Fixed, so the wordmark stays put as the page scrolls. It holds only the
