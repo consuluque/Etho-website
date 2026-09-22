@@ -447,6 +447,10 @@
 .sticky-cta--form {
   display: block;
   padding: 24px 16px calc(16px + env(safe-area-inset-bottom));
+  /* landing.css fades the bar up from the page with a cream gradient,
+     which would sit between the pill and whatever scrolls under it and
+     leave its blur nothing to frost. The pill is the only thing here. */
+  background: none;
 }
 
 .sticky-cta__slot {
@@ -462,9 +466,13 @@
   background: rgba(50, 48, 49, 0.06);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border-color: rgba(50, 48, 49, 0.30);
   box-shadow: 0 14px 40px rgba(50, 48, 49, 0.14);
 }
+
+/* Neither pill carries a rim: the glass edge is the fill and the
+   shadow alone. */
+.hero-content--v3 .waitlist-form,
+.sticky-cta--form .waitlist-form { border: 0; }
 .sticky-cta--form .waitlist-submit {
   background: #FFFFFF;
   color: var(--ink);
