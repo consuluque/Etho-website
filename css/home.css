@@ -201,25 +201,25 @@
   height: 100svh;
 }
 
+/* Each column is a window the height of its tallest text, clipped to
+   itself. The three texts share its one cell, and home.js moves them
+   with the scroll in step with the still inside the phone: the
+   leaving text rises out through the top of the window as the
+   arriving one rises in from below it. Nothing fades. The padding
+   keeps ascenders and descenders clear of the clip at rest. Until the
+   script places them, and without one, only the first text is in the
+   window. */
 .showcase__col {
   display: grid;
+  align-items: center;
+  overflow: hidden;
+  padding: 10px 0;
 }
-/* Entering text rises into place at a medium pace; leaving text only
-   fades, and its offset is put back once it is out of sight, so
-   nothing is ever seen moving downward. */
 .showcase__col > * {
   grid-area: 1 / 1;
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 200ms var(--ease), transform 0s 200ms;
-  pointer-events: none;
+  will-change: transform;
 }
-.showcase__col > .is-active {
-  opacity: 1;
-  transform: none;
-  transition: opacity 480ms var(--ease), transform 480ms var(--ease);
-  pointer-events: auto;
-}
+.showcase__col > :not(:first-child) { transform: translateY(100vh); }
 
 .showcase__title {
   font-family: var(--body-font);
@@ -347,9 +347,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .showcase__col > *,
   .showcase__film { transition: none; }
-  .showcase__col > * { transform: none; }
 }
 
 /* ---------------------------------------------------------------

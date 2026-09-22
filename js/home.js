@@ -149,26 +149,41 @@ function initShowcase(root) {
     }
   };
 
-  // The slide-up inside the screen follows the scroll. Through the
-  // last SLIDE_SPAN of each chapter's screen of scroll, the next
-  // chapter's still travels from just below the screen to fully in
-  // place, arriving exactly as its trigger enters view and the chapter
-  // switches; the same run backwards takes it out again. Under
-  // reduced motion it snaps at the switch instead.
+  // The slide-up follows the scroll, inside the phone and beside it.
+  // Through the last SLIDE_SPAN of each chapter's screen of scroll, the
+  // next chapter's still travels from just below the screen to fully
+  // in place, arriving exactly as its trigger enters view and the
+  // chapter switches; in the same stretch the chapter's title and copy
+  // rise in from below their column's window while the old ones rise
+  // out through its top. The same run backwards takes them all out
+  // again. Under reduced motion everything snaps at the switch.
   const SLIDE_SPAN = 0.45;
   let queued = false;
   const placeSlides = () => {
     queued = false;
     const progress = -root.getBoundingClientRect().top / window.innerHeight;
+    // How far chapter k has arrived, 0..1; the first is always in.
+    const arrived = (k) => {
+      if (k <= 0) return 1;
+      if (k >= slides.length) return 0;
+      if (reduced.matches) return k <= active ? 1 : 0;
+      return Math.min(1, Math.max(0, (progress - (k - SLIDE_SPAN)) / SLIDE_SPAN));
+    };
     slides.forEach((slide, k) => {
       if (k === 0) return;
-      let f;
-      if (reduced.matches) {
-        f = k <= active ? 1 : 0;
-      } else {
-        f = Math.min(1, Math.max(0, (progress - (k - SLIDE_SPAN)) / SLIDE_SPAN));
-      }
+      const f = arrived(k);
       slide.style.transform = f >= 1 ? 'none' : 'translateY(' + ((1 - f) * 100).toFixed(2) + '%)';
+    });
+    // A text is below its window until its chapter arrives, and above
+    // it once the next one has; the window's own height is the trip.
+    const heights = new Map();
+    texts.forEach((t) => {
+      const k = Number(t.dataset.showcaseText);
+      const col = t.parentElement;
+      if (!heights.has(col)) heights.set(col, col.clientHeight + 2);
+      const trip = heights.get(col);
+      const y = (1 - arrived(k)) * trip - arrived(k + 1) * trip;
+      t.style.transform = Math.abs(y) < 0.5 ? 'none' : 'translateY(' + y.toFixed(1) + 'px)';
     });
   };
   const onScroll = () => {
