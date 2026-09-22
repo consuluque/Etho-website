@@ -22,7 +22,7 @@ const MAX_BODY_BYTES = 16 * 1024;
 const REQUEST_TIMEOUT_MS = 8000;
 
 // The off-screen field in the markup. Humans never see it; bots fill it.
-const HONEYPOT_FIELD = 'website';
+const HONEYPOT_FIELD = 'hp_field';
 
 // The custom properties created in Loops, and the longest value each
 // may carry. A URL can be long; a campaign name cannot.

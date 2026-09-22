@@ -47,7 +47,7 @@ which one converted.
 What the function does with a submission:
 
 - Validates the email; drops any request whose honeypot field
-  (`website`, kept off-screen by CSS) has a value, while still answering
+  (`hp_field`, kept off-screen by CSS) has a value, while still answering
   as if it worked.
 - Looks the email up in Loops. A **new** contact is created with
   `source: website`, `userGroup: lead`, the attribution properties below,
