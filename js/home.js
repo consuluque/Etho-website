@@ -153,11 +153,13 @@ function initShowcase(root) {
   // Through the last SLIDE_SPAN of each chapter's screen of scroll, the
   // next chapter's still travels from just below the screen to fully
   // in place, arriving exactly as its trigger enters view and the
-  // chapter switches; in the same stretch the chapter's title and copy
-  // rise in from below their column's window while the old ones rise
-  // out through its top. The same run backwards takes them all out
-  // again. Under reduced motion everything snaps at the switch.
+  // chapter switches; in the same stretch the old title and copy rise
+  // a short way and fade out, then the new ones rise into place and
+  // fade in. The same run backwards takes them all out again. Under
+  // reduced motion everything snaps at the switch.
   const SLIDE_SPAN = 0.45;
+  // How far the text travels while it fades, in px.
+  const TEXT_TRIP = 40;
   let queued = false;
   const placeSlides = () => {
     queued = false;
@@ -174,16 +176,18 @@ function initShowcase(root) {
       const f = arrived(k);
       slide.style.transform = f >= 1 ? 'none' : 'translateY(' + ((1 - f) * 100).toFixed(2) + '%)';
     });
-    // A text is below its window until its chapter arrives, and above
-    // it once the next one has; the window's own height is the trip.
-    const heights = new Map();
+    // A text rises in and fades in over the second half of its own
+    // chapter's arrival, and rises on and fades out over the first
+    // half of the next one's, so one is gone before the other comes.
+    const trip = TEXT_TRIP;
     texts.forEach((t) => {
       const k = Number(t.dataset.showcaseText);
-      const col = t.parentElement;
-      if (!heights.has(col)) heights.set(col, col.clientHeight + 2);
-      const trip = heights.get(col);
-      const y = (1 - arrived(k)) * trip - arrived(k + 1) * trip;
+      const enter = Math.min(1, Math.max(0, (arrived(k) - 0.5) * 2));
+      const leave = Math.min(1, Math.max(0, arrived(k + 1) * 2));
+      const y = trip * (1 - enter) - trip * leave;
+      const alpha = enter * (1 - leave);
       t.style.transform = Math.abs(y) < 0.5 ? 'none' : 'translateY(' + y.toFixed(1) + 'px)';
+      t.style.opacity = alpha >= 1 ? '' : alpha.toFixed(3);
     });
   };
   const onScroll = () => {

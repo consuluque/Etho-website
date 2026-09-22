@@ -201,25 +201,22 @@
   height: 100svh;
 }
 
-/* Each column is a window the height of its tallest text, clipped to
-   itself. The three texts share its one cell, and home.js moves them
-   with the scroll in step with the still inside the phone: the
-   leaving text rises out through the top of the window as the
-   arriving one rises in from below it. Nothing fades. The padding
-   keeps ascenders and descenders clear of the clip at rest. Until the
-   script places them, and without one, only the first text is in the
-   window. */
+/* The three texts share one cell, sized by the tallest. home.js moves
+   them with the scroll in step with the still inside the phone: over
+   the first half of a chapter's slide-in the leaving text rises a
+   short way and fades out, over the second half the arriving text
+   rises into place and fades in, so the two never sit on top of each
+   other. Until the script places them, and without one, only the
+   first text shows. */
 .showcase__col {
   display: grid;
   align-items: center;
-  overflow: hidden;
-  padding: 10px 0;
 }
 .showcase__col > * {
   grid-area: 1 / 1;
-  will-change: transform;
+  will-change: transform, opacity;
 }
-.showcase__col > :not(:first-child) { transform: translateY(100vh); }
+.showcase__col > :not(:first-child) { opacity: 0; }
 
 .showcase__title {
   font-family: var(--body-font);
