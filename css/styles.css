@@ -534,13 +534,11 @@ nav.links {
   [data-reveal] { transform: none; }
 }
 
-/* Waitlist — the email form renders open on load, replacing the no-JS
-   fallback link, and posts to FormSubmit.co; see initWaitlist() in
-   main.js. */
+/* Waitlist — the glass pill around the email field and its button. The
+   forms ship in the markup and post to /api/waitlist; landing.js
+   (initAccessForm) upgrades them to a fetch. .waitlist-slot is the
+   archived home-v1 page's holder for its fallback link. */
 .waitlist-slot { display: flex; flex-direction: column; align-items: center; }
-/* Sized so the field holds the placeholder with a little slack rather than
-   stretching well past it. */
-.waitlist-slot.is-active { width: min(380px, 100%); }
 
 .waitlist-form {
   display: flex;
@@ -586,7 +584,7 @@ nav.links {
 .on-dark .waitlist-input::placeholder { color: rgba(255, 255, 255, 0.7); }
 .on-dark .waitlist-submit { background: #FFFFFF; color: var(--ink); }
 .on-dark .waitlist-status { color: rgba(255, 255, 255, 0.85); }
-.on-dark .waitlist-status--done { color: #FFFFFF; }
+.on-dark .waitlist-status.is-done { color: #FFFFFF; }
 
 .waitlist-status {
   margin-top: 12px;
@@ -595,12 +593,16 @@ nav.links {
   text-align: center;
 }
 .waitlist-status.is-error { color: #C0392B; }
-.waitlist-status--done {
-  font-family: var(--subtitle-font);
-  font-size: 20px;
-  font-weight: var(--subtitle-weight);
-  color: var(--ink);
-  margin-top: 0;
+.waitlist-status.is-done { color: var(--ink); font-weight: 600; }
+
+/* The honeypot: out of the layout and off the screen, but still a real
+   field a script can fill. Not display:none, which some bots respect. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .eyebrow {

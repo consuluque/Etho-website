@@ -39,18 +39,25 @@
       <p class="hero-sub"><span class="hero-sub__line">Personalised wellbeing for your dog,</span> <span class="hero-sub__line">with better ways to care for them.</span></p>
 
       <!-- The form ships in the markup rather than being built by script,
-           so it still submits with JS off; landing.js upgrades it to a
-           fetch. -->
+           so it still submits with JS off (the function then sends the
+           browser back to /?joined=1); landing.js upgrades it to a fetch
+           and adds the stored attribution. -->
       <div id="early-access" class="access-slot">
         <form class="waitlist-form access-form" data-form-name="hero"
-              action="https://formsubmit.co/consuluque@gmail.com" method="POST">
+              action="/api/waitlist" method="POST">
           <label class="u-visually-hidden" for="access-email">Email address</label>
           <input id="access-email" type="email" name="email" class="waitlist-input"
                  placeholder="goodhuman@mail.com" autocomplete="email" required>
-          <input type="hidden" name="_subject" value="New Etho waitlist signup">
+          <!-- Off-screen and ignored by assistive tech; bots fill it,
+               people never see it, and the function drops anything with
+               a value here. -->
+          <div class="hp" aria-hidden="true">
+            <label for="access-hp-field">Leave this field empty</label>
+            <input id="access-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
           <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
         </form>
-        <p class="waitlist-status" aria-live="polite"></p>
+        <p class="waitlist-status" data-form-status aria-live="polite"></p>
       </div>
     </div>
   </section>
@@ -138,14 +145,17 @@
 <div class="sticky-cta sticky-cta--form" data-sticky-cta>
   <div class="access-slot sticky-cta__slot">
     <form class="waitlist-form access-form" data-form-name="sticky"
-          action="https://formsubmit.co/consuluque@gmail.com" method="POST">
+          action="/api/waitlist" method="POST">
       <label class="u-visually-hidden" for="sticky-email">Email address</label>
       <input id="sticky-email" type="email" name="email" class="waitlist-input"
              placeholder="goodhuman@mail.com" autocomplete="email" required>
-      <input type="hidden" name="_subject" value="New Etho waitlist signup">
+      <div class="hp" aria-hidden="true">
+        <label for="sticky-hp-field">Leave this field empty</label>
+        <input id="sticky-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </div>
       <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
     </form>
-    <p class="waitlist-status" aria-live="polite"></p>
+    <p class="waitlist-status" data-form-status aria-live="polite"></p>
   </div>
 </div>
 
