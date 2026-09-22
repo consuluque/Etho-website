@@ -1,6 +1,8 @@
 # Etho — Marketing Site
 
-Pre-launch marketing site for Etho. Plain static HTML/CSS/JS, no backend, no build step.
+Pre-launch marketing site for Etho. Plain static HTML/CSS/JS with no build
+step, plus one Vercel serverless function that puts waitlist signups into
+Loops (see "Waitlist" below).
 
 ## Structure
 
@@ -13,6 +15,7 @@ see "Putting the site back" below.
 ```
 index.html     — the landing page
 404.html       — the old holding page, so unknown URLs still read as Etho
+api/waitlist.js — the serverless function behind every waitlist form
 vercel.json    — the redirects that point the archived pages at /
 css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
@@ -25,16 +28,68 @@ home-v1.html   — the original home page, before that
 partners.html  — providers and brands page
 shop.html      — shop page ("coming soon")
 privacy.html, terms.html
-js/main.js       — hero video, reveal-on-scroll, fixed nav, v1 waitlist form
-js/landing.js    — email forms, logo marquee, sticky CTA, analytics
+js/main.js       — hero video, reveal-on-scroll, fixed nav
+js/landing.js    — waitlist forms, attribution, logo marquee, sticky CTA, analytics
 assets/images/ — product/lifestyle photos (see below), and the tab and
                  home-screen icons (favicon-32/64, apple-touch-icon)
 ```
 
-Waitlist signups post to FormSubmit and arrive at the address in each
-form's `action`. Both forms on the landing page — the hero's and the
-pinned one — carry a `data-form-name`, so the analytics events say which
-one converted.
+## Waitlist
+
+Every waitlist form — the hero's, the pinned one, and the holding
+page's — posts to `/api/waitlist`, a Vercel serverless function in
+`api/waitlist.js` that creates the contact in [Loops](https://loops.so).
+The function is dependency-free (Node's global `fetch`), so there is
+still no `package.json` and no install step. Each form carries a
+`data-form-name`, so the analytics events and the function's logs say
+which one converted.
+
+What the function does with a submission:
+
+- Validates the email; drops any request whose honeypot field
+  (`website`, kept off-screen by CSS) has a value, while still answering
+  as if it worked.
+- Looks the email up in Loops. A **new** contact is created with
+  `source: website`, `userGroup: lead`, the attribution properties below,
+  and a subscription to both mailing lists. An **existing** contact is
+  left untouched: nothing overwrites its source, UTMs, user group or list
+  subscriptions.
+- Answers JSON to the fetch in `landing.js`. With scripting off, the form
+  posts natively (urlencoded) and is sent back to `/?joined=1` (or
+  `/?joined=0` on failure), which the page turns into the same message.
+
+`landing.js` records first-touch attribution on the first visit — the
+`utm_source`, `utm_medium`, `utm_campaign` and `utm_content` parameters,
+the referring site, and the page landed on — in `localStorage` under
+`etho:attribution`, and sends it with the email. A later visit with
+different parameters does not replace it.
+
+### Environment variables
+
+Set these in the Vercel project (Production and Preview) — none are read
+from the repo, and the API key must never reach the browser:
+
+```
+LOOPS_API_KEY        — from Loops → Settings → API
+LOOPS_LIST_FRIENDS   — the ID of the "Friends of etho" mailing list
+LOOPS_LIST_DEALS     — the ID of the "Deals & Promotions" mailing list
+```
+
+Mailing list IDs are in Loops under Audience → Mailing lists (or from
+`GET /api/v1/lists`). The custom contact properties the function writes —
+`utmSource`, `utmMedium`, `utmCampaign`, `utmContent`, `referrer`,
+`landingPage` — have to exist in Loops first, or Loops rejects the
+request.
+
+### Local preview with the function
+
+`npx serve .` serves the pages but not the function. To run both:
+
+```
+npx vercel link          # once, ties the folder to the Vercel project
+npx vercel env pull      # writes .env.local (git-ignored)
+npx vercel dev
+```
 
 ## Type scale
 
@@ -99,12 +154,17 @@ git push origin home-v1
 
 ## Local preview
 
-Any static file server works, e.g.:
+Any static file server works for the pages themselves, e.g.:
 
 ```
 npx serve .
 ```
 
+The waitlist form needs the function too — see "Waitlist" above.
+
 ## Deploying
 
-Static site with no framework — Vercel (or any static host) can deploy it with zero config.
+No framework and no build: Vercel deploys the pages as static files and
+`api/waitlist.js` as a serverless function with zero config. The three
+environment variables under "Waitlist" have to be set on the project
+before the form can reach Loops.

@@ -1,0 +1,7 @@
+# Vercel CLI: project link and pulled env vars (holds LOOPS_API_KEY)
+.vercel/
+.env*
+
+# Tooling
+node_modules/
+.DS_Store

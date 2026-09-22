@@ -31,7 +31,7 @@
   <main class="legal">
     <div class="eyebrow">Legal</div>
     <h1 class="legal__title">Privacy Policy</h1>
-    <p class="legal__meta">Last updated 29 August 2026</p>
+    <p class="legal__meta">Last updated 22 September 2026</p>
 
     <p class="legal__intro">Etho asks you for real details about your dog, including things you would normally only tell a vet. This policy sets out what we collect, why we need each piece, who else can see it, and how you get it back or delete it.</p>
 
@@ -71,11 +71,18 @@
       <h3>2.3 Collected automatically</h3>
       <p>Our hosting providers keep standard server logs, including IP address, browser type and the pages requested. We use these to keep the service running and secure.</p>
       <div class="legal__callout">
-        <p><strong>We run no product analytics, no advertising, no attribution tracking and no third-party cookies</strong>, on the website or in the app. We do not collect an advertising identifier. There is nothing here to opt out of, because there is nothing collecting it.</p>
+        <p><strong>We run no product analytics, no advertising and no third-party cookies</strong>, on the website or in the app. We do not collect an advertising identifier. The one exception is the waitlist: if you join it, we note which link brought you to us, as described in 2.4. Nothing else on the website records where you came from.</p>
       </div>
 
       <h3>2.4 Waitlist</h3>
-      <p>If you join the waitlist on our website, we collect the email address you enter so we can tell you when we launch.</p>
+      <p>If you join the waitlist on our website, we collect:</p>
+      <ul>
+        <li><strong>Your email address</strong>, so we can tell you when we launch, and send you community invites and occasional offers. Every email we send has an unsubscribe link.</li>
+        <li><strong>The link that brought you here:</strong> the campaign tags on the address you arrived by (the <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code> and <code>utm_content</code> parameters), if any.</li>
+        <li><strong>The referring site</strong>, meaning the page that linked to us, if your browser passes it on.</li>
+        <li><strong>The landing page</strong>, meaning the page on our site you first arrived at.</li>
+      </ul>
+      <p>The last three are remembered in your browser from your first visit and sent with your email only when you submit the form. They tell us which of our efforts brought you in. They are stored against your email in Loops, the email platform in section 6, and nowhere else. If you never join the waitlist they are never sent to us.</p>
     </section>
 
     <section>
@@ -97,6 +104,7 @@
         <li><strong>To recommend products.</strong> Weight, life stage, coat, energy and allergies decide which products can be shown. Allergies are used to rule products out.</li>
         <li><strong>To show local conditions.</strong> Your postcode is turned into approximate coordinates and sent to a weather service.</li>
         <li><strong>To generate insights.</strong> Your answers over time feed the patterns the app surfaces.</li>
+        <li><strong>To run the waitlist.</strong> Your email, to tell you when we launch and to send community invites and offers; the link, referrer and landing page, to know which of our efforts brought you in.</li>
         <li><strong>To keep Etho secure</strong> and to respond to abuse or a security incident.</li>
         <li><strong>To meet legal obligations</strong> where they apply to us.</li>
       </ul>
@@ -146,8 +154,8 @@
           <em>Weather forecasts. Receives approximate coordinates only, with nothing identifying you or your dog. <a href="https://open-meteo.com/en/terms">open-meteo.com/en/terms</a></em>
         </li>
         <li>
-          <span>FormSubmit</span>
-          <em>Delivers waitlist signups from our website to our inbox. Receives only the email address entered. <a href="https://formsubmit.co/privacy">formsubmit.co/privacy</a></em>
+          <span>Loops</span>
+          <em>Our email platform. Holds the waitlist: the email address you enter, the campaign tags on the link you arrived by, the referring site and the landing page, and sends our emails to you. <a href="https://loops.so/privacy">loops.so/privacy</a></em>
         </li>
       </ul>
       <p><strong>Google</strong> is a platform we integrate with rather than a provider acting on our instructions. If you choose Sign in with Google, Google's own privacy policy governs its handling of that sign-in.</p>
@@ -157,7 +165,7 @@
 
     <section>
       <h2>7. Where your information is held</h2>
-      <p>Your information is stored with Supabase and served by Vercel.</p>
+      <p>Your information is stored with Supabase and served by Vercel. Waitlist details are stored with Loops.</p>
       <p>Some of our providers process information outside Australia, including in the United States. Before disclosing personal information overseas we take reasonable steps to ensure the recipient handles it consistently with the Australian Privacy Principles, as APP 8 requires. Overseas handling does mean a foreign legal system may apply to that provider.</p>
     </section>
 
@@ -190,7 +198,7 @@
         <li><strong>Backups:</strong> purged on their own cycle, within 90 days.</li>
         <li><strong>Server logs:</strong> retained by our hosting providers on their standard schedules, typically 30 days.</li>
         <li><strong>Support correspondence:</strong> up to 24 months after the request is closed.</li>
-        <li><strong>Waitlist emails:</strong> until we launch, or until you ask us to remove yours.</li>
+        <li><strong>Waitlist details:</strong> kept in Loops until you unsubscribe or ask us to remove them. Unsubscribing stops the emails; asking removes the record.</li>
         <li><strong>Records we must keep by law:</strong> for the period the law requires.</li>
       </ul>
     </section>

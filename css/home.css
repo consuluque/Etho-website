@@ -72,6 +72,7 @@
 .waitlist-input { font-size: var(--type-body); }
 .waitlist-submit,
 .waitlist-status { font-size: var(--type-small); }
+.waitlist-note { font-size: 13px; }
 
 /* ---------------------------------------------------------------
    Waitlist field tap target

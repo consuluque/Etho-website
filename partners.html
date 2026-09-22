@@ -29,16 +29,19 @@
 
       <div id="apply" class="access-slot">
         <form class="waitlist-form access-form"
-              action="https://formsubmit.co/consuluque@gmail.com" method="POST"
+              action="/api/waitlist" method="POST"
               data-form-name="partner_application"
               data-done-message="Thanks — we'll be in touch about partnering.">
           <label class="u-visually-hidden" for="partner-email">Work email address</label>
           <input id="partner-email" type="email" name="email" class="waitlist-input"
                  placeholder="you@yourbusiness.com" autocomplete="email" required>
-          <input type="hidden" name="_subject" value="New Etho partner application">
+          <div class="hp" aria-hidden="true">
+            <label for="partner-website">Leave this field empty</label>
+            <input id="partner-website" type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
           <button type="submit" class="btn-solid waitlist-submit">Apply here</button>
         </form>
-        <p class="waitlist-status" aria-live="polite"></p>
+        <p class="waitlist-status" data-form-status aria-live="polite"></p>
       </div>
     </div>
   </section>

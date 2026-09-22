@@ -163,13 +163,32 @@ body {
 .cs__submit:disabled { cursor: default; opacity: 0.7; }
 
 .cs__status {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   font-size: 14px;
   color: rgba(247, 245, 240, 0.85);
 }
 .cs__status:empty { display: none; }
 .cs__status.is-error { color: #FFC9C2; }
-.cs__status.is-done { font-size: 17px; font-weight: 500; color: #FFFFFF; }
+.cs__status.is-done { font-weight: 600; color: #FFFFFF; }
+
+/* The line under the field: what joining signs you up for. */
+.cs__note {
+  margin: 10px 0 0;
+  max-width: 40ch;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(247, 245, 240, 0.75);
+}
+
+/* The honeypot: off the screen but still a real field a script can
+   fill. Not display:none, which some bots respect. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 
 /* Below this the placeholder no longer clears the button, so the field
    becomes a full-width row above it. */

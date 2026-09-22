@@ -1,6 +1,7 @@
-/* The landing pages — the home page and the partners page. main.js still
-   carries the hero video, the reveal animation and the fixed wordmark,
-   which both reuse as-is. */
+/* The landing pages — the home page, the holding page at 404.html and
+   the archived partners page. main.js still carries the hero video, the
+   reveal animation and the fixed wordmark, which the landing pages reuse
+   as-is; the holding page loads only this file. */
 
 /* ---------------------------------------------------------------
    Analytics
@@ -87,22 +88,111 @@ function initSectionViews() {
 }
 
 /* ---------------------------------------------------------------
-   Early-access form
+   First-touch attribution
 
-   The markup ships a working form that posts to FormSubmit; this
-   upgrades it to a fetch so the page never navigates away.
+   Recorded once, on the first visit that lands here, and kept in
+   localStorage until a form sends it: the utm_* parameters on the URL,
+   the page that linked in, and the page that was landed on. A later
+   visit with different parameters does not replace it — the first
+   touch is the one the waitlist wants to know about. If storage is
+   unavailable the current visit stands in at submit time.
    --------------------------------------------------------------- */
+const ATTRIBUTION_STORAGE_KEY = 'etho:attribution';
+const ATTRIBUTION_FIELDS = ['utmSource', 'utmMedium', 'utmCampaign', 'utmContent', 'referrer', 'landingPage'];
+
+function currentAttribution() {
+  const params = new URLSearchParams(window.location.search);
+  const pick = (key) => (params.get(key) || '').trim().slice(0, 200);
+
+  // Only another site counts as a referrer; a hop between our own pages
+  // says nothing about where the visit came from.
+  let referrer = '';
+  try {
+    if (document.referrer && new URL(document.referrer).origin !== window.location.origin) {
+      referrer = document.referrer.slice(0, 500);
+    }
+  } catch (_) { /* an unparsable referrer is no referrer */ }
+
+  // The landing page keeps its query, less the flag the no-JS form
+  // comes back with, which is ours rather than the campaign's.
+  params.delete('joined');
+  const query = params.toString();
+  const landingPage = (window.location.pathname + (query ? '?' + query : '')).slice(0, 500);
+
+  return {
+    utmSource: pick('utm_source'),
+    utmMedium: pick('utm_medium'),
+    utmCampaign: pick('utm_campaign'),
+    utmContent: pick('utm_content'),
+    referrer: referrer,
+    landingPage: landingPage,
+    capturedAt: new Date().toISOString(),
+  };
+}
+
+function storedAttribution() {
+  try {
+    const raw = window.localStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    return parsed && typeof parsed === 'object' ? parsed : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function captureAttribution() {
+  if (storedAttribution()) return;
+  try {
+    window.localStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(currentAttribution()));
+  } catch (_) { /* private mode, storage full, or blocked: fall back at submit */ }
+}
+
+// Just the fields Loops has properties for, and only the ones with a value.
+function attributionForSubmit() {
+  const source = storedAttribution() || currentAttribution();
+  const out = {};
+  ATTRIBUTION_FIELDS.forEach((key) => {
+    if (typeof source[key] === 'string' && source[key]) out[key] = source[key];
+  });
+  return out;
+}
+
+/* ---------------------------------------------------------------
+   Waitlist form
+
+   The markup ships a working form that posts to /api/waitlist; this
+   upgrades it to a fetch so the page never navigates away. The
+   function serialises the whole form — email and honeypot — adds the
+   stored attribution and the form's name, and sends it as JSON. The
+   form stays on the page afterwards, cleared, so another address can
+   go in.
+   --------------------------------------------------------------- */
+const DONE_MESSAGE = "You're in! Add another email?";
+const ERROR_MESSAGE = 'Something went wrong — please try again.';
+
+function statusFor(form) {
+  const slot = form.parentElement;
+  return slot ? slot.querySelector('[data-form-status]') : null;
+}
+
+function setStatus(status, text, state) {
+  if (!status) return;
+  status.textContent = text;
+  status.classList.toggle('is-error', state === 'error');
+  status.classList.toggle('is-done', state === 'done');
+}
+
 function initAccessForm(form) {
-  const slot = form.closest('.access-slot');
-  const status = slot ? slot.querySelector('.waitlist-status') : null;
-  const input = form.querySelector('.waitlist-input');
-  const submitBtn = form.querySelector('.waitlist-submit');
+  const status = statusFor(form);
+  const input = form.querySelector('input[type="email"]');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (!input || !submitBtn) return;
+
   const submitLabel = submitBtn.textContent;
-  // The address lives in the markup's action, so it is written once.
-  const endpoint = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
-  // Each page names its own form, so the events say which one converted.
-  const name = form.dataset.formName || 'early_access';
-  const subject = form.querySelector('[name="_subject"]');
+  // The endpoint lives in the markup's action, so it is written once.
+  const endpoint = form.getAttribute('action') || '/api/waitlist';
+  // Each form names itself, so the events say which one converted.
+  const name = form.dataset.formName || 'waitlist';
   let started = false;
 
   const markStarted = () => {
@@ -113,16 +203,9 @@ function initAccessForm(form) {
   input.addEventListener('focus', markStarted);
   input.addEventListener('input', markStarted);
 
-  const setStatus = (text, isError) => {
-    if (!status) return;
-    status.textContent = text;
-    status.classList.toggle('is-error', Boolean(isError));
-  };
-
   form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-    const email = input.value.trim();
-    if (!email || !form.checkValidity()) {
+    if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
@@ -132,30 +215,53 @@ function initAccessForm(form) {
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
-    setStatus('', false);
+    setStatus(status, '', null);
+
+    const payload = Object.assign(
+      Object.fromEntries(new FormData(form)),
+      attributionForSubmit(),
+      { form: name }
+    );
+    payload.email = String(payload.email || '').trim();
 
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          email: email,
-          _subject: subject ? subject.value : 'New Etho signup',
-        }),
+        body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error('Request failed');
+      if (!res.ok) throw new Error('Request failed with ' + res.status);
 
-      form.remove();
-      setStatus(form.dataset.doneMessage || "You're on the list — we'll be in touch.", false);
-      if (status) status.classList.add('waitlist-status--done');
+      form.reset();
+      setStatus(status, form.dataset.doneMessage || DONE_MESSAGE, 'done');
       track('form_success', { form: name });
     } catch (err) {
+      setStatus(status, ERROR_MESSAGE, 'error');
+      track('form_error', { form: name });
+    } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = submitLabel;
-      setStatus('Something went wrong — please try again.', true);
-      track('form_error', { form: name });
     }
   });
+}
+
+/* With scripting off the form posts natively and the function sends the
+   browser back here with ?joined=1 (or 0). Once scripting is on again,
+   the first form shows the outcome and the flag leaves the URL. */
+function showJoinedFlag() {
+  const params = new URLSearchParams(window.location.search);
+  const joined = params.get('joined');
+  if (joined === null) return;
+
+  const form = document.querySelector('.access-form');
+  if (form) {
+    const done = joined === '1';
+    setStatus(statusFor(form), done ? DONE_MESSAGE : ERROR_MESSAGE, done ? 'done' : 'error');
+  }
+
+  params.delete('joined');
+  const query = params.toString();
+  window.history.replaceState(null, '', window.location.pathname + (query ? '?' + query : '') + window.location.hash);
 }
 
 /* ---------------------------------------------------------------
@@ -208,9 +314,11 @@ function initStickyCta(bar) {
   ).observe(hero);
 }
 
+captureAttribution();
 trackPageView();
 initScrollDepth();
 initSectionViews();
 document.querySelectorAll('.access-form').forEach(initAccessForm);
+showJoinedFlag();
 document.querySelectorAll('[data-logo-track]').forEach(initLogoMarquee);
 document.querySelectorAll('[data-sticky-cta]').forEach(initStickyCta);
