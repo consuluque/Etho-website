@@ -159,92 +159,109 @@
   </div>
 </div>
 
-<!-- The dog profile modal. profile.js opens it after a successful
-     waitlist submit and posts it to /api/profile. It is a native
-     <dialog>, closed by the × buttons, Escape or a tap outside. -->
+<!-- The dog profile modal. profile.js opens it the moment a waitlist
+     email is submitted and posts the answers to /api/profile. One
+     question a screen, a progress bar across the top; a native
+     <dialog>, closed by ×, Escape or a tap outside at any point. -->
 <dialog id="dog-profile" class="profile" aria-labelledby="profile-title">
-  <form class="profile__form" action="/api/profile" method="POST" data-profile-form>
+  <div class="profile__progress" aria-hidden="true"><span class="profile__bar" data-profile-bar></span></div>
+
+  <form class="profile__form" action="/api/profile" method="POST" novalidate data-profile-form>
     <input type="hidden" name="email" value="">
-    <div class="profile__head">
-      <h2 id="profile-title" class="profile__title">Tell us about your dog</h2>
-      <button type="button" class="profile__close" aria-label="Close" data-profile-close>&times;</button>
-    </div>
-    <p class="profile__lead">A few details so Etho can get to know them.</p>
 
-    <div class="profile__field">
-      <label class="profile__label" for="profile-dog-name">Dog’s name</label>
-      <input id="profile-dog-name" class="profile__input" type="text" name="dogName"
-             maxlength="60" autocomplete="off" required>
+    <div class="profile__top">
+      <button type="button" class="profile__nav" aria-label="Back" data-profile-back hidden>&larr;</button>
+      <span class="profile__count" data-profile-count aria-live="polite"></span>
+      <button type="button" class="profile__nav" aria-label="Close" data-profile-close>&times;</button>
     </div>
 
-    <div class="profile__field">
-      <label class="profile__label" for="profile-breed">Breed</label>
-      <input id="profile-breed" class="profile__input" type="text" name="dogBreed" list="breed-list"
-             maxlength="80" autocomplete="off" required>
+    <!-- {dog} becomes the dog's name once there is one, else "your dog". -->
+    <fieldset class="profile__step" data-step="dogName">
+      <legend class="profile__question" id="profile-title">What’s your dog’s name?</legend>
+      <input class="profile__input" type="text" name="dogName" maxlength="60" autocomplete="off"
+             enterkeyhint="next" aria-label="Dog’s name" required>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="dogBreed" hidden>
+      <legend class="profile__question" data-question="What breed is {dog}?"></legend>
+      <input class="profile__input" type="text" name="dogBreed" list="breed-list" maxlength="80"
+             autocomplete="off" enterkeyhint="next" aria-label="Breed" placeholder="Start typing…" required>
       <datalist id="breed-list"></datalist>
-    </div>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
 
-    <div class="profile__row">
-      <div class="profile__field">
-        <label class="profile__label" for="profile-age">Age <span class="profile__optional">years</span></label>
-        <input id="profile-age" class="profile__input" type="number" name="dogAge"
-               min="0" max="30" step="0.5" inputmode="decimal">
+    <fieldset class="profile__step" data-step="dogAge" data-optional hidden>
+      <legend class="profile__question" data-question="How old is {dog}?"></legend>
+      <div class="profile__unit">
+        <input class="profile__input" type="number" name="dogAge" min="0" max="30" step="0.5"
+               inputmode="decimal" enterkeyhint="next" aria-label="Age in years">
+        <span class="profile__unit-label">years</span>
       </div>
-      <fieldset class="profile__field profile__fieldset">
-        <legend class="profile__label">Birthday</legend>
-        <div class="profile__pair">
-          <select class="profile__input" name="dogBirthdayDay" aria-label="Day">
-            <option value="">Day</option>
-          </select>
-          <select class="profile__input" name="dogBirthdayMonth" aria-label="Month">
-            <option value="">Month</option>
-          </select>
-        </div>
-      </fieldset>
-    </div>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
 
-    <div class="profile__field">
-      <label class="profile__label" for="profile-owner">Your name</label>
-      <input id="profile-owner" class="profile__input" type="text" name="ownerName"
-             maxlength="60" autocomplete="given-name" required>
-    </div>
+    <fieldset class="profile__step" data-step="dogBirthday" data-optional hidden>
+      <legend class="profile__question" data-question="When is {dog}’s birthday?"></legend>
+      <div class="profile__pair">
+        <select class="profile__input" name="dogBirthdayDay" aria-label="Day">
+          <option value="">Day</option>
+        </select>
+        <select class="profile__input" name="dogBirthdayMonth" aria-label="Month">
+          <option value="">Month</option>
+        </select>
+      </div>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
 
-    <fieldset class="profile__fieldset">
-      <legend class="profile__label">What does your dog love?</legend>
+    <fieldset class="profile__step" data-step="ownerName" hidden>
+      <legend class="profile__question">And what’s your name?</legend>
+      <input class="profile__input" type="text" name="ownerName" maxlength="60" autocomplete="given-name"
+             enterkeyhint="next" aria-label="Your name" required>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="loves" data-optional hidden>
+      <legend class="profile__question" data-question="What does {dog} love?"></legend>
+      <p class="profile__hint">Pick as many as you like.</p>
       <div class="profile__chips">
-            <button type="button" class="chip" data-chip="walks" data-chip-group="loves" aria-pressed="false">Walks</button>
-            <button type="button" class="chip" data-chip="food" data-chip-group="loves" aria-pressed="false">Food</button>
-            <button type="button" class="chip" data-chip="swimming" data-chip-group="loves" aria-pressed="false">Swimming</button>
-            <button type="button" class="chip" data-chip="other dogs" data-chip-group="loves" aria-pressed="false">Other dogs</button>
-            <button type="button" class="chip" data-chip="toys" data-chip-group="loves" aria-pressed="false">Toys</button>
-            <button type="button" class="chip" data-chip="cuddles" data-chip-group="loves" aria-pressed="false">Cuddles</button>
-            <button type="button" class="chip" data-chip="training" data-chip-group="loves" aria-pressed="false">Training</button>
-            <button type="button" class="chip" data-chip="car rides" data-chip-group="loves" aria-pressed="false">Car rides</button>
-            <button type="button" class="chip" data-chip="other" data-chip-group="loves" aria-pressed="false">Other</button>
+        <button type="button" class="chip" data-chip="walks" data-chip-group="loves" aria-pressed="false">Walks</button>
+        <button type="button" class="chip" data-chip="food" data-chip-group="loves" aria-pressed="false">Food</button>
+        <button type="button" class="chip" data-chip="swimming" data-chip-group="loves" aria-pressed="false">Swimming</button>
+        <button type="button" class="chip" data-chip="other dogs" data-chip-group="loves" aria-pressed="false">Other dogs</button>
+        <button type="button" class="chip" data-chip="toys" data-chip-group="loves" aria-pressed="false">Toys</button>
+        <button type="button" class="chip" data-chip="cuddles" data-chip-group="loves" aria-pressed="false">Cuddles</button>
+        <button type="button" class="chip" data-chip="training" data-chip-group="loves" aria-pressed="false">Training</button>
+        <button type="button" class="chip" data-chip="car rides" data-chip-group="loves" aria-pressed="false">Car rides</button>
+        <button type="button" class="chip" data-chip="other" data-chip-group="loves" aria-pressed="false">Other</button>
       </div>
     </fieldset>
 
-    <fieldset class="profile__fieldset">
-      <legend class="profile__label">What do they struggle with?</legend>
+    <fieldset class="profile__step" data-step="struggles" data-optional hidden>
+      <legend class="profile__question" data-question="What does {dog} struggle with?"></legend>
+      <p class="profile__hint">Pick as many as you like.</p>
       <div class="profile__chips">
-            <button type="button" class="chip" data-chip="being left alone" data-chip-group="struggles" aria-pressed="false">Being left alone</button>
-            <button type="button" class="chip" data-chip="pulling on lead" data-chip-group="struggles" aria-pressed="false">Pulling on lead</button>
-            <button type="button" class="chip" data-chip="rainy days" data-chip-group="struggles" aria-pressed="false">Rainy days</button>
-            <button type="button" class="chip" data-chip="teeth" data-chip-group="struggles" aria-pressed="false">Teeth</button>
-            <button type="button" class="chip" data-chip="weight" data-chip-group="struggles" aria-pressed="false">Weight</button>
-            <button type="button" class="chip" data-chip="anxiety" data-chip-group="struggles" aria-pressed="false">Anxiety</button>
-            <button type="button" class="chip" data-chip="grooming" data-chip-group="struggles" aria-pressed="false">Grooming</button>
-            <button type="button" class="chip" data-chip="other" data-chip-group="struggles" aria-pressed="false">Other</button>
+        <button type="button" class="chip" data-chip="being left alone" data-chip-group="struggles" aria-pressed="false">Being left alone</button>
+        <button type="button" class="chip" data-chip="pulling on lead" data-chip-group="struggles" aria-pressed="false">Pulling on lead</button>
+        <button type="button" class="chip" data-chip="rainy days" data-chip-group="struggles" aria-pressed="false">Rainy days</button>
+        <button type="button" class="chip" data-chip="teeth" data-chip-group="struggles" aria-pressed="false">Teeth</button>
+        <button type="button" class="chip" data-chip="weight" data-chip-group="struggles" aria-pressed="false">Weight</button>
+        <button type="button" class="chip" data-chip="anxiety" data-chip-group="struggles" aria-pressed="false">Anxiety</button>
+        <button type="button" class="chip" data-chip="grooming" data-chip-group="struggles" aria-pressed="false">Grooming</button>
+        <button type="button" class="chip" data-chip="other" data-chip-group="struggles" aria-pressed="false">Other</button>
       </div>
     </fieldset>
 
     <p class="profile__error" data-profile-error aria-live="polite"></p>
-    <button type="submit" class="btn-solid profile__submit" data-profile-submit>Done</button>
+    <div class="profile__actions">
+      <button type="button" class="profile__skip" data-profile-skip hidden>Skip</button>
+      <button type="submit" class="btn-solid profile__submit" data-profile-next>Next</button>
+    </div>
   </form>
 
   <div class="profile__done" data-profile-done hidden>
-    <button type="button" class="profile__close" aria-label="Close" data-profile-close>&times;</button>
-    <h2 class="profile__title"><span data-dog-name></span> will be one of the first to try Etho and unlock exclusive discounts</h2>
+    <button type="button" class="profile__nav profile__done-close" aria-label="Close" data-profile-close>&times;</button>
+    <h2 class="profile__question" id="profile-done-title"><span data-dog-name></span> will be one of the first to try Etho and unlock exclusive discounts</h2>
     <button type="button" class="btn-solid profile__submit" data-profile-close>Close</button>
   </div>
 </dialog>

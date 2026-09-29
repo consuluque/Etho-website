@@ -482,20 +482,22 @@
 /* ---------------------------------------------------------------
    The dog profile modal
 
-   A native <dialog>: a cream card centred on a dimmed, blurred page,
-   and a bottom sheet on a phone. Fields take the pill shape of the
-   waitlist form; chips are the same pill, pressed state filled with
-   the ink.
+   A native <dialog>: one question a screen on a cream card, a
+   progress bar across its top, centred on a dimmed, blurred page and
+   a bottom sheet on a phone. The field takes the pill shape of the
+   waitlist form; chips are the same pill, filled with the ink when
+   pressed.
    --------------------------------------------------------------- */
 
 .profile {
-  width: min(560px, calc(100% - 32px));
+  width: min(520px, calc(100% - 32px));
   max-height: calc(100vh - 32px);
   max-height: calc(100dvh - 32px);
   margin: auto;
   padding: 0;
   border: 0;
   border-radius: 28px;
+  overflow: hidden;
   background: var(--page);
   color: var(--ink);
   font-family: var(--body-font);
@@ -507,38 +509,55 @@
   -webkit-backdrop-filter: blur(6px);
 }
 
+.profile__progress { height: 4px; background: var(--rule); }
+.profile__bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--ink);
+  transition: width 260ms var(--ease);
+}
+
 .profile__form,
 .profile__done {
   display: grid;
-  gap: 18px;
-  padding: 28px 24px 24px;
+  gap: 20px;
+  padding: 16px 24px 24px;
+  /* Every question the same height, so the card does not jump, and the
+     buttons pinned to the foot of it, so Next is always where the thumb
+     last found it: top bar, the question filling the middle, error,
+     actions. */
+  min-height: 360px;
+  grid-template-rows: auto 1fr auto auto;
+  align-content: start;
 }
-/* The two panels swap with the hidden attribute, which the display
-   rule above would otherwise override. */
 .profile__form[hidden],
 .profile__done[hidden] { display: none; }
-.profile__done { text-align: center; padding-top: 56px; }
-.profile__done .profile__close { position: absolute; top: 16px; right: 16px; }
-.profile__done .profile__submit { justify-self: center; }
-
-.profile__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
+.profile__done {
+  position: relative;
+  padding-top: 64px;
+  text-align: center;
+  grid-template-rows: none;
+  align-content: center;
 }
-.profile__title {
-  margin: 0;
-  font-family: var(--subtitle-font);
+.profile__done-close { position: absolute; top: 16px; right: 16px; }
+.profile__done .profile__submit { justify-self: center; width: auto; min-width: 200px; }
+
+.profile__top {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+}
+.profile__top > :first-child { grid-column: 1; }
+.profile__top > :nth-child(2) { grid-column: 2; }
+.profile__top > :last-child { grid-column: 3; }
+.profile__count {
+  text-align: center;
+  font-size: 13px;
   font-weight: 600;
-  font-size: clamp(22px, 5vw, 26px);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  color: var(--muted);
 }
-.profile__lead { margin: -8px 0 0; font-size: var(--type-body); color: var(--muted); }
-
-.profile__close {
-  flex: none;
+.profile__nav {
   width: 36px;
   height: 36px;
   padding: 0;
@@ -546,55 +565,90 @@
   border-radius: 999px;
   background: rgba(50, 48, 49, 0.06);
   color: var(--ink);
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1;
   cursor: pointer;
 }
-.profile__close:hover { background: rgba(50, 48, 49, 0.12); }
+.profile__nav:hover { background: rgba(50, 48, 49, 0.12); }
+.profile__nav[hidden] { display: none; }
 
-.profile__field { display: grid; gap: 8px; }
-.profile__fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
-.profile__label {
-  display: block;
-  font-size: var(--type-small);
-  font-weight: 600;
+.profile__step {
+  display: grid;
+  gap: 14px;
+  /* The step fills the card's middle row; its own rows stay packed at
+     the top rather than stretching the field to fill it. */
+  align-content: start;
+  margin: 0;
   padding: 0;
+  border: 0;
+  min-width: 0;
 }
-.profile__optional { font-weight: 400; color: var(--muted); }
+.profile__step[hidden] { display: none; }
+.profile__question {
+  margin: 0;
+  padding: 0;
+  font-family: var(--subtitle-font);
+  font-weight: 600;
+  font-size: clamp(22px, 5.5vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.profile__hint { margin: -6px 0 0; font-size: var(--type-small); color: var(--muted); }
+
+/* Each question slides in from the side it came from. */
+@keyframes profile-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes profile-in-back { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+.profile__step.is-entering { animation: profile-in 200ms var(--ease); }
+.profile__step.is-entering-back { animation: profile-in-back 200ms var(--ease); }
+@media (prefers-reduced-motion: reduce) {
+  .profile__step.is-entering,
+  .profile__step.is-entering-back { animation: none; }
+  .profile__bar { transition: none; }
+}
 
 .profile__input {
   width: 100%;
   min-width: 0;
-  padding: 13px 18px;
+  padding: 15px 20px;
   border: 1.5px solid var(--rule);
   border-radius: 999px;
   background: #FFFFFF;
   font-family: var(--body-font);
-  /* 16px so iOS does not zoom the page on focus. */
-  font-size: 16px;
+  /* 18px reads as the one thing on the screen; well over the 16px iOS
+     zooms below. */
+  font-size: 18px;
   color: var(--ink);
   appearance: none;
   -webkit-appearance: none;
 }
+.profile__input::placeholder { color: var(--muted); }
 select.profile__input {
-  padding-right: 40px;
+  padding-right: 44px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23323031' stroke-width='1.6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 18px center;
+  background-position: right 20px center;
 }
-.profile__input::placeholder { color: var(--muted); }
+.profile__unit { position: relative; }
+.profile__unit .profile__input { padding-right: 76px; }
+.profile__unit-label {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--type-small);
+  color: var(--muted);
+  pointer-events: none;
+}
+.profile__pair { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; }
 
-.profile__row { display: grid; grid-template-columns: 1fr 1.6fr; gap: 12px; }
-.profile__pair { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; margin-top: 8px; }
-
-.profile__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.profile__chips { display: flex; flex-wrap: wrap; gap: 10px; }
 .chip {
-  padding: 9px 14px;
+  padding: 11px 16px;
   border: 1.5px solid var(--rule);
   border-radius: 999px;
   background: #FFFFFF;
   font-family: var(--body-font);
-  font-size: var(--type-small);
+  font-size: 15px;
   font-weight: 500;
   color: var(--ink);
   cursor: pointer;
@@ -602,10 +656,25 @@ select.profile__input {
 }
 .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
 
-.profile__error { margin: -6px 0 0; font-size: var(--type-small); color: #C0392B; }
+.profile__error { margin: 0; font-size: var(--type-small); color: #C0392B; }
 .profile__error:empty { display: none; }
-.profile__submit { width: 100%; font-size: 16px; padding: 14px 24px; }
+
+.profile__actions { display: grid; gap: 10px; }
+.profile__submit { width: 100%; font-size: 16px; padding: 15px 24px; }
 .profile__submit:disabled { opacity: 0.7; cursor: default; }
+.profile__skip {
+  justify-self: center;
+  padding: 6px 12px;
+  border: 0;
+  background: none;
+  font-family: var(--body-font);
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.profile__skip:hover { color: var(--ink); }
+.profile__skip[hidden] { display: none; }
 
 .profile :is(input, select, button, .chip):focus-visible {
   outline: 2px solid var(--ink);
@@ -622,6 +691,6 @@ select.profile__input {
     margin: auto 0 0;
     border-radius: 24px 24px 0 0;
   }
-  .profile__form { padding: 24px 16px calc(20px + env(safe-area-inset-bottom)); }
-  .profile__row { grid-template-columns: 1fr; }
+  .profile__form,
+  .profile__done { padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); min-height: 380px; }
 }
