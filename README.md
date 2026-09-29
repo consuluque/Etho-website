@@ -17,6 +17,7 @@ index.html     — the landing page
 404.html       — the old holding page, so unknown URLs still read as Etho
 api/waitlist.js — the serverless function behind every waitlist form
 api/profile.js  — the function behind the dog profile modal
+api/loops-sync.js — the Supabase webhook target that updates Loops
 api/_lib/       — what the two functions share (not deployed as a function)
 supabase/       — the migration for the waitlist_leads table
 vercel.json    — the redirects that point the archived pages at /
@@ -67,15 +68,36 @@ Supabase project the app uses (email, which form, attribution), best
 effort: a Supabase failure is logged and does not fail the signup.
 
 After a successful signup, `profile.js` opens the dog profile modal (a
-native `<dialog>` in `index.html`) and posts it to `/api/profile`. The
-whole profile merges into that lead's row in Supabase, which is the
-store for it. The dog's name, breed, age, birthday (as `MM-DD`) and the
-owner's name also go to the contact in Loops: the owner's name as
-`firstName`, the rest as the custom properties `dogName`, `dogBreed`,
-`dogAge` and `dogBirthday`, which have to exist in Loops first. Only
-those fields are written to Loops; source, UTMs, user group and lists
-are untouched. The "loves" and "struggles" chips live only in Supabase.
+native `<dialog>` in `index.html`) and posts it to `/api/profile`, which
+merges the profile into that lead's row in Supabase and nothing else.
 The breed autocomplete is the list in `js/breeds.js`.
+
+### Keeping Loops in step
+
+Supabase is the source of truth after the signup. A Database Webhook on
+`waitlist_leads` (INSERT and UPDATE) calls `/api/loops-sync`, which maps
+the row to the contact in one `contacts/update`:
+
+```
+owner_name                        → firstName
+dog_name, dog_breed, dog_age      → dogName, dogBreed, dogAge
+dog_birthday_day/month            → dogBirthday ("MM-DD")
+user_id                           → userId, and userGroup: user (null → lead)
+converted_at                      → appSignupDate
+```
+
+Only set columns are sent, so a partial row never blanks a property, and
+an update that changes nothing in that list is skipped. Source, the UTMs
+and the mailing lists are never touched after the signup. To sync a new
+column later, add it to the table and one line to `toLoops()`. The
+custom properties `dogName`, `dogBreed`, `dogAge` (number),
+`dogBirthday` and `appSignupDate` (date) have to exist in Loops.
+
+Set the webhook up in Supabase under Database → Webhooks: table
+`waitlist_leads`, events Insert and Update, HTTP request, POST to
+`https://etho.pet/api/loops-sync`, with an HTTP header
+`x-etho-webhook-secret` set to the same value as `LOOPS_SYNC_SECRET` on
+Vercel, and a timeout of at least 5 seconds to allow for a cold start.
 
 ### Leads and users
 
@@ -106,6 +128,8 @@ LOOPS_LIST_DEALS           — the ID of the "Deals & Promotions" mailing list
 SUPABASE_URL               — the project URL, Supabase → Settings → API
 SUPABASE_SERVICE_ROLE_KEY  — the service_role key from the same page.
                              Server-side only; it bypasses row level security.
+LOOPS_SYNC_SECRET          — any long random string; the Supabase webhook
+                             sends it in x-etho-webhook-secret
 ```
 
 Mailing list IDs are in Loops under Audience → Mailing lists (or from

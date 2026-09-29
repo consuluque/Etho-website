@@ -85,9 +85,6 @@
       struggles: chipValues('struggles'),
       form: signupForm,
     };
-    // The same first-touch attribution the signup sent, so the lead row
-    // is complete even if that write happened before this deploy.
-    if (typeof attributionForSubmit === 'function') Object.assign(payload, attributionForSubmit());
 
     submitBtn.disabled = true;
     try {
