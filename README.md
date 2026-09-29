@@ -18,6 +18,7 @@ index.html     — the landing page
 api/waitlist.js — the serverless function behind every waitlist form
 api/profile.js  — the function behind the dog profile modal
 api/_lib/       — what the two functions share (not deployed as a function)
+supabase/       — the migration for the waitlist_leads table
 vercel.json    — the redirects that point the archived pages at /
 css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
@@ -61,15 +62,29 @@ What the function does with a submission:
   posts natively (urlencoded) and is sent back to `/?joined=1` (or
   `/?joined=0` on failure), which the page turns into the same message.
 
+Every signup also writes a row to the `waitlist_leads` table in the
+Supabase project the app uses (email, which form, attribution), best
+effort: a Supabase failure is logged and does not fail the signup.
+
 After a successful signup, `profile.js` opens the dog profile modal (a
-native `<dialog>` in `index.html`) and posts it to `/api/profile`, which
-writes the dog's name, breed, age, birthday (as `MM-DD`) and the owner's
-name to the same contact: the owner's name as Loops' `firstName`, the
-rest as the custom properties `dogName`, `dogBreed`, `dogAge` and
-`dogBirthday`, which have to exist in Loops first. Only those fields are
-written; source, UTMs, user group and lists are untouched. The "loves"
-and "struggles" chips are validated and logged by the function but not
-sent to Loops. The breed autocomplete is the list in `js/breeds.js`.
+native `<dialog>` in `index.html`) and posts it to `/api/profile`. The
+whole profile merges into that lead's row in Supabase, which is the
+store for it. The dog's name, breed, age, birthday (as `MM-DD`) and the
+owner's name also go to the contact in Loops: the owner's name as
+`firstName`, the rest as the custom properties `dogName`, `dogBreed`,
+`dogAge` and `dogBirthday`, which have to exist in Loops first. Only
+those fields are written to Loops; source, UTMs, user group and lists
+are untouched. The "loves" and "struggles" chips live only in Supabase.
+The breed autocomplete is the list in `js/breeds.js`.
+
+### Leads and users
+
+`supabase/migrations/20260929_waitlist_leads.sql` creates the table.
+A lead is a row whose `user_id` is null. When the same email signs up
+in the app and confirms it, a trigger on `auth.users` fills `user_id`
+with the account id and stamps `converted_at`, and the row is a user
+from then on. Row level security is on with no policies, so only the
+service role, which the functions use, can read or write it.
 
 `landing.js` records first-touch attribution — the `utm_source`,
 `utm_medium`, `utm_campaign` and `utm_content` parameters, the referring
@@ -85,9 +100,12 @@ Set these in the Vercel project (Production and Preview) — none are read
 from the repo, and the API key must never reach the browser:
 
 ```
-LOOPS_API_KEY        — from Loops → Settings → API
-LOOPS_LIST_FRIENDS   — the ID of the "Friends of etho" mailing list
-LOOPS_LIST_DEALS     — the ID of the "Deals & Promotions" mailing list
+LOOPS_API_KEY              — from Loops → Settings → API
+LOOPS_LIST_FRIENDS         — the ID of the "Friends of etho" mailing list
+LOOPS_LIST_DEALS           — the ID of the "Deals & Promotions" mailing list
+SUPABASE_URL               — the project URL, Supabase → Settings → API
+SUPABASE_SERVICE_ROLE_KEY  — the service_role key from the same page.
+                             Server-side only; it bypasses row level security.
 ```
 
 Mailing list IDs are in Loops under Audience → Mailing lists (or from

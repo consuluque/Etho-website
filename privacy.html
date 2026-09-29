@@ -31,7 +31,7 @@
   <main class="legal">
     <div class="eyebrow">Legal</div>
     <h1 class="legal__title">Privacy Policy</h1>
-    <p class="legal__meta">Last updated 22 September 2026</p>
+    <p class="legal__meta">Last updated 29 September 2026</p>
 
     <p class="legal__intro">Etho asks you for real details about your dog, including things you would normally only tell a vet. This policy sets out what we collect, why we need each piece, who else can see it, and how you get it back or delete it.</p>
 
@@ -81,8 +81,9 @@
         <li><strong>The link that brought you here:</strong> the campaign tags on the address you arrived by (the <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code> and <code>utm_content</code> parameters), if any.</li>
         <li><strong>The referring site</strong>, meaning the page that linked to us, if your browser passes it on.</li>
         <li><strong>The landing page</strong>, meaning the page on our site you first arrived at.</li>
+        <li><strong>A starter profile, if you choose to fill it in:</strong> your name, and your dog's name, breed, age, birthday, what they love and what they struggle with.</li>
       </ul>
-      <p>The last three are remembered in your browser from your first visit, or from the first visit that arrives by a tagged link, and sent with your email only when you submit the form. They tell us which of our efforts brought you in. They are stored against your email in Loops, the email platform in section 6, and nowhere else. If you never join the waitlist they are never sent to us.</p>
+      <p>The last three are remembered in your browser from your first visit, or from the first visit that arrives by a tagged link, and sent with your email only when you submit the form. They tell us which of our efforts brought you in. The waitlist record is held in Supabase, the database in section 6, and your email, the link details and the profile except what your dog loves and struggles with are also held against your email in Loops, the email platform in section 6. If you never join the waitlist none of it is sent to us. When Etho launches and you create an account with the same email, your waitlist record becomes part of that account.</p>
     </section>
 
     <section>
@@ -139,7 +140,7 @@
       <ul class="legal__parties">
         <li>
           <span>Supabase</span>
-          <em>Database, authentication and file storage. Holds your account, your dog's details, your photos, your documents and your chats. <a href="https://supabase.com/privacy">supabase.com/privacy</a></em>
+          <em>Database, authentication and file storage. Holds your account, your dog's details, your photos, your documents, your chats, and your waitlist record. <a href="https://supabase.com/privacy">supabase.com/privacy</a></em>
         </li>
         <li>
           <span>Vercel</span>
@@ -165,7 +166,7 @@
 
     <section>
       <h2>7. Where your information is held</h2>
-      <p>Your information is stored with Supabase and served by Vercel. Waitlist details are stored with Loops.</p>
+      <p>Your information is stored with Supabase and served by Vercel. Waitlist details are stored with Supabase and Loops.</p>
       <p>Some of our providers process information outside Australia, including in the United States. Before disclosing personal information overseas we take reasonable steps to ensure the recipient handles it consistently with the Australian Privacy Principles, as APP 8 requires. Overseas handling does mean a foreign legal system may apply to that provider.</p>
     </section>
 
@@ -198,7 +199,7 @@
         <li><strong>Backups:</strong> purged on their own cycle, within 90 days.</li>
         <li><strong>Server logs:</strong> retained by our hosting providers on their standard schedules, typically 30 days.</li>
         <li><strong>Support correspondence:</strong> up to 24 months after the request is closed.</li>
-        <li><strong>Waitlist details:</strong> kept in Loops until you unsubscribe or ask us to remove them. Unsubscribing stops the emails; asking removes the record.</li>
+        <li><strong>Waitlist details:</strong> kept until you ask us to remove them, or, once you have an account, for as long as the account. Unsubscribing stops the emails; asking removes the record.</li>
         <li><strong>Records we must keep by law:</strong> for the period the law requires.</li>
       </ul>
     </section>

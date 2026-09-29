@@ -1,15 +1,15 @@
 /* POST /api/profile — the starter dog profile, filled in the modal that
    opens once a waitlist signup has gone through.
 
-   Fields 1–5 (dog's name, breed, age, birthday, the owner's name) are
-   written to the contact in Loops: the owner's name as firstName, the
-   rest as custom properties. Fields 6 and 7 (what the dog loves and
-   struggles with) are validated and logged but deliberately NOT sent
-   to Loops; see the note by LOVES / STRUGGLES.
+   The whole profile goes to the lead's row in Supabase (see
+   supabase/migrations). Fields 1–5 (dog's name, breed, age, birthday,
+   the owner's name) also go to the contact in Loops: the owner's name
+   as firstName, the rest as custom properties. Fields 6 and 7 (what
+   the dog loves and struggles with) live only in Supabase.
 
-   Only the profile fields are written. The contact's source, UTMs,
-   user group and list subscriptions are untouched, whichever contact
-   this is. */
+   Only the profile fields are written to Loops. The contact's source,
+   UTMs, user group and list subscriptions are untouched, whichever
+   contact this is. */
 
 'use strict';
 
@@ -17,6 +17,7 @@ const {
   MAX_BODY_BYTES, FRIENDLY_ERROR, loops, loopsFailure, readBody,
   normaliseEmail, cleanString, maskEmail, sendJson,
 } = require('./_lib/loops.js');
+const supabase = require('./_lib/supabase.js');
 
 // Custom contact properties to create in Loops before this ships:
 //   dogName (string), dogBreed (string), dogAge (number),
@@ -26,8 +27,7 @@ const MAX_NAME = 60;
 const MAX_BREED = 80;
 const MAX_AGE = 30;
 
-// The chip values the modal offers. Anything else is dropped. These are
-// not written to Loops; they are only accepted and logged.
+// The chip values the modal offers. Anything else is dropped.
 const LOVES = ['walks', 'food', 'swimming', 'other dogs', 'toys', 'cuddles', 'training', 'car rides', 'other'];
 const STRUGGLES = ['being left alone', 'pulling on lead', 'rainy days', 'teeth', 'weight', 'anxiety', 'grooming', 'other'];
 
@@ -68,19 +68,37 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = process.env.LOOPS_API_KEY;
-  if (!apiKey) {
-    console.error('[profile] missing configuration', { LOOPS_API_KEY: false });
+  if (!apiKey || !supabase.configured()) {
+    console.error('[profile] missing configuration', {
+      LOOPS_API_KEY: Boolean(apiKey),
+      SUPABASE_URL: Boolean(process.env.SUPABASE_URL),
+      SUPABASE_SERVICE_ROLE_KEY: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+    });
     return sendJson(res, 500, { ok: false, message: FRIENDLY_ERROR });
   }
 
   const logContext = { email: maskEmail(email) };
 
+  // Supabase first: it is the store. Both writes are upserts, so a
+  // retry after a failure is safe.
+  try {
+    await supabase.upsertLead(Object.assign(
+      { email: email, form: cleanString(body.form, 40) || undefined },
+      profile.row,
+      supabase.attributionColumns(body)
+    ));
+  } catch (err) {
+    console.error('[profile] supabase write failed', Object.assign({}, logContext, {
+      status: err && err.status,
+      error: String(err && err.message),
+      detail: err && err.detail,
+    }));
+    return sendJson(res, 502, { ok: false, message: FRIENDLY_ERROR });
+  }
+
   try {
     await loops(apiKey, 'PUT', '/contacts/update', Object.assign({ email: email }, profile.loops));
-    console.info('[profile] saved', Object.assign({}, logContext, profile.loops, {
-      loves: profile.loves,
-      struggles: profile.struggles,
-    }));
+    console.info('[profile] saved', Object.assign({}, logContext, profile.loops));
     return sendJson(res, 200, { ok: true });
   } catch (err) {
     console.error('[profile] loops request failed', Object.assign({}, logContext, {
@@ -93,8 +111,9 @@ module.exports = async function handler(req, res) {
   }
 };
 
-/* Returns { loops, loves, struggles } or { error }. `loops` holds only
-   the fields that go to the contact, and only the ones with a value. */
+/* Returns { loops, row } or { error }. `loops` holds the fields that go
+   to the contact, only the ones with a value; `row` holds every field
+   for the Supabase row, in its column names. */
 function validateProfile(body) {
   const dogName = cleanString(body.dogName, MAX_NAME);
   const dogBreed = cleanString(body.dogBreed, MAX_BREED);
@@ -104,6 +123,7 @@ function validateProfile(body) {
   if (!ownerName) return { error: 'Please tell us your name.' };
 
   const out = { firstName: ownerName, dogName: dogName, dogBreed: dogBreed };
+  const row = { owner_name: ownerName, dog_name: dogName, dog_breed: dogBreed };
 
   if (body.dogAge !== undefined && body.dogAge !== null && body.dogAge !== '') {
     const age = Number(body.dogAge);
@@ -111,6 +131,7 @@ function validateProfile(body) {
       return { error: 'Please enter an age between 0 and ' + MAX_AGE + '.' };
     }
     out.dogAge = Math.round(age * 2) / 2;
+    row.dog_age = out.dogAge;
   }
 
   const day = Number(body.dogBirthdayDay || 0);
@@ -120,13 +141,14 @@ function validateProfile(body) {
       && Number.isInteger(day) && day >= 1 && day <= DAYS_IN_MONTH[month - 1];
     if (!valid) return { error: 'Please choose a real day and month for the birthday.' };
     out.dogBirthday = String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    row.dog_birthday_day = day;
+    row.dog_birthday_month = month;
   }
 
-  return {
-    loops: out,
-    loves: pickChips(body.loves, LOVES),
-    struggles: pickChips(body.struggles, STRUGGLES),
-  };
+  row.loves = pickChips(body.loves, LOVES);
+  row.struggles = pickChips(body.struggles, STRUGGLES);
+
+  return { loops: out, row: row };
 }
 
 function pickChips(value, allowed) {

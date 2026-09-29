@@ -50,7 +50,10 @@
 
   const setError = (text) => { errorLine.textContent = text; };
 
-  function open(email) {
+  let signupForm = '';
+
+  function open(email, fromForm) {
+    signupForm = fromForm || '';
     form.reset();
     form.querySelectorAll('[data-chip]').forEach((chip) => chip.setAttribute('aria-pressed', 'false'));
     emailInput.value = email;
@@ -80,7 +83,11 @@
       ownerName: form.ownerName.value.trim(),
       loves: chipValues('loves'),
       struggles: chipValues('struggles'),
+      form: signupForm,
     };
+    // The same first-touch attribution the signup sent, so the lead row
+    // is complete even if that write happened before this deploy.
+    if (typeof attributionForSubmit === 'function') Object.assign(payload, attributionForSubmit());
 
     submitBtn.disabled = true;
     try {
@@ -112,6 +119,6 @@
   });
 
   document.addEventListener('etho:signup', (evt) => {
-    if (evt.detail && evt.detail.email) open(evt.detail.email);
+    if (evt.detail && evt.detail.email) open(evt.detail.email, evt.detail.form);
   });
 })();

@@ -21,6 +21,7 @@ const {
   MAX_BODY_BYTES, FRIENDLY_ERROR, loops, loopsFailure, readBody,
   normaliseEmail, cleanString, maskEmail, sendJson, redirect,
 } = require('./_lib/loops.js');
+const supabase = require('./_lib/supabase.js');
 
 // The off-screen field in the markup. Humans never see it; bots fill it.
 const HONEYPOT_FIELD = 'hp_field';
@@ -97,6 +98,7 @@ module.exports = async function handler(req, res) {
     const found = await loops(apiKey, 'GET', '/contacts/find?email=' + encodeURIComponent(email));
     if (Array.isArray(found) && found.length > 0) {
       console.info('[waitlist] existing contact, left unchanged', logContext);
+      await recordLead(email, body, attribution, logContext);
       return reply(200, { ok: true });
     }
 
@@ -110,6 +112,7 @@ module.exports = async function handler(req, res) {
     ));
 
     console.info('[waitlist] contact created', Object.assign({}, logContext, attribution));
+    await recordLead(email, body, attribution, logContext);
     return reply(200, { ok: true });
   } catch (err) {
     console.error('[waitlist] loops request failed', Object.assign({}, logContext, {
@@ -129,4 +132,26 @@ function pickAttribution(body) {
     if (value) out[key] = value;
   });
   return out;
+}
+
+// The lead row in Supabase: email, which form, and the attribution. A
+// failure here is logged and does not fail the signup, which is in
+// Loops by now; the profile modal's own write will merge into the row.
+async function recordLead(email, body, attribution, logContext) {
+  if (!supabase.configured()) {
+    console.error('[waitlist] supabase not configured; lead row not written', logContext);
+    return;
+  }
+  try {
+    await supabase.upsertLead(Object.assign(
+      { email: email, form: cleanString(body.form, 40) || null },
+      supabase.attributionColumns(attribution)
+    ));
+  } catch (err) {
+    console.error('[waitlist] lead row failed', Object.assign({}, logContext, {
+      status: err && err.status,
+      error: String(err && err.message),
+      detail: err && err.detail,
+    }));
+  }
 }
