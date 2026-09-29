@@ -186,9 +186,16 @@
 
     <fieldset class="profile__step" data-step="dogBreed" hidden>
       <legend class="profile__question" data-question="What breed is {dog}?"></legend>
-      <input class="profile__input" type="text" name="dogBreed" list="breed-list" maxlength="80"
-             autocomplete="off" enterkeyhint="next" aria-label="Breed" placeholder="Start typing…" required>
-      <datalist id="breed-list"></datalist>
+      <!-- A combobox: the list opens under the field at its width and
+           filters as you type; anything typed is still accepted. -->
+      <div class="picker" data-picker="breed">
+        <input class="profile__input" type="text" name="dogBreed" maxlength="80"
+               autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false"
+               enterkeyhint="next" placeholder="Start typing…" required
+               role="combobox" aria-label="Breed" aria-autocomplete="list"
+               aria-expanded="false" aria-controls="breed-listbox" data-picker-trigger>
+        <ul class="picker__list" id="breed-listbox" role="listbox" aria-label="Breeds" hidden data-picker-list></ul>
+      </div>
       <p class="profile__error" data-step-error aria-live="polite"></p>
     </fieldset>
 
@@ -205,12 +212,20 @@
     <fieldset class="profile__step" data-step="dogBirthday" data-optional hidden>
       <legend class="profile__question" data-question="When is {dog}’s birthday?"></legend>
       <div class="profile__pair">
-        <select class="profile__input" name="dogBirthdayDay" aria-label="Day">
-          <option value="">Day</option>
-        </select>
-        <select class="profile__input" name="dogBirthdayMonth" aria-label="Month">
-          <option value="">Month</option>
-        </select>
+        <div class="picker is-empty" data-picker="day">
+          <input type="hidden" name="dogBirthdayDay" value="">
+          <button type="button" class="profile__input profile__select" role="combobox"
+                  aria-haspopup="listbox" aria-expanded="false" aria-controls="day-listbox"
+                  aria-label="Day" data-picker-trigger><span data-picker-label>Day</span></button>
+          <ul class="picker__list" id="day-listbox" role="listbox" aria-label="Day" hidden data-picker-list></ul>
+        </div>
+        <div class="picker is-empty" data-picker="month">
+          <input type="hidden" name="dogBirthdayMonth" value="">
+          <button type="button" class="profile__input profile__select" role="combobox"
+                  aria-haspopup="listbox" aria-expanded="false" aria-controls="month-listbox"
+                  aria-label="Month" data-picker-trigger><span data-picker-label>Month</span></button>
+          <ul class="picker__list" id="month-listbox" role="listbox" aria-label="Month" hidden data-picker-list></ul>
+        </div>
       </div>
       <p class="profile__error" data-step-error aria-live="polite"></p>
     </fieldset>

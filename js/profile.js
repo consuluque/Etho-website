@@ -27,18 +27,143 @@
   let index = 0;
   let signupForm = '';
 
-  // The breed list and the day/month options are filled here rather
-  // than shipped in the markup, which keeps index.html readable.
-  const breedList = dialog.querySelector('#breed-list');
-  (window.ETHO_BREEDS || []).forEach((breed) => {
-    const option = document.createElement('option');
-    option.value = breed;
-    breedList.append(option);
-  });
+  /* ---- pickers ------------------------------------------------------
+     One list component for the breed field and the two birthday
+     fields: it opens under its trigger at the trigger's width, closes
+     on Escape, blur or a choice, and takes ArrowUp/Down and Enter. The
+     breed's trigger is the text field itself, filtered as you type
+     and free to hold anything typed; the day and month triggers are
+     buttons over a hidden input. */
+  function createPicker(root, options) {
+    const trigger = root.querySelector('[data-picker-trigger]');
+    const list = root.querySelector('[data-picker-list]');
+    const hidden = root.querySelector('input[type="hidden"]');
+    const label = root.querySelector('[data-picker-label]');
+    const typed = trigger.tagName === 'INPUT';
+    const placeholder = label ? label.textContent : '';
+    let items = [];
+    let active = -1;
+
+    const value = () => (typed ? trigger.value.trim() : hidden.value);
+    const isOpen = () => !list.hidden;
+
+    function render(query) {
+      const q = (query || '').trim().toLowerCase();
+      items = q
+        ? options.filter((o) => o.label.toLowerCase().includes(q))
+            .sort((a, b) => rank(a, q) - rank(b, q))
+        : options.slice();
+      list.replaceChildren();
+      items.forEach((o, i) => {
+        const li = document.createElement('li');
+        li.className = 'picker__option';
+        li.id = list.id + '-' + i;
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', String(o.value === value()));
+        li.textContent = o.label;
+        li.addEventListener('mousedown', (evt) => evt.preventDefault()); // keep focus on the trigger
+        li.addEventListener('click', () => choose(i));
+        list.append(li);
+      });
+      return items.length;
+    }
+    // Exact match first, then names that start with the text, then the rest.
+    function rank(o, q) {
+      const l = o.label.toLowerCase();
+      return l === q ? 0 : l.startsWith(q) ? 1 : 2;
+    }
+
+    function open(query) {
+      if (!render(query)) { close(); return; }
+      list.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      const selected = items.findIndex((o) => o.value === value());
+      setActive(selected >= 0 ? selected : (typed && !query ? -1 : 0));
+    }
+    function close() {
+      list.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.removeAttribute('aria-activedescendant');
+      active = -1;
+    }
+    function setActive(i) {
+      active = i;
+      Array.from(list.children).forEach((li, n) => li.classList.toggle('is-active', n === i));
+      if (i >= 0) {
+        trigger.setAttribute('aria-activedescendant', list.children[i].id);
+        list.children[i].scrollIntoView({ block: 'nearest' });
+      } else {
+        trigger.removeAttribute('aria-activedescendant');
+      }
+    }
+    function choose(i) {
+      const o = items[i];
+      if (!o) return;
+      set(o.value, o.label);
+      close();
+      trigger.focus();
+    }
+    function set(val, text) {
+      if (typed) {
+        trigger.value = text || val || '';
+      } else {
+        hidden.value = val || '';
+        label.textContent = val ? (text || val) : placeholder;
+        root.classList.toggle('is-empty', !val);
+      }
+    }
+
+    trigger.addEventListener('click', () => {
+      if (typed) { if (!isOpen()) open(trigger.value); return; }
+      if (isOpen()) close(); else open();
+    });
+    if (typed) {
+      trigger.addEventListener('input', () => open(trigger.value));
+      trigger.addEventListener('focus', () => open(trigger.value));
+    }
+    trigger.addEventListener('blur', close);
+    trigger.addEventListener('keydown', (evt) => {
+      if (evt.key === 'ArrowDown' || evt.key === 'ArrowUp') {
+        evt.preventDefault();
+        if (!isOpen()) { open(typed ? trigger.value : ''); return; }
+        const step = evt.key === 'ArrowDown' ? 1 : -1;
+        setActive((active + step + items.length) % items.length);
+      } else if (evt.key === 'Enter' || (evt.key === ' ' && !typed)) {
+        if (isOpen() && active >= 0) {
+          // Enter on text that already is the highlighted breed means
+          // "next", not "pick it again": close and let the form submit.
+          if (typed && items[active].label.toLowerCase() === trigger.value.trim().toLowerCase()) { close(); return; }
+          evt.preventDefault();
+          choose(active);
+        } else if (!typed) {
+          evt.preventDefault();
+          open();
+        }
+        // Enter on the text field with nothing highlighted falls through
+        // to the form, which means Next.
+      } else if (evt.key === 'Escape' && isOpen()) {
+        // Ours, not the dialog's.
+        evt.preventDefault();
+        evt.stopPropagation();
+        close();
+      } else if (evt.key === 'Tab') {
+        close();
+      }
+    });
+
+    return { set: set, root: root };
+  }
+
+  const pickers = {
+    breed: createPicker(form.querySelector('[data-picker="breed"]'),
+      (window.ETHO_BREEDS || []).map((b) => ({ value: b, label: b }))),
+    day: createPicker(form.querySelector('[data-picker="day"]'),
+      Array.from({ length: 31 }, (_, i) => ({ value: String(i + 1), label: String(i + 1) }))),
+    month: createPicker(form.querySelector('[data-picker="month"]'),
+      MONTHS.map((name, i) => ({ value: String(i + 1), label: name }))),
+  };
   const dayInput = form.querySelector('[name="dogBirthdayDay"]');
   const monthInput = form.querySelector('[name="dogBirthdayMonth"]');
-  for (let d = 1; d <= 31; d += 1) dayInput.append(new Option(String(d), String(d)));
-  MONTHS.forEach((name, i) => monthInput.append(new Option(name, String(i + 1))));
 
   /* ---- the current step ------------------------------------------ */
 
@@ -53,7 +178,7 @@
   }
 
   function controlsOf(step) {
-    return Array.from(step.querySelectorAll('input, select, .chip'));
+    return Array.from(step.querySelectorAll('input:not([type="hidden"]), .profile__select, .chip'));
   }
 
   function show(i, direction) {
@@ -89,7 +214,7 @@
   // under the field rather than in the browser's bubble.
   function validate(step) {
     const error = step.querySelector('[data-step-error]');
-    for (const control of step.querySelectorAll('input, select')) {
+    for (const control of step.querySelectorAll('input:not([type="hidden"])')) {
       if (control.checkValidity()) continue;
       if (error) {
         error.textContent = control.validity.valueMissing
@@ -106,7 +231,7 @@
       const daysIn = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
       if ((day || month) && !(day && month && day <= daysIn[month - 1])) {
         error.textContent = 'Please choose a real day and month, or skip this one.';
-        (day ? monthInput : dayInput).focus();
+        (day ? pickers.month : pickers.day).root.querySelector('[data-picker-trigger]').focus();
         return false;
       }
     }
@@ -114,7 +239,8 @@
   }
 
   function clear(step) {
-    step.querySelectorAll('input, select').forEach((control) => { control.value = ''; });
+    step.querySelectorAll('input').forEach((control) => { control.value = ''; });
+    step.querySelectorAll('[data-picker]').forEach((root) => pickers[root.dataset.picker].set(''));
     step.querySelectorAll('.chip').forEach((chip) => chip.setAttribute('aria-pressed', 'false'));
   }
 

@@ -655,11 +655,62 @@
   border-color: var(--ink);
   box-shadow: 0 0 0 4px rgba(50, 48, 49, 0.10);
 }
-select.profile__input {
+/* The day and month triggers: a button drawn as the field, a chevron on
+   the right, the placeholder muted until there is a value. */
+.profile__select {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
   padding-right: 44px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23323031' stroke-width='1.6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 20px center;
+}
+.profile__select:focus-visible { outline: none; }
+.picker.is-empty .profile__select { color: var(--muted); }
+.picker { position: relative; }
+.picker__list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  max-height: 264px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: #FFFFFF;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(50, 48, 49, 0.16);
+}
+.picker__list[hidden] { display: none; }
+.picker__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.picker__option.is-active,
+.picker__option:hover { background: var(--panel); }
+.picker__option[aria-selected="true"]::after {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M2 7.5l3.2 3L12 3.5' fill='none' stroke='%23323031' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+@media (max-width: 480px) {
+  .picker__list { max-height: 220px; }
 }
 .profile__unit { position: relative; }
 .profile__unit .profile__input { padding-right: 80px; }
@@ -715,3 +766,6 @@ select.profile__input {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
+/* The day and month triggers are buttons but drawn as fields, so they
+   take the field's focus ring, not the button outline on top of it. */
+.profile .profile__select:focus-visible { outline: none; }
