@@ -16,6 +16,8 @@ see "Putting the site back" below.
 index.html     — the landing page
 404.html       — the old holding page, so unknown URLs still read as Etho
 api/waitlist.js — the serverless function behind every waitlist form
+api/profile.js  — the function behind the dog profile modal
+api/_lib/       — what the two functions share (not deployed as a function)
 vercel.json    — the redirects that point the archived pages at /
 css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
@@ -30,6 +32,7 @@ shop.html      — shop page ("coming soon")
 privacy.html, terms.html
 js/main.js       — hero video, reveal-on-scroll, fixed nav
 js/landing.js    — waitlist forms, attribution, logo marquee, sticky CTA, analytics
+js/profile.js    — the dog profile modal; js/breeds.js is its breed list
 assets/images/ — product/lifestyle photos (see below), and the tab and
                  home-screen icons (favicon-32/64, apple-touch-icon)
 ```
@@ -57,6 +60,16 @@ What the function does with a submission:
 - Answers JSON to the fetch in `landing.js`. With scripting off, the form
   posts natively (urlencoded) and is sent back to `/?joined=1` (or
   `/?joined=0` on failure), which the page turns into the same message.
+
+After a successful signup, `profile.js` opens the dog profile modal (a
+native `<dialog>` in `index.html`) and posts it to `/api/profile`, which
+writes the dog's name, breed, age, birthday (as `MM-DD`) and the owner's
+name to the same contact: the owner's name as Loops' `firstName`, the
+rest as the custom properties `dogName`, `dogBreed`, `dogAge` and
+`dogBirthday`, which have to exist in Loops first. Only those fields are
+written; source, UTMs, user group and lists are untouched. The "loves"
+and "struggles" chips are validated and logged by the function but not
+sent to Loops. The breed autocomplete is the list in `js/breeds.js`.
 
 `landing.js` records first-touch attribution — the `utm_source`,
 `utm_medium`, `utm_campaign` and `utm_content` parameters, the referring

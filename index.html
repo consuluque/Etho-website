@@ -159,8 +159,100 @@
   </div>
 </div>
 
+<!-- The dog profile modal. profile.js opens it after a successful
+     waitlist submit and posts it to /api/profile. It is a native
+     <dialog>, closed by the × buttons, Escape or a tap outside. -->
+<dialog id="dog-profile" class="profile" aria-labelledby="profile-title">
+  <form class="profile__form" action="/api/profile" method="POST" data-profile-form>
+    <input type="hidden" name="email" value="">
+    <div class="profile__head">
+      <h2 id="profile-title" class="profile__title">Tell us about your dog</h2>
+      <button type="button" class="profile__close" aria-label="Close" data-profile-close>&times;</button>
+    </div>
+    <p class="profile__lead">A few details so Etho can get to know them.</p>
+
+    <div class="profile__field">
+      <label class="profile__label" for="profile-dog-name">Dog’s name</label>
+      <input id="profile-dog-name" class="profile__input" type="text" name="dogName"
+             maxlength="60" autocomplete="off" required>
+    </div>
+
+    <div class="profile__field">
+      <label class="profile__label" for="profile-breed">Breed</label>
+      <input id="profile-breed" class="profile__input" type="text" name="dogBreed" list="breed-list"
+             maxlength="80" autocomplete="off" required>
+      <datalist id="breed-list"></datalist>
+    </div>
+
+    <div class="profile__row">
+      <div class="profile__field">
+        <label class="profile__label" for="profile-age">Age <span class="profile__optional">years</span></label>
+        <input id="profile-age" class="profile__input" type="number" name="dogAge"
+               min="0" max="30" step="0.5" inputmode="decimal">
+      </div>
+      <fieldset class="profile__field profile__fieldset">
+        <legend class="profile__label">Birthday</legend>
+        <div class="profile__pair">
+          <select class="profile__input" name="dogBirthdayDay" aria-label="Day">
+            <option value="">Day</option>
+          </select>
+          <select class="profile__input" name="dogBirthdayMonth" aria-label="Month">
+            <option value="">Month</option>
+          </select>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="profile__field">
+      <label class="profile__label" for="profile-owner">Your name</label>
+      <input id="profile-owner" class="profile__input" type="text" name="ownerName"
+             maxlength="60" autocomplete="given-name" required>
+    </div>
+
+    <fieldset class="profile__fieldset">
+      <legend class="profile__label">What does your dog love?</legend>
+      <div class="profile__chips">
+            <button type="button" class="chip" data-chip="walks" data-chip-group="loves" aria-pressed="false">Walks</button>
+            <button type="button" class="chip" data-chip="food" data-chip-group="loves" aria-pressed="false">Food</button>
+            <button type="button" class="chip" data-chip="swimming" data-chip-group="loves" aria-pressed="false">Swimming</button>
+            <button type="button" class="chip" data-chip="other dogs" data-chip-group="loves" aria-pressed="false">Other dogs</button>
+            <button type="button" class="chip" data-chip="toys" data-chip-group="loves" aria-pressed="false">Toys</button>
+            <button type="button" class="chip" data-chip="cuddles" data-chip-group="loves" aria-pressed="false">Cuddles</button>
+            <button type="button" class="chip" data-chip="training" data-chip-group="loves" aria-pressed="false">Training</button>
+            <button type="button" class="chip" data-chip="car rides" data-chip-group="loves" aria-pressed="false">Car rides</button>
+            <button type="button" class="chip" data-chip="other" data-chip-group="loves" aria-pressed="false">Other</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="profile__fieldset">
+      <legend class="profile__label">What do they struggle with?</legend>
+      <div class="profile__chips">
+            <button type="button" class="chip" data-chip="being left alone" data-chip-group="struggles" aria-pressed="false">Being left alone</button>
+            <button type="button" class="chip" data-chip="pulling on lead" data-chip-group="struggles" aria-pressed="false">Pulling on lead</button>
+            <button type="button" class="chip" data-chip="rainy days" data-chip-group="struggles" aria-pressed="false">Rainy days</button>
+            <button type="button" class="chip" data-chip="teeth" data-chip-group="struggles" aria-pressed="false">Teeth</button>
+            <button type="button" class="chip" data-chip="weight" data-chip-group="struggles" aria-pressed="false">Weight</button>
+            <button type="button" class="chip" data-chip="anxiety" data-chip-group="struggles" aria-pressed="false">Anxiety</button>
+            <button type="button" class="chip" data-chip="grooming" data-chip-group="struggles" aria-pressed="false">Grooming</button>
+            <button type="button" class="chip" data-chip="other" data-chip-group="struggles" aria-pressed="false">Other</button>
+      </div>
+    </fieldset>
+
+    <p class="profile__error" data-profile-error aria-live="polite"></p>
+    <button type="submit" class="btn-solid profile__submit" data-profile-submit>Done</button>
+  </form>
+
+  <div class="profile__done" data-profile-done hidden>
+    <button type="button" class="profile__close" aria-label="Close" data-profile-close>&times;</button>
+    <h2 class="profile__title"><span data-dog-name></span> will be one of the first to try Etho and unlock exclusive discounts</h2>
+    <button type="button" class="btn-solid profile__submit" data-profile-close>Close</button>
+  </div>
+</dialog>
+
 <script src="js/main.js"></script>
 <script src="js/landing.js"></script>
+<script src="js/breeds.js"></script>
+<script src="js/profile.js"></script>
 <script src="js/home.js"></script>
 </body>
 </html>

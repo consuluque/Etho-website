@@ -247,6 +247,8 @@ function initAccessForm(form) {
       form.reset();
       setStatus(status, form.dataset.doneMessage || DONE_MESSAGE, 'done');
       track('form_success', { form: name });
+      // profile.js listens for this and opens the dog profile modal.
+      document.dispatchEvent(new CustomEvent('etho:signup', { detail: { email: payload.email, form: name } }));
     } catch (err) {
       setStatus(status, ERROR_MESSAGE, 'error');
       track('form_error', { form: name });
