@@ -132,8 +132,9 @@ LOOPS_SYNC_SECRET          — any long random string; the Supabase webhook
                              sends it in x-etho-webhook-secret
 ```
 
-Mailing list IDs are in Loops under Audience → Mailing lists (or from
-`GET /api/v1/lists`). The custom contact properties the function writes —
+A variable takes effect on the next build, not when it is saved, so
+redeploy after adding or changing one. Mailing list IDs are in Loops
+under Audience → Mailing lists (or from `GET /api/v1/lists`). The custom contact properties the function writes —
 `utmSource`, `utmMedium`, `utmCampaign`, `utmContent`, `referrer`,
 `landingPage` — have to exist in Loops first, or Loops rejects the
 request.
