@@ -649,22 +649,23 @@
   .profile__bar { transition: none; }
 }
 
-/* Fields are the waitlist pill: the same glass fill and rim, the body
-   size, the same height as the hero's field and button. */
+/* Fields are the hero's pill: glass fill, no rim, the soft shadow, the
+   body size, the same height as the hero's field and button. */
 .profile__input {
   width: 100%;
   min-width: 0;
   height: 50px;
   padding: 0 20px;
-  border: 1.5px solid rgba(35, 43, 36, 0.14);
+  border: 0;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08);
   font-family: var(--body-font);
   font-size: var(--type-body);
   color: var(--ink);
   appearance: none;
   -webkit-appearance: none;
-  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease), background 0.15s var(--ease);
+  transition: box-shadow 0.15s var(--ease), background 0.15s var(--ease);
 }
 .profile__input::placeholder { color: var(--muted); }
 .profile__input[hidden] { display: none; }
@@ -672,8 +673,7 @@
 .profile__input:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(50, 48, 49, 0.6);
-  box-shadow: 0 0 0 4px rgba(50, 48, 49, 0.08);
+  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08), 0 0 0 4px rgba(50, 48, 49, 0.08);
 }
 /* The day and month triggers: a button drawn as the field, a chevron on
    the right, the placeholder muted until there is a value. */
