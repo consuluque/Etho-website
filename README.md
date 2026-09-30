@@ -158,6 +158,17 @@ npx vercel env pull      # writes .env.local (git-ignored)
 npx vercel dev
 ```
 
+## Cache busting
+
+Every `<script src="js/…">` and `<link href="css/…">` carries `?v=<date>`.
+Browsers that reuse a cached copy of a script or stylesheet have no other
+signal that it changed, so bump the value (all pages at once) in any
+release that touches a file in `js/` or `css/`:
+
+```
+sed -i '' 's/?v=[0-9]*/?v=20261015/g' *.html
+```
+
 ## Type scale
 
 Every size of running text on the landing page comes from one of five
