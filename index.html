@@ -36,7 +36,9 @@
 
     <div class="hero-content hero-content--v3">
       <h1 class="hero-title">Give them more of the good life</h1>
+      <!-- The subtitle is held back for now; restore by uncommenting.
       <p class="hero-sub"><span class="hero-sub__line">Personalised wellbeing for your dog,</span> <span class="hero-sub__line">with better ways to care for them.</span></p>
+      -->
 
       <!-- The form ships in the markup rather than being built by script,
            so it still submits with JS off (the function then sends the
@@ -47,7 +49,7 @@
               action="/api/waitlist" method="POST">
           <label class="u-visually-hidden" for="access-email">Email address</label>
           <input id="access-email" type="email" name="email" class="waitlist-input"
-                 placeholder="goodhuman@mail.com" autocomplete="email" required>
+                 placeholder="you@email.com" autocomplete="email" required>
           <!-- Off-screen and ignored by assistive tech; bots fill it,
                people never see it, and the function drops anything with
                a value here. -->
@@ -55,7 +57,7 @@
             <label for="access-hp-field">Leave this field empty</label>
             <input id="access-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
           </div>
-          <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
+          <button type="submit" class="btn-solid waitlist-submit">Get early access</button>
         </form>
         <p class="waitlist-status" data-form-status aria-live="polite"></p>
       </div>
@@ -148,19 +150,160 @@
           action="/api/waitlist" method="POST">
       <label class="u-visually-hidden" for="sticky-email">Email address</label>
       <input id="sticky-email" type="email" name="email" class="waitlist-input"
-             placeholder="goodhuman@mail.com" autocomplete="email" required>
+             placeholder="you@email.com" autocomplete="email" required>
       <div class="hp" aria-hidden="true">
         <label for="sticky-hp-field">Leave this field empty</label>
         <input id="sticky-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
       </div>
-      <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
+      <button type="submit" class="btn-solid waitlist-submit">Get early access</button>
     </form>
     <p class="waitlist-status" data-form-status aria-live="polite"></p>
   </div>
 </div>
 
+<!-- The dog profile modal. profile.js opens it the moment a waitlist
+     email is submitted and posts the answers to /api/profile. One
+     question a screen, a progress bar across the top; a native
+     <dialog>, closed by ×, Escape or a tap outside at any point. -->
+<dialog id="dog-profile" class="profile" aria-labelledby="profile-title">
+  <div class="profile__progress" aria-hidden="true"><span class="profile__bar" data-profile-bar></span></div>
+
+  <form class="profile__form" action="/api/profile" method="POST" novalidate data-profile-form>
+    <input type="hidden" name="email" value="">
+
+    <div class="profile__top">
+      <button type="button" class="profile__nav" aria-label="Back" data-profile-back hidden>
+        <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M8 1.5L2 8l6 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="profile__status">🎁 Unlocking your early access benefits…</span>
+      <button type="button" class="profile__nav" aria-label="Close" data-profile-close>&times;</button>
+    </div>
+
+    <div class="profile__body">
+    <!-- {dog} becomes the dog's name once there is one, else "your dog". -->
+    <fieldset class="profile__step" data-step="dogName">
+      <legend class="profile__question" id="profile-title">You’re in. Who’s the lucky dog?</legend>
+      <p class="profile__lead">Complete a few steps for personalised recommendations, birthday surprises and early member perks.</p>
+      <input class="profile__input" type="text" name="dogName" maxlength="60" autocomplete="off"
+             enterkeyhint="next" aria-label="Dog’s name" placeholder="Your dog’s name" required>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="dogBreed" hidden>
+      <legend class="profile__question" data-question="What breed is {dog}?"></legend>
+      <!-- A combobox: the list opens under the field at its width and
+           filters as you type; anything typed is still accepted. -->
+      <div class="picker" data-picker="breed">
+        <input class="profile__input" type="text" name="dogBreed" maxlength="80"
+               autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false"
+               enterkeyhint="next" placeholder="Start typing…" required
+               role="combobox" aria-label="Breed" aria-autocomplete="list"
+               aria-expanded="false" aria-controls="breed-listbox" data-picker-trigger>
+        <ul class="picker__list" id="breed-listbox" role="listbox" aria-label="Breeds" hidden data-picker-list></ul>
+      </div>
+      <!-- Shown once the breed is "Mixed": which breeds are in the mix. -->
+      <input class="profile__input" type="text" name="dogBreedMix" maxlength="80" autocomplete="off"
+             autocapitalize="words" enterkeyhint="next" aria-label="Which breeds are in the mix?"
+             placeholder="Which breeds? e.g. Kelpie x Border Collie" data-breed-mix hidden>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="dogAge" data-optional hidden>
+      <legend class="profile__question" data-question="How old is {dog}?"></legend>
+      <div class="profile__unit">
+        <input class="profile__input" type="number" name="dogAge" min="0" max="30" step="0.5"
+               inputmode="decimal" enterkeyhint="next" aria-label="Age in years">
+        <span class="profile__unit-label">years</span>
+      </div>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="dogBirthday" data-optional hidden>
+      <legend class="profile__question" data-question="When’s {dog}’s birthday? 🎂"></legend>
+      <div class="profile__pair">
+        <div class="picker is-empty" data-picker="day">
+          <input type="hidden" name="dogBirthdayDay" value="">
+          <button type="button" class="profile__input profile__select" role="combobox"
+                  aria-haspopup="listbox" aria-expanded="false" aria-controls="day-listbox"
+                  aria-label="Day" data-picker-trigger><span data-picker-label>Day</span></button>
+          <ul class="picker__list" id="day-listbox" role="listbox" aria-label="Day" hidden data-picker-list></ul>
+        </div>
+        <div class="picker is-empty" data-picker="month">
+          <input type="hidden" name="dogBirthdayMonth" value="">
+          <button type="button" class="profile__input profile__select" role="combobox"
+                  aria-haspopup="listbox" aria-expanded="false" aria-controls="month-listbox"
+                  aria-label="Month" data-picker-trigger><span data-picker-label>Month</span></button>
+          <ul class="picker__list" id="month-listbox" role="listbox" aria-label="Month" hidden data-picker-list></ul>
+        </div>
+      </div>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="ownerName" hidden>
+      <legend class="profile__question">Who’s their human?</legend>
+      <input class="profile__input" type="text" name="ownerName" maxlength="60" autocomplete="given-name"
+             enterkeyhint="next" aria-label="Your name" placeholder="Your name" required>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="loves" data-optional hidden>
+      <legend class="profile__question" data-question="What makes {dog} happy?"></legend>
+      <p class="profile__hint">Pick as many as you like.</p>
+      <div class="profile__chips">
+        <button type="button" class="chip" data-chip="walks" data-chip-group="loves" aria-pressed="false">Walks</button>
+        <button type="button" class="chip" data-chip="food" data-chip-group="loves" aria-pressed="false">Food</button>
+        <button type="button" class="chip" data-chip="swimming" data-chip-group="loves" aria-pressed="false">Swimming</button>
+        <button type="button" class="chip" data-chip="other dogs" data-chip-group="loves" aria-pressed="false">Other dogs</button>
+        <button type="button" class="chip" data-chip="toys" data-chip-group="loves" aria-pressed="false">Toys</button>
+        <button type="button" class="chip" data-chip="cuddles" data-chip-group="loves" aria-pressed="false">Cuddles</button>
+        <button type="button" class="chip" data-chip="learning tricks" data-chip-group="loves" aria-pressed="false">Learning tricks</button>
+        <button type="button" class="chip" data-chip="car rides" data-chip-group="loves" aria-pressed="false">Car rides</button>
+        <button type="button" class="chip" data-chip="sleeping" data-chip-group="loves" aria-pressed="false">Sleeping</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="profile__step" data-step="struggles" data-optional hidden>
+      <legend class="profile__question" data-question="Last thing, what does {dog} struggle with?"></legend>
+      <p class="profile__hint">Pick as many as you like.</p>
+      <div class="profile__chips">
+        <button type="button" class="chip" data-chip="being left alone" data-chip-group="struggles" aria-pressed="false">Being left alone</button>
+        <button type="button" class="chip" data-chip="pulling on lead" data-chip-group="struggles" aria-pressed="false">Pulling on lead</button>
+        <button type="button" class="chip" data-chip="rainy days" data-chip-group="struggles" aria-pressed="false">Rainy days</button>
+        <button type="button" class="chip" data-chip="weight" data-chip-group="struggles" aria-pressed="false">Weight</button>
+        <button type="button" class="chip" data-chip="anxiety" data-chip-group="struggles" aria-pressed="false">Anxiety</button>
+        <button type="button" class="chip" data-chip="allergies" data-chip-group="struggles" aria-pressed="false">Allergies</button>
+        <button type="button" class="chip" data-chip="grooming" data-chip-group="struggles" aria-pressed="false">Grooming</button>
+        <button type="button" class="chip" data-chip="health issues" data-chip-group="struggles" aria-pressed="false">Health issues</button>
+        <button type="button" class="chip" data-chip="car" data-chip-group="struggles" aria-pressed="false">Car</button>
+        <button type="button" class="chip" data-chip="nail trimming" data-chip-group="struggles" aria-pressed="false">Nail trimming</button>
+        <button type="button" class="chip" data-chip="other" data-chip-group="struggles" aria-pressed="false">Other</button>
+      </div>
+      <!-- Shown while "Other" is pressed: what else they struggle with. -->
+      <input class="profile__input" type="text" name="strugglesOther" maxlength="80" autocomplete="off"
+             enterkeyhint="done" aria-label="What else do they struggle with?"
+             placeholder="Tell us what" data-other-for="struggles" hidden>
+    </fieldset>
+
+    <p class="profile__error" data-profile-error aria-live="polite"></p>
+    <div class="profile__actions">
+      <button type="button" class="profile__skip" data-profile-skip hidden>Skip</button>
+      <button type="submit" class="btn-solid profile__submit" data-profile-next>Next</button>
+    </div>
+    </div>
+  </form>
+
+  <div class="profile__done" data-profile-done hidden>
+    <button type="button" class="profile__nav profile__done-close" aria-label="Close" data-profile-close>&times;</button>
+    <div class="profile__emoji" aria-hidden="true">🎉</div>
+    <h2 class="profile__question" id="profile-done-title">You and <span data-dog-name></span> are in!</h2>
+    <p class="profile__done-copy">We’ll let you know as soon as you can start enjoying personalised Etho benefits, picked just for you.</p>
+  </div>
+</dialog>
+
 <script src="js/main.js"></script>
 <script src="js/landing.js"></script>
+<script src="js/breeds.js"></script>
+<script src="js/profile.js"></script>
 <script src="js/home.js"></script>
 </body>
 </html>

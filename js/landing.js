@@ -236,6 +236,11 @@ function initAccessForm(form) {
     );
     payload.email = String(payload.email || '').trim();
 
+    // profile.js opens the dog profile modal on this, straight away,
+    // while the signup goes through behind it. A failed signup closes
+    // it again via etho:signup-failed.
+    document.dispatchEvent(new CustomEvent('etho:signup', { detail: { email: payload.email, form: name } }));
+
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -243,11 +248,15 @@ function initAccessForm(form) {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error('Request failed with ' + res.status);
+      const data = await res.json().catch(() => ({}));
 
       form.reset();
       setStatus(status, form.dataset.doneMessage || DONE_MESSAGE, 'done');
       track('form_success', { form: name });
+      // The token lets the profile modal save against this email.
+      document.dispatchEvent(new CustomEvent('etho:signup-confirmed', { detail: { email: payload.email, token: data.token || null } }));
     } catch (err) {
+      document.dispatchEvent(new CustomEvent('etho:signup-failed', { detail: { email: payload.email } }));
       setStatus(status, ERROR_MESSAGE, 'error');
       track('form_error', { form: name });
     } finally {

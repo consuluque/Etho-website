@@ -16,6 +16,10 @@ see "Putting the site back" below.
 index.html     — the landing page
 404.html       — the old holding page, so unknown URLs still read as Etho
 api/waitlist.js — the serverless function behind every waitlist form
+api/profile.js  — the function behind the dog profile modal
+api/loops-sync.js — the Supabase webhook target that updates Loops
+api/_lib/       — what the two functions share (not deployed as a function)
+supabase/       — the migration for the waitlist_leads table
 vercel.json    — the redirects that point the archived pages at /
 css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
@@ -30,6 +34,7 @@ shop.html      — shop page ("coming soon")
 privacy.html, terms.html
 js/main.js       — hero video, reveal-on-scroll, fixed nav
 js/landing.js    — waitlist forms, attribution, logo marquee, sticky CTA, analytics
+js/profile.js    — the dog profile modal; js/breeds.js is its breed list
 assets/images/ — product/lifestyle photos (see below), and the tab and
                  home-screen icons (favicon-32/64, apple-touch-icon)
 ```
@@ -58,6 +63,57 @@ What the function does with a submission:
   posts natively (urlencoded) and is sent back to `/?joined=1` (or
   `/?joined=0` on failure), which the page turns into the same message.
 
+Every signup also writes a row to the `waitlist_leads` table in the
+Supabase project the app uses (email, which form, attribution), best
+effort: a Supabase failure is logged and does not fail the signup.
+
+After a successful signup, `profile.js` opens the dog profile modal (a
+native `<dialog>` in `index.html`) and posts it to `/api/profile`, which
+merges the profile into that lead's row in Supabase and nothing else.
+The signup's response carries a token (an HMAC of the email under
+`LOOPS_SYNC_SECRET`); the profile is accepted only with it, so a profile
+cannot be written against someone else's address. The breed
+autocomplete is the list in `js/breeds.js`; "Other" among the struggles
+opens a text field whose words are stored in the list in its place.
+
+### Keeping Loops in step
+
+Supabase is the source of truth after the signup. A Database Webhook on
+`waitlist_leads` (INSERT and UPDATE) calls `/api/loops-sync`, which maps
+the row to the contact in one `contacts/update`:
+
+```
+owner_name                        → firstName
+dog_name, dog_breed, dog_age      → dogName, dogBreed, dogAge
+dog_birthday_day/month            → dogBirthday ("MM-DD")
+user_id                           → userId, and userGroup: user (null → lead)
+converted_at                      → appSignupDate
+```
+
+Only set columns are sent, so a partial row never blanks a property.
+Every insert or update syncs, so to re-sync a contact by hand, touch its
+row: `update waitlist_leads set updated_at = now() where email = '…'`.
+Source, the UTMs and the mailing lists are never touched after the
+signup. To sync a new
+column later, add it to the table and one line to `toLoops()`. The
+custom properties `dogName`, `dogBreed`, `dogAge` (number),
+`dogBirthday` and `appSignupDate` (date) have to exist in Loops.
+
+Set the webhook up in Supabase under Database → Webhooks: table
+`waitlist_leads`, events Insert and Update, HTTP request, POST to
+`https://etho.pet/api/loops-sync`, with an HTTP header
+`x-etho-webhook-secret` set to the same value as `LOOPS_SYNC_SECRET` on
+Vercel, and a timeout of at least 5 seconds to allow for a cold start.
+
+### Leads and users
+
+`supabase/migrations/20260929_waitlist_leads.sql` creates the table.
+A lead is a row whose `user_id` is null. When the same email signs up
+in the app and confirms it, a trigger on `auth.users` fills `user_id`
+with the account id and stamps `converted_at`, and the row is a user
+from then on. Row level security is on with no policies, so only the
+service role, which the functions use, can read or write it.
+
 `landing.js` records first-touch attribution — the `utm_source`,
 `utm_medium`, `utm_campaign` and `utm_content` parameters, the referring
 site, and the page landed on — in `localStorage` under
@@ -72,13 +128,22 @@ Set these in the Vercel project (Production and Preview) — none are read
 from the repo, and the API key must never reach the browser:
 
 ```
-LOOPS_API_KEY        — from Loops → Settings → API
-LOOPS_LIST_FRIENDS   — the ID of the "Friends of etho" mailing list
-LOOPS_LIST_DEALS     — the ID of the "Deals & Promotions" mailing list
+LOOPS_API_KEY              — from Loops → Settings → API
+LOOPS_LIST_FRIENDS         — the ID of the "Friends of etho" mailing list
+LOOPS_LIST_DEALS           — the ID of the "Deals & Promotions" mailing list
+SUPABASE_URL               — the Project URL from Supabase → Project Settings →
+                             Data API: https://<ref>.supabase.co, nothing else
+SUPABASE_SERVICE_ROLE_KEY  — the service_role key from the same page.
+                             Server-side only; it bypasses row level security.
+LOOPS_SYNC_SECRET          — any long random string: the site's secret. The
+                             Supabase webhook sends it in x-etho-webhook-secret,
+                             and the signup signs each email with it so only
+                             that browser can save a profile for the email
 ```
 
-Mailing list IDs are in Loops under Audience → Mailing lists (or from
-`GET /api/v1/lists`). The custom contact properties the function writes —
+A variable takes effect on the next build, not when it is saved, so
+redeploy after adding or changing one. Mailing list IDs are in Loops
+under Audience → Mailing lists (or from `GET /api/v1/lists`). The custom contact properties the function writes —
 `utmSource`, `utmMedium`, `utmCampaign`, `utmContent`, `referrer`,
 `landingPage` — have to exist in Loops first, or Loops rejects the
 request.

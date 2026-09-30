@@ -17,9 +17,11 @@
 
 'use strict';
 
-const LOOPS_API = 'https://app.loops.so/api/v1';
-const MAX_BODY_BYTES = 16 * 1024;
-const REQUEST_TIMEOUT_MS = 8000;
+const {
+  MAX_BODY_BYTES, FRIENDLY_ERROR, loops, loopsFailure, readBody,
+  normaliseEmail, cleanString, maskEmail, signEmail, sendJson, redirect,
+} = require('./_lib/loops.js');
+const supabase = require('./_lib/supabase.js');
 
 // The off-screen field in the markup. Humans never see it; bots fill it.
 const HONEYPOT_FIELD = 'hp_field';
@@ -34,9 +36,6 @@ const ATTRIBUTION_FIELDS = {
   referrer: 500,
   landingPage: 500,
 };
-
-const FRIENDLY_ERROR = 'Something went wrong — please try again.';
-const BUSY_ERROR = 'Too many signups right now — please try again in a moment.';
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -94,12 +93,17 @@ module.exports = async function handler(req, res) {
 
   const attribution = pickAttribution(body);
   const logContext = { email: maskEmail(email), form: cleanString(body.form, 40) };
+  // What the profile modal will need to save against this email.
+  const secret = process.env.LOOPS_SYNC_SECRET;
+  if (!secret) console.error('[waitlist] LOOPS_SYNC_SECRET missing; profiles cannot be saved', logContext);
+  const answer = { ok: true, token: secret ? signEmail(email, secret) : null };
 
   try {
     const found = await loops(apiKey, 'GET', '/contacts/find?email=' + encodeURIComponent(email));
     if (Array.isArray(found) && found.length > 0) {
       console.info('[waitlist] existing contact, left unchanged', logContext);
-      return reply(200, { ok: true });
+      await recordLead(email, body, attribution, logContext);
+      return reply(200, answer);
     }
 
     const mailingLists = {};
@@ -112,88 +116,18 @@ module.exports = async function handler(req, res) {
     ));
 
     console.info('[waitlist] contact created', Object.assign({}, logContext, attribution));
-    return reply(200, { ok: true });
+    await recordLead(email, body, attribution, logContext);
+    return reply(200, answer);
   } catch (err) {
-    const status = err && err.status;
     console.error('[waitlist] loops request failed', Object.assign({}, logContext, {
-      status: status,
+      status: err && err.status,
       error: String(err && err.message),
       detail: err && err.detail,
     }));
-    if (status === 429) return reply(503, { ok: false, message: BUSY_ERROR });
-    return reply(502, { ok: false, message: FRIENDLY_ERROR });
+    const failure = loopsFailure(err);
+    return reply(failure.status, { ok: false, message: failure.message });
   }
 };
-
-/* ---------------------------------------------------------------
-   Loops
-   --------------------------------------------------------------- */
-
-async function loops(apiKey, method, path, payload) {
-  const res = await fetch(LOOPS_API + path, {
-    method: method,
-    headers: {
-      Authorization: 'Bearer ' + apiKey,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: payload ? JSON.stringify(payload) : undefined,
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-  });
-
-  const text = await res.text();
-  let data = null;
-  try { data = text ? JSON.parse(text) : null; } catch (_) { data = text; }
-
-  if (!res.ok) {
-    const err = new Error('Loops ' + method + ' ' + path.split('?')[0] + ' returned ' + res.status);
-    err.status = res.status;
-    err.detail = data;
-    throw err;
-  }
-  return data;
-}
-
-/* ---------------------------------------------------------------
-   Request parsing
-   --------------------------------------------------------------- */
-
-// Vercel's Node runtime parses JSON and urlencoded bodies into req.body
-// before the handler runs; a plain Node server (or a test) hands over
-// the raw stream instead. Both are accepted.
-async function readBody(req, contentType) {
-  let raw = req.body;
-
-  if (raw === undefined) {
-    const chunks = [];
-    let size = 0;
-    for await (const chunk of req) {
-      size += chunk.length;
-      if (size > MAX_BODY_BYTES) throw new Error('Body too large');
-      chunks.push(chunk);
-    }
-    raw = Buffer.concat(chunks).toString('utf8');
-  }
-
-  if (raw && typeof raw === 'object' && !Buffer.isBuffer(raw)) return raw;
-
-  const text = Buffer.isBuffer(raw) ? raw.toString('utf8') : String(raw || '');
-  if (contentType.includes('application/json')) return text ? JSON.parse(text) : {};
-  if (contentType.includes('application/x-www-form-urlencoded')) {
-    return Object.fromEntries(new URLSearchParams(text));
-  }
-  throw new Error('Unsupported content type: ' + (contentType || '(none)'));
-}
-
-function normaliseEmail(value) {
-  if (typeof value !== 'string') return null;
-  const email = value.trim().toLowerCase();
-  if (email.length < 6 || email.length > 254) return null;
-  // Loose on purpose: the browser's own type="email" check has already
-  // run for humans, and Loops validates again on its side.
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return null;
-  return email;
-}
 
 function pickAttribution(body) {
   const out = {};
@@ -204,31 +138,25 @@ function pickAttribution(body) {
   return out;
 }
 
-// Strings only, control characters stripped, capped in length. Anything
-// else becomes an empty string and is dropped.
-function cleanString(value, max) {
-  if (typeof value !== 'string') return '';
-  // eslint-disable-next-line no-control-regex
-  return value.replace(/[\u0000-\u001F\u007F]/g, '').trim().slice(0, max);
-}
-
-function maskEmail(email) {
-  const at = email.indexOf('@');
-  return email[0] + '***' + email.slice(at);
-}
-
-/* ---------------------------------------------------------------
-   Responses
-   --------------------------------------------------------------- */
-
-function sendJson(res, status, body) {
-  res.statusCode = status;
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.end(JSON.stringify(body));
-}
-
-function redirect(res, location) {
-  res.statusCode = 303;
-  res.setHeader('Location', location);
-  res.end();
+// The lead row in Supabase: email, which form, and the attribution. A
+// failure here is logged and does not fail the signup, which is in
+// Loops by now; the profile modal's own write will merge into the row.
+async function recordLead(email, body, attribution, logContext) {
+  if (!supabase.configured()) {
+    console.error('[waitlist] supabase not configured; lead row not written', logContext);
+    return;
+  }
+  try {
+    await supabase.upsertLead(Object.assign(
+      { email: email, form: cleanString(body.form, 40) || null },
+      supabase.attributionColumns(attribution)
+    ));
+  } catch (err) {
+    console.error('[waitlist] lead row failed', Object.assign({}, logContext, {
+      status: err && err.status,
+      error: String(err && err.message),
+      cause: err && err.cause ? String(err.cause.message || err.cause) : undefined,
+      detail: err && err.detail,
+    }));
+  }
 }

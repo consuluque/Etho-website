@@ -478,3 +478,322 @@
   color: var(--ink);
   box-shadow: 0 1px 2px rgba(50, 48, 49, 0.10);
 }
+
+/* ---------------------------------------------------------------
+   The dog profile modal
+
+   A native <dialog> that takes the whole screen as a sheet of the
+   same frosted glass as the waitlist pill, over the page it came
+   from: a progress line across the very top, and one question at a
+   time in a column no wider than the waitlist form. The question
+   block sits in the upper third of the screen, which reads as
+   balanced on a phone and a laptop alike and keeps it clear of a
+   phone keyboard; the buttons follow the field directly for the same
+   reason. Every size comes from the landing page's type scale.
+   --------------------------------------------------------------- */
+
+.profile {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* The UA gives a dialog a max size and a margin; neither applies. */
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Glass: a light wash of the cream over a blur of whatever the
+     person was looking at, so the page still shows through. The
+     hero's dark video behind it leaves the ink at well over 7:1. */
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  color: var(--ink);
+  font-family: var(--body-font);
+}
+.profile::backdrop { background: transparent; }
+@keyframes profile-open { from { opacity: 0; } to { opacity: 1; } }
+.profile[open] { animation: profile-open 240ms var(--ease); }
+
+.profile__progress {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 3px;
+  background: rgba(50, 48, 49, 0.10);
+}
+.profile__bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--ink);
+  transition: width 260ms var(--ease);
+}
+
+/* The form is as tall as the screen: the top row, a short spacer, the
+   question block, and a longer spacer below, so the block settles in
+   the upper third whatever the screen size. */
+.profile__form {
+  display: grid;
+  grid-template-rows: auto minmax(24px, 1fr) auto minmax(40px, 2fr);
+  min-height: calc(100vh - 3px);
+  min-height: calc(100dvh - 3px);
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: 12px 20px calc(24px + env(safe-area-inset-bottom));
+}
+.profile__top { grid-row: 1; }
+.profile__body { grid-row: 3; display: grid; gap: 18px; }
+.profile__form[hidden] { display: none; }
+
+.profile__done {
+  display: grid;
+  gap: 24px;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  position: relative;
+  min-height: calc(100vh - 3px);
+  min-height: calc(100dvh - 3px);
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: 64px 20px;
+}
+.profile__done[hidden] { display: none; }
+.profile__done-close { position: absolute; top: 12px; right: 20px; }
+.profile__emoji { font-size: 48px; line-height: 1; }
+.profile__done-copy {
+  margin: -8px 0 0;
+  max-width: 34ch;
+  font-size: var(--type-body);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Back on the left, the status line in the middle, close on the right. */
+.profile__top {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+}
+.profile__top > :first-child { grid-column: 1; }
+.profile__top > :nth-child(2) { grid-column: 2; }
+.profile__top > :last-child { grid-column: 3; }
+.profile__status {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.profile__nav {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(50, 48, 49, 0.06);
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s var(--ease);
+}
+.profile__nav:hover { background: rgba(50, 48, 49, 0.12); }
+.profile__nav[hidden] { display: none; }
+
+.profile__step {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.profile__step[hidden] { display: none; }
+/* The question sets at the story paragraph's size, in the subtitle
+   face, the same as the hero's line under the headline. */
+.profile__question {
+  /* A fieldset's legend is drawn outside its parent's layout, so the
+     grid gap never reaches it; floating it makes it an ordinary block,
+     and as a grid child the float itself has no effect. */
+  float: left;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--subtitle-font);
+  font-weight: 600;
+  font-size: max(20px, var(--type-lead-lg));
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+/* The line under a question sets at the status line's size. */
+.profile__lead,
+.profile__hint {
+  margin: -4px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Each question slides in from the side it came from. */
+@keyframes profile-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes profile-in-back { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+.profile__step.is-entering { animation: profile-in 200ms var(--ease); }
+.profile__step.is-entering-back { animation: profile-in-back 200ms var(--ease); }
+@media (prefers-reduced-motion: reduce) {
+  .profile[open],
+  .profile__step.is-entering,
+  .profile__step.is-entering-back { animation: none; }
+  .profile__bar { transition: none; }
+}
+
+/* Fields are the hero's pill: glass fill, no rim, the soft shadow, the
+   body size, the same height as the hero's field and button. */
+.profile__input {
+  width: 100%;
+  min-width: 0;
+  height: 50px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08);
+  font-family: var(--body-font);
+  font-size: var(--type-body);
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: box-shadow 0.15s var(--ease), background 0.15s var(--ease);
+}
+.profile__input::placeholder { color: var(--muted); }
+.profile__input[hidden] { display: none; }
+/* One soft ring on focus rather than the outline doubled on the pill. */
+.profile__input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08), 0 0 0 4px rgba(50, 48, 49, 0.08);
+}
+/* The day and month triggers: a button drawn as the field, a chevron on
+   the right, the placeholder muted until there is a value. */
+.profile__select {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23323031' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+.picker.is-empty .profile__select { color: var(--muted); }
+.picker { position: relative; }
+.picker__list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(35, 43, 36, 0.10);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(50, 48, 49, 0.14);
+}
+.picker__list[hidden] { display: none; }
+.picker__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: var(--type-body);
+  color: var(--ink);
+  cursor: pointer;
+}
+.picker__option.is-active,
+.picker__option:hover { background: rgba(50, 48, 49, 0.06); }
+.picker__option[aria-selected="true"]::after {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M2 7.5l3.2 3L12 3.5' fill='none' stroke='%23323031' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+@media (max-width: 480px) {
+  .picker__list { max-height: 200px; }
+}
+.profile__unit { position: relative; }
+.profile__unit .profile__input { padding-right: 72px; }
+.profile__unit-label {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--type-small);
+  color: var(--muted);
+  pointer-events: none;
+}
+.profile__pair { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; }
+
+.profile__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 10px 16px;
+  border: 1.5px solid rgba(35, 43, 36, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  font-family: var(--body-font);
+  font-size: var(--type-small);
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.chip:hover { border-color: rgba(50, 48, 49, 0.35); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+
+.profile__error { margin: 0; font-size: var(--type-small); color: #C0392B; }
+.profile__error:empty { display: none; }
+
+/* The button is the waitlist's: ink, the small size, the field's height. */
+.profile__actions { display: grid; gap: 4px; }
+.profile__submit { width: 100%; height: 50px; padding: 0 24px; font-size: var(--type-small); }
+.profile__submit:disabled { opacity: 0.7; cursor: default; }
+.profile__skip {
+  order: 1;
+  justify-self: center;
+  padding: 10px 12px;
+  border: 0;
+  background: none;
+  font-family: var(--body-font);
+  font-size: var(--type-small);
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.profile__skip:hover { color: var(--ink); }
+.profile__skip[hidden] { display: none; }
+
+.profile :is(button, .chip):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+/* The day and month triggers are buttons but drawn as fields, so they
+   take the field's focus ring, not the button outline on top of it. */
+.profile .profile__select:focus-visible { outline: none; }
