@@ -8,7 +8,7 @@
 'use strict';
 
 const {
-  MAX_BODY_BYTES, FRIENDLY_ERROR, readBody, normaliseEmail, cleanString, maskEmail, sendJson,
+  MAX_BODY_BYTES, FRIENDLY_ERROR, readBody, normaliseEmail, cleanString, maskEmail, sendJson, debugDetail,
 } = require('./_lib/loops.js');
 const supabase = require('./_lib/supabase.js');
 
@@ -57,11 +57,12 @@ module.exports = async function handler(req, res) {
   }
 
   if (!supabase.configured()) {
-    console.error('[profile] missing configuration', {
+    const missing = {
       SUPABASE_URL: Boolean(process.env.SUPABASE_URL),
       SUPABASE_SERVICE_ROLE_KEY: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    });
-    return sendJson(res, 500, { ok: false, message: FRIENDLY_ERROR });
+    };
+    console.error('[profile] missing configuration', missing);
+    return sendJson(res, 500, Object.assign({ ok: false, message: FRIENDLY_ERROR }, debugDetail({ missingConfiguration: missing })));
   }
 
   const logContext = { email: maskEmail(email) };
@@ -73,12 +74,9 @@ module.exports = async function handler(req, res) {
     console.info('[profile] saved', Object.assign({}, logContext, profile.row));
     return sendJson(res, 200, { ok: true });
   } catch (err) {
-    console.error('[profile] supabase write failed', Object.assign({}, logContext, {
-      status: err && err.status,
-      error: String(err && err.message),
-      detail: err && err.detail,
-    }));
-    return sendJson(res, 502, { ok: false, message: FRIENDLY_ERROR });
+    const failure = { status: err && err.status, error: String(err && err.message), detail: err && err.detail };
+    console.error('[profile] supabase write failed', Object.assign({}, logContext, failure));
+    return sendJson(res, 502, Object.assign({ ok: false, message: FRIENDLY_ERROR }, debugDetail({ supabase: failure })));
   }
 };
 

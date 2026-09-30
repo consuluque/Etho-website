@@ -110,6 +110,13 @@ function sendJson(res, status, body) {
   res.end(JSON.stringify(body));
 }
 
+// Off production, a failure response also carries what went wrong, so a
+// preview can be debugged from the browser's Network tab. The logs hold
+// the same detail everywhere.
+function debugDetail(detail) {
+  return process.env.VERCEL_ENV === 'production' ? {} : { detail: detail };
+}
+
 function redirect(res, location) {
   res.statusCode = 303;
   res.setHeader('Location', location);
@@ -127,4 +134,5 @@ module.exports = {
   maskEmail,
   sendJson,
   redirect,
+  debugDetail,
 };
