@@ -171,16 +171,17 @@
 
     <div class="profile__top">
       <button type="button" class="profile__nav" aria-label="Back" data-profile-back hidden>&larr;</button>
-      <span class="profile__count" data-profile-count aria-live="polite"></span>
+      <span class="profile__status">Unlocking your early access benefits…</span>
       <button type="button" class="profile__nav" aria-label="Close" data-profile-close>&times;</button>
     </div>
 
     <div class="profile__body">
     <!-- {dog} becomes the dog's name once there is one, else "your dog". -->
     <fieldset class="profile__step" data-step="dogName">
-      <legend class="profile__question" id="profile-title">What’s your dog’s name?</legend>
+      <legend class="profile__question" id="profile-title">You’re in. Who’s the lucky dog?</legend>
+      <p class="profile__lead">Complete a few steps for personalised recommendations, birthday surprises and early member perks.</p>
       <input class="profile__input" type="text" name="dogName" maxlength="60" autocomplete="off"
-             enterkeyhint="next" aria-label="Dog’s name" required>
+             enterkeyhint="next" aria-label="Dog’s name" placeholder="Your dog’s name" required>
       <p class="profile__error" data-step-error aria-live="polite"></p>
     </fieldset>
 
@@ -196,6 +197,10 @@
                aria-expanded="false" aria-controls="breed-listbox" data-picker-trigger>
         <ul class="picker__list" id="breed-listbox" role="listbox" aria-label="Breeds" hidden data-picker-list></ul>
       </div>
+      <!-- Shown once the breed is "Mixed": which breeds are in the mix. -->
+      <input class="profile__input" type="text" name="dogBreedMix" maxlength="80" autocomplete="off"
+             autocapitalize="words" enterkeyhint="next" aria-label="Which breeds are in the mix?"
+             placeholder="Which breeds? e.g. Kelpie x Border Collie" data-breed-mix hidden>
       <p class="profile__error" data-step-error aria-live="polite"></p>
     </fieldset>
 
@@ -210,7 +215,7 @@
     </fieldset>
 
     <fieldset class="profile__step" data-step="dogBirthday" data-optional hidden>
-      <legend class="profile__question" data-question="When is {dog}’s birthday?"></legend>
+      <legend class="profile__question" data-question="When’s {dog}’s birthday? 🎂"></legend>
       <div class="profile__pair">
         <div class="picker is-empty" data-picker="day">
           <input type="hidden" name="dogBirthdayDay" value="">
@@ -231,14 +236,14 @@
     </fieldset>
 
     <fieldset class="profile__step" data-step="ownerName" hidden>
-      <legend class="profile__question">And what’s your name?</legend>
+      <legend class="profile__question">Who’s their human?</legend>
       <input class="profile__input" type="text" name="ownerName" maxlength="60" autocomplete="given-name"
              enterkeyhint="next" aria-label="Your name" required>
       <p class="profile__error" data-step-error aria-live="polite"></p>
     </fieldset>
 
     <fieldset class="profile__step" data-step="loves" data-optional hidden>
-      <legend class="profile__question" data-question="What does {dog} love?"></legend>
+      <legend class="profile__question" data-question="What makes {dog}’s life better?"></legend>
       <p class="profile__hint">Pick as many as you like.</p>
       <div class="profile__chips">
         <button type="button" class="chip" data-chip="walks" data-chip-group="loves" aria-pressed="false">Walks</button>
@@ -278,7 +283,7 @@
 
   <div class="profile__done" data-profile-done hidden>
     <button type="button" class="profile__nav profile__done-close" aria-label="Close" data-profile-close>&times;</button>
-    <h2 class="profile__question" id="profile-done-title"><span data-dog-name></span> will be one of the first to try Etho and unlock exclusive discounts</h2>
+    <h2 class="profile__question" id="profile-done-title">You and <span data-dog-name></span> will officially be one of the first to try Etho!</h2>
     <button type="button" class="btn-solid profile__submit" data-profile-close>Close</button>
   </div>
 </dialog>

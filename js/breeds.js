@@ -39,5 +39,5 @@ window.ETHO_BREEDS = [
   'Tibetan Spaniel', 'Tibetan Terrier', 'Toy Poodle', 'Weimaraner',
   'Welsh Springer Spaniel', 'Welsh Terrier', 'West Highland White Terrier',
   'Whippet', 'Wire Haired Fox Terrier', 'Yorkshire Terrier',
-  'Mixed breed', 'Rescue, breed unknown',
+  'Rescue, breed unknown',
 ];

@@ -15,7 +15,7 @@
   const emailInput = form.querySelector('[name="email"]');
   const nameInput = form.querySelector('[name="dogName"]');
   const bar = dialog.querySelector('[data-profile-bar]');
-  const count = form.querySelector('[data-profile-count]');
+  const mixInput = form.querySelector('[data-breed-mix]');
   const backBtn = form.querySelector('[data-profile-back]');
   const skipBtn = form.querySelector('[data-profile-skip]');
   const nextBtn = form.querySelector('[data-profile-next]');
@@ -34,7 +34,9 @@
      breed's trigger is the text field itself, filtered as you type
      and free to hold anything typed; the day and month triggers are
      buttons over a hidden input. */
-  function createPicker(root, options) {
+  const MIXED = 'Mixed';
+
+  function createPicker(root, options, pinned) {
     const trigger = root.querySelector('[data-picker-trigger]');
     const list = root.querySelector('[data-picker-list]');
     const hidden = root.querySelector('input[type="hidden"]');
@@ -53,6 +55,8 @@
         ? options.filter((o) => o.label.toLowerCase().includes(q))
             .sort((a, b) => rank(a, q) - rank(b, q))
         : options.slice();
+      // A pinned option always heads the list, whatever is typed.
+      if (pinned && !items.some((o) => o.value === pinned.value)) items.unshift(pinned);
       list.replaceChildren();
       items.forEach((o, i) => {
         const li = document.createElement('li');
@@ -78,7 +82,10 @@
       list.hidden = false;
       trigger.setAttribute('aria-expanded', 'true');
       const selected = items.findIndex((o) => o.value === value());
-      setActive(selected >= 0 ? selected : (typed && !query ? -1 : 0));
+      // With text typed, the first real match is highlighted, not the
+      // pinned option above it.
+      const first = pinned && query && items.length > 1 ? 1 : 0;
+      setActive(selected >= 0 ? selected : (typed && !query ? -1 : first));
     }
     function close() {
       list.hidden = true;
@@ -102,6 +109,7 @@
       set(o.value, o.label);
       close();
       trigger.focus();
+      trigger.dispatchEvent(new Event('change', { bubbles: true }));
     }
     function set(val, text) {
       if (typed) {
@@ -156,7 +164,8 @@
 
   const pickers = {
     breed: createPicker(form.querySelector('[data-picker="breed"]'),
-      (window.ETHO_BREEDS || []).map((b) => ({ value: b, label: b }))),
+      (window.ETHO_BREEDS || []).map((b) => ({ value: b, label: b })),
+      { value: MIXED, label: MIXED }),
     day: createPicker(form.querySelector('[data-picker="day"]'),
       Array.from({ length: 31 }, (_, i) => ({ value: String(i + 1), label: String(i + 1) }))),
     month: createPicker(form.querySelector('[data-picker="month"]'),
@@ -164,6 +173,17 @@
   };
   const dayInput = form.querySelector('[name="dogBirthdayDay"]');
   const monthInput = form.querySelector('[name="dogBirthdayMonth"]');
+
+  const breedInput = form.querySelector('[name="dogBreed"]');
+  const isMixed = () => breedInput.value.trim().toLowerCase() === MIXED.toLowerCase();
+  function syncMixField(focusIt) {
+    const mixed = isMixed();
+    if (!mixed) mixInput.value = '';
+    mixInput.hidden = !mixed;
+    if (mixed && focusIt) mixInput.focus();
+  }
+  breedInput.addEventListener('input', () => syncMixField(false));
+  breedInput.addEventListener('change', () => syncMixField(true));
 
   /* ---- the current step ------------------------------------------ */
 
@@ -178,7 +198,7 @@
   }
 
   function controlsOf(step) {
-    return Array.from(step.querySelectorAll('input:not([type="hidden"]), .profile__select, .chip'));
+    return Array.from(step.querySelectorAll('input:not([type="hidden"]):not([hidden]), .profile__select, .chip'));
   }
 
   function show(i, direction) {
@@ -195,10 +215,9 @@
 
     syncQuestions();
     bar.style.width = ((index + 1) / steps.length * 100) + '%';
-    count.textContent = (index + 1) + ' of ' + steps.length;
     backBtn.hidden = index === 0;
     skipBtn.hidden = !step.hasAttribute('data-optional');
-    nextBtn.textContent = last ? (dogName() ? 'Done for ' + dogName() : 'Done') : 'Next';
+    nextBtn.textContent = last ? 'All done!' : 'Next';
     formError.textContent = '';
     const error = step.querySelector('[data-step-error]');
     if (error) error.textContent = '';
@@ -214,7 +233,7 @@
   // under the field rather than in the browser's bubble.
   function validate(step) {
     const error = step.querySelector('[data-step-error]');
-    for (const control of step.querySelectorAll('input:not([type="hidden"])')) {
+    for (const control of step.querySelectorAll('input:not([type="hidden"]):not([hidden])')) {
       if (control.checkValidity()) continue;
       if (error) {
         error.textContent = control.validity.valueMissing
@@ -240,6 +259,7 @@
 
   function clear(step) {
     step.querySelectorAll('input').forEach((control) => { control.value = ''; });
+    if (step.contains(mixInput)) mixInput.hidden = true;
     step.querySelectorAll('[data-picker]').forEach((root) => pickers[root.dataset.picker].set(''));
     step.querySelectorAll('.chip').forEach((chip) => chip.setAttribute('aria-pressed', 'false'));
   }
@@ -278,7 +298,9 @@
     const payload = {
       email: emailInput.value,
       dogName: dogName(),
-      dogBreed: form.dogBreed.value.trim(),
+      dogBreed: isMixed() && mixInput.value.trim()
+        ? MIXED + ' (' + mixInput.value.trim() + ')'
+        : breedInput.value.trim(),
       dogAge: form.dogAge.value,
       dogBirthdayDay: dayInput.value,
       dogBirthdayMonth: monthInput.value,
