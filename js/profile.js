@@ -4,10 +4,19 @@
    again on etho:signup-failed. Built on the native <dialog>, so focus
    trapping, Escape and the inert page behind come for free. It can be
    closed at any point; the email is saved regardless.
-   Analytics deliberately not wired yet. */
+
+   Analytics go through track() in landing.js, so they reach whatever
+   the page reports to: profile_open, profile_step (each question as
+   it shows), profile_skip, profile_back, profile_abandon (closed
+   before Done, with the step it was on), profile_complete and
+   profile_error. */
 (function () {
   const dialog = document.getElementById('dog-profile');
   if (!dialog || typeof dialog.showModal !== 'function') return;
+
+  const report = (name, props) => {
+    if (typeof track === 'function') track(name, props);
+  };
 
   const form = dialog.querySelector('[data-profile-form]');
   const done = dialog.querySelector('[data-profile-done]');
@@ -26,6 +35,9 @@
 
   let index = 0;
   let signupForm = '';
+  let completed = false;
+  let openedAt = 0;
+  const stepName = () => steps[index].dataset.step;
   // The signup answers with a token for the email; the profile cannot
   // be saved without it. It arrives while the questions are being
   // answered, so submit waits for it briefly if it has not yet.
@@ -233,6 +245,8 @@
     dialog.setAttribute('aria-labelledby', step.querySelector('legend').id || 'profile-title');
     const first = controlsOf(step)[0];
     if (first) first.focus({ preventScroll: true });
+
+    report('profile_step', { step: step.dataset.step, index: index + 1, form: signupForm });
   }
 
   const MESSAGES = {
@@ -295,8 +309,12 @@
   // Give each legend an id once so the dialog can point at it.
   steps.forEach((step, n) => { step.querySelector('legend').id = 'profile-question-' + n; });
 
-  backBtn.addEventListener('click', () => show(index - 1, 'back'));
+  backBtn.addEventListener('click', () => {
+    report('profile_back', { step: stepName(), form: signupForm });
+    show(index - 1, 'back');
+  });
   skipBtn.addEventListener('click', () => {
+    report('profile_skip', { step: stepName(), form: signupForm });
     clear(steps[index]);
     if (index < steps.length - 1) show(index + 1, 'next'); else form.requestSubmit();
   });
@@ -345,14 +363,23 @@
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || 'Request failed');
 
+      completed = true;
       bar.style.width = '100%';
       done.querySelectorAll('[data-dog-name]').forEach((el) => { el.textContent = payload.dogName; });
       form.hidden = true;
       done.hidden = false;
       dialog.setAttribute('aria-labelledby', 'profile-done-title');
       done.querySelector('[data-profile-close]').focus();
+      report('profile_complete', {
+        form: signupForm,
+        seconds: Math.round((Date.now() - openedAt) / 1000),
+        loves: payload.loves.length,
+        struggles: payload.struggles.length,
+        mixed: isMixed(),
+      });
     } catch (err) {
       formError.textContent = err.message || 'Something went wrong — please try again.';
+      report('profile_error', { form: signupForm, message: err.message || 'Request failed' });
     } finally {
       nextBtn.disabled = false;
     }
@@ -360,6 +387,8 @@
 
   function open(email, fromForm) {
     signupForm = fromForm || '';
+    completed = false;
+    openedAt = Date.now();
     token = null;
     tokenReady = new Promise((resolve) => { tokenResolve = resolve; });
     form.reset();
@@ -368,8 +397,21 @@
     form.hidden = false;
     done.hidden = true;
     if (!dialog.open) dialog.showModal();
+    report('profile_open', { form: signupForm });
     show(0);
   }
+
+  // Closed by ×, Escape, a tap outside or a failed signup: if the
+  // profile was not saved, that is an abandon at this step.
+  dialog.addEventListener('close', () => {
+    if (completed) return;
+    report('profile_abandon', {
+      step: stepName(),
+      index: index + 1,
+      form: signupForm,
+      seconds: Math.round((Date.now() - openedAt) / 1000),
+    });
+  });
 
   dialog.querySelectorAll('[data-profile-close]').forEach((btn) => {
     btn.addEventListener('click', () => dialog.close());

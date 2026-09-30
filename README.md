@@ -114,6 +114,15 @@ with the account id and stamps `converted_at`, and the row is a user
 from then on. Row level security is on with no policies, so only the
 service role, which the functions use, can read or write it.
 
+The modal reports through the same `track()` as the signup: `profile_open`,
+`profile_step` (step name and 1-based index, on every question shown),
+`profile_skip`, `profile_back`, `profile_abandon` (closed before Done, with
+the step and seconds open), `profile_complete` (seconds, chip counts,
+whether the breed is Mixed) and `profile_error`. Every event carries
+`form`, the signup form it followed. Nothing collects these until an
+analytics vendor is on the page: `track()` pushes to `dataLayer` and calls
+`gtag` or `plausible` when present.
+
 `landing.js` records first-touch attribution — the `utm_source`,
 `utm_medium`, `utm_campaign` and `utm_content` parameters, the referring
 site, and the page landed on — in `localStorage` under
