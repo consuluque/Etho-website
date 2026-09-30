@@ -36,7 +36,9 @@
 
     <div class="hero-content hero-content--v3">
       <h1 class="hero-title">Give them more of the good life</h1>
+      <!-- The subtitle is held back for now; restore by uncommenting.
       <p class="hero-sub"><span class="hero-sub__line">Personalised wellbeing for your dog,</span> <span class="hero-sub__line">with better ways to care for them.</span></p>
+      -->
 
       <!-- The form ships in the markup rather than being built by script,
            so it still submits with JS off (the function then sends the
@@ -55,7 +57,7 @@
             <label for="access-hp-field">Leave this field empty</label>
             <input id="access-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
           </div>
-          <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
+          <button type="submit" class="btn-solid waitlist-submit">Get early access</button>
         </form>
         <p class="waitlist-status" data-form-status aria-live="polite"></p>
       </div>
@@ -153,7 +155,7 @@
         <label for="sticky-hp-field">Leave this field empty</label>
         <input id="sticky-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
       </div>
-      <button type="submit" class="btn-solid waitlist-submit">Join the waitlist</button>
+      <button type="submit" class="btn-solid waitlist-submit">Get early access</button>
     </form>
     <p class="waitlist-status" data-form-status aria-live="polite"></p>
   </div>
@@ -289,7 +291,6 @@
     <button type="button" class="profile__nav profile__done-close" aria-label="Close" data-profile-close>&times;</button>
     <div class="profile__emoji" aria-hidden="true">🎉</div>
     <h2 class="profile__question" id="profile-done-title">You and <span data-dog-name></span> will officially be one of the first to try Etho!</h2>
-    <button type="button" class="btn-solid profile__submit" data-profile-close>Close</button>
   </div>
 </dialog>
 

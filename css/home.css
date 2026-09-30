@@ -566,7 +566,6 @@
 .profile__done[hidden] { display: none; }
 .profile__done-close { position: absolute; top: 12px; right: 20px; }
 .profile__emoji { font-size: 48px; line-height: 1; }
-.profile__done .profile__submit { width: auto; min-width: 180px; }
 
 /* Back on the left, the status line in the middle, close on the right. */
 .profile__top {

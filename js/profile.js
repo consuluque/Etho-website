@@ -326,7 +326,7 @@
       form.hidden = true;
       done.hidden = false;
       dialog.setAttribute('aria-labelledby', 'profile-done-title');
-      done.querySelector('.btn-solid').focus();
+      done.querySelector('[data-profile-close]').focus();
     } catch (err) {
       formError.textContent = err.message || 'Something went wrong — please try again.';
     } finally {
