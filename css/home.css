@@ -566,6 +566,13 @@
 .profile__done[hidden] { display: none; }
 .profile__done-close { position: absolute; top: 12px; right: 20px; }
 .profile__emoji { font-size: 48px; line-height: 1; }
+.profile__done-copy {
+  margin: -8px 0 0;
+  max-width: 34ch;
+  font-size: var(--type-body);
+  line-height: 1.5;
+  color: var(--muted);
+}
 
 /* Back on the left, the status line in the middle, close on the right. */
 .profile__top {

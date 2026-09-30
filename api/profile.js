@@ -8,7 +8,8 @@
 'use strict';
 
 const {
-  MAX_BODY_BYTES, FRIENDLY_ERROR, readBody, normaliseEmail, cleanString, maskEmail, sendJson, debugDetail,
+  MAX_BODY_BYTES, FRIENDLY_ERROR, readBody, normaliseEmail, cleanString, maskEmail,
+  verifyEmailToken, sendJson, debugDetail,
 } = require('./_lib/loops.js');
 const supabase = require('./_lib/supabase.js');
 
@@ -18,7 +19,8 @@ const MAX_AGE = 30;
 
 // The chip values the modal offers. Anything else is dropped.
 const LOVES = ['walks', 'food', 'swimming', 'other dogs', 'toys', 'cuddles', 'learning tricks', 'car rides', 'sleeping'];
-const STRUGGLES = ['being left alone', 'pulling on lead', 'rainy days', 'weight', 'anxiety', 'allergies', 'grooming', 'health issues', 'car', 'nail trimming'];
+const STRUGGLES = ['being left alone', 'pulling on lead', 'rainy days', 'weight', 'anxiety', 'allergies', 'grooming', 'health issues', 'car', 'nail trimming', 'other'];
+const MAX_OTHER = 80;
 
 const DAYS_IN_MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -51,6 +53,17 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 400, { ok: false, message: 'Please enter a valid email address.' });
   }
 
+  // Only the browser that signed this email up holds its token.
+  const secret = process.env.LOOPS_SYNC_SECRET;
+  if (!secret) {
+    console.error('[profile] missing configuration', { LOOPS_SYNC_SECRET: false });
+    return sendJson(res, 500, { ok: false, message: FRIENDLY_ERROR });
+  }
+  if (!verifyEmailToken(email, body.token, secret)) {
+    console.warn('[profile] token rejected', { email: maskEmail(email) });
+    return sendJson(res, 403, { ok: false, message: 'We couldn’t confirm your signup — please try again.' });
+  }
+
   const profile = validateProfile(body);
   if (profile.error) {
     return sendJson(res, 400, { ok: false, message: profile.error });
@@ -71,7 +84,7 @@ module.exports = async function handler(req, res) {
       { email: email, form: cleanString(body.form, 40) || undefined },
       profile.row
     ));
-    console.info('[profile] saved', Object.assign({}, logContext, profile.row));
+    console.info('[profile] saved', logContext);
     return sendJson(res, 200, { ok: true });
   } catch (err) {
     const failure = {
@@ -119,6 +132,11 @@ function validateProfile(body) {
 
   row.loves = pickChips(body.loves, LOVES);
   row.struggles = pickChips(body.struggles, STRUGGLES);
+  // "Other" with words: the words go in the list in place of the chip.
+  const other = cleanString(body.strugglesOther, MAX_OTHER);
+  if (other && row.struggles.includes('other')) {
+    row.struggles = row.struggles.filter((v) => v !== 'other').concat(other);
+  }
 
   return { row: row };
 }

@@ -70,7 +70,11 @@ effort: a Supabase failure is logged and does not fail the signup.
 After a successful signup, `profile.js` opens the dog profile modal (a
 native `<dialog>` in `index.html`) and posts it to `/api/profile`, which
 merges the profile into that lead's row in Supabase and nothing else.
-The breed autocomplete is the list in `js/breeds.js`.
+The signup's response carries a token (an HMAC of the email under
+`LOOPS_SYNC_SECRET`); the profile is accepted only with it, so a profile
+cannot be written against someone else's address. The breed
+autocomplete is the list in `js/breeds.js`; "Other" among the struggles
+opens a text field whose words are stored in the list in its place.
 
 ### Keeping Loops in step
 
@@ -129,8 +133,10 @@ SUPABASE_URL               — the Project URL from Supabase → Project Setting
                              Data API: https://<ref>.supabase.co, nothing else
 SUPABASE_SERVICE_ROLE_KEY  — the service_role key from the same page.
                              Server-side only; it bypasses row level security.
-LOOPS_SYNC_SECRET          — any long random string; the Supabase webhook
-                             sends it in x-etho-webhook-secret
+LOOPS_SYNC_SECRET          — any long random string: the site's secret. The
+                             Supabase webhook sends it in x-etho-webhook-secret,
+                             and the signup signs each email with it so only
+                             that browser can save a profile for the email
 ```
 
 A variable takes effect on the next build, not when it is saved, so

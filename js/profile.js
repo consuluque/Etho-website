@@ -26,6 +26,12 @@
 
   let index = 0;
   let signupForm = '';
+  // The signup answers with a token for the email; the profile cannot
+  // be saved without it. It arrives while the questions are being
+  // answered, so submit waits for it briefly if it has not yet.
+  let token = null;
+  let tokenReady = null;
+  let tokenResolve = null;
 
   /* ---- pickers ------------------------------------------------------
      One list component for the breed field and the two birthday
@@ -229,17 +235,20 @@
     if (first) first.focus({ preventScroll: true });
   }
 
+  const MESSAGES = {
+    dogName: 'Please tell us your dog’s name.',
+    dogBreed: 'Please tell us your dog’s breed.',
+    ownerName: 'Please tell us your name.',
+    dogAge: 'Please enter an age between 0 and 30.',
+  };
+
   // Native constraint checks on the visible step only; the message goes
   // under the field rather than in the browser's bubble.
   function validate(step) {
     const error = step.querySelector('[data-step-error]');
     for (const control of step.querySelectorAll('input:not([type="hidden"]):not([hidden])')) {
       if (control.checkValidity()) continue;
-      if (error) {
-        error.textContent = control.validity.valueMissing
-          ? (step.dataset.step === 'ownerName' ? 'Please tell us your name.' : 'Please tell us your dog’s ' + (step.dataset.step === 'dogBreed' ? 'breed.' : 'name.'))
-          : (step.dataset.step === 'dogAge' ? 'Please enter an age between 0 and 30.' : control.validationMessage);
-      }
+      if (error) error.textContent = MESSAGES[step.dataset.step] || control.validationMessage;
       control.focus();
       return false;
     }
@@ -259,7 +268,7 @@
 
   function clear(step) {
     step.querySelectorAll('input').forEach((control) => { control.value = ''; });
-    if (step.contains(mixInput)) mixInput.hidden = true;
+    step.querySelectorAll('[data-breed-mix], [data-other-for]').forEach((extra) => { extra.hidden = true; });
     step.querySelectorAll('[data-picker]').forEach((root) => pickers[root.dataset.picker].set(''));
     step.querySelectorAll('.chip').forEach((chip) => chip.setAttribute('aria-pressed', 'false'));
   }
@@ -268,7 +277,14 @@
 
   form.querySelectorAll('[data-chip]').forEach((chip) => {
     chip.addEventListener('click', () => {
-      chip.setAttribute('aria-pressed', chip.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      const pressed = chip.getAttribute('aria-pressed') !== 'true';
+      chip.setAttribute('aria-pressed', String(pressed));
+      // An "Other" chip has a text field for what it stands for.
+      const other = form.querySelector('[data-other-for="' + chip.dataset.chipGroup + '"]');
+      if (other && chip.dataset.chip === 'other') {
+        other.hidden = !pressed;
+        if (pressed) other.focus(); else other.value = '';
+      }
     });
   });
   const chipValues = (group) => Array.from(
@@ -307,12 +323,20 @@
       ownerName: form.ownerName.value.trim(),
       loves: chipValues('loves'),
       struggles: chipValues('struggles'),
+      strugglesOther: form.strugglesOther.value.trim(),
       form: signupForm,
     };
 
     nextBtn.disabled = true;
     formError.textContent = '';
     try {
+      // The signup normally answered long ago; give it a few seconds if not.
+      payload.token = token || await Promise.race([
+        tokenReady,
+        new Promise((resolve) => setTimeout(() => resolve(null), 8000)),
+      ]);
+      if (!payload.token) throw new Error('We couldn’t confirm your signup — please try again.');
+
       const res = await fetch(form.getAttribute('action'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -336,6 +360,8 @@
 
   function open(email, fromForm) {
     signupForm = fromForm || '';
+    token = null;
+    tokenReady = new Promise((resolve) => { tokenResolve = resolve; });
     form.reset();
     steps.forEach(clear);
     emailInput.value = email;
@@ -355,8 +381,14 @@
   document.addEventListener('etho:signup', (evt) => {
     if (evt.detail && evt.detail.email) open(evt.detail.email, evt.detail.form);
   });
+  document.addEventListener('etho:signup-confirmed', (evt) => {
+    if (!evt.detail || evt.detail.email !== emailInput.value) return;
+    token = evt.detail.token || null;
+    if (tokenResolve) tokenResolve(token);
+  });
   // The signup behind the modal failed: the person needs to see that.
   document.addEventListener('etho:signup-failed', () => {
+    if (tokenResolve) tokenResolve(null);
     if (dialog.open && !form.hidden) dialog.close();
   });
 })();

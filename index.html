@@ -263,7 +263,7 @@
     </fieldset>
 
     <fieldset class="profile__step" data-step="struggles" data-optional hidden>
-      <legend class="profile__question" data-question="What does {dog} struggle with?"></legend>
+      <legend class="profile__question" data-question="Last thing, what does {dog} struggle with?"></legend>
       <p class="profile__hint">Pick as many as you like.</p>
       <div class="profile__chips">
         <button type="button" class="chip" data-chip="being left alone" data-chip-group="struggles" aria-pressed="false">Being left alone</button>
@@ -276,7 +276,12 @@
         <button type="button" class="chip" data-chip="health issues" data-chip-group="struggles" aria-pressed="false">Health issues</button>
         <button type="button" class="chip" data-chip="car" data-chip-group="struggles" aria-pressed="false">Car</button>
         <button type="button" class="chip" data-chip="nail trimming" data-chip-group="struggles" aria-pressed="false">Nail trimming</button>
+        <button type="button" class="chip" data-chip="other" data-chip-group="struggles" aria-pressed="false">Other</button>
       </div>
+      <!-- Shown while "Other" is pressed: what else they struggle with. -->
+      <input class="profile__input" type="text" name="strugglesOther" maxlength="80" autocomplete="off"
+             enterkeyhint="done" aria-label="What else do they struggle with?"
+             placeholder="Tell us what" data-other-for="struggles" hidden>
     </fieldset>
 
     <p class="profile__error" data-profile-error aria-live="polite"></p>
@@ -290,7 +295,8 @@
   <div class="profile__done" data-profile-done hidden>
     <button type="button" class="profile__nav profile__done-close" aria-label="Close" data-profile-close>&times;</button>
     <div class="profile__emoji" aria-hidden="true">🎉</div>
-    <h2 class="profile__question" id="profile-done-title">You and <span data-dog-name></span> will officially be one of the first to try Etho!</h2>
+    <h2 class="profile__question" id="profile-done-title">You and <span data-dog-name></span> are in!</h2>
+    <p class="profile__done-copy">We’ll let you know as soon as you can start enjoying personalised Etho benefits, picked just for you.</p>
   </div>
 </dialog>
 

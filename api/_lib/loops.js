@@ -4,6 +4,8 @@
 
 'use strict';
 
+const { createHmac, timingSafeEqual } = require('crypto');
+
 const LOOPS_API = 'https://app.loops.so/api/v1';
 const MAX_BODY_BYTES = 16 * 1024;
 const REQUEST_TIMEOUT_MS = 8000;
@@ -101,6 +103,26 @@ function maskEmail(email) {
 }
 
 /* ---------------------------------------------------------------
+   Email tokens
+
+   The signup answers with a token for the email it just saved; the
+   profile endpoint accepts a profile for an email only with a valid
+   token. It is an HMAC of the email under the site's secret, so it
+   needs no storage and cannot be made up for someone else's address.
+   --------------------------------------------------------------- */
+
+function signEmail(email, secret) {
+  return createHmac('sha256', secret).update(email).digest('base64url');
+}
+
+function verifyEmailToken(email, token, secret) {
+  if (typeof token !== 'string' || !token) return false;
+  const expected = Buffer.from(signEmail(email, secret));
+  const given = Buffer.from(token);
+  return given.length === expected.length && timingSafeEqual(given, expected);
+}
+
+/* ---------------------------------------------------------------
    Responses
    --------------------------------------------------------------- */
 
@@ -132,6 +154,8 @@ module.exports = {
   normaliseEmail,
   cleanString,
   maskEmail,
+  signEmail,
+  verifyEmailToken,
   sendJson,
   redirect,
   debugDetail,

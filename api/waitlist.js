@@ -19,7 +19,7 @@
 
 const {
   MAX_BODY_BYTES, FRIENDLY_ERROR, loops, loopsFailure, readBody,
-  normaliseEmail, cleanString, maskEmail, sendJson, redirect,
+  normaliseEmail, cleanString, maskEmail, signEmail, sendJson, redirect,
 } = require('./_lib/loops.js');
 const supabase = require('./_lib/supabase.js');
 
@@ -93,13 +93,17 @@ module.exports = async function handler(req, res) {
 
   const attribution = pickAttribution(body);
   const logContext = { email: maskEmail(email), form: cleanString(body.form, 40) };
+  // What the profile modal will need to save against this email.
+  const secret = process.env.LOOPS_SYNC_SECRET;
+  if (!secret) console.error('[waitlist] LOOPS_SYNC_SECRET missing; profiles cannot be saved', logContext);
+  const answer = { ok: true, token: secret ? signEmail(email, secret) : null };
 
   try {
     const found = await loops(apiKey, 'GET', '/contacts/find?email=' + encodeURIComponent(email));
     if (Array.isArray(found) && found.length > 0) {
       console.info('[waitlist] existing contact, left unchanged', logContext);
       await recordLead(email, body, attribution, logContext);
-      return reply(200, { ok: true });
+      return reply(200, answer);
     }
 
     const mailingLists = {};
@@ -113,7 +117,7 @@ module.exports = async function handler(req, res) {
 
     console.info('[waitlist] contact created', Object.assign({}, logContext, attribution));
     await recordLead(email, body, attribution, logContext);
-    return reply(200, { ok: true });
+    return reply(200, answer);
   } catch (err) {
     console.error('[waitlist] loops request failed', Object.assign({}, logContext, {
       status: err && err.status,
