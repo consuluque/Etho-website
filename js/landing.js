@@ -6,11 +6,17 @@
 /* ---------------------------------------------------------------
    Analytics
 
-   No vendor is wired up yet, so every event is pushed to dataLayer and
-   re-dispatched as a DOM event; whichever tag manager or script is
-   dropped in later can read it without touching this file. gtag and
-   plausible are called directly when present.
+   Every event is pushed to dataLayer and re-dispatched as a DOM event,
+   and gtag and plausible are called when present, so any vendor can be
+   dropped in without touching this file. The waitlist funnel (every
+   event named waitlist_*) is also sent to /api/event, which stores it
+   first-party in Supabase with a random id for this page visit and
+   nothing that follows a person between visits.
    --------------------------------------------------------------- */
+const SESSION_ID = (window.crypto && typeof window.crypto.randomUUID === 'function')
+  ? window.crypto.randomUUID()
+  : Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+
 function track(name, params) {
   const props = params || {};
   const payload = Object.assign({ event: name }, props);
@@ -22,9 +28,22 @@ function track(name, params) {
   if (typeof window.plausible === 'function') window.plausible(name, { props: props });
 
   document.dispatchEvent(new CustomEvent('etho:analytics', { detail: payload }));
+  if (name.indexOf('waitlist_') === 0) ship(name, props);
 
   // Set window.ETHO_DEBUG_ANALYTICS = true in the console to watch events.
   if (window.ETHO_DEBUG_ANALYTICS) console.log('[etho]', name, props);
+}
+
+// Fire and forget; keepalive lets it finish through a page close.
+function ship(name, props) {
+  try {
+    fetch('/api/event', {
+      method: 'POST',
+      keepalive: true,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: name, props: props, session: SESSION_ID, page: window.location.pathname }),
+    }).catch(() => {});
+  } catch (_) { /* nothing an analytics call may break */ }
 }
 
 function trackPageView() {
@@ -210,7 +229,7 @@ function initAccessForm(form) {
   const markStarted = () => {
     if (started) return;
     started = true;
-    track('form_start', { form: name });
+    track('waitlist_signup_start', { form: name });
   };
   input.addEventListener('focus', markStarted);
   input.addEventListener('input', markStarted);
@@ -223,7 +242,7 @@ function initAccessForm(form) {
     }
 
     markStarted();
-    track('form_submit', { form: name });
+    track('waitlist_signup_submit', { form: name });
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
@@ -252,13 +271,13 @@ function initAccessForm(form) {
 
       form.reset();
       setStatus(status, form.dataset.doneMessage || DONE_MESSAGE, 'done');
-      track('form_success', { form: name });
+      track('waitlist_signup_success', { form: name });
       // The token lets the profile modal save against this email.
       document.dispatchEvent(new CustomEvent('etho:signup-confirmed', { detail: { email: payload.email, token: data.token || null } }));
     } catch (err) {
       document.dispatchEvent(new CustomEvent('etho:signup-failed', { detail: { email: payload.email } }));
       setStatus(status, ERROR_MESSAGE, 'error');
-      track('form_error', { form: name });
+      track('waitlist_signup_error', { form: name });
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = submitLabel;

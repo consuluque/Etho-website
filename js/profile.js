@@ -4,10 +4,19 @@
    again on etho:signup-failed. Built on the native <dialog>, so focus
    trapping, Escape and the inert page behind come for free. It can be
    closed at any point; the email is saved regardless.
-   Analytics deliberately not wired yet. */
+
+   Analytics go through track() in landing.js, so they reach whatever
+   the page reports to: waitlist_profile_open, waitlist_profile_step (each question as
+   it shows), waitlist_profile_skip, waitlist_profile_back, waitlist_profile_abandon (closed
+   before Done, with the step it was on), waitlist_profile_complete and
+   waitlist_profile_error. */
 (function () {
   const dialog = document.getElementById('dog-profile');
   if (!dialog || typeof dialog.showModal !== 'function') return;
+
+  const report = (name, props) => {
+    if (typeof track === 'function') track(name, props);
+  };
 
   const form = dialog.querySelector('[data-profile-form]');
   const done = dialog.querySelector('[data-profile-done]');
@@ -26,6 +35,9 @@
 
   let index = 0;
   let signupForm = '';
+  let completed = false;
+  let openedAt = 0;
+  const stepName = () => steps[index].dataset.step;
   // The signup answers with a token for the email; the profile cannot
   // be saved without it. It arrives while the questions are being
   // answered, so submit waits for it briefly if it has not yet.
@@ -230,9 +242,11 @@
 
     // Only the visible step can take focus; a legend's aria-labelledby
     // keeps the dialog announced by the current question.
-    dialog.setAttribute('aria-labelledby', step.querySelector('legend').id || 'profile-title');
+    dialog.setAttribute('aria-labelledby', step.querySelector('.profile__question').id || 'profile-title');
     const first = controlsOf(step)[0];
     if (first) first.focus({ preventScroll: true });
+
+    report('waitlist_profile_step', { step: step.dataset.step, index: index + 1, form: signupForm });
   }
 
   const MESSAGES = {
@@ -292,11 +306,19 @@
     (chip) => chip.dataset.chip
   );
 
-  // Give each legend an id once so the dialog can point at it.
-  steps.forEach((step, n) => { step.querySelector('legend').id = 'profile-question-' + n; });
+  // Each question gets an id so the dialog and its group can point at it.
+  steps.forEach((step, n) => {
+    const question = step.querySelector('.profile__question');
+    question.id = question.id || 'profile-question-' + n;
+    step.setAttribute('aria-labelledby', question.id);
+  });
 
-  backBtn.addEventListener('click', () => show(index - 1, 'back'));
+  backBtn.addEventListener('click', () => {
+    report('waitlist_profile_back', { step: stepName(), form: signupForm });
+    show(index - 1, 'back');
+  });
   skipBtn.addEventListener('click', () => {
+    report('waitlist_profile_skip', { step: stepName(), form: signupForm });
     clear(steps[index]);
     if (index < steps.length - 1) show(index + 1, 'next'); else form.requestSubmit();
   });
@@ -345,21 +367,67 @@
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || 'Request failed');
 
+      completed = true;
       bar.style.width = '100%';
       done.querySelectorAll('[data-dog-name]').forEach((el) => { el.textContent = payload.dogName; });
       form.hidden = true;
       done.hidden = false;
       dialog.setAttribute('aria-labelledby', 'profile-done-title');
       done.querySelector('[data-profile-close]').focus();
+      report('waitlist_profile_complete', {
+        form: signupForm,
+        seconds: Math.round((Date.now() - openedAt) / 1000),
+        loves: payload.loves.length,
+        struggles: payload.struggles.length,
+        mixed: isMixed(),
+      });
     } catch (err) {
       formError.textContent = err.message || 'Something went wrong — please try again.';
+      report('waitlist_profile_error', { form: signupForm, message: err.message || 'Request failed' });
     } finally {
       nextBtn.disabled = false;
     }
   });
 
+  /* ---- the page behind, and the keyboard ---------------------------
+     Opening locks the page's scroll (restored on close). On a phone the
+     keyboard covers the lower part of the screen; iOS does not shrink
+     the layout viewport for it, so the sheet is sized and offset to
+     the visual viewport, the part actually on screen, whenever that is
+     clearly shorter than the window. Everything then fits above the
+     keyboard and nothing has to scroll into view. */
+  const viewport = window.visualViewport;
+  let pageScrollY = 0;
+
+  function fitToKeyboard() {
+    if (!viewport || !dialog.open) return;
+    const keyboardUp = window.innerHeight - viewport.height > 120;
+    dialog.style.height = keyboardUp ? viewport.height + 'px' : '';
+    dialog.style.transform = keyboardUp ? 'translateY(' + viewport.offsetTop + 'px)' : '';
+    if (keyboardUp) dialog.scrollTop = 0;
+  }
+  if (viewport) {
+    viewport.addEventListener('resize', fitToKeyboard);
+    viewport.addEventListener('scroll', fitToKeyboard);
+  }
+
+  function lockPage() {
+    pageScrollY = window.scrollY;
+    document.body.style.top = -pageScrollY + 'px';
+    document.body.classList.add('profile-open');
+  }
+  function unlockPage() {
+    document.body.classList.remove('profile-open');
+    document.body.style.top = '';
+    window.scrollTo(0, pageScrollY);
+    dialog.style.height = '';
+    dialog.style.transform = '';
+  }
+
   function open(email, fromForm) {
     signupForm = fromForm || '';
+    completed = false;
+    openedAt = Date.now();
     token = null;
     tokenReady = new Promise((resolve) => { tokenResolve = resolve; });
     form.reset();
@@ -367,9 +435,27 @@
     emailInput.value = email;
     form.hidden = false;
     done.hidden = true;
-    if (!dialog.open) dialog.showModal();
+    if (!dialog.open) {
+      lockPage();
+      dialog.showModal();
+    }
+    report('waitlist_profile_open', { form: signupForm });
     show(0);
+    fitToKeyboard();
   }
+
+  // Closed by ×, Escape, a tap outside or a failed signup: if the
+  // profile was not saved, that is an abandon at this step.
+  dialog.addEventListener('close', () => {
+    unlockPage();
+    if (completed) return;
+    report('waitlist_profile_abandon', {
+      step: stepName(),
+      index: index + 1,
+      form: signupForm,
+      seconds: Math.round((Date.now() - openedAt) / 1000),
+    });
+  });
 
   dialog.querySelectorAll('[data-profile-close]').forEach((btn) => {
     btn.addEventListener('click', () => dialog.close());

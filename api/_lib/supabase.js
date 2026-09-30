@@ -55,4 +55,27 @@ function attributionColumns(attribution) {
   return out;
 }
 
-module.exports = { configured, upsertLead, attributionColumns };
+// One analytics event; the row is never read back.
+async function insertEvent(row) {
+  const base = process.env.SUPABASE_URL.replace(/\/+$/, '');
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const res = await fetch(base + '/rest/v1/analytics_events', {
+    method: 'POST',
+    headers: {
+      apikey: key,
+      Authorization: 'Bearer ' + key,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(row),
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
+  if (!res.ok) {
+    const err = new Error('Supabase insert returned ' + res.status);
+    err.status = res.status;
+    err.detail = await res.text().catch(() => '');
+    throw err;
+  }
+}
+
+module.exports = { configured, upsertLead, insertEvent, attributionColumns };

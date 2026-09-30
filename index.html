@@ -181,16 +181,16 @@
 
     <div class="profile__body">
     <!-- {dog} becomes the dog's name once there is one, else "your dog". -->
-    <fieldset class="profile__step" data-step="dogName">
-      <legend class="profile__question" id="profile-title">You’re in. Who’s the lucky dog?</legend>
+    <div class="profile__step" role="group" data-step="dogName">
+      <h2 class="profile__question" id="profile-title">You’re in. Who’s the lucky dog?</h2>
       <p class="profile__lead">Complete a few steps for personalised recommendations, birthday surprises and early member perks.</p>
       <input class="profile__input" type="text" name="dogName" maxlength="60" autocomplete="off"
              enterkeyhint="next" aria-label="Dog’s name" placeholder="Your dog’s name" required>
       <p class="profile__error" data-step-error aria-live="polite"></p>
-    </fieldset>
+    </div>
 
-    <fieldset class="profile__step" data-step="dogBreed" hidden>
-      <legend class="profile__question" data-question="What breed is {dog}?"></legend>
+    <div class="profile__step" role="group" data-step="dogBreed" hidden>
+      <h2 class="profile__question" data-question="What breed is {dog}?"></h2>
       <!-- A combobox: the list opens under the field at its width and
            filters as you type; anything typed is still accepted. -->
       <div class="picker" data-picker="breed">
@@ -206,20 +206,20 @@
              autocapitalize="words" enterkeyhint="next" aria-label="Which breeds are in the mix?"
              placeholder="Which breeds? e.g. Kelpie x Border Collie" data-breed-mix hidden>
       <p class="profile__error" data-step-error aria-live="polite"></p>
-    </fieldset>
+    </div>
 
-    <fieldset class="profile__step" data-step="dogAge" data-optional hidden>
-      <legend class="profile__question" data-question="How old is {dog}?"></legend>
+    <div class="profile__step" role="group" data-step="dogAge" data-optional hidden>
+      <h2 class="profile__question" data-question="How old is {dog}?"></h2>
       <div class="profile__unit">
         <input class="profile__input" type="number" name="dogAge" min="0" max="30" step="0.5"
                inputmode="decimal" enterkeyhint="next" aria-label="Age in years">
         <span class="profile__unit-label">years</span>
       </div>
       <p class="profile__error" data-step-error aria-live="polite"></p>
-    </fieldset>
+    </div>
 
-    <fieldset class="profile__step" data-step="dogBirthday" data-optional hidden>
-      <legend class="profile__question" data-question="When’s {dog}’s birthday? 🎂"></legend>
+    <div class="profile__step" role="group" data-step="dogBirthday" data-optional hidden>
+      <h2 class="profile__question" data-question="When’s {dog}’s birthday? 🎂"></h2>
       <div class="profile__pair">
         <div class="picker is-empty" data-picker="day">
           <input type="hidden" name="dogBirthdayDay" value="">
@@ -237,17 +237,17 @@
         </div>
       </div>
       <p class="profile__error" data-step-error aria-live="polite"></p>
-    </fieldset>
+    </div>
 
-    <fieldset class="profile__step" data-step="ownerName" hidden>
-      <legend class="profile__question">Who’s their human?</legend>
+    <div class="profile__step" role="group" data-step="ownerName" hidden>
+      <h2 class="profile__question">Who’s their human?</h2>
       <input class="profile__input" type="text" name="ownerName" maxlength="60" autocomplete="given-name"
              enterkeyhint="next" aria-label="Your name" placeholder="Your name" required>
       <p class="profile__error" data-step-error aria-live="polite"></p>
-    </fieldset>
+    </div>
 
-    <fieldset class="profile__step" data-step="loves" data-optional hidden>
-      <legend class="profile__question" data-question="What makes {dog} happy?"></legend>
+    <div class="profile__step" role="group" data-step="loves" data-optional hidden>
+      <h2 class="profile__question" data-question="What makes {dog} happy?"></h2>
       <p class="profile__hint">Pick as many as you like.</p>
       <div class="profile__chips">
         <button type="button" class="chip" data-chip="walks" data-chip-group="loves" aria-pressed="false">Walks</button>
@@ -260,10 +260,10 @@
         <button type="button" class="chip" data-chip="car rides" data-chip-group="loves" aria-pressed="false">Car rides</button>
         <button type="button" class="chip" data-chip="sleeping" data-chip-group="loves" aria-pressed="false">Sleeping</button>
       </div>
-    </fieldset>
+    </div>
 
-    <fieldset class="profile__step" data-step="struggles" data-optional hidden>
-      <legend class="profile__question" data-question="Last thing, what does {dog} struggle with?"></legend>
+    <div class="profile__step" role="group" data-step="struggles" data-optional hidden>
+      <h2 class="profile__question" data-question="Last thing, what does {dog} struggle with?"></h2>
       <p class="profile__hint">Pick as many as you like.</p>
       <div class="profile__chips">
         <button type="button" class="chip" data-chip="being left alone" data-chip-group="struggles" aria-pressed="false">Being left alone</button>
@@ -282,7 +282,7 @@
       <input class="profile__input" type="text" name="strugglesOther" maxlength="80" autocomplete="off"
              enterkeyhint="done" aria-label="What else do they struggle with?"
              placeholder="Tell us what" data-other-for="struggles" hidden>
-    </fieldset>
+    </div>
 
     <p class="profile__error" data-profile-error aria-live="polite"></p>
     <div class="profile__actions">

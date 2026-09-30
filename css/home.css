@@ -516,6 +516,14 @@
   font-family: var(--body-font);
 }
 .profile::backdrop { background: transparent; }
+/* While the sheet is open the page behind must not scroll: iOS Safari
+   otherwise scrolls it to reveal the focused field and drags the sheet
+   along, showing the page beneath. position: fixed is what holds iOS. */
+body.profile-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
 @keyframes profile-open { from { opacity: 0; } to { opacity: 1; } }
 .profile[open] { animation: profile-open 240ms var(--ease); }
 
@@ -540,8 +548,9 @@
 .profile__form {
   display: grid;
   grid-template-rows: auto minmax(24px, 1fr) auto minmax(40px, 2fr);
-  min-height: calc(100vh - 3px);
-  min-height: calc(100dvh - 3px);
+  /* The sheet's height, less the progress line: the sheet itself is the
+     screen, or the part above a phone keyboard (see fitToKeyboard()). */
+  min-height: calc(100% - 3px);
   width: min(520px, 100%);
   margin: 0 auto;
   padding: 12px 20px calc(24px + env(safe-area-inset-bottom));
@@ -557,8 +566,7 @@
   justify-items: center;
   text-align: center;
   position: relative;
-  min-height: calc(100vh - 3px);
-  min-height: calc(100dvh - 3px);
+  min-height: calc(100% - 3px);
   width: min(520px, 100%);
   margin: 0 auto;
   padding: 64px 20px;
@@ -609,22 +617,16 @@
 
 .profile__step {
   display: grid;
-  gap: 14px;
+  gap: 20px;
   align-content: start;
-  margin: 0;
-  padding: 0;
-  border: 0;
   min-width: 0;
 }
 .profile__step[hidden] { display: none; }
 /* The question sets at the story paragraph's size, in the subtitle
-   face, the same as the hero's line under the headline. */
+   face, the same as the hero's line under the headline. It is a
+   heading, not a legend: Safari draws a legend outside its parent's
+   layout, so no spacing would reach it. */
 .profile__question {
-  /* A fieldset's legend is drawn outside its parent's layout, so the
-     grid gap never reaches it; floating it makes it an ordinary block,
-     and as a grid child the float itself has no effect. */
-  float: left;
-  width: 100%;
   margin: 0;
   padding: 0;
   font-family: var(--subtitle-font);
@@ -637,7 +639,7 @@
 /* The line under a question sets at the status line's size. */
 .profile__lead,
 .profile__hint {
-  margin: -4px 0 0;
+  margin: -6px 0 0;
   font-size: 13px;
   line-height: 1.5;
   color: var(--muted);
