@@ -125,7 +125,8 @@ from the repo, and the API key must never reach the browser:
 LOOPS_API_KEY              — from Loops → Settings → API
 LOOPS_LIST_FRIENDS         — the ID of the "Friends of etho" mailing list
 LOOPS_LIST_DEALS           — the ID of the "Deals & Promotions" mailing list
-SUPABASE_URL               — the project URL, Supabase → Settings → API
+SUPABASE_URL               — the Project URL from Supabase → Project Settings →
+                             Data API: https://<ref>.supabase.co, nothing else
 SUPABASE_SERVICE_ROLE_KEY  — the service_role key from the same page.
                              Server-side only; it bypasses row level security.
 LOOPS_SYNC_SECRET          — any long random string; the Supabase webhook
