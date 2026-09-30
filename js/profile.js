@@ -402,7 +402,13 @@
   function fitToKeyboard() {
     if (!viewport || !dialog.open) return;
     const keyboardUp = window.innerHeight - viewport.height > 120;
-    dialog.style.height = keyboardUp ? viewport.height + 'px' : '';
+    // The sheet stays full height, so the glass covers everything Safari
+    // shows, including the band under its collapsed address pill that
+    // the visual viewport leaves out. Only the content is placed by the
+    // keyboard: the form takes the visible height and its question block
+    // sits at the bottom of it, right above the keys.
+    dialog.classList.toggle('is-keyboard', keyboardUp);
+    dialog.style.setProperty('--visible', keyboardUp ? viewport.height + 'px' : '');
     dialog.style.transform = keyboardUp ? 'translateY(' + viewport.offsetTop + 'px)' : '';
     if (keyboardUp) dialog.scrollTop = 0;
   }
@@ -420,7 +426,8 @@
     document.body.classList.remove('profile-open');
     document.body.style.top = '';
     window.scrollTo(0, pageScrollY);
-    dialog.style.height = '';
+    dialog.classList.remove('is-keyboard');
+    dialog.style.removeProperty('--visible');
     dialog.style.transform = '';
   }
 

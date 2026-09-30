@@ -204,7 +204,7 @@ signal that it changed, so bump the value (all pages at once) in any
 release that touches a file in `js/` or `css/`:
 
 ```
-sed -i '' 's/?v=[0-9]*/?v=20261015/g' *.html
+sed -i '' 's/?v=[0-9]*/?v=20261101/g' *.html
 ```
 
 ## Type scale
