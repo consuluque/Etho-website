@@ -170,7 +170,9 @@
     <input type="hidden" name="email" value="">
 
     <div class="profile__top">
-      <button type="button" class="profile__nav" aria-label="Back" data-profile-back hidden>&larr;</button>
+      <button type="button" class="profile__nav" aria-label="Back" data-profile-back hidden>
+        <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M8 1.5L2 8l6 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
       <span class="profile__status">Unlocking your early access benefits…</span>
       <button type="button" class="profile__nav" aria-label="Close" data-profile-close>&times;</button>
     </div>
@@ -285,6 +287,7 @@
 
   <div class="profile__done" data-profile-done hidden>
     <button type="button" class="profile__nav profile__done-close" aria-label="Close" data-profile-close>&times;</button>
+    <div class="profile__emoji" aria-hidden="true">🎉</div>
     <h2 class="profile__question" id="profile-done-title">You and <span data-dog-name></span> will officially be one of the first to try Etho!</h2>
     <button type="button" class="btn-solid profile__submit" data-profile-close>Close</button>
   </div>

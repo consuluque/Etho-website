@@ -509,7 +509,7 @@
   /* Glass: a light wash of the cream over a blur of whatever the
      person was looking at, so the page still shows through. The
      hero's dark video behind it leaves the ink at well over 7:1. */
-  background: rgba(247, 245, 240, 0.55);
+  background: rgba(255, 255, 255, 0.62);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   color: var(--ink);
@@ -565,6 +565,7 @@
 }
 .profile__done[hidden] { display: none; }
 .profile__done-close { position: absolute; top: 12px; right: 20px; }
+.profile__emoji { font-size: 48px; line-height: 1; }
 .profile__done .profile__submit { width: auto; min-width: 180px; }
 
 /* Back on the left, the status line in the middle, close on the right. */
@@ -583,6 +584,8 @@
   color: var(--muted);
 }
 .profile__nav {
+  display: inline-grid;
+  place-items: center;
   width: 36px;
   height: 36px;
   padding: 0;
@@ -625,14 +628,14 @@
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
+/* The line under a question sets at the status line's size. */
 .profile__lead,
 .profile__hint {
   margin: -4px 0 0;
-  font-size: var(--type-body);
+  font-size: 13px;
   line-height: 1.5;
   color: var(--muted);
 }
-.profile__hint { font-size: var(--type-small); }
 
 /* Each question slides in from the side it came from. */
 @keyframes profile-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
