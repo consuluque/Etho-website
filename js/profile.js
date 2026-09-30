@@ -225,6 +225,7 @@
     const last = index === steps.length - 1;
 
     steps.forEach((el, n) => { el.hidden = n !== index; });
+    dialog.dataset.activeStep = step.dataset.step;
     if (direction && !reduced.matches) {
       step.classList.remove('is-entering', 'is-entering-back');
       void step.offsetWidth; // restart the animation

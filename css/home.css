@@ -561,16 +561,15 @@ body.profile-open {
 
 /* A phone keyboard is up (profile.js sets --visible to the height above
    it): the form takes exactly that height and the question block moves
-   to its foot, so the field and the button sit right above the keys. */
+   to its foot, so the field and the button sit right above the keys.
+   Not on the breed step: its list opens under the field and needs the
+   room, so there the block stays at the top. */
 .profile.is-keyboard .profile__form {
   min-height: calc(var(--visible) - 3px);
-  grid-template-rows: auto minmax(8px, 1fr) auto 0;
   padding-bottom: 12px;
 }
-/* With the block at the foot, a list opens upward instead. */
-.profile.is-keyboard .picker__list {
-  top: auto;
-  bottom: calc(100% + 6px);
+.profile.is-keyboard:not([data-active-step="dogBreed"]) .profile__form {
+  grid-template-rows: auto minmax(8px, 1fr) auto 0;
 }
 
 .profile__done {
