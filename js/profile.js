@@ -6,10 +6,10 @@
    closed at any point; the email is saved regardless.
 
    Analytics go through track() in landing.js, so they reach whatever
-   the page reports to: profile_open, profile_step (each question as
-   it shows), profile_skip, profile_back, profile_abandon (closed
-   before Done, with the step it was on), profile_complete and
-   profile_error. */
+   the page reports to: waitlist_profile_open, waitlist_profile_step (each question as
+   it shows), waitlist_profile_skip, waitlist_profile_back, waitlist_profile_abandon (closed
+   before Done, with the step it was on), waitlist_profile_complete and
+   waitlist_profile_error. */
 (function () {
   const dialog = document.getElementById('dog-profile');
   if (!dialog || typeof dialog.showModal !== 'function') return;
@@ -246,7 +246,7 @@
     const first = controlsOf(step)[0];
     if (first) first.focus({ preventScroll: true });
 
-    report('profile_step', { step: step.dataset.step, index: index + 1, form: signupForm });
+    report('waitlist_profile_step', { step: step.dataset.step, index: index + 1, form: signupForm });
   }
 
   const MESSAGES = {
@@ -310,11 +310,11 @@
   steps.forEach((step, n) => { step.querySelector('legend').id = 'profile-question-' + n; });
 
   backBtn.addEventListener('click', () => {
-    report('profile_back', { step: stepName(), form: signupForm });
+    report('waitlist_profile_back', { step: stepName(), form: signupForm });
     show(index - 1, 'back');
   });
   skipBtn.addEventListener('click', () => {
-    report('profile_skip', { step: stepName(), form: signupForm });
+    report('waitlist_profile_skip', { step: stepName(), form: signupForm });
     clear(steps[index]);
     if (index < steps.length - 1) show(index + 1, 'next'); else form.requestSubmit();
   });
@@ -370,7 +370,7 @@
       done.hidden = false;
       dialog.setAttribute('aria-labelledby', 'profile-done-title');
       done.querySelector('[data-profile-close]').focus();
-      report('profile_complete', {
+      report('waitlist_profile_complete', {
         form: signupForm,
         seconds: Math.round((Date.now() - openedAt) / 1000),
         loves: payload.loves.length,
@@ -379,7 +379,7 @@
       });
     } catch (err) {
       formError.textContent = err.message || 'Something went wrong — please try again.';
-      report('profile_error', { form: signupForm, message: err.message || 'Request failed' });
+      report('waitlist_profile_error', { form: signupForm, message: err.message || 'Request failed' });
     } finally {
       nextBtn.disabled = false;
     }
@@ -397,7 +397,7 @@
     form.hidden = false;
     done.hidden = true;
     if (!dialog.open) dialog.showModal();
-    report('profile_open', { form: signupForm });
+    report('waitlist_profile_open', { form: signupForm });
     show(0);
   }
 
@@ -405,7 +405,7 @@
   // profile was not saved, that is an abandon at this step.
   dialog.addEventListener('close', () => {
     if (completed) return;
-    report('profile_abandon', {
+    report('waitlist_profile_abandon', {
       step: stepName(),
       index: index + 1,
       form: signupForm,
