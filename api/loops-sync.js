@@ -60,12 +60,9 @@ module.exports = async function handler(req, res) {
   const email = normaliseEmail(row.email);
   if (!email) return sendJson(res, 400, { ok: false });
 
+  // Every insert or update syncs, so touching a row (bumping its
+  // updated_at) is how a contact is re-synced by hand.
   const props = toLoops(row);
-  // An update that changed nothing Loops holds (updated_at, attribution,
-  // ...) is not worth a call.
-  if (event.type === 'UPDATE' && event.old_record && sameProps(props, toLoops(event.old_record))) {
-    return sendJson(res, 200, { ok: true, skipped: 'nothing to sync' });
-  }
 
   const logContext = { email: maskEmail(email), type: event.type };
   try {
@@ -97,10 +94,6 @@ function toLoops(row) {
     props.dogBirthday = String(row.dog_birthday_month).padStart(2, '0') + '-' + String(row.dog_birthday_day).padStart(2, '0');
   }
   return props;
-}
-
-function sameProps(a, b) {
-  return JSON.stringify(a, Object.keys(a).sort()) === JSON.stringify(b, Object.keys(b).sort());
 }
 
 function sameSecret(given, expected) {

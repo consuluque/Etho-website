@@ -90,9 +90,11 @@ user_id                           → userId, and userGroup: user (null → lead
 converted_at                      → appSignupDate
 ```
 
-Only set columns are sent, so a partial row never blanks a property, and
-an update that changes nothing in that list is skipped. Source, the UTMs
-and the mailing lists are never touched after the signup. To sync a new
+Only set columns are sent, so a partial row never blanks a property.
+Every insert or update syncs, so to re-sync a contact by hand, touch its
+row: `update waitlist_leads set updated_at = now() where email = '…'`.
+Source, the UTMs and the mailing lists are never touched after the
+signup. To sync a new
 column later, add it to the table and one line to `toLoops()`. The
 custom properties `dogName`, `dogBreed`, `dogAge` (number),
 `dogBirthday` and `appSignupDate` (date) have to exist in Loops.
