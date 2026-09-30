@@ -617,22 +617,16 @@ body.profile-open {
 
 .profile__step {
   display: grid;
-  gap: 14px;
+  gap: 20px;
   align-content: start;
-  margin: 0;
-  padding: 0;
-  border: 0;
   min-width: 0;
 }
 .profile__step[hidden] { display: none; }
 /* The question sets at the story paragraph's size, in the subtitle
-   face, the same as the hero's line under the headline. */
+   face, the same as the hero's line under the headline. It is a
+   heading, not a legend: Safari draws a legend outside its parent's
+   layout, so no spacing would reach it. */
 .profile__question {
-  /* A fieldset's legend is drawn outside its parent's layout, so the
-     grid gap never reaches it; floating it makes it an ordinary block,
-     and as a grid child the float itself has no effect. */
-  float: left;
-  width: 100%;
   margin: 0;
   padding: 0;
   font-family: var(--subtitle-font);
@@ -645,7 +639,7 @@ body.profile-open {
 /* The line under a question sets at the status line's size. */
 .profile__lead,
 .profile__hint {
-  margin: -4px 0 0;
+  margin: -6px 0 0;
   font-size: 13px;
   line-height: 1.5;
   color: var(--muted);

@@ -242,7 +242,7 @@
 
     // Only the visible step can take focus; a legend's aria-labelledby
     // keeps the dialog announced by the current question.
-    dialog.setAttribute('aria-labelledby', step.querySelector('legend').id || 'profile-title');
+    dialog.setAttribute('aria-labelledby', step.querySelector('.profile__question').id || 'profile-title');
     const first = controlsOf(step)[0];
     if (first) first.focus({ preventScroll: true });
 
@@ -306,8 +306,12 @@
     (chip) => chip.dataset.chip
   );
 
-  // Give each legend an id once so the dialog can point at it.
-  steps.forEach((step, n) => { step.querySelector('legend').id = 'profile-question-' + n; });
+  // Each question gets an id so the dialog and its group can point at it.
+  steps.forEach((step, n) => {
+    const question = step.querySelector('.profile__question');
+    question.id = question.id || 'profile-question-' + n;
+    step.setAttribute('aria-labelledby', question.id);
+  });
 
   backBtn.addEventListener('click', () => {
     report('waitlist_profile_back', { step: stepName(), form: signupForm });
