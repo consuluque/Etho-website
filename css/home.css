@@ -506,11 +506,12 @@
   border-radius: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  /* Glass: the cream page at most of its strength over a blur of
-     whatever the person was looking at. */
-  background: rgba(247, 245, 240, 0.82);
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  /* Glass: a light wash of the cream over a blur of whatever the
+     person was looking at, so the page still shows through. The
+     hero's dark video behind it leaves the ink at well over 7:1. */
+  background: rgba(247, 245, 240, 0.55);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   color: var(--ink);
   font-family: var(--body-font);
 }

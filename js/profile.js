@@ -217,7 +217,7 @@
     bar.style.width = ((index + 1) / steps.length * 100) + '%';
     backBtn.hidden = index === 0;
     skipBtn.hidden = !step.hasAttribute('data-optional');
-    nextBtn.textContent = last ? 'All done!' : 'Next';
+    nextBtn.textContent = last ? 'Done' : 'Next';
     formError.textContent = '';
     const error = step.querySelector('[data-step-error]');
     if (error) error.textContent = '';

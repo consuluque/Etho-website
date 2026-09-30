@@ -17,8 +17,8 @@ const MAX_BREED = 80;
 const MAX_AGE = 30;
 
 // The chip values the modal offers. Anything else is dropped.
-const LOVES = ['walks', 'food', 'swimming', 'other dogs', 'toys', 'cuddles', 'training', 'car rides', 'other'];
-const STRUGGLES = ['being left alone', 'pulling on lead', 'rainy days', 'teeth', 'weight', 'anxiety', 'grooming', 'other'];
+const LOVES = ['walks', 'food', 'swimming', 'other dogs', 'toys', 'cuddles', 'learning tricks', 'car rides', 'sleeping'];
+const STRUGGLES = ['being left alone', 'pulling on lead', 'rainy days', 'weight', 'anxiety', 'allergies', 'grooming', 'health issues', 'car', 'nail trimming'];
 
 const DAYS_IN_MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
