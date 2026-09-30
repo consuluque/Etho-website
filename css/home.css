@@ -516,6 +516,14 @@
   font-family: var(--body-font);
 }
 .profile::backdrop { background: transparent; }
+/* While the sheet is open the page behind must not scroll: iOS Safari
+   otherwise scrolls it to reveal the focused field and drags the sheet
+   along, showing the page beneath. position: fixed is what holds iOS. */
+body.profile-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
 @keyframes profile-open { from { opacity: 0; } to { opacity: 1; } }
 .profile[open] { animation: profile-open 240ms var(--ease); }
 
@@ -540,8 +548,9 @@
 .profile__form {
   display: grid;
   grid-template-rows: auto minmax(24px, 1fr) auto minmax(40px, 2fr);
-  min-height: calc(100vh - 3px);
-  min-height: calc(100dvh - 3px);
+  /* The sheet's height, less the progress line: the sheet itself is the
+     screen, or the part above a phone keyboard (see fitToKeyboard()). */
+  min-height: calc(100% - 3px);
   width: min(520px, 100%);
   margin: 0 auto;
   padding: 12px 20px calc(24px + env(safe-area-inset-bottom));
@@ -557,8 +566,7 @@
   justify-items: center;
   text-align: center;
   position: relative;
-  min-height: calc(100vh - 3px);
-  min-height: calc(100dvh - 3px);
+  min-height: calc(100% - 3px);
   width: min(520px, 100%);
   margin: 0 auto;
   padding: 64px 20px;

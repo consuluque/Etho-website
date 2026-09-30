@@ -385,6 +385,41 @@
     }
   });
 
+  /* ---- the page behind, and the keyboard ---------------------------
+     Opening locks the page's scroll (restored on close). On a phone the
+     keyboard covers the lower part of the screen; iOS does not shrink
+     the layout viewport for it, so the sheet is sized and offset to
+     the visual viewport, the part actually on screen, whenever that is
+     clearly shorter than the window. Everything then fits above the
+     keyboard and nothing has to scroll into view. */
+  const viewport = window.visualViewport;
+  let pageScrollY = 0;
+
+  function fitToKeyboard() {
+    if (!viewport || !dialog.open) return;
+    const keyboardUp = window.innerHeight - viewport.height > 120;
+    dialog.style.height = keyboardUp ? viewport.height + 'px' : '';
+    dialog.style.transform = keyboardUp ? 'translateY(' + viewport.offsetTop + 'px)' : '';
+    if (keyboardUp) dialog.scrollTop = 0;
+  }
+  if (viewport) {
+    viewport.addEventListener('resize', fitToKeyboard);
+    viewport.addEventListener('scroll', fitToKeyboard);
+  }
+
+  function lockPage() {
+    pageScrollY = window.scrollY;
+    document.body.style.top = -pageScrollY + 'px';
+    document.body.classList.add('profile-open');
+  }
+  function unlockPage() {
+    document.body.classList.remove('profile-open');
+    document.body.style.top = '';
+    window.scrollTo(0, pageScrollY);
+    dialog.style.height = '';
+    dialog.style.transform = '';
+  }
+
   function open(email, fromForm) {
     signupForm = fromForm || '';
     completed = false;
@@ -396,14 +431,19 @@
     emailInput.value = email;
     form.hidden = false;
     done.hidden = true;
-    if (!dialog.open) dialog.showModal();
+    if (!dialog.open) {
+      lockPage();
+      dialog.showModal();
+    }
     report('waitlist_profile_open', { form: signupForm });
     show(0);
+    fitToKeyboard();
   }
 
   // Closed by ×, Escape, a tap outside or a failed signup: if the
   // profile was not saved, that is an abandon at this step.
   dialog.addEventListener('close', () => {
+    unlockPage();
     if (completed) return;
     report('waitlist_profile_abandon', {
       step: stepName(),

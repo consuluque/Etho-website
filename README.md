@@ -18,6 +18,7 @@ index.html     — the landing page
 api/waitlist.js — the serverless function behind every waitlist form
 api/profile.js  — the function behind the dog profile modal
 api/loops-sync.js — the Supabase webhook target that updates Loops
+api/event.js    — first-party analytics events into Supabase
 api/_lib/       — what the two functions share (not deployed as a function)
 supabase/       — the migration for the waitlist_leads table
 vercel.json    — the redirects that point the archived pages at /
@@ -114,14 +115,42 @@ with the account id and stamps `converted_at`, and the row is a user
 from then on. Row level security is on with no policies, so only the
 service role, which the functions use, can read or write it.
 
+### Analytics
+
+There is no analytics vendor. `track()` in `landing.js` pushes every
+event to `dataLayer`, and every event named `waitlist_*` is also posted
+to `/api/event`, which stores it in the `analytics_events` table in
+Supabase (`supabase/migrations/20261001_analytics_events.sql`): `source`
+(`website` here; the app uses `app` with `app_*` names), `event`, `props`,
+a random `session_id` for the page visit, `page` and `created_at`. No
+cookie, nothing that follows a person between visits.
+
+The signup reports `waitlist_signup_start`, `waitlist_signup_submit`,
+`waitlist_signup_success` and `waitlist_signup_error`, each with `form`
+(`hero`, `sticky` or `holding`).
+
 The modal reports through the same `track()` as the signup: `waitlist_profile_open`,
 `waitlist_profile_step` (step name and 1-based index, on every question shown),
 `waitlist_profile_skip`, `waitlist_profile_back`, `waitlist_profile_abandon` (closed before Done, with
 the step and seconds open), `waitlist_profile_complete` (seconds, chip counts,
 whether the breed is Mixed) and `waitlist_profile_error`. Every event carries
-`form`, the signup form it followed. Nothing collects these until an
-analytics vendor is on the page: `track()` pushes to `dataLayer` and calls
-`gtag` or `plausible` when present.
+`form`, the signup form it followed.
+
+Two queries to start with, in the SQL editor:
+
+```sql
+-- The funnel, last 7 days: visits reaching each step of the profile
+select props->>'step' as step, count(distinct session_id) as visits
+from public.analytics_events
+where event = 'waitlist_profile_step' and created_at > now() - interval '7 days'
+group by 1 order by 2 desc;
+
+-- Where people give up
+select props->>'step' as step, count(*) as abandons
+from public.analytics_events
+where event = 'waitlist_profile_abandon' and created_at > now() - interval '7 days'
+group by 1 order by 2 desc;
+```
 
 `landing.js` records first-touch attribution — the `utm_source`,
 `utm_medium`, `utm_campaign` and `utm_content` parameters, the referring
