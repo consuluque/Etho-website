@@ -151,6 +151,7 @@ async function recordLead(email, body, attribution, logContext) {
     console.error('[waitlist] lead row failed', Object.assign({}, logContext, {
       status: err && err.status,
       error: String(err && err.message),
+      cause: err && err.cause ? String(err.cause.message || err.cause) : undefined,
       detail: err && err.detail,
     }));
   }

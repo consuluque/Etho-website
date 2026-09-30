@@ -74,7 +74,14 @@ module.exports = async function handler(req, res) {
     console.info('[profile] saved', Object.assign({}, logContext, profile.row));
     return sendJson(res, 200, { ok: true });
   } catch (err) {
-    const failure = { status: err && err.status, error: String(err && err.message), detail: err && err.detail };
+    const failure = {
+      status: err && err.status,
+      error: String(err && err.message),
+      // Node wraps a connection failure as "fetch failed" with the real
+      // reason (unknown scheme, host not found, ...) in cause.
+      cause: err && err.cause ? String(err.cause.message || err.cause) : undefined,
+      detail: err && err.detail,
+    };
     console.error('[profile] supabase write failed', Object.assign({}, logContext, failure));
     return sendJson(res, 502, Object.assign({ ok: false, message: FRIENDLY_ERROR }, debugDetail({ supabase: failure })));
   }
