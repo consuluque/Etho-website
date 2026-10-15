@@ -72,11 +72,13 @@
 .hero--v3 .hero-sub {
   font-size: clamp(15px, 1.4vw, 18px);
   font-weight: 300;
-  max-width: 34ch;
+  max-width: 50ch;
   text-wrap: balance;
 }
+/* Two lines on a phone as on desktop: the measure opens up to the
+   full column and the size steps down so it fits. */
 @media (max-width: 480px) {
-  .hero--v3 .hero-sub { max-width: 28ch; }
+  .hero--v3 .hero-sub { max-width: none; font-size: 14px; }
 }
 .hero-sub__line { display: block; }
 
