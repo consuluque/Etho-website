@@ -58,11 +58,12 @@
 
 .hero--v3 .hero-title {
   font-size: var(--type-display);
-  max-width: 14ch;
+  max-width: none;
 }
 
-/* Each sentence of the title starts its own line, so the break never
-   lands mid-sentence. */
+/* Each half of the title is its own line, so the break never lands
+   mid-phrase; the measure is loosened so neither half wraps unless
+   the screen is too narrow for it. */
 .hero-title__line { display: block; }
 
 /* The subtitle runs as one line wherever it fits; the measure is
