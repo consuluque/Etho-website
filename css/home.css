@@ -58,6 +58,7 @@
 
 .hero--v3 .hero-title {
   font-size: var(--type-display);
+  letter-spacing: -0.03em;
   max-width: none;
 }
 
@@ -66,9 +67,17 @@
    the screen is too narrow for it. */
 .hero-title__line { display: block; }
 
-/* The subtitle runs as one line wherever it fits; the measure is
-   loosened so it only wraps when the screen is too narrow. */
-.hero--v3 .hero-sub { max-width: none; }
+/* The subtitle sits a step below the lead size and in Manrope's light
+   weight, on a narrow measure so it reads as a caption to the title. */
+.hero--v3 .hero-sub {
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 300;
+  max-width: 34ch;
+  text-wrap: balance;
+}
+@media (max-width: 480px) {
+  .hero--v3 .hero-sub { max-width: 28ch; }
+}
 .hero-sub__line { display: block; }
 
 /* Everything the form says sits on the scale too. */
