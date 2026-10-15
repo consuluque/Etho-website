@@ -61,10 +61,12 @@
   max-width: 14ch;
 }
 
-/* The subtitle is set as two lines, the same two on every screen:
-   "Personalised wellbeing for your dog," and "with better ways to care
-   for them." Each is its own block, so the break never moves with the
-   width; the measure is loosened so it never forces an earlier one. */
+/* Each sentence of the title starts its own line, so the break never
+   lands mid-sentence. */
+.hero-title__line { display: block; }
+
+/* The subtitle runs as one line wherever it fits; the measure is
+   loosened so it only wraps when the screen is too narrow. */
 .hero--v3 .hero-sub { max-width: none; }
 .hero-sub__line { display: block; }
 
