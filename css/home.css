@@ -59,13 +59,8 @@
 .hero--v3 .hero-title {
   font-size: var(--type-display);
   letter-spacing: -0.03em;
-  max-width: none;
+  max-width: 14ch;
 }
-
-/* Each half of the title is its own line, so the break never lands
-   mid-phrase; the measure is loosened so neither half wraps unless
-   the screen is too narrow for it. */
-.hero-title__line { display: block; }
 
 /* The subtitle sits a step below the lead size and in Manrope's light
    weight, on a narrow measure so it reads as a caption to the title. */
