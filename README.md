@@ -22,6 +22,7 @@ api/loops-sync.js — the Supabase webhook target that updates Loops
 api/event.js    — first-party analytics events into Supabase
 api/_lib/       — what the two functions share (not deployed as a function)
 supabase/       — the migration for the waitlist_leads table
+.vercelignore  — keeps this README and supabase/ out of the deployment
 vercel.json    — the redirects that point the archived pages at /, and
                  the /privacy rewrite
 css/home.css   — what is specific to index.html; sits on the two below
