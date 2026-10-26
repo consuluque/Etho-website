@@ -14,6 +14,7 @@ see "Putting the site back" below.
 
 ```
 index.html     — the landing page
+privacy.html   — the privacy policy, served at /privacy (a rewrite in vercel.json)
 404.html       — the old holding page, so unknown URLs still read as Etho
 api/waitlist.js — the serverless function behind every waitlist form
 api/profile.js  — the function behind the dog profile modal
@@ -21,7 +22,8 @@ api/loops-sync.js — the Supabase webhook target that updates Loops
 api/event.js    — first-party analytics events into Supabase
 api/_lib/       — what the two functions share (not deployed as a function)
 supabase/       — the migration for the waitlist_leads table
-vercel.json    — the redirects that point the archived pages at /
+vercel.json    — the redirects that point the archived pages at /, and
+                 the /privacy rewrite
 css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
 css/landing.css — the access form, the pinned bar, the home-v2 sections
@@ -34,7 +36,7 @@ home-v2.html   — the landing page that was live before the hero-only cut
 home-v1.html   — the original home page, before that
 partners.html  — providers and brands page
 shop.html      — shop page ("coming soon")
-privacy.html, terms.html
+terms.html
 js/main.js       — hero video, reveal-on-scroll, fixed nav
 js/landing.js    — waitlist forms, attribution, logo marquee, sticky CTA, analytics
 js/profile.js    — the dog profile modal; js/breeds.js is its breed list
@@ -157,7 +159,7 @@ group by 1 order by 2 desc;
 ### Meta Pixel
 
 `js/meta-pixel.js` runs the Meta Pixel (ID `1125074893823259`) on
-`index.html` and `404.html`, the two pages a visitor can reach. It is
+`index.html`, `privacy.html` and `404.html`, the pages a visitor can reach. It is
 opt-in: the script shows a cookie banner and fetches nothing from Meta
 until the visitor chooses Allow. The answer is kept in `localStorage`
 under `etho:consent:marketing`; a browser sending Global Privacy Control
