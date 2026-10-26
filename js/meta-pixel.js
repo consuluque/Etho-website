@@ -13,8 +13,9 @@
    waitlist_signup_success, which fires only after /api/waitlist has
    answered OK, never on the submit itself.
 
-   Loaded by every page a visitor can reach (index.html, and 404.html,
-   which Vercel serves for every unknown URL), before landing.js. Any
+   Loaded by every page a visitor can reach (index.html, privacy.html,
+   and 404.html, which Vercel serves for every unknown URL), before
+   landing.js where a page has it. Any
    element with data-consent-settings reopens the banner. */
 (function () {
   var PIXEL_ID = '1125074893823259';
@@ -89,7 +90,7 @@
       banner.setAttribute('role', 'region');
       banner.setAttribute('aria-label', 'Cookie preferences');
       banner.innerHTML =
-        '<p class="consent__text">We’d like to use a Meta cookie to see which of our Facebook and Instagram ads bring people to Etho. Nothing is shared with Meta unless you allow it.</p>' +
+        '<p class="consent__text">We’d like to use a Meta cookie to see which of our Facebook and Instagram ads bring people to Etho. Nothing is shared with Meta unless you allow it. <a href="/privacy">Privacy policy</a></p>' +
         '<div class="consent__actions">' +
           '<button type="button" class="consent__btn" data-consent="denied">No thanks</button>' +
           '<button type="button" class="consent__btn consent__btn--yes" data-consent="granted">Allow</button>' +

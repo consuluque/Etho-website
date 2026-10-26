@@ -47,8 +47,13 @@
 }
 .consent__btn:focus-visible { outline: 2px solid #8A7250; outline-offset: 2px; }
 
-/* The footer link that reopens the banner, dressed as its neighbours. */
-.foot__links .consent-link {
+.consent__text a { color: inherit; text-underline-offset: 3px; }
+
+/* The buttons that reopen the banner, dressed as the links around them:
+   in the home footer, the legal pages' footer, and inline in the policy. */
+.foot__links .consent-link,
+.site-footer__links .consent-link,
+.legal__inline-btn {
   font: inherit;
   color: inherit;
   background: none;
@@ -56,3 +61,17 @@
   padding: 0;
   cursor: pointer;
 }
+.foot__links .consent-link {
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  line-height: 1.35;
+  color: rgba(50, 48, 49, 0.72);
+}
+.foot__links .consent-link:hover { color: #323031; }
+.site-footer__links .consent-link {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(17px, 4.2vw, 20px);
+  color: rgba(50, 48, 49, 0.55);
+}
+.site-footer__links .consent-link:hover { color: #323031; }
+.legal__inline-btn { text-decoration: underline; text-underline-offset: 3px; }
