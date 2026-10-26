@@ -26,6 +26,8 @@ css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
 css/landing.css — the access form, the pinned bar, the home-v2 sections
 css/coming-soon.css — the holding page's own stylesheet; shares nothing
+css/consent.css — the cookie banner, loaded by index.html and 404.html
+js/meta-pixel.js — the Meta Pixel and its consent banner
 js/home.js     — the word-by-word paragraph and the product story
 
 home-v2.html   — the landing page that was live before the hero-only cut
@@ -117,7 +119,7 @@ service role, which the functions use, can read or write it.
 
 ### Analytics
 
-There is no analytics vendor. `track()` in `landing.js` pushes every
+The only third-party vendor is the Meta Pixel (below). `track()` in `landing.js` pushes every
 event to `dataLayer`, and every event named `waitlist_*` is also posted
 to `/api/event`, which stores it in the `analytics_events` table in
 Supabase (`supabase/migrations/20261001_analytics_events.sql`): `source`
@@ -151,6 +153,26 @@ from public.analytics_events
 where event = 'waitlist_profile_abandon' and created_at > now() - interval '7 days'
 group by 1 order by 2 desc;
 ```
+
+### Meta Pixel
+
+`js/meta-pixel.js` runs the Meta Pixel (ID `1125074893823259`) on
+`index.html` and `404.html`, the two pages a visitor can reach. It is
+opt-in: the script shows a cookie banner and fetches nothing from Meta
+until the visitor chooses Allow. The answer is kept in `localStorage`
+under `etho:consent:marketing`; a browser sending Global Privacy Control
+is treated as a no and never asked. "Cookie settings" in the footer (any
+element with `data-consent-settings`) reopens the banner, and a later
+"No thanks" revokes the pixel and clears its `_fbp`/`_fbc` cookies.
+Meta's `<noscript>` image is left out, since it cannot ask first.
+
+With consent the pixel sends one `PageView` per page load and a `Lead`
+(`content_name` is the form: `hero`, `sticky` or `holding`) on
+`waitlist_signup_success`, which fires only once `/api/waitlist` has
+answered OK. It listens for that on the `etho:analytics` DOM event, so
+`landing.js` itself is unchanged. To check it, set
+`window.ETHO_DEBUG_ANALYTICS = true` or use Meta's Pixel Helper
+extension; to ask again, clear `etho:consent:marketing` in localStorage.
 
 `landing.js` records first-touch attribution — the `utm_source`,
 `utm_medium`, `utm_campaign` and `utm_content` parameters, the referring
