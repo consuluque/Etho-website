@@ -1,0 +1,5 @@
+# Kept out of the deployment, so none of it is served at etho.pet: the
+# repo's own notes and the database migrations.
+README.md
+supabase/
+.gitignore
