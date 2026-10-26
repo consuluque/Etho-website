@@ -1,0 +1,58 @@
+/* ---------------------------------------------------------------
+   The cookie consent banner meta-pixel.js builds. Self-contained,
+   because 404.html loads none of the shared stylesheets; the values
+   repeat the --page and --ink tokens from styles.css. Sits above the
+   pinned waitlist bar (z-index 60 in landing.css) until answered.
+   --------------------------------------------------------------- */
+.consent {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 70;
+  max-width: 420px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: #F7F5F0;
+  color: #323031;
+  box-shadow: 0 12px 40px rgba(14, 15, 12, 0.18);
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.consent[hidden] { display: none; }
+
+.consent__text { margin: 0 0 12px; }
+
+.consent__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.consent__btn {
+  font: inherit;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(50, 48, 49, 0.2);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.consent__btn--yes {
+  background: #323031;
+  border-color: #323031;
+  color: #F7F5F0;
+}
+.consent__btn:focus-visible { outline: 2px solid #8A7250; outline-offset: 2px; }
+
+/* The footer link that reopens the banner, dressed as its neighbours. */
+.foot__links .consent-link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
