@@ -252,6 +252,9 @@
   text-wrap: balance;
 }
 
+/* Both columns sit against the phone, the titles from the left and the
+   copy from the right, so the stage balances about it. */
+.showcase__col--title { justify-self: end; text-align: right; }
 .showcase__col--copy { justify-self: start; }
 .showcase__copy {
   font-family: var(--body-font);
@@ -360,7 +363,8 @@
     padding: 72px clamp(20px, 5vw, 64px) 110px;
     text-align: center;
   }
-  .showcase__col--copy { justify-self: center; }
+  .showcase__col--title,
+  .showcase__col--copy { justify-self: center; text-align: center; }
   .showcase__title { max-width: 14ch; }
   .showcase__copy { max-width: 26ch; }
   .showcase__phone { --phone-h: clamp(300px, 47vh, 440px); }
