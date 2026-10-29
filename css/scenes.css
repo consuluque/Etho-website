@@ -1,0 +1,497 @@
+/* ---------------------------------------------------------------
+   Showcase scenes — Etho's app UI, acted out inside the phone
+
+   A scene sits over its chapter's film and plays a short, simplified
+   interaction on a clock: the app rises, a cursor taps, the screen
+   answers. scenes.js only adds and removes state classes (s-*) on the
+   scene and moves the cursor; every move is a CSS transition below,
+   on the shared --ease-out curve, so the whole scene keeps one feel.
+
+   The look is the app's own (etho: src/components/theme.ts and
+   explore/tokens.ts): the grey-to-white page, photo cards, the black
+   offer pill, black titles over grey lines, sheets over a frosted
+   page. It is a simplified version of the app, never a copy of a real
+   screen: fewer pieces, bigger type, one idea per screen.
+
+   Sizes are in em off one font size tied to the phone's width (a 375
+   pt phone is 23.4em wide), so the UI scales with the frame. Only
+   leaf text sets its own font-size, so ems never compound. With no
+   script everything waits below the screen and the film carries the
+   chapter.
+   --------------------------------------------------------------- */
+
+.scene {
+  /* The app's light theme. */
+  --sx-top: #E6E5E3;
+  --sx-mid: #FBFBFB;
+  --sx-bottom: #FCFCFC;
+  --sx-card: #FFFFFF;
+  --sx-title: #000000;
+  --sx-text2: rgba(14, 15, 12, 0.59);
+  --sx-was: #717171;
+  --sx-green: #177245;
+  --sx-rule: #E4E6E8;
+  --sx-edge: rgba(0, 0, 0, 0.25);
+  --sx-shadow: 0 0 0 1px rgba(14, 15, 12, 0.04), 0 1px 2px rgba(14, 15, 12, 0.04), 0 6px 16px rgba(14, 15, 12, 0.06);
+
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  font-family: var(--body-font);
+  font-size: calc(var(--phone-h) * 0.5 / 23.4);
+  line-height: 1.3;
+  /* The stacked phone layout centres its text; the app does not. */
+  text-align: left;
+  color: var(--sx-title);
+  pointer-events: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+.scene *,
+.scene *::before,
+.scene *::after { box-sizing: border-box; }
+.scene p { margin: 0; }
+.scene img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* The grooming room is a tall shot with the dog in the tub left of
+   centre and low; every crop of it holds on the dog. */
+.scene img.sx-groom { object-position: 29% 58%; }
+/* In the small crops the room would leave the dog a speck, so those
+   step in on the tub. */
+.sx-card img.sx-groom,
+.sx-booking img.sx-groom { transform: scale(1.75); transform-origin: 30% 57%; }
+
+/* Snapping back to the start between loops, and the whole scene under
+   reduced motion: no transitions at all. */
+.scene.is-resetting,
+.scene.is-resetting * { transition: none !important; }
+
+/* -- Hector's picks, rising over the film ---------------------------
+
+   A simplified home, not the app's own: no tabs, no search, one big
+   line and one row of large cards to fling through. Made from the
+   app's pieces (the page, the photo cards, the black offer pill) so it
+   reads as Etho without showing the real screen. */
+
+.scene__app {
+  position: absolute;
+  inset: 0;
+  padding: 0 0 0 1.5em;
+  background: linear-gradient(180deg, var(--sx-top) 0%, var(--sx-mid) 23.5%, var(--sx-bottom) 100%);
+  border-radius: calc(var(--phone-h) * 0.063) calc(var(--phone-h) * 0.063) 0 0;
+  transform: translateY(102%);
+  transition: transform 850ms var(--ease-out), filter 600ms var(--ease-out);
+}
+.s-app .scene__app { transform: none; }
+/* Behind a sheet the page frosts and dims, as under the app's sheets. */
+.s-sheet .scene__app { filter: blur(4px) brightness(0.88); }
+
+.sx-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2.6em;
+  padding: 0.5em 1.7em 0 0.4em;
+}
+.sx-status span { font-size: 0.8em; font-weight: 700; }
+/* Signal, wi-fi and battery. */
+.sx-status svg { width: 3.4em; height: auto; fill: currentColor; }
+
+.sx-hello {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  margin-top: 1.6em;
+}
+.sx-hello .sx-line { margin: 0 !important; font-size: 0.85em; font-weight: 600; }
+.sx-avatar {
+  position: relative;
+  flex: none;
+  width: 2em;
+  height: 2em;
+}
+.sx-avatar img { border-radius: 50%; }
+/* The unread dot, lifted off the photo by a ring of the page. */
+.sx-avatar::after {
+  content: '';
+  position: absolute;
+  top: 0.05em;
+  right: -0.05em;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background: #FF8383;
+  box-shadow: 0 0 0 0.14em #F0EFED;
+}
+
+.sx-headline {
+  margin-top: 0.5em !important;
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.sx-heading {
+  margin-top: 2.1em !important;
+  font-size: 1.05em;
+  font-weight: 700;
+  color: #464646;
+}
+
+/* One row of large photo cards, the next peeking past the edge. Each
+   comes up a beat after the one before. */
+.sx-rail {
+  display: flex;
+  gap: 0.85em;
+  margin-top: 1em;
+}
+.sx-rail--small { gap: 0.8em; margin-top: 0.75em; }
+/* The row the cursor scrolls: scenes.js drags and flings it by its
+   transform, so it never reflows. */
+.sx-rail[data-scroll] { will-change: transform; }
+.sx-card {
+  flex: none;
+  width: 10.2em;
+  opacity: 0;
+  transform: translateY(1.6em);
+  transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
+}
+.s-app .sx-card { opacity: 1; transform: none; transition-delay: 380ms; }
+.s-app .sx-card:nth-child(1) { transition-delay: 250ms; }
+.sx-rail--small .sx-card { width: 7.4em; }
+.s-app .sx-rail--small .sx-card { transition-delay: 480ms; }
+
+.sx-photo {
+  position: relative;
+  height: 11.6em;
+  border-radius: 1.2em;
+  overflow: hidden;
+  background: var(--sx-top);
+  box-shadow: var(--sx-shadow);
+  transition: transform 450ms var(--ease-out);
+}
+.sx-photo .sx-pill {
+  position: absolute;
+  top: 0.7em;
+  right: 0.7em;
+}
+.sx-rail--small .sx-photo { height: 7.6em; border-radius: 1em; }
+.sx-rail--small .sx-photo .sx-pill { top: 0.55em; right: 0.55em; }
+/* While the row is in flight its cards draw in a little, and swell
+   back as it comes to rest: the fun part of the fling. */
+.s-fling .sx-photo { transform: scale(0.92); }
+/* Once it settles, the picked card's offer gives a small hop. */
+.s-pick [data-target="wash"] .sx-pill { animation: sx-hop 600ms var(--ease-out); }
+@keyframes sx-hop {
+  35% { transform: translateY(-0.35em) scale(1.12); }
+  100% { transform: none; }
+}
+
+/* The offer pill: the app's one solid black shape, so the saving is
+   the first thing the eye finds. */
+.sx-pill {
+  display: inline-block;
+  padding: 0.32em 0.62em;
+  border-radius: 2em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 0.68em;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.sx-title {
+  margin-top: 0.65em !important;
+  padding-left: 0.2em;
+  font-size: 0.9em;
+  font-weight: 700;
+}
+.sx-line {
+  margin-top: 0.15em !important;
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--sx-text2);
+}
+.sx-line--price {
+  margin-top: 0.1em !important;
+  padding-left: 0.25em;
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--sx-title);
+}
+.sx-line s,
+.sx-price s {
+  margin-right: 0.1em;
+  font-weight: 500;
+  color: var(--sx-was);
+}
+
+/* -- The sheet ------------------------------------------------------ */
+
+.scene__sheet {
+  position: absolute;
+  left: 0.55em;
+  right: 0.55em;
+  bottom: 0.55em;
+  /* Tall enough for the extras page, the tallest; the frosted page
+     shows above it. */
+  height: 25.6em;
+  border-radius: 1.5em;
+  background: var(--sx-card);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transform: translateY(110%);
+  transition: transform 750ms var(--ease-out);
+}
+.s-sheet .scene__sheet { transform: none; }
+
+.scene__page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  /* Text sits 1.15em in; the photo and the button reach out to 0.6em. */
+  padding: 0.6em 1.15em 0.7em;
+  transition: transform 650ms var(--ease-out), opacity 500ms var(--ease-out);
+}
+/* Each page pushes in from the right, iOS-style, as the one before
+   slides a short way left and fades under it. */
+.scene__page--extras,
+.scene__page--done { transform: translateX(100%); }
+.s-extras .scene__page--service { transform: translateX(-30%); opacity: 0; }
+.s-extras .scene__page--extras { transform: none; }
+.s-done .scene__page--extras { transform: translateX(-30%); opacity: 0; }
+.s-done .scene__page--done { transform: none; }
+
+.sx-hero {
+  position: relative;
+  flex: none;
+  margin: 0 -0.55em;
+  height: 11.5em;
+  border-radius: 1.1em;
+  overflow: hidden;
+}
+.sx-hero .sx-pill { position: absolute; top: 0.75em; right: 0.75em; font-size: 0.75em; }
+
+.sx-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-top: 0.95em !important;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--sx-text2);
+}
+.sx-meta span { font-weight: 700; color: var(--sx-title); margin-right: 0.35em; }
+.sx-meta svg { width: 0.95em; height: 0.95em; fill: var(--sx-title); }
+
+.sx-big {
+  margin-top: 0.25em !important;
+  font-size: 1.45em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sx-price {
+  margin-top: 0.4em !important;
+  font-size: 1.15em;
+  font-weight: 700;
+}
+
+.sx-button {
+  margin: auto calc(-0.55em / 0.95) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.9em;
+  border-radius: 1.45em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 0.95em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: transform 160ms var(--ease-out);
+}
+
+/* Make it special: a photo, a name, a price and a round check, each
+   row ruled off from the next, as the storefront's add-ons are. */
+.scene__page--extras { padding-top: 1.2em; }
+.scene__page--extras > .sx-big { margin-top: 0 !important; }
+.sx-rows { margin-top: 0.7em; }
+.sx-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.6em 0;
+  border-bottom: 1px solid var(--sx-rule);
+}
+.sx-row img {
+  flex: none;
+  width: 3.3em;
+  height: 3.3em;
+  border-radius: 0.8em;
+}
+.sx-row > div { flex: 1; min-width: 0; }
+.sx-row .sx-title { margin: 0 !important; padding: 0; font-size: 0.92em; }
+.sx-row .sx-line .sx-pill { font-size: 0.85em; }
+
+.sx-check {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.55em;
+  height: 1.55em;
+  border-radius: 50%;
+  border: 1.5px solid var(--sx-edge);
+  transition: background 300ms var(--ease-out), border-color 300ms var(--ease-out), transform 300ms var(--ease-out);
+}
+.sx-check svg {
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sx-check path {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  transition: stroke-dashoffset 420ms var(--ease-out) 120ms;
+}
+.s-photo [data-target="photo"] .sx-check,
+.s-dental [data-target="dental"] .sx-check { background: #000000; border-color: #000000; }
+.s-photo [data-target="photo"] .sx-check path,
+.s-dental [data-target="dental"] .sx-check path { stroke-dashoffset: 0; }
+
+/* The saving, in the app's green, above the button. */
+.sx-sum {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 0 0.75em !important;
+  font-size: 0.88em;
+  font-weight: 600;
+}
+.sx-sum b { color: var(--sx-green); font-weight: 700; }
+.sx-sum + .sx-button { margin-top: 0; }
+
+/* Booked: a tick that draws itself, the booking as a card, and the
+   saving. */
+.scene__page--done {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 1.6em;
+}
+.sx-done {
+  display: grid;
+  place-items: center;
+  width: 4.4em;
+  height: 4.4em;
+  border-radius: 50%;
+  background: #000000;
+  transform: scale(0.6);
+  opacity: 0;
+  transition: transform 700ms var(--ease-out) 150ms, opacity 300ms var(--ease-out) 150ms;
+}
+.sx-done svg {
+  width: 2.5em;
+  height: 2.5em;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sx-done path {
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+  transition: stroke-dashoffset 600ms var(--ease-out) 550ms;
+}
+.s-done .sx-done { transform: none; opacity: 1; }
+.s-done .sx-done path { stroke-dashoffset: 0; }
+.scene__page--done > .sx-big { margin-top: 0.5em !important; }
+
+.sx-booking {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  align-self: stretch;
+  margin-inline: -0.55em;
+  margin-top: 1.2em;
+  padding: 0.55em;
+  border-radius: 1.2em;
+  background: var(--sx-card);
+  box-shadow: var(--sx-shadow);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(0.8em);
+  transition: opacity 400ms var(--ease-out) 750ms, transform 600ms var(--ease-out) 750ms;
+}
+.sx-thumb { flex: none; width: 3.2em; height: 3.2em; border-radius: 0.8em; overflow: hidden; }
+.sx-booking .sx-title { margin: 0 !important; padding: 0; font-size: 0.92em; }
+.s-done .sx-booking { opacity: 1; transform: none; }
+
+.sx-saved {
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  border-radius: 2em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 0.9em;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(0.8em);
+  transition: opacity 400ms var(--ease-out) 1000ms, transform 600ms var(--ease-out) 1000ms;
+}
+.s-done .sx-saved { opacity: 1; transform: none; }
+
+/* Going out at the end of a loop, the sheet and the page drop away
+   together and the film has the screen again. */
+.s-out .scene__sheet,
+.s-out .scene__app { transform: translateY(105%); filter: none; transition-duration: 650ms; }
+
+/* Whatever the cursor taps gives a little under it: a card or button
+   as a whole, a row only at its check. The card keeps its entrance
+   timing and only shortens it while pressed. */
+.sx-card.is-pressed { transform: scale(0.95); transition-duration: 160ms; transition-delay: 0ms; }
+.sx-button.is-pressed { transform: scale(0.96); }
+.sx-row.is-pressed .sx-check { transform: scale(0.82); }
+
+/* Count-up: a small lift as the total changes. */
+[data-scene-count] { display: inline-block; }
+[data-scene-count].is-bump { animation: sx-bump 520ms var(--ease-out); }
+@keyframes sx-bump {
+  30% { transform: scale(1.15); }
+  100% { transform: none; }
+}
+
+/* -- The cursor ----------------------------------------------------- */
+
+/* Its tip is its top-left corner, so placing the box places the tip.
+   scenes.js sets --x/--y and the length of each glide; a glide eases
+   in and out, as a hand does, while everything the cursor touches
+   answers on --ease-out. */
+.scene__cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  width: 1.4em;
+  height: auto;
+  overflow: visible;
+  opacity: 0;
+  transform: translate(var(--x, 0), var(--y, 0)) scale(var(--press, 1));
+  transform-origin: 0 0;
+  transition:
+    transform var(--glide, 800ms) cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 300ms var(--ease-out);
+  filter: drop-shadow(0 0.12em 0.28em rgba(0, 0, 0, 0.28));
+}
+.scene__cursor path {
+  fill: #000000;
+  stroke: #FFFFFF;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.s-cursor .scene__cursor { opacity: 1; }

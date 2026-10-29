@@ -22,6 +22,7 @@
   --app-accent: #D2B893;
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Soyuz Grotesk is bold-only, so it is reserved for the big display
      titles. Manrope carries everything else — smaller titles at 500/600

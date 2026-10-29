@@ -76,6 +76,12 @@ function initShowcase(root) {
   const texts = [...root.querySelectorAll('[data-showcase-text]')];
   const triggers = [...root.querySelectorAll('[data-showcase-trigger]')];
   const films = slides.map((s) => s.querySelector('video'));
+  // A chapter can also carry a scene of app UI over its film (see
+  // scenes.js); it plays and rewinds alongside the film.
+  const scenes = slides.map((s) => {
+    const el = s.querySelector('[data-scene]');
+    return el && window.EthoScenes ? window.EthoScenes.create(el) : null;
+  });
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const inView = new Set();
   const loading = new Set();
@@ -91,11 +97,14 @@ function initShowcase(root) {
     // that drops them on a re-parse still gets a silent, control-less
     // backdrop.
     film.muted = true;
-    film.loop = true;
+    // A film that opens a scene plays once and holds its last frame
+    // (data-once); the scene restarts it each round.
+    film.loop = !film.hasAttribute('data-once');
     film.controls = false;
     film.setAttribute('playsinline', '');
     film.addEventListener('playing', () => { if (i === active) film.classList.add('is-playing'); });
-    film.addEventListener('pause', () => film.classList.remove('is-playing'));
+    // A film that has played to its end stays up on its last frame.
+    film.addEventListener('pause', () => { if (!film.ended) film.classList.remove('is-playing'); });
     film.addEventListener('error', () => film.classList.remove('is-playing'));
   });
 
@@ -137,6 +146,10 @@ function initShowcase(root) {
   // running, after the hold, only while the stage is on screen.
   const sync = () => {
     films.forEach((film, k) => { if (k !== active) stop(film); });
+    scenes.forEach((scene, k) => {
+      if (!scene) return;
+      if (k === active && near && visible) scene.play(); else scene.stop();
+    });
     if (!near) { clearHold(); return; }
     load(active);
     load(active + 1);
@@ -144,7 +157,7 @@ function initShowcase(root) {
     if (!visible) {
       clearHold();
       stop(film);
-    } else if (film && film.paused && !hold) {
+    } else if (film && film.paused && !film.ended && !hold) {
       hold = setTimeout(() => { hold = 0; start(film); }, HOLD_MS);
     }
   };
@@ -170,9 +183,12 @@ function initShowcase(root) {
       if (reduced.matches) return k <= active ? 1 : 0;
       return Math.min(1, Math.max(0, (progress - (k - SLIDE_SPAN)) / SLIDE_SPAN));
     };
+    // A strong ease-out on top of the scroll: the still covers most of
+    // the way early in the span, then settles gently into place.
+    const eased = (f) => 1 - Math.pow(1 - f, 4);
     slides.forEach((slide, k) => {
       if (k === 0) return;
-      const f = arrived(k);
+      const f = eased(arrived(k));
       slide.style.transform = f >= 1 ? 'none' : 'translateY(' + ((1 - f) * 100).toFixed(2) + '%)';
     });
     // The text follows the still, but on a clock: once a still is
@@ -205,6 +221,7 @@ function initShowcase(root) {
     // Always from the top, and after the full hold, even on a return
     // to a chapter seen before.
     stop(films[i]);
+    if (scenes[i]) scenes[i].stop();
     clearHold();
     sync();
     placeSlides();
