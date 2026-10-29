@@ -200,6 +200,12 @@ NAME: {
 - `scrollTo(el, x, ms, curve)`: move a row by its transform
 - `em(n)`: convert scene ems to px
 - `count(el, to, ms)`: count a `$` figure up
+- `now(...)`: put states on with no transition, as if always there.
+  Chapter 1 opens on its UI: `if (t.first) now('app'); else at(0, () =>
+  on('app'))`. `t.first` is true on the first round after the chapter
+  arrives; later rounds rise over the film's last frame.
+- `roll()`: play the chapter's closing film (`data-outro`) from its
+  start, usually with `on('out')` as the UI drops away.
 - `type(el, ms)`: type the element's `data-type` text into it, a
   letter every `ms` (50–60 reads as typing). Turn `s-typing` on for the
   caret and off when done. Use it on an `.sx-type` inside `.sx-search`;
@@ -236,6 +242,17 @@ Chapter 2 has two: `puppy` (slide 1) and `winnie` (slide 2), both
 `data-showcase-chapter="1"`. Add one `.showcase__trigger` per slide.
 Per-slide CSS keyed on `data-showcase-slide` must be renumbered when
 slides are added.
+
+## Closing films
+
+A film can close the scene instead of opening it. Chapter 1 opens on
+its UI and ends on the Samoyed shaking off his bath.
+- Mark the film `data-outro`. `home.js` never starts it; the scene does,
+  with `roll()`.
+- It plays once and holds its last frame. The next round's UI rises over
+  that frame.
+- The slide's still should be the film's first frame, so the drop-away
+  reveals the right picture before the film is running.
 
 ## Intro films
 

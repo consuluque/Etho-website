@@ -115,7 +115,32 @@ window.EthoScenes = (() => {
       next();
     };
 
-    const verbs = { at, on, off, target, glide, park, press, tap, drag, scrollTo, type, em, count, root };
+    // Puts states on with no transition, as if they had always been
+    // there: a scene that opens on its UI shows it from the first frame.
+    const now = (...names) => {
+      root.classList.add('is-resetting');
+      on(...names);
+      void root.offsetWidth;
+      root.classList.remove('is-resetting');
+    };
+
+    // The chapter's closing film (data-outro), run from its start by
+    // roll(); it holds its last frame until the next round's UI rises.
+    const outro = root.parentElement.querySelector('video[data-outro]');
+    const roll = () => {
+      if (!outro) return;
+      try { outro.currentTime = 0; } catch (e) { /* not loaded yet: at 0 */ }
+      const played = outro.play();
+      if (played) played.catch(() => {});
+    };
+
+    // Which round this is: 1 on arrival, then counting up as it loops.
+    let round = 0;
+
+    const verbs = {
+      at, on, off, now, target, glide, park, press, tap, drag, scrollTo, type, em, count, roll, root,
+      get first() { return round === 1; },
+    };
 
     // Back to the first frame with nothing animating on the way.
     const reset = () => {
@@ -145,6 +170,7 @@ window.EthoScenes = (() => {
     };
 
     const run = () => {
+      round += 1;
       replay();
       script(verbs);
       at(loopAt, () => { reset(); run(); });
@@ -154,6 +180,7 @@ window.EthoScenes = (() => {
       play() {
         if (playing) return;
         playing = true;
+        round = 0;
         reset();
         if (reduced.matches) {
           root.classList.add('is-resetting');
@@ -171,46 +198,48 @@ window.EthoScenes = (() => {
     };
   }
 
-  // Chapter 1 — grooming, for Hector. The film plays alone for a few
-  // seconds, then a simplified home rises over it. The cursor swipes
-  // "Picked for Hector" and lets go; the row flies past more picks
-  // than can be read and settles with the wash & dry, at 20% off,
-  // first in view. The cursor opens it, books it for Saturday, ticks a $20
-  // post-groom photo (the total counts up) and a free dental check,
-  // and confirms. "Booked" and the saving hold, everything drops away,
-  // and the film has the screen again before the next round.
+  // Chapter 1 — grooming, for Hector. The scene opens the chapter:
+  // "Picked for Hector" is on screen from the first frame (later rounds
+  // rise over the film's last frame). The cursor swipes the row and
+  // lets go; it flies past more picks than can be read and settles with
+  // the wash & dry, at 20% off, first in view. The cursor opens it,
+  // books it for Saturday, ticks a $20 post-groom photo (the total
+  // counts up) and a free dental check, and confirms. "Booked" and the
+  // saving hold, then everything drops away and the Samoyed shakes off
+  // his bath.
   const scripts = {
     groom: {
-      loopAt: 20500,
-      script({ at, on, off, target, glide, press, tap, drag, scrollTo, em, count, root }) {
+      loopAt: 21500,
+      script(t) {
+        const { at, on, off, now, target, glide, press, tap, drag, scrollTo, em, count, roll, root } = t;
         // The row draws its cards in while in flight (s-fling) and the
         // picked card's offer hops once it lands (s-pick).
         const total = root.querySelector('[data-scene-count]');
         const rail = root.querySelector('[data-scroll="picked"]');
         const wash = target('wash');
-        at(3800, () => on('app'));
-        at(5000, () => { on('cursor'); glide(rail.children[0], 750, 0.75, 0.4); });
-        at(5850, () => press(true));
-        at(6000, () => { on('fling'); drag(rail, -em(5), 320); });
+        if (t.first) now('app'); else at(0, () => on('app'));
+        at(1700, () => { on('cursor'); glide(rail.children[0], 750, 0.75, 0.4); });
+        at(2550, () => press(true));
+        at(2700, () => { on('fling'); drag(rail, -em(5), 320); });
         // Let go: the fling carries the row on and eases to a stop with
         // the wash & dry exactly where the first card started.
-        at(6320, () => {
+        at(3020, () => {
           press(false);
           scrollTo(rail, rail.children[0].offsetLeft - wash.offsetLeft, 1600, 'cubic-bezier(0.05, 0.75, 0.15, 1)');
         });
-        at(7350, () => { off('fling'); on('pick'); });
-        at(8100, () => glide(wash, 650, 0.5, 0.42));
-        at(8900, () => tap(wash, () => on('sheet')));
-        at(9950, () => glide(target('book'), 750, 0.5, 0.55));
-        at(10900, () => tap(target('book'), () => on('extras')));
-        at(11800, () => glide(target('photo').querySelector('.sx-check'), 750));
-        at(12700, () => tap(target('photo'), () => { on('photo'); count(total, 116); }));
-        at(13400, () => glide(target('dental').querySelector('.sx-check'), 550));
-        at(14100, () => tap(target('dental'), () => on('dental')));
-        at(14800, () => glide(target('confirm'), 700, 0.5, 0.55));
-        at(15650, () => tap(target('confirm'), () => on('done')));
-        at(16250, () => off('cursor'));
-        at(19500, () => on('out'));
+        at(4050, () => { off('fling'); on('pick'); });
+        at(4800, () => glide(wash, 650, 0.5, 0.42));
+        at(5600, () => tap(wash, () => on('sheet')));
+        at(6650, () => glide(target('book'), 750, 0.5, 0.55));
+        at(7600, () => tap(target('book'), () => on('extras')));
+        at(8500, () => glide(target('photo').querySelector('.sx-check'), 750));
+        at(9400, () => tap(target('photo'), () => { on('photo'); count(total, 116); }));
+        at(10100, () => glide(target('dental').querySelector('.sx-check'), 550));
+        at(10800, () => tap(target('dental'), () => on('dental')));
+        at(11500, () => glide(target('confirm'), 700, 0.5, 0.55));
+        at(12350, () => tap(target('confirm'), () => on('done')));
+        at(12950, () => off('cursor'));
+        at(15500, () => { on('out'); roll(); });
       },
       finalState({ on, root }) {
         on('app', 'sheet', 'extras', 'photo', 'dental', 'done');

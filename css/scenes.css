@@ -442,12 +442,12 @@
 .s-done .sx-booking { opacity: 1; transform: none; }
 
 .sx-saved {
-  margin-top: 1em;
-  padding: 0.5em 1em;
+  margin-top: 1.1em;
+  padding: 0.5em 1.1em;
   border-radius: 2em;
-  background: #000000;
+  background: var(--sx-green);
   color: #FFFFFF;
-  font-size: 0.9em;
+  font-size: 1.2em;
   font-weight: 700;
   opacity: 0;
   transform: translateY(0.8em);
