@@ -115,8 +115,8 @@ window.EthoScenes = (() => {
   }
 
   // Chapter 1 — grooming, for Hector. The film plays alone for a few
-  // seconds, then his picks rise over it: a full groom at 20% off and
-  // deshedding at 40% off. The cursor opens the full groom, books it
+  // seconds, then Explore rises over it with "Get Hector pampered": a
+  // full groom at 20% off, deshedding at 40% off. The cursor opens the full groom, books it
   // for Saturday, ticks a $20 post-groom photo (the total counts up)
   // and a free dental check, and confirms. "Booked" and the saving
   // hold, everything drops away, and the film has the screen again

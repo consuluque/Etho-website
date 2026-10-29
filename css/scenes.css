@@ -8,11 +8,12 @@
    on the shared --ease-out curve, so the whole scene keeps one feel.
 
    The look is the app's own (etho: src/components/theme.ts and
-   explore/tokens.ts): the grey-to-white page, white cards on a soft
-   three-layer shadow, photos first, the black offer pill, black
-   titles and grey lines, sheets over a blurred page. What changes is
-   the scale: one idea per screen and type half as big again as the
-   app's, so it reads at a glance from across the page.
+   explore/tokens.ts): the grey-to-white page, square photo cards in a
+   row, the black offer pill, black titles over grey lines, a glass
+   tab bar, sheets over a frosted page. Proportions follow the app's
+   Figma frame (1em is 28.3 of its 662 px); type runs a step larger
+   than the app's so it reads from across the page, and each screen
+   carries one idea.
 
    Sizes are in em off one font size tied to the phone's width (a 375
    pt phone is 23.4em wide), so the UI scales with the frame. Only
@@ -31,7 +32,10 @@
   --sx-title: #000000;
   --sx-text2: rgba(14, 15, 12, 0.59);
   --sx-was: #717171;
+  --sx-green: #177245;
+  --sx-rule: #E4E6E8;
   --sx-edge: rgba(0, 0, 0, 0.25);
+  --sx-chip: #DADADA;
   --sx-shadow: 0 0 0 1px rgba(14, 15, 12, 0.04), 0 1px 2px rgba(14, 15, 12, 0.04), 0 6px 16px rgba(14, 15, 12, 0.06);
 
   position: absolute;
@@ -40,7 +44,7 @@
   overflow: hidden;
   font-family: var(--body-font);
   font-size: calc(var(--phone-h) * 0.5 / 23.4);
-  line-height: 1.25;
+  line-height: 1.3;
   /* The stacked phone layout centres its text; the app does not. */
   text-align: left;
   color: var(--sx-title);
@@ -59,88 +63,186 @@
 .scene.is-resetting,
 .scene.is-resetting * { transition: none !important; }
 
-/* -- The app page, rising over the film ----------------------------- */
+/* -- Explore, rising over the film ---------------------------------- */
 
 .scene__app {
   position: absolute;
   inset: 0;
-  padding: 3.4em 1.3em 0;
+  padding: 0 0 0 1.3em;
   background: linear-gradient(180deg, var(--sx-top) 0%, var(--sx-mid) 23.5%, var(--sx-bottom) 100%);
   border-radius: calc(var(--phone-h) * 0.063) calc(var(--phone-h) * 0.063) 0 0;
   transform: translateY(102%);
-  transition: transform 850ms var(--ease-out), filter 600ms var(--ease-out), opacity 600ms var(--ease-out);
+  transition: transform 850ms var(--ease-out), filter 600ms var(--ease-out);
 }
 .s-app .scene__app { transform: none; }
-/* Behind a sheet the page frosts and sinks a little, as the app's
-   search sheet does. */
-.s-sheet .scene__app { filter: blur(5px) brightness(0.9); }
+/* Behind a sheet the page frosts and dims, as under the app's sheets. */
+.s-sheet .scene__app { filter: blur(4px) brightness(0.88); }
+
+.sx-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2.6em;
+  padding: 0.5em 1.6em 0 0.5em;
+}
+.sx-status span { font-size: 0.8em; font-weight: 700; }
+/* Signal and battery, drawn as two quiet blocks. */
+.sx-status i {
+  width: 2.6em;
+  height: 0.62em;
+  border-radius: 0.2em;
+  background:
+    linear-gradient(90deg, #000 0 1.1em, transparent 1.1em 1.4em, #000 1.4em 2.35em, transparent 2.35em);
+  opacity: 0.85;
+}
+
+.sx-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.4em;
+  padding-right: 1.3em;
+}
+.sx-greeting {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: var(--sx-heading);
+}
+.sx-avatar {
+  width: 2.3em;
+  height: 2.3em;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.sx-search {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  height: 2.75em;
+  margin: 0.9em 1.3em 0 -0.15em;
+  padding-left: 1.2em;
+  border-radius: 2em;
+  background: #FFFFFF;
+  box-shadow: 0 0.14em 0.7em rgba(0, 0, 0, 0.14);
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--sx-text2);
+}
+.sx-search svg {
+  width: 1.15em;
+  height: 1.15em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
 
 .sx-heading {
-  font-size: 1.6em;
+  margin-top: 1.55em !important;
+  font-size: 1.05em;
   font-weight: 700;
-  letter-spacing: -0.01em;
   color: var(--sx-heading);
 }
 
+/* A row of square photo cards, the third peeking past the edge. Each
+   comes up a beat after the one before. */
+.sx-rail {
+  display: flex;
+  gap: 0.95em;
+  margin-top: 0.85em;
+}
 .sx-card {
-  margin-top: 1.1em;
-  padding: 0.65em 0.65em 1em;
-  border-radius: 1.6em;
-  background: var(--sx-card);
-  box-shadow: var(--sx-shadow);
+  flex: none;
+  width: 8.6em;
   opacity: 0;
-  transform: translateY(2em);
+  transform: translateY(1.6em);
   transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
 }
-.sx-heading + .sx-card { margin-top: 1em; }
 .s-app .sx-card { opacity: 1; transform: none; transition-delay: 250ms; }
-.s-app .sx-card + .sx-card { transition-delay: 380ms; }
+.s-app .sx-card:nth-child(2) { transition-delay: 330ms; }
+.s-app .sx-card:nth-child(3) { transition-delay: 410ms; }
+.s-app .sx-rail + .sx-heading + .sx-rail .sx-card { transition-delay: 450ms; }
 
 .sx-photo {
   position: relative;
-  height: 10.6em;
-  border-radius: 1.15em;
+  height: 8.8em;
+  border-radius: 1.1em;
   overflow: hidden;
   background: var(--sx-top);
 }
 .sx-photo .sx-pill {
   position: absolute;
-  top: 0.75em;
-  right: 0.75em;
+  top: 0.65em;
+  right: 0.65em;
 }
+.sx-heart {
+  position: absolute;
+  right: 0.55em;
+  bottom: 0.55em;
+  display: grid;
+  place-items: center;
+  width: 1.45em;
+  height: 1.45em;
+  border-radius: 50%;
+  background: rgba(218, 218, 218, 0.55);
+}
+.sx-heart svg { width: 0.9em; height: 0.9em; fill: #FFFFFF; }
 
 /* The offer pill: the app's one solid black shape, so the saving is
    the first thing the eye finds. */
 .sx-pill {
   display: inline-block;
-  padding: 0.38em 0.8em;
+  padding: 0.32em 0.62em;
   border-radius: 2em;
   background: #000000;
   color: #FFFFFF;
-  font-size: 1em;
+  font-size: 0.68em;
   font-weight: 700;
   line-height: 1.2;
   white-space: nowrap;
 }
 
 .sx-title {
-  margin-top: 0.65em !important;
-  padding: 0 0.3em;
-  font-size: 1.35em;
+  margin-top: 0.7em !important;
+  font-size: 0.92em;
   font-weight: 700;
-  letter-spacing: -0.01em;
 }
-.sx-price {
+.sx-line {
   margin-top: 0.15em !important;
-  padding: 0 0.35em;
-  font-size: 1.25em;
-  font-weight: 700;
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--sx-text2);
 }
+.sx-line--price { margin-top: 0.05em !important; font-weight: 700; color: var(--sx-title); }
+.sx-line s,
 .sx-price s {
-  margin-right: 0.15em;
+  margin-right: 0.1em;
   font-weight: 500;
   color: var(--sx-was);
 }
+
+/* The glass tab bar, floating over the page's foot. */
+.sx-tabbar {
+  position: absolute;
+  left: 0.6em;
+  right: 0.6em;
+  bottom: 0.6em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 3.1em;
+  border-radius: 2em;
+  background: rgba(252, 252, 252, 0.55);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow:
+    inset 0.05em 0.05em 0 rgba(255, 255, 255, 0.55),
+    inset -0.04em -0.04em 0 rgba(255, 255, 255, 0.25),
+    0.07em 0.14em 0.42em rgba(0, 0, 0, 0.2);
+}
+.sx-tabbar > * { font-size: 0.78em; font-weight: 500; color: var(--sx-text2); }
+.sx-tabbar b { font-weight: 700; color: var(--sx-title); }
 
 /* -- The sheet ------------------------------------------------------ */
 
@@ -149,10 +251,10 @@
   left: 0.55em;
   right: 0.55em;
   bottom: 0.55em;
-  /* Tall enough for the service page, the tallest; the frosted page
+  /* Tall enough for the extras page, the tallest; the frosted page
      shows above it. */
-  height: 29.5em;
-  border-radius: 1.9em;
+  height: 25.6em;
+  border-radius: 1.5em;
   background: var(--sx-card);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -166,7 +268,8 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  padding: 0.7em 0.7em 0.8em;
+  /* Text sits 1.15em in; the photo and the button reach out to 0.6em. */
+  padding: 0.6em 1.15em 0.7em;
   transition: transform 650ms var(--ease-out), opacity 500ms var(--ease-out);
 }
 /* Each page pushes in from the right, iOS-style, as the one before
@@ -179,76 +282,89 @@
 .s-done .scene__page--done { transform: none; }
 
 .sx-hero {
-  height: 15.5em;
-  border-radius: 1.4em;
+  position: relative;
+  flex: none;
+  margin: 0 -0.55em;
+  height: 11.5em;
+  border-radius: 1.1em;
   overflow: hidden;
 }
-.sx-big {
-  margin-top: 0.55em !important;
-  padding: 0 0.3em;
-  font-size: 2.1em;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.sx-hero .sx-pill { position: absolute; top: 0.75em; right: 0.75em; font-size: 0.75em; }
+
+.sx-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-top: 0.95em !important;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--sx-text2);
 }
-.sx-price--big { margin-top: 0.2em !important; font-size: 1.6em; }
-.sx-price--big .sx-pill { margin-left: 0.3em; font-size: 0.62em; vertical-align: 0.25em; }
+.sx-meta span { font-weight: 700; color: var(--sx-title); margin-right: 0.35em; }
+.sx-meta svg { width: 0.95em; height: 0.95em; fill: var(--sx-title); }
+
+.sx-big {
+  margin-top: 0.25em !important;
+  font-size: 1.45em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sx-price {
+  margin-top: 0.4em !important;
+  font-size: 1.15em;
+  font-weight: 700;
+}
 
 .sx-button {
-  margin-top: auto;
+  margin: auto calc(-0.55em / 0.95) 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 3.1em;
-  border-radius: 1.55em;
+  height: 2.9em;
+  border-radius: 1.45em;
   background: #000000;
   color: #FFFFFF;
-  font-size: 1.15em;
+  font-size: 0.95em;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  transition: transform 160ms var(--ease-out);
 }
 
-/* Extras: a photo, a name, a price and a round check. */
-.scene__page--extras { padding: 1.3em 0.7em 0.8em; }
-.scene__page--extras .sx-big { margin-top: 0 !important; margin-bottom: 0.3em !important; }
+/* Make it special: a photo, a name, a price and a round check, each
+   row ruled off from the next, as the storefront's add-ons are. */
+.scene__page--extras { padding-top: 1.2em; }
+.scene__page--extras > .sx-big { margin-top: 0 !important; }
+.sx-rows { margin-top: 0.7em; }
 .sx-row {
   display: flex;
   align-items: center;
-  gap: 0.9em;
-  margin-top: 0.8em;
-  padding: 0.65em 1em 0.65em 0.65em;
-  border-radius: 1.5em;
-  background: var(--sx-card);
-  box-shadow: var(--sx-shadow);
+  gap: 0.8em;
+  padding: 0.6em 0;
+  border-bottom: 1px solid var(--sx-rule);
 }
 .sx-row img {
   flex: none;
-  width: 4.8em;
-  height: 4.8em;
-  border-radius: 1em;
+  width: 3.3em;
+  height: 3.3em;
+  border-radius: 0.8em;
 }
 .sx-row > div { flex: 1; min-width: 0; }
-.sx-row .sx-title { margin: 0 !important; padding: 0; font-size: 1.2em; }
-.sx-line {
-  margin-top: 0.2em !important;
-  font-size: 1.15em;
-  font-weight: 600;
-  color: var(--sx-text2);
-}
-.sx-line .sx-pill { font-size: 0.85em; }
+.sx-row .sx-title { margin: 0 !important; }
+.sx-row .sx-line .sx-pill { font-size: 0.85em; }
 
 .sx-check {
   flex: none;
   display: grid;
   place-items: center;
-  width: 2.1em;
-  height: 2.1em;
+  width: 1.55em;
+  height: 1.55em;
   border-radius: 50%;
-  border: 2px solid var(--sx-edge);
+  border: 1.5px solid var(--sx-edge);
   transition: background 300ms var(--ease-out), border-color 300ms var(--ease-out), transform 300ms var(--ease-out);
 }
 .sx-check svg {
-  width: 1.3em;
-  height: 1.3em;
+  width: 1em;
+  height: 1em;
   fill: none;
   stroke: #FFFFFF;
   stroke-width: 3;
@@ -265,20 +381,30 @@
 .s-photo [data-target="photo"] .sx-check path,
 .s-dental [data-target="dental"] .sx-check path { stroke-dashoffset: 0; }
 
-/* Booked: a tick that draws itself, and the saving, big. */
+/* The saving, in the app's green, above the button. */
+.sx-sum {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 0 0.75em !important;
+  font-size: 0.88em;
+  font-weight: 600;
+}
+.sx-sum b { color: var(--sx-green); font-weight: 700; }
+.sx-sum + .sx-button { margin-top: 0; }
+
+/* Booked: a tick that draws itself, the booking as a card, and the
+   saving. */
 .scene__page--done {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-bottom: 3em;
+  padding-bottom: 1.6em;
 }
-.scene__page--done .sx-big { margin-top: 0.45em !important; }
-.scene__page--done .sx-line { margin-top: 0.35em !important; line-height: 1.35; }
 .sx-done {
   display: grid;
   place-items: center;
-  width: 6.2em;
-  height: 6.2em;
+  width: 4.4em;
+  height: 4.4em;
   border-radius: 50%;
   background: #000000;
   transform: scale(0.6);
@@ -286,8 +412,8 @@
   transition: transform 700ms var(--ease-out) 150ms, opacity 300ms var(--ease-out) 150ms;
 }
 .sx-done svg {
-  width: 3.4em;
-  height: 3.4em;
+  width: 2.5em;
+  height: 2.5em;
   fill: none;
   stroke: #FFFFFF;
   stroke-width: 4;
@@ -301,17 +427,39 @@
 }
 .s-done .sx-done { transform: none; opacity: 1; }
 .s-done .sx-done path { stroke-dashoffset: 0; }
+.scene__page--done > .sx-big { margin-top: 0.5em !important; }
+
+.sx-booking {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  align-self: stretch;
+  margin-inline: -0.55em;
+  margin-top: 1.2em;
+  padding: 0.55em;
+  border-radius: 1.2em;
+  background: var(--sx-card);
+  box-shadow: var(--sx-shadow);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(0.8em);
+  transition: opacity 400ms var(--ease-out) 750ms, transform 600ms var(--ease-out) 750ms;
+}
+.sx-booking img { flex: none; width: 3.2em; height: 3.2em; border-radius: 0.8em; }
+.sx-booking .sx-title { margin: 0 !important; }
+.s-done .sx-booking { opacity: 1; transform: none; }
 
 .sx-saved {
-  margin-top: 1.3em;
-  padding: 0.55em 1.1em;
+  margin-top: 1em;
+  padding: 0.5em 1em;
   border-radius: 2em;
-  background: var(--sx-top);
-  font-size: 1.2em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 0.9em;
   font-weight: 700;
   opacity: 0;
   transform: translateY(0.8em);
-  transition: opacity 400ms var(--ease-out) 900ms, transform 600ms var(--ease-out) 900ms;
+  transition: opacity 400ms var(--ease-out) 1000ms, transform 600ms var(--ease-out) 1000ms;
 }
 .s-done .sx-saved { opacity: 1; transform: none; }
 
@@ -323,10 +471,9 @@
 /* Whatever the cursor taps gives a little under it: a card or button
    as a whole, a row only at its check. The card keeps its entrance
    timing and only shortens it while pressed. */
-.sx-button { transition: transform 160ms var(--ease-out); }
-.sx-card.is-pressed { transform: scale(0.96); transition-duration: 160ms; transition-delay: 0ms; }
+.sx-card.is-pressed { transform: scale(0.95); transition-duration: 160ms; transition-delay: 0ms; }
 .sx-button.is-pressed { transform: scale(0.96); }
-.sx-row.is-pressed .sx-check { transform: scale(0.85); }
+.sx-row.is-pressed .sx-check { transform: scale(0.82); }
 
 /* Count-up: a small lift as the total changes. */
 [data-scene-count] { display: inline-block; }
@@ -347,7 +494,7 @@
   left: 0;
   top: 0;
   z-index: 3;
-  width: 1.7em;
+  width: 1.4em;
   height: auto;
   overflow: visible;
   opacity: 0;
