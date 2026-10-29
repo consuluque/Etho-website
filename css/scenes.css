@@ -132,7 +132,7 @@
 }
 
 .sx-headline {
-  margin-top: 0.5em !important;
+  margin-top: 1.7em !important;
   font-size: 1.6em;
   font-weight: 700;
   line-height: 1.1;
@@ -584,6 +584,8 @@
   transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
 }
 .s-results .sx-result { opacity: 1; transform: none; }
+/* Tapped: the card gives, quickly, whatever its entrance timing. */
+.s-results .sx-result.is-pressed { transform: scale(0.97); transition-duration: 160ms; transition-delay: 0ms; }
 .s-results .sx-result:nth-child(2) { transition-delay: 110ms; }
 .s-results .sx-result:nth-child(3) { transition-delay: 220ms; }
 .sx-result__photo {
