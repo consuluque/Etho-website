@@ -320,31 +320,39 @@ window.EthoScenes = (() => {
     },
 
     // Chapter 2, second screen — Winnie, a Dachshund with sore hips.
-    // A large search on frosted glass; "Winnie has hip pain" is typed,
-    // the page comes in behind with its header, the bar settles under
-    // it, and three large therapies fill the screen, hydrotherapy at
-    // 15% off. The cursor books hydrotherapy, a confirmation slides up
-    // (like the puppy's success screen) offering "The little extras
-    // matter", and the cursor picks the dog ramp and taps Shop.
+    // She steps down the sofa stairs (the film, rolled once it is in
+    // memory) and a glass search rises over her; "Winnie has hip pain"
+    // is typed, the film frosts over, the page comes in behind with its
+    // header, the bar settles under it, and three large therapies fill
+    // the screen, hydrotherapy at 15% off. The cursor books it, a
+    // confirmation slides up (like the puppy's success screen) offering
+    // "The little extras matter", and the cursor picks the dog ramp and
+    // taps Shop.
     winnie: {
-      loopAt: 16500,
-      script({ at, on, off, target, glide, tap, type }) {
+      loopAt: null,
+      script({ at, on, off, target, glide, tap, type, roll, whenReady, again }) {
         const field = target('search').querySelector('[data-type]');
-        at(900, () => { on('typing'); type(field, 60); });
-        at(2200, () => { off('typing'); on('app', 'up'); });
-        at(2900, () => on('list'));
-        at(3700, () => on('pick'));
-        at(4600, () => { on('cursor'); glide(target('hydro'), 850, 0.5, 0.5); });
-        at(5650, () => tap(target('hydro')));
-        at(5900, () => on('success'));
-        at(7900, () => glide(target('ramp').querySelector('.sx-extra__photo'), 800, 0.5, 0.55));
-        at(8900, () => tap(target('ramp'), () => on('ramp')));
-        at(9700, () => glide(target('shop'), 750, 0.5, 0.55));
-        at(10650, () => tap(target('shop'), () => on('shop')));
-        at(11300, () => off('cursor'));
-        at(15200, () => on('out'));
+        whenReady(() => {
+          roll();
+          at(1300, () => on('bar'));
+          at(2000, () => { on('typing'); type(field, 60); });
+          at(3300, () => { off('typing'); on('frost'); });
+          at(3900, () => on('app', 'up'));
+          at(4600, () => on('list'));
+          at(5400, () => on('pick'));
+          at(6300, () => { on('cursor'); glide(target('hydro'), 850, 0.5, 0.5); });
+          at(7350, () => tap(target('hydro')));
+          at(7600, () => on('success'));
+          at(9600, () => glide(target('ramp').querySelector('.sx-extra__photo'), 800, 0.5, 0.55));
+          at(10600, () => tap(target('ramp'), () => on('ramp')));
+          at(11400, () => glide(target('shop'), 750, 0.5, 0.55));
+          at(12350, () => tap(target('shop'), () => on('shop')));
+          at(13000, () => off('cursor'));
+          at(16900, () => on('out'));
+          again(18000);
+        });
       },
-      finalState({ on }) { on('app', 'up', 'list', 'success', 'ramp', 'shop'); },
+      finalState({ on }) { on('bar', 'frost', 'app', 'up', 'list', 'success', 'ramp', 'shop'); },
     },
   };
 

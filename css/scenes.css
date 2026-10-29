@@ -684,6 +684,40 @@
    with "The little extras matter"; the ramp is picked (s-ramp) and
    Shop tapped (s-shop). */
 
+/* Frosts the film once the search is in: a blur of whatever plays
+   behind, under a pale veil. */
+.sx-veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 249, 246, 0.38);
+  opacity: 0;
+  transition: opacity 800ms var(--ease-out);
+}
+.s-frost .sx-veil { opacity: 1; }
+/* The blur itself is on the film (and its still): a backdrop blur
+   cannot reach a playing video in every browser. Scaled a touch so
+   the soft edges stay outside the screen. */
+.showcase__slide:has(.scene--winnie) .showcase__film,
+.showcase__slide:has(.scene--winnie) .showcase__still {
+  transition: filter 800ms var(--ease-out), transform 800ms var(--ease-out), opacity 200ms var(--ease);
+}
+.showcase__slide:has(.scene--winnie.s-frost) .showcase__film,
+.showcase__slide:has(.scene--winnie.s-frost) .showcase__still {
+  filter: blur(14px) saturate(1.1);
+  transform: scale(1.08);
+}
+.showcase__slide:has(.scene--winnie.is-resetting) .showcase__film,
+.showcase__slide:has(.scene--winnie.is-resetting) .showcase__still { transition: none; }
+/* Winnie's search waits for the film, then rises in over it. */
+.scene--winnie .sx-search--hero {
+  opacity: 0;
+  transform: translateY(1em) scale(0.96);
+  transition:
+    opacity 600ms var(--ease-out), transform 800ms var(--ease-out),
+    top 800ms var(--ease-out), margin 800ms var(--ease-out), height 800ms var(--ease-out);
+}
+.scene--winnie.s-bar .sx-search--hero { opacity: 1; transform: none; }
+
 .sx-page {
   position: absolute;
   inset: 0;
@@ -815,7 +849,8 @@
   stroke-linejoin: round;
 }
 
-.scene--winnie.s-out .sx-page { opacity: 0; }
+.scene--winnie.s-out .sx-page,
+.scene--winnie.s-out .sx-veil { opacity: 0; }
 .scene--winnie.s-out .sx-success { transform: translateY(105%); }
 
 /* -- The cursor ----------------------------------------------------- */

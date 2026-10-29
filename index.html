@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=20261029">
 <link rel="stylesheet" href="css/landing.css?v=20261002">
-<link rel="stylesheet" href="css/home.css?v=20261029r">
-<link rel="stylesheet" href="css/scenes.css?v=20261029r">
+<link rel="stylesheet" href="css/home.css?v=20261029s">
+<link rel="stylesheet" href="css/scenes.css?v=20261029s">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
@@ -267,15 +267,20 @@
             </div>
           </div>
           <div class="showcase__slide" data-showcase-slide="2" data-showcase-chapter="1">
-            <img class="showcase__still" src="assets/images/scenes/winnie-frost.webp"
+            <img class="showcase__still" src="assets/images/scenes/winnie-still.webp"
                  alt="" width="720" height="1280" loading="lazy" decoding="async">
-            <!-- Chapter 2, second screen: Winnie the Dachshund. A large
-                 search on frosted glass; "Winnie has hip pain" is typed,
+            <video class="showcase__film" src="assets/videos/winnie-stairs.mp4"
+                   muted playsinline data-outro preload="none" aria-hidden="true" tabindex="-1"></video>
+            <!-- Chapter 2, second screen: Winnie the Dachshund. She steps
+                 down the sofa stairs (the film, which the scene rolls) and
+                 a glass search rises over her; "Winnie has hip pain" is
+                 typed, the film frosts over,
                  the page comes in with three large therapies, the cursor
                  books hydrotherapy, and a confirmation like the puppy's
                  success screen slides up with "The little extras matter":
                  the cursor picks the dog ramp and taps Shop. -->
             <div class="scene scene--glass scene--winnie" data-scene="winnie" aria-hidden="true">
+              <div class="sx-veil"></div>
               <div class="sx-page"></div>
               <div class="scene__app scene__app--clear">
                 <div class="sx-hello">
@@ -528,7 +533,7 @@
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/breeds.js?v=20261002"></script>
 <script src="js/profile.js?v=20261002"></script>
-<script src="js/scenes.js?v=20261029r"></script>
-<script src="js/home.js?v=20261029r"></script>
+<script src="js/scenes.js?v=20261029s"></script>
+<script src="js/home.js?v=20261029s"></script>
 </body>
 </html>
