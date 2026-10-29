@@ -56,6 +56,8 @@
 /* The grooming room is a tall shot with the dog in the tub left of
    centre and low; every crop of it holds on the dog. */
 .scene img.sx-groom { object-position: 29% 58%; }
+/* The training floor is a wide shot; its crops hold on the dogs. */
+.scene img.sx-focus-training { object-position: 42% 70%; }
 /* In the small crops the room would leave the dog a speck, so those
    step in on the tub. */
 .sx-card img.sx-groom,
@@ -142,7 +144,7 @@
   gap: 0.85em;
   margin-top: 1em;
 }
-.sx-rail--small { gap: 0.8em; margin-top: 0.75em; }
+.sx-rail--small { gap: 0.8em; margin-top: 1.15em; }
 /* The row the cursor scrolls: scenes.js drags and flings it by its
    transform, so it never reflows. */
 .sx-rail[data-scroll] { will-change: transform; }
