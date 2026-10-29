@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=20261029">
 <link rel="stylesheet" href="css/landing.css?v=20261002">
-<link rel="stylesheet" href="css/home.css?v=20261029e">
-<link rel="stylesheet" href="css/scenes.css?v=20261029e">
+<link rel="stylesheet" href="css/home.css?v=20261029f">
+<link rel="stylesheet" href="css/scenes.css?v=20261029f">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
@@ -231,17 +231,17 @@
             </div>
           </div>
           <div class="showcase__slide" data-showcase-slide="1" data-showcase-chapter="1">
-            <img class="showcase__still" src="assets/images/scenes/lounge.webp"
+            <img class="showcase__still" src="assets/images/scenes/lounge-frost.webp"
                  alt="" width="800" height="800" loading="lazy" decoding="async">
-            <!-- Chapter 2, first screen: the room frosts over, "Train my
-                 puppy…" is typed into the search, and two answers rise
-                 on glass: a puppy school close by at 25% off, and a
-                 Wednesday meetup for puppy parents. -->
+            <!-- Chapter 2, first screen: a large search in the middle of
+                 frosted glass. "Train my puppy…" is typed into it, the bar
+                 rises, three answers come in on glass, and a success
+                 screen slides up: "A+ for your pup. Perks for you.", the
+                 trained puppy, and the month's saving counting up. -->
             <div class="scene scene--glass" data-scene="puppy" aria-hidden="true">
-              <div class="sx-frost"><img src="assets/images/scenes/lounge.webp" alt="" loading="lazy" decoding="async"></div>
               <div class="scene__app scene__app--clear">
                 <div class="sx-status"><span>9:41</span><svg viewBox="0 0 62 14"><path d="M1 10h3v3H1zM6 7.5h3V13H6zM11 5h3v8h-3zM16 2h3v11h-3z"/><path d="M33 12.6l-2-2.3a3 3 0 014 0zM28.3 7.8a7 7 0 019.4 0l-1.5 1.7a4.8 4.8 0 00-6.4 0zM25.6 5a11 11 0 0114.8 0l-1.5 1.6a8.7 8.7 0 00-11.8 0z"/><rect x="45" y="2.5" width="14" height="9" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".45"/><rect x="46.6" y="4.1" width="10.8" height="5.8" rx="1.3"/><path d="M60.4 5.5c.8.3.8 2.7 0 3z" opacity=".45"/></svg></div>
-                <div class="sx-search" data-target="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span class="sx-type" data-type="Train my puppy…"></span></div>
+                <div class="sx-search sx-search--hero" data-target="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span class="sx-type" data-type="Train my puppy…"></span></div>
                 <div class="sx-results">
                   <div class="sx-result">
                     <div class="sx-result__photo"><img src="assets/images/scenes/training.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
@@ -251,7 +251,18 @@
                     <div class="sx-result__photo"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"></div>
                     <div><p class="sx-title">Puppy parents meetup 🍷</p><p class="sx-line">Every Wednesday night<br>The Wine Terrace</p></div>
                   </div>
+                  <div class="sx-result">
+                    <div class="sx-result__photo"><img src="assets/images/scenes/group.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">30% off</span></div>
+                    <div><p class="sx-title">Group training</p><p class="sx-line">Saturdays 10:00am<br>Bondi Junction</p></div>
+                  </div>
                 </div>
+              </div>
+              <div class="sx-success">
+                <div class="sx-status"><span>9:41</span><svg viewBox="0 0 62 14"><path d="M1 10h3v3H1zM6 7.5h3V13H6zM11 5h3v8h-3zM16 2h3v11h-3z"/><path d="M33 12.6l-2-2.3a3 3 0 014 0zM28.3 7.8a7 7 0 019.4 0l-1.5 1.7a4.8 4.8 0 00-6.4 0zM25.6 5a11 11 0 0114.8 0l-1.5 1.6a8.7 8.7 0 00-11.8 0z"/><rect x="45" y="2.5" width="14" height="9" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".45"/><rect x="46.6" y="4.1" width="10.8" height="5.8" rx="1.3"/><path d="M60.4 5.5c.8.3.8 2.7 0 3z" opacity=".45"/></svg></div>
+                <div class="sx-nav"><span class="sx-close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span><p>Etho Perks</p></div>
+                <p class="sx-cheer">A+ for your pup.<br>Perks for you.</p>
+                <div class="sx-frame"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"></div>
+                <div class="sx-benefit"><p>Saved <b data-scene-count>$0</b> this month</p></div>
               </div>
               <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
             </div>
@@ -501,7 +512,7 @@
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/breeds.js?v=20261002"></script>
 <script src="js/profile.js?v=20261002"></script>
-<script src="js/scenes.js?v=20261029e"></script>
-<script src="js/home.js?v=20261029e"></script>
+<script src="js/scenes.js?v=20261029f"></script>
+<script src="js/home.js?v=20261029f"></script>
 </body>
 </html>

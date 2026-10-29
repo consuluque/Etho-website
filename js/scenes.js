@@ -218,22 +218,32 @@ window.EthoScenes = (() => {
       },
     },
 
-    // Chapter 2, first screen — training a puppy. The room frosts over,
-    // the search drops in and "Train my puppy…" is typed into it, and
-    // two answers rise on glass: puppy school 200m away at 25% off, and
-    // the puppy parents' Wednesday meetup. Its offer hops once it lands.
+    // Chapter 2, first screen — training a puppy. A large search sits
+    // in the middle of frosted glass. "Train my puppy…" is typed into
+    // it, the bar rises, and three answers come in on glass: puppy
+    // school 200m away at 25% off (its offer hops), the puppy parents'
+    // Wednesday meetup, and group training at 30% off. Then a success
+    // screen slides up, "A+ for your pup. Perks for you.", and the
+    // month's saving counts up to $120. It slides away, the bar settles
+    // back in the middle, and the round starts over.
     puppy: {
-      loopAt: 9600,
-      script({ at, on, off, target, type }) {
+      loopAt: 13600,
+      script({ at, on, off, target, type, count, root }) {
         const field = target('search').querySelector('[data-type]');
-        at(500, () => on('frost'));
-        at(1300, () => on('app'));
-        at(2000, () => { on('typing'); type(field, 60); });
-        at(3150, () => { off('typing'); on('results'); });
-        at(4000, () => on('pick'));
-        at(8500, () => on('out'));
+        const saved = root.querySelector('[data-scene-count]');
+        at(900, () => { on('typing'); type(field, 65); });
+        at(2200, () => { off('typing'); on('up'); });
+        at(2900, () => on('results'));
+        at(3700, () => on('pick'));
+        at(6300, () => on('success'));
+        at(7300, () => count(saved, 120, 900));
+        at(11800, () => off('success'));
+        at(12500, () => off('results', 'pick', 'up'));
       },
-      finalState({ on }) { on('frost', 'app', 'results'); },
+      finalState({ on, root }) {
+        on('up', 'results', 'success');
+        root.querySelector('[data-scene-count]').textContent = '$120';
+      },
     },
 
     // Chapter 2, second screen — Winnie, a Dachshund with a sore back.

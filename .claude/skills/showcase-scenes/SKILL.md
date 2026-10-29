@@ -55,11 +55,14 @@ otherwise.
   rejected: tiny, detailed UI ("unreadable") and giant UI ("too big,
   grotesque"). What was approved, in the scene's em (below): headline
   1.6em, card titles about 0.9em, lines about 0.82–0.85em, offer pill
-  0.68em, sheet title 1.45em, main photo cards about 10em wide. Nothing
+  0.86em (raised from 0.68em: the owner found it too small to notice), sheet title 1.45em, main photo cards about 10em wide. Nothing
   smaller than about 0.8em.
 - **The savings are always visible.** Offer pill on the photo, a struck
   "was" price beside the real one, and the saving said plainly at the
-  end ("You saved $24").
+  end ("You saved $24"). A success screen, modelled on Cash App's
+  (close button and title bar, a big line, one picture in a rounded
+  frame, the saving counting up in a panel along the foot), is the
+  way to land a scene: see `puppy`.
 - **Copy:** short and warm. The dog is **Hector** in chapter 1; chapter
   2's second screen is **Winnie**, a Dachshund. Headings so far:
   "Picked for Hector", "Get Hector pampered", "Make it special",

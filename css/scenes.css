@@ -200,11 +200,11 @@
    the first thing the eye finds. */
 .sx-pill {
   display: inline-block;
-  padding: 0.32em 0.62em;
+  padding: 0.36em 0.72em;
   border-radius: 2em;
   background: #000000;
   color: #FFFFFF;
-  font-size: 0.68em;
+  font-size: 0.86em;
   font-weight: 700;
   line-height: 1.2;
   white-space: nowrap;
@@ -281,7 +281,7 @@
   border-radius: 1.1em;
   overflow: hidden;
 }
-.sx-hero .sx-pill { position: absolute; top: 0.75em; right: 0.75em; font-size: 0.75em; }
+.sx-hero .sx-pill { position: absolute; top: 0.75em; right: 0.75em; font-size: 0.95em; }
 
 .sx-meta {
   display: flex;
@@ -342,7 +342,7 @@
 }
 .sx-row > div { flex: 1; min-width: 0; }
 .sx-row .sx-title { margin: 0 !important; padding: 0; font-size: 0.92em; }
-.sx-row .sx-line .sx-pill { font-size: 0.85em; }
+.sx-row .sx-line .sx-pill { font-size: 1.05em; }
 
 .sx-check {
   flex: none;
@@ -506,7 +506,7 @@
   white-space: nowrap;
 }
 .sx-type:empty::before {
-  content: 'Search pet services, events…';
+  content: 'Search services, events, or needs...';
   font-weight: 500;
   color: var(--sx-text2);
 }
@@ -523,26 +523,13 @@
 .s-typing .sx-type:empty::before { content: none; }
 @keyframes sx-caret { 50% { opacity: 0; } }
 
-/* -- Chapter 2, first screen: answers on glass ---------------------
+/* -- Chapter 2, first screen: a search on frosted glass -------------
 
-   No page: the chapter's photo frosts over (a blurred copy fading in
-   on top), and the search and the answers float on it as glass. */
-
-.sx-frost {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 900ms var(--ease-out);
-}
-.sx-frost img { filter: blur(14px) saturate(1.1); transform: scale(1.15); }
-.sx-frost::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(250, 249, 246, 0.38);
-}
-.s-frost .sx-frost { opacity: 1; }
+   No page and no sharp photo: the slide's still is the room already
+   frosted, and the search sits large in the middle of it from the
+   first frame. Once the words are in, the bar rises (s-up), three
+   answers come in as glass (s-results), and a success screen slides
+   up over everything (s-success). */
 
 .scene__app--clear,
 .s-app .scene__app--clear {
@@ -550,26 +537,41 @@
   transform: none;
   transition: opacity 600ms var(--ease-out);
 }
-.scene--glass .sx-status { opacity: 0; transition: opacity 600ms var(--ease-out); }
-.scene--glass.s-app .sx-status { opacity: 1; }
-.scene--glass .sx-search {
-  margin-top: 2.2em;
-  background: rgba(255, 255, 255, 0.82);
+
+.sx-search--hero {
+  position: absolute;
+  left: 1.2em;
+  right: 1.2em;
+  top: 50%;
+  height: 3.5em;
+  margin: -1.75em 0 0;
+  padding: 0 1.3em;
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  opacity: 0;
-  transform: translateY(-0.8em);
-  transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out);
+  box-shadow:
+    inset 0.05em 0.05em 0 rgba(255, 255, 255, 0.8),
+    0 0.5em 1.8em rgba(14, 15, 12, 0.14);
+  transition: top 800ms var(--ease-out), margin 800ms var(--ease-out), height 800ms var(--ease-out);
 }
-.scene--glass.s-app .sx-search { opacity: 1; transform: none; }
+.sx-search--hero svg { width: 1.3em; height: 1.3em; }
+.sx-search--hero .sx-type { font-size: 1.1em; }
+/* The placeholder is long; it sits a step under the typed words. */
+.sx-search--hero .sx-type:empty::before { font-size: 0.84em; }
+.s-up .sx-search--hero { top: 3.6em; margin-top: 0; height: 3em; }
 
-.sx-results { margin-top: 1.1em; padding-right: 1.5em; }
+.sx-results {
+  position: absolute;
+  top: 7.6em;
+  left: 1.2em;
+  right: 1.2em;
+}
 .sx-result {
   display: flex;
   align-items: center;
   gap: 0.85em;
-  margin-top: 0.75em;
-  padding: 0.6em;
+  margin-top: 0.7em;
+  padding: 0.55em;
   border-radius: 1.45em;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(18px) saturate(1.4);
@@ -582,21 +584,102 @@
   transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
 }
 .s-results .sx-result { opacity: 1; transform: none; }
-.s-results .sx-result + .sx-result { transition-delay: 120ms; }
+.s-results .sx-result:nth-child(2) { transition-delay: 110ms; }
+.s-results .sx-result:nth-child(3) { transition-delay: 220ms; }
 .sx-result__photo {
   position: relative;
   flex: none;
-  width: 6.2em;
-  height: 6.2em;
+  width: 6em;
+  height: 6em;
   border-radius: 1em;
   overflow: hidden;
 }
-.sx-result__photo .sx-pill { position: absolute; top: 0.5em; left: 0.5em; }
+.sx-result__photo .sx-pill { position: absolute; top: 0.45em; left: 0.45em; }
 .sx-result .sx-title { margin: 0 !important; padding: 0; font-size: 0.95em; }
 .sx-result .sx-line { margin-top: 0.25em !important; line-height: 1.35; }
 
-.scene--glass.s-out .sx-frost,
-.scene--glass.s-out .scene__app--clear { opacity: 0; transform: none; filter: none; }
+/* The success screen, after Cash App's: a white sheet with a close
+   button and a title bar, a big line, the picture in a rounded frame,
+   and the saving in a panel along the foot. Its parts land in turn. */
+.sx-success {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.3em;
+  background: #FFFFFF;
+  border-radius: calc(var(--phone-h) * 0.063) calc(var(--phone-h) * 0.063) 0 0;
+  transform: translateY(103%);
+  transition: transform 850ms var(--ease-out);
+}
+.s-success .sx-success { transform: none; }
+.sx-success .sx-status { margin: 0 -1.3em; padding-left: 1.7em; }
+.sx-nav {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.8em;
+  margin-top: 0.3em;
+}
+.sx-nav p { font-size: 0.85em; font-weight: 600; }
+.sx-close {
+  position: absolute;
+  left: -0.2em;
+  display: grid;
+  place-items: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.12);
+}
+.sx-close svg {
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: var(--sx-title);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+.sx-cheer {
+  margin-top: 1.1em !important;
+  font-size: 1.75em;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  opacity: 0;
+  transform: translateY(0.6em);
+  transition: opacity 500ms var(--ease-out) 300ms, transform 700ms var(--ease-out) 300ms;
+}
+.sx-frame {
+  align-self: center;
+  width: 13em;
+  height: 17em;
+  margin: auto 0;
+  border-radius: 1.9em;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.85) rotate(-4deg);
+  transition: opacity 500ms var(--ease-out) 450ms, transform 900ms var(--ease-out) 450ms;
+}
+.sx-benefit {
+  margin: 0 -0.75em 0.55em;
+  padding: 1.25em 1.3em 1.6em;
+  border-radius: 1.6em;
+  background: #F2F1EF;
+  opacity: 0;
+  transform: translateY(2em);
+  transition: opacity 500ms var(--ease-out) 650ms, transform 800ms var(--ease-out) 650ms;
+}
+.sx-benefit p { font-size: 1.3em; font-weight: 600; letter-spacing: -0.02em; }
+.sx-benefit b { font-weight: 700; color: var(--sx-green); }
+.s-success .sx-cheer,
+.s-success .sx-benefit { opacity: 1; transform: none; }
+.s-success .sx-frame { opacity: 1; transform: none; }
+
+.scene--glass.s-out .scene__app--clear { opacity: 0; }
 
 /* -- Chapter 2, second screen: answers for Winnie ------------------- */
 
