@@ -320,9 +320,9 @@ window.EthoScenes = (() => {
     },
 
     // Chapter 2, second screen — Winnie, a Dachshund with a sore back.
-    // The page rises, "Pain management for Winnie" is typed into the
+    // The page rises, "Winnie has hip pain" is typed into the
     // search, and the answers come in: three therapies near her, the
-    // first at 15% off, then two products picked for her back.
+    // first at 15% off, then two products picked for her hips.
     winnie: {
       loopAt: 12000,
       script({ at, on, off, target, type }) {
