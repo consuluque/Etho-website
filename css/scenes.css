@@ -93,15 +93,15 @@
 .sx-hello {
   display: flex;
   align-items: center;
-  gap: 0.6em;
-  margin-top: 3em;
+  gap: 0.55em;
+  margin-top: 1.6em;
 }
-.sx-hello .sx-line { margin: 0 !important; font-size: 0.95em; font-weight: 600; }
+.sx-hello .sx-line { margin: 0 !important; font-size: 0.85em; font-weight: 600; }
 .sx-avatar {
   position: relative;
   flex: none;
-  width: 2.3em;
-  height: 2.3em;
+  width: 2em;
+  height: 2em;
 }
 .sx-avatar img { border-radius: 50%; }
 /* The unread dot, lifted off the photo by a ring of the page. */
@@ -118,37 +118,46 @@
 }
 
 .sx-headline {
-  margin-top: 0.45em !important;
-  font-size: 2.35em;
+  margin-top: 0.5em !important;
+  font-size: 1.6em;
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.sx-heading {
+  margin-top: 1.5em !important;
+  font-size: 1.05em;
+  font-weight: 700;
+  color: #464646;
 }
 
 /* One row of large photo cards, the next peeking past the edge. Each
    comes up a beat after the one before. */
 .sx-rail {
   display: flex;
-  gap: 0.9em;
-  margin-top: 1.6em;
+  gap: 0.85em;
+  margin-top: 1em;
 }
+.sx-rail--small { gap: 0.8em; margin-top: 0.75em; }
 /* The row the cursor scrolls: scenes.js drags and flings it by its
    transform, so it never reflows. */
 .sx-rail[data-scroll] { will-change: transform; }
 .sx-card {
   flex: none;
-  width: 15em;
+  width: 10.2em;
   opacity: 0;
   transform: translateY(1.6em);
   transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
 }
 .s-app .sx-card { opacity: 1; transform: none; transition-delay: 380ms; }
 .s-app .sx-card:nth-child(1) { transition-delay: 250ms; }
+.sx-rail--small .sx-card { width: 7.4em; }
+.s-app .sx-rail--small .sx-card { transition-delay: 480ms; }
 
 .sx-photo {
   position: relative;
-  height: 20.5em;
-  border-radius: 1.6em;
+  height: 11.6em;
+  border-radius: 1.2em;
   overflow: hidden;
   background: var(--sx-top);
   box-shadow: var(--sx-shadow);
@@ -156,10 +165,11 @@
 }
 .sx-photo .sx-pill {
   position: absolute;
-  top: 0.75em;
-  right: 0.75em;
-  font-size: 0.8em;
+  top: 0.7em;
+  right: 0.7em;
 }
+.sx-rail--small .sx-photo { height: 7.6em; border-radius: 1em; }
+.sx-rail--small .sx-photo .sx-pill { top: 0.55em; right: 0.55em; }
 /* While the row is in flight its cards draw in a little, and swell
    back as it comes to rest: the fun part of the fling. */
 .s-fling .sx-photo { transform: scale(0.92); }
@@ -177,7 +187,7 @@
   position: relative;
   display: flex;
   gap: 0.5em;
-  margin-top: 1.5em;
+  margin-top: 1em;
   padding-left: 0.2em;
 }
 .sx-dots span,
@@ -211,9 +221,9 @@
 }
 
 .sx-title {
-  margin-top: 0.75em !important;
+  margin-top: 0.65em !important;
   padding-left: 0.2em;
-  font-size: 1.05em;
+  font-size: 0.9em;
   font-weight: 700;
 }
 .sx-line {
@@ -225,7 +235,7 @@
 .sx-line--price {
   margin-top: 0.1em !important;
   padding-left: 0.25em;
-  font-size: 0.95em;
+  font-size: 0.85em;
   font-weight: 700;
   color: var(--sx-title);
 }

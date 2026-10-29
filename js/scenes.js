@@ -165,7 +165,7 @@ window.EthoScenes = (() => {
         at(5850, () => press(true));
         at(6000, () => {
           on('fling');
-          drag(rail, -em(6), 320);
+          drag(rail, -em(5), 320);
           scrollTo(dot, em(0.85 * 0.4), 320, 'cubic-bezier(0.5, 0, 1, 1)');
         });
         // Let go: the fling carries the row on and eases to a stop with
