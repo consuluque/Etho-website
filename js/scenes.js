@@ -158,22 +158,15 @@ window.EthoScenes = (() => {
         const total = root.querySelector('[data-scene-count]');
         const rail = root.querySelector('[data-scroll="picked"]');
         const wash = target('wash');
-        const dot = root.querySelector('[data-scroll="dots"]');
-        const pick = [...rail.children].indexOf(wash);
         at(3800, () => on('app'));
         at(5000, () => { on('cursor'); glide(rail.children[0], 750, 0.75, 0.4); });
         at(5850, () => press(true));
-        at(6000, () => {
-          on('fling');
-          drag(rail, -em(5), 320);
-          scrollTo(dot, em(0.85 * 0.4), 320, 'cubic-bezier(0.5, 0, 1, 1)');
-        });
+        at(6000, () => { on('fling'); drag(rail, -em(5), 320); });
         // Let go: the fling carries the row on and eases to a stop with
         // the wash & dry exactly where the first card started.
         at(6320, () => {
           press(false);
           scrollTo(rail, rail.children[0].offsetLeft - wash.offsetLeft, 1600, 'cubic-bezier(0.05, 0.75, 0.15, 1)');
-          scrollTo(dot, em(0.85 * pick), 1600, 'cubic-bezier(0.05, 0.75, 0.15, 1)');
         });
         at(7350, () => { off('fling'); on('pick'); });
         at(8100, () => glide(wash, 650, 0.5, 0.42));

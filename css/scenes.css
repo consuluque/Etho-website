@@ -125,7 +125,7 @@
   letter-spacing: -0.02em;
 }
 .sx-heading {
-  margin-top: 1.5em !important;
+  margin-top: 2.1em !important;
   font-size: 1.05em;
   font-weight: 700;
   color: #464646;
@@ -178,32 +178,6 @@
 @keyframes sx-hop {
   35% { transform: translateY(-0.35em) scale(1.12); }
   100% { transform: none; }
-}
-
-/* Page dots under the row, one per card. The dark one is a separate
-   mark that scenes.js runs along with the row, so it races ahead in
-   the fling and lands on the picked card's dot. */
-.sx-dots {
-  position: relative;
-  display: flex;
-  gap: 0.5em;
-  margin-top: 1em;
-  padding-left: 0.2em;
-}
-.sx-dots span,
-.sx-dots i {
-  flex: none;
-  width: 0.35em;
-  height: 0.35em;
-  border-radius: 50%;
-  background: rgba(14, 15, 12, 0.16);
-}
-.sx-dots i {
-  position: absolute;
-  top: 0;
-  left: 0.2em;
-  background: var(--sx-title);
-  will-change: transform;
 }
 
 /* The offer pill: the app's one solid black shape, so the saving is
