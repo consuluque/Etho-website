@@ -134,11 +134,47 @@ window.EthoScenes = (() => {
       if (played) played.catch(() => {});
     };
 
+    // The closing film is fetched whole while the scene plays, and then
+    // played from memory, so a slow connection can never stall it
+    // midway (a browser's "can play through" is only a guess). Fetched
+    // once per page; if the fetch fails the film streams as usual.
+    let fetched = null;
+    const fetchWhole = () => {
+      if (!outro) return Promise.resolve();
+      if (!fetched) {
+        fetched = fetch(outro.currentSrc || outro.src)
+          .then((r) => (r.ok ? r.blob() : Promise.reject(r.status)))
+          .then((blob) => {
+            outro.src = URL.createObjectURL(blob);
+            outro.load();
+          })
+          .catch(() => {});
+      }
+      return fetched;
+    };
+    // Runs fn once the closing film is in memory: the scene holds its
+    // last screen meanwhile. After maxMs it goes anyway, and the film's
+    // still (its first frame) stands in until frames arrive.
+    const whenReady = (fn, maxMs = 6000) => {
+      let done = false;
+      const go = () => {
+        if (done || !playing) return;
+        done = true;
+        fn();
+      };
+      fetchWhole().then(go);
+      at(maxMs, go);
+    };
+
     // Which round this is: 1 on arrival, then counting up as it loops.
     let round = 0;
+    // Starts the next round ms from now, for a scene whose length is not
+    // fixed (one that waits on its film); others loop at loopAt.
+    let again = () => {};
 
     const verbs = {
-      at, on, off, now, target, glide, park, press, tap, drag, scrollTo, type, em, count, roll, root,
+      at, on, off, now, target, glide, park, press, tap, drag, scrollTo, type, em, count, roll, whenReady, root,
+      again: (ms) => again(ms),
       get first() { return round === 1; },
     };
 
@@ -173,14 +209,16 @@ window.EthoScenes = (() => {
       round += 1;
       replay();
       script(verbs);
-      at(loopAt, () => { reset(); run(); });
+      if (loopAt) at(loopAt, () => { reset(); run(); });
     };
+    again = (ms) => at(ms, () => { reset(); run(); });
 
     return {
       play() {
         if (playing) return;
         playing = true;
         round = 0;
+        fetchWhole();
         reset();
         if (reduced.matches) {
           root.classList.add('is-resetting');
@@ -209,9 +247,10 @@ window.EthoScenes = (() => {
   // his bath.
   const scripts = {
     groom: {
-      loopAt: 21500,
+      // No fixed length: the round ends 6s after the Samoyed starts.
+      loopAt: null,
       script(t) {
-        const { at, on, off, now, target, glide, press, tap, drag, scrollTo, em, count, roll, root } = t;
+        const { at, on, off, now, target, glide, press, tap, drag, scrollTo, em, count, roll, whenReady, again, root } = t;
         // The row draws its cards in while in flight (s-fling) and the
         // picked card's offer hops once it lands (s-pick).
         const total = root.querySelector('[data-scene-count]');
@@ -239,7 +278,9 @@ window.EthoScenes = (() => {
         at(11500, () => glide(target('confirm'), 700, 0.5, 0.55));
         at(12350, () => tap(target('confirm'), () => on('done')));
         at(12950, () => off('cursor'));
-        at(15500, () => { on('out'); roll(); });
+        // Once the Samoyed can play through, everything drops away and
+        // he shakes off his bath; the next round rises over his grin.
+        at(15500, () => whenReady(() => { on('out'); roll(); again(6000); }));
       },
       finalState({ on, root }) {
         on('app', 'sheet', 'extras', 'photo', 'dental', 'done');

@@ -86,16 +86,6 @@
 /* Behind a sheet the page frosts and dims, as under the app's sheets. */
 .s-sheet .scene__app { filter: blur(4px) brightness(0.88); }
 
-.sx-status {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 2.6em;
-  padding: 0.5em 1.7em 0 0.4em;
-}
-.sx-status span { font-size: 0.8em; font-weight: 700; }
-/* Signal, wi-fi and battery. */
-.sx-status svg { width: 3.4em; height: auto; fill: currentColor; }
 
 /* The app's own header: the greeting on the left, Hector's photo with
    its unread dot on the right. */
@@ -103,7 +93,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.1em;
+  margin-top: 3em;
   padding-right: 1.5em;
 }
 .sx-greeting {
@@ -558,11 +548,11 @@
 .sx-search--hero .sx-type { font-size: 1.1em; }
 /* The placeholder is long; it sits a step under the typed words. */
 .sx-search--hero .sx-type:empty::before { font-size: 0.84em; }
-.s-up .sx-search--hero { top: 3.6em; margin-top: 0; height: 3em; }
+.s-up .sx-search--hero { top: 2.4em; margin-top: 0; height: 3em; }
 
 .sx-results {
   position: absolute;
-  top: 7.6em;
+  top: 6.4em;
   left: 1.2em;
   right: 1.2em;
 }
@@ -616,14 +606,13 @@
   transition: transform 850ms var(--ease-out);
 }
 .s-success .sx-success { transform: none; }
-.sx-success .sx-status { margin: 0 -1.3em; padding-left: 1.7em; }
 .sx-nav {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 2.8em;
-  margin-top: 0.3em;
+  margin-top: 1.5em;
 }
 .sx-nav p { font-size: 0.85em; font-weight: 600; }
 .sx-close {

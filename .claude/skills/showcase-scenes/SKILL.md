@@ -28,6 +28,8 @@ otherwise.
 
 ## The look
 
+- **No iPhone status bar** (time, signal, battery). The owner removed
+  it; screens start with their header.
 - **Simplified, never a copy.** The scene is built from the app's pieces
   but is not a real screen: no tab bar, no search bar, no screen the
   owner hasn't chosen to show. It must not hand competitors the real UI.
@@ -251,6 +253,15 @@ its UI and ends on the Samoyed shaking off his bath.
   with `roll()`.
 - It plays once and holds its last frame. The next round's UI rises over
   that frame.
+- The scene fetches it whole while the UI plays and plays it from
+  memory, so a slow connection can't stall it midway. A browser's "can
+  play through" is only a guess: it stalled at 80 KB/s in testing.
+  - Wrap the drop-away in `whenReady(fn)`, which holds the last screen
+    until the film is in memory (6s at most).
+  - Start the next round with `again(ms)` from there (`loopAt: null`).
+- Keep the file small: 720×1280 at CRF 24 is plenty for the frame. The
+  Samoyed went from 1.4 MB to 580 KB with no visible loss. Never use a
+  GIF: it's larger and worse.
 - The slide's still should be the film's first frame, so the drop-away
   reveals the right picture before the film is running.
 
