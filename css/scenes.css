@@ -819,6 +819,28 @@
 .sx-extra .sx-line--price { padding: 0; }
 
 .sx-benefit--shop { padding: 0.9em; }
+/* The total opens above Shop once the ramp is added: Etho's savings on
+   the booking and the ramp, counted up in the app's green. */
+.sx-total {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 600ms var(--ease-out);
+}
+.sx-total > p {
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 0.3em;
+  font-size: 1.15em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out) 200ms, padding 600ms var(--ease-out);
+}
+.sx-total b { font-size: 1.35em; font-weight: 700; color: var(--sx-green); font-variant-numeric: tabular-nums; }
+.s-total .sx-total { grid-template-rows: 1fr; }
+.s-total .sx-total > p { opacity: 1; padding: 0.15em 0.3em 0.75em; }
 .sx-benefit--shop .sx-button {
   position: relative;
   margin: 0;

@@ -327,11 +327,12 @@ window.EthoScenes = (() => {
     // the screen, hydrotherapy at 15% off. The cursor books it, a
     // confirmation slides up (like the puppy's success screen) offering
     // "The little extras matter", and the cursor picks the dog ramp and
-    // taps Shop.
+    // taps Shop; the total Etho saving opens above it.
     winnie: {
       loopAt: null,
-      script({ at, on, off, target, glide, tap, type, roll, whenReady, again }) {
+      script({ at, on, off, target, glide, tap, type, count, roll, whenReady, again, root }) {
         const field = target('search').querySelector('[data-type]');
+        const saved = root.querySelector('[data-scene-count]');
         whenReady(() => {
           roll();
           at(1300, () => on('bar'));
@@ -348,11 +349,17 @@ window.EthoScenes = (() => {
           at(11400, () => glide(target('shop'), 750, 0.5, 0.55));
           at(12350, () => tap(target('shop'), () => on('shop')));
           at(13000, () => off('cursor'));
+          // Then the total opens: $21 off the ramp, 15% off an $80 swim.
+          at(13300, () => on('total'));
+          at(13700, () => count(saved, 33, 900));
           at(16900, () => on('out'));
           again(18000);
         });
       },
-      finalState({ on }) { on('bar', 'frost', 'app', 'up', 'list', 'success', 'ramp', 'shop'); },
+      finalState({ on, root }) {
+        on('bar', 'frost', 'app', 'up', 'list', 'success', 'ramp', 'shop', 'total');
+        root.querySelector('[data-scene-count]').textContent = '$33';
+      },
     },
   };
 
