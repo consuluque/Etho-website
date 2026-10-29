@@ -319,20 +319,26 @@ window.EthoScenes = (() => {
       },
     },
 
-    // Chapter 2, second screen — Winnie, a Dachshund with a sore back.
-    // The page rises, "Winnie has hip pain" is typed into the
-    // search, and the answers come in: three therapies near her, the
-    // first at 15% off, then two products picked for her hips.
+    // Chapter 2, second screen — Winnie, a Dachshund with sore hips.
+    // She steps down the sofa stairs (the film, rolled once it is in
+    // memory); as she reaches the bottom the page rises over her, "Winnie
+    // has hip pain" is typed into the search, and the answers come in:
+    // three therapies near her, the first at 15% off, then two products
+    // picked for her hips. It all drops away and she walks down again.
     winnie: {
-      loopAt: 12000,
-      script({ at, on, off, target, type }) {
+      loopAt: null,
+      script({ at, on, off, target, type, roll, whenReady, again }) {
         const field = target('search').querySelector('[data-type]');
-        at(1200, () => on('app'));
-        at(2400, () => { on('typing'); type(field, 50); });
-        at(3900, () => { off('typing'); on('svcs'); });
-        at(5000, () => on('products'));
-        at(5600, () => on('pick'));
-        at(11000, () => on('out'));
+        whenReady(() => {
+          roll();
+          at(4300, () => on('app'));
+          at(5500, () => { on('typing'); type(field, 55); });
+          at(6700, () => { off('typing'); on('svcs'); });
+          at(7900, () => on('products'));
+          at(8500, () => on('pick'));
+          at(14500, () => on('out'));
+          again(15300);
+        });
       },
       finalState({ on }) { on('app', 'svcs', 'products'); },
     },

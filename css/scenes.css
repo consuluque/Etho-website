@@ -687,12 +687,12 @@
 .s-svcs .sx-subhead:first-of-type,
 .s-products .sx-subhead { opacity: 1; }
 
-.sx-svcs { margin-top: 0.35em; padding-right: 1.5em; }
+.sx-svcs { margin-top: 0.45em; padding-right: 1.5em; }
 .sx-svc {
   display: flex;
   align-items: center;
-  gap: 0.75em;
-  padding: 0.5em 0;
+  gap: 0.9em;
+  padding: 0.65em 0;
   border-bottom: 1px solid var(--sx-rule);
   opacity: 0;
   transform: translateY(1em);
@@ -703,19 +703,19 @@
 .s-svcs .sx-svc:nth-child(3) { transition-delay: 180ms; }
 .sx-svc__photo {
   flex: none;
-  width: 3.3em;
-  height: 3.3em;
-  border-radius: 0.8em;
+  width: 4.7em;
+  height: 4.7em;
+  border-radius: 1em;
   overflow: hidden;
 }
 /* Each therapy's photo holds on its dog; the Pilates dog sits small
    on the reformer, so that crop steps in. */
 .sx-svc img.sx-focus-hydro { object-position: 42% 40%; }
 .sx-svc img.sx-focus-redlight { object-position: 88% 60%; }
-.sx-svc img.sx-focus-pilates { object-position: 50% 85%; transform: scale(2.2); transform-origin: 47% 58%; }
+.sx-svc img.sx-focus-pilates { object-position: 50% 80%; transform: scale(1.6); transform-origin: 47% 60%; }
 .sx-svc > div { flex: 1; min-width: 0; }
-.sx-svc .sx-title { margin: 0 !important; padding: 0; }
-.sx-svc .sx-line { margin-top: 0.1em !important; }
+.sx-svc .sx-title { margin: 0 !important; padding: 0; font-size: 1em; }
+.sx-svc .sx-line { margin-top: 0.15em !important; font-size: 0.86em; }
 
 .sx-products {
   display: flex;
@@ -732,25 +732,14 @@
 }
 .s-products .sx-product { opacity: 1; transform: none; }
 .s-products .sx-product + .sx-product { transition-delay: 100ms; }
-/* Stand-ins until the products' own photos arrive: a drawn ramp and
-   feeder on the app's warm grey. */
 .sx-product__tile {
-  display: grid;
-  place-items: center;
-  height: 6.4em;
-  border-radius: 1.1em;
+  height: 8.6em;
+  border-radius: 1.2em;
+  overflow: hidden;
   background: #EFEDE8;
 }
-.sx-product__tile svg {
-  width: 3.4em;
-  height: auto;
-  fill: none;
-  stroke: #9A958C;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.sx-product .sx-title { margin-top: 0.55em !important; padding: 0; font-size: 0.88em; }
+.sx-product__tile img.sx-focus-feeder { object-position: 45% 70%; }
+.sx-product .sx-title { margin-top: 0.6em !important; padding: 0; font-size: 0.95em; }
 .sx-product .sx-line--price { padding: 0; }
 
 /* -- The cursor ----------------------------------------------------- */
