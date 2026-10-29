@@ -230,7 +230,7 @@
   grid-area: 1 / 1;
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 520ms var(--ease), transform 520ms var(--ease);
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
   will-change: transform, opacity;
 }
 .showcase__col > .is-active {

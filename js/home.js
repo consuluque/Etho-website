@@ -170,9 +170,12 @@ function initShowcase(root) {
       if (reduced.matches) return k <= active ? 1 : 0;
       return Math.min(1, Math.max(0, (progress - (k - SLIDE_SPAN)) / SLIDE_SPAN));
     };
+    // A strong ease-out on top of the scroll: the still covers most of
+    // the way early in the span, then settles gently into place.
+    const eased = (f) => 1 - Math.pow(1 - f, 4);
     slides.forEach((slide, k) => {
       if (k === 0) return;
-      const f = arrived(k);
+      const f = eased(arrived(k));
       slide.style.transform = f >= 1 ? 'none' : 'translateY(' + ((1 - f) * 100).toFixed(2) + '%)';
     });
     // The text follows the still, but on a clock: once a still is
