@@ -177,9 +177,10 @@
 /* ---------------------------------------------------------------
    Product story — one phone, three chapters
 
-   The section is four screens tall. Its stage sticks to the top of
-   the viewport for the first three of them, while the three trigger
-   blocks that follow it in flow scroll past underneath; home.js sets
+   The section is one screen taller than it has slides (one per
+   chapter for now; a chapter can hold more, see data-showcase-chapter). Its stage sticks to the top of the viewport
+   while the trigger blocks, one per slide, that follow it in flow
+   scroll past underneath; home.js sets
    data-showcase-active from whichever trigger is in view. The stage
    then scrolls away with the fourth screen, so the footer arrives the
    way any section does.

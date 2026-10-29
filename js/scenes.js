@@ -101,7 +101,82 @@ window.EthoScenes = (() => {
       requestAnimationFrame(step);
     };
 
-    const verbs = { at, on, off, target, glide, park, press, tap, drag, scrollTo, em, count, root };
+    // Types an element's data-type into it, a letter every ms, as into
+    // a search field; the caret shows while s-typing is on.
+    const type = (el, ms = 55) => {
+      const text = [...el.dataset.type];
+      let n = 0;
+      const next = () => {
+        if (!playing) return;
+        n += 1;
+        el.textContent = text.slice(0, n).join('');
+        if (n < text.length) at(ms, next);
+      };
+      next();
+    };
+
+    // Puts states on with no transition, as if they had always been
+    // there: a scene that opens on its UI shows it from the first frame.
+    const now = (...names) => {
+      root.classList.add('is-resetting');
+      on(...names);
+      void root.offsetWidth;
+      root.classList.remove('is-resetting');
+    };
+
+    // The chapter's closing film (data-outro), run from its start by
+    // roll(); it holds its last frame until the next round's UI rises.
+    const outro = root.parentElement.querySelector('video[data-outro]');
+    const roll = () => {
+      if (!outro) return;
+      try { outro.currentTime = 0; } catch (e) { /* not loaded yet: at 0 */ }
+      const played = outro.play();
+      if (played) played.catch(() => {});
+    };
+
+    // The closing film is fetched whole while the scene plays, and then
+    // played from memory, so a slow connection can never stall it
+    // midway (a browser's "can play through" is only a guess). Fetched
+    // once per page; if the fetch fails the film streams as usual.
+    let fetched = null;
+    const fetchWhole = () => {
+      if (!outro) return Promise.resolve();
+      if (!fetched) {
+        fetched = fetch(outro.currentSrc || outro.src)
+          .then((r) => (r.ok ? r.blob() : Promise.reject(r.status)))
+          .then((blob) => {
+            outro.src = URL.createObjectURL(blob);
+            outro.load();
+          })
+          .catch(() => {});
+      }
+      return fetched;
+    };
+    // Runs fn once the closing film is in memory: the scene holds its
+    // last screen meanwhile. After maxMs it goes anyway, and the film's
+    // still (its first frame) stands in until frames arrive.
+    const whenReady = (fn, maxMs = 6000) => {
+      let done = false;
+      const go = () => {
+        if (done || !playing) return;
+        done = true;
+        fn();
+      };
+      fetchWhole().then(go);
+      at(maxMs, go);
+    };
+
+    // Which round this is: 1 on arrival, then counting up as it loops.
+    let round = 0;
+    // Starts the next round ms from now, for a scene whose length is not
+    // fixed (one that waits on its film); others loop at loopAt.
+    let again = () => {};
+
+    const verbs = {
+      at, on, off, now, target, glide, park, press, tap, drag, scrollTo, type, em, count, roll, whenReady, root,
+      again: (ms) => again(ms),
+      get first() { return round === 1; },
+    };
 
     // Back to the first frame with nothing animating on the way.
     const reset = () => {
@@ -112,6 +187,7 @@ window.EthoScenes = (() => {
       root.querySelectorAll('.is-pressed, .is-bump').forEach((el) => el.classList.remove('is-pressed', 'is-bump'));
       root.querySelectorAll('[data-scene-count]').forEach((el) => { el.textContent = el.dataset.sceneCountFrom; });
       root.querySelectorAll('[data-scroll]').forEach((el) => { el.style.transition = ''; el.style.transform = ''; });
+      root.querySelectorAll('[data-type]').forEach((el) => { el.textContent = ''; });
       cursor.style.setProperty('--press', '1');
       park();
       void root.offsetWidth;
@@ -130,18 +206,23 @@ window.EthoScenes = (() => {
     };
 
     const run = () => {
+      round += 1;
       replay();
       script(verbs);
-      at(loopAt, () => { reset(); run(); });
+      if (loopAt) at(loopAt, () => { reset(); run(); });
     };
+    again = (ms) => at(ms, () => { reset(); run(); });
 
     return {
       play() {
         if (playing) return;
         playing = true;
+        round = 0;
+        fetchWhole();
         reset();
         if (reduced.matches) {
           root.classList.add('is-resetting');
+          root.querySelectorAll('[data-type]').forEach((el) => { el.textContent = el.dataset.type; });
           finalState(verbs);
           return;
         }
@@ -155,51 +236,105 @@ window.EthoScenes = (() => {
     };
   }
 
-  // Chapter 1 — grooming, for Hector. The film plays alone for a few
-  // seconds, then a simplified home rises over it. The cursor swipes
-  // "Picked for Hector" and lets go; the row flies past more picks
-  // than can be read and settles with the wash & dry, at 20% off,
-  // first in view. The cursor opens it, books it for Saturday, ticks a $20
-  // post-groom photo (the total counts up) and a free dental check,
-  // and confirms. "Booked" and the saving hold, everything drops away,
-  // and the film has the screen again before the next round.
+  // Chapter 1 — grooming, for Hector. The scene opens the chapter:
+  // "Picked for Hector" is on screen from the first frame (later rounds
+  // rise over the film's last frame). The cursor swipes the row and
+  // lets go; it flies past more picks than can be read and settles with
+  // the wash & dry, at 20% off, first in view. The cursor opens it,
+  // books it for Saturday, ticks a $20 post-groom photo (the total
+  // counts up) and a free dental check, and confirms. "Booked" and the
+  // saving hold, then everything drops away and the Samoyed shakes off
+  // his bath.
   const scripts = {
     groom: {
-      loopAt: 20500,
-      script({ at, on, off, target, glide, press, tap, drag, scrollTo, em, count, root }) {
+      // No fixed length: the round ends 6s after the Samoyed starts.
+      loopAt: null,
+      script(t) {
+        const { at, on, off, now, target, glide, press, tap, drag, scrollTo, em, count, roll, whenReady, again, root } = t;
         // The row draws its cards in while in flight (s-fling) and the
         // picked card's offer hops once it lands (s-pick).
         const total = root.querySelector('[data-scene-count]');
         const rail = root.querySelector('[data-scroll="picked"]');
         const wash = target('wash');
-        at(3800, () => on('app'));
-        at(5000, () => { on('cursor'); glide(rail.children[0], 750, 0.75, 0.4); });
-        at(5850, () => press(true));
-        at(6000, () => { on('fling'); drag(rail, -em(5), 320); });
+        if (t.first) now('app'); else at(0, () => on('app'));
+        at(1700, () => { on('cursor'); glide(rail.children[0], 750, 0.75, 0.4); });
+        at(2550, () => press(true));
+        at(2700, () => { on('fling'); drag(rail, -em(5), 320); });
         // Let go: the fling carries the row on and eases to a stop with
         // the wash & dry exactly where the first card started.
-        at(6320, () => {
+        at(3020, () => {
           press(false);
           scrollTo(rail, rail.children[0].offsetLeft - wash.offsetLeft, 1600, 'cubic-bezier(0.05, 0.75, 0.15, 1)');
         });
-        at(7350, () => { off('fling'); on('pick'); });
-        at(8100, () => glide(wash, 650, 0.5, 0.42));
-        at(8900, () => tap(wash, () => on('sheet')));
-        at(9950, () => glide(target('book'), 750, 0.5, 0.55));
-        at(10900, () => tap(target('book'), () => on('extras')));
-        at(11800, () => glide(target('photo').querySelector('.sx-check'), 750));
-        at(12700, () => tap(target('photo'), () => { on('photo'); count(total, 116); }));
-        at(13400, () => glide(target('dental').querySelector('.sx-check'), 550));
-        at(14100, () => tap(target('dental'), () => on('dental')));
-        at(14800, () => glide(target('confirm'), 700, 0.5, 0.55));
-        at(15650, () => tap(target('confirm'), () => on('done')));
-        at(16250, () => off('cursor'));
-        at(19500, () => on('out'));
+        at(4050, () => { off('fling'); on('pick'); });
+        at(4800, () => glide(wash, 650, 0.5, 0.42));
+        at(5600, () => tap(wash, () => on('sheet')));
+        at(6650, () => glide(target('book'), 750, 0.5, 0.55));
+        at(7600, () => tap(target('book'), () => on('extras')));
+        at(8500, () => glide(target('photo').querySelector('.sx-check'), 750));
+        at(9400, () => tap(target('photo'), () => { on('photo'); count(total, 116); }));
+        at(10100, () => glide(target('dental').querySelector('.sx-check'), 550));
+        at(10800, () => tap(target('dental'), () => on('dental')));
+        at(11500, () => glide(target('confirm'), 700, 0.5, 0.55));
+        at(12350, () => tap(target('confirm'), () => on('done')));
+        at(12950, () => off('cursor'));
+        // Once the Samoyed can play through, everything drops away and
+        // he shakes off his bath; the next round rises over his grin.
+        at(15500, () => whenReady(() => { on('out'); roll(); again(6000); }));
       },
       finalState({ on, root }) {
         on('app', 'sheet', 'extras', 'photo', 'dental', 'done');
         root.querySelector('[data-scene-count]').textContent = '$116';
       },
+    },
+
+    // Chapter 2, first screen — training a puppy. A large search sits
+    // in the middle of frosted glass. "Train my puppy…" is typed into
+    // it, the bar rises, and three answers come in on glass: puppy
+    // school 200m away at 25% off (its offer hops), the puppy parents'
+    // Wednesday meetup, and group training at 30% off. The cursor taps
+    // puppy school, and a success screen slides up, "A+ for your pup.
+    // Perks for you.", with the month's saving counting up to $120. It slides away, the bar settles
+    // back in the middle, and the round starts over.
+    puppy: {
+      loopAt: 13600,
+      script({ at, on, off, target, glide, tap, type, count, root }) {
+        const field = target('search').querySelector('[data-type]');
+        const saved = root.querySelector('[data-scene-count]');
+        const school = target('school');
+        at(900, () => { on('typing'); type(field, 65); });
+        at(2200, () => { off('typing'); on('up'); });
+        at(2900, () => on('results'));
+        at(3700, () => on('pick'));
+        at(4500, () => { on('cursor'); glide(school, 850, 0.55, 0.5); });
+        at(5550, () => tap(school));
+        at(5800, () => { on('success'); off('cursor'); });
+        at(6800, () => count(saved, 120, 900));
+        at(11800, () => off('success'));
+        at(12500, () => off('results', 'pick', 'up'));
+      },
+      finalState({ on, root }) {
+        on('up', 'results', 'success');
+        root.querySelector('[data-scene-count]').textContent = '$120';
+      },
+    },
+
+    // Chapter 2, second screen — Winnie, a Dachshund with a sore back.
+    // The page rises, "Pain management for Winnie" is typed into the
+    // search, and the answers come in: three therapies near her, the
+    // first at 15% off, then two products picked for her back.
+    winnie: {
+      loopAt: 12000,
+      script({ at, on, off, target, type }) {
+        const field = target('search').querySelector('[data-type]');
+        at(1200, () => on('app'));
+        at(2400, () => { on('typing'); type(field, 50); });
+        at(3900, () => { off('typing'); on('svcs'); });
+        at(5000, () => on('products'));
+        at(5600, () => on('pick'));
+        at(11000, () => on('out'));
+      },
+      finalState({ on }) { on('app', 'svcs', 'products'); },
     },
   };
 

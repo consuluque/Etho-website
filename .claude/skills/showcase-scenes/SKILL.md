@@ -28,6 +28,8 @@ otherwise.
 
 ## The look
 
+- **No iPhone status bar** (time, signal, battery). The owner removed
+  it; screens start with their header.
 - **Simplified, never a copy.** The scene is built from the app's pieces
   but is not a real screen: no tab bar, no search bar, no screen the
   owner hasn't chosen to show. It must not hand competitors the real UI.
@@ -55,12 +57,16 @@ otherwise.
   rejected: tiny, detailed UI ("unreadable") and giant UI ("too big,
   grotesque"). What was approved, in the scene's em (below): headline
   1.6em, card titles about 0.9em, lines about 0.82–0.85em, offer pill
-  0.68em, sheet title 1.45em, main photo cards about 10em wide. Nothing
+  0.86em (raised from 0.68em: the owner found it too small to notice), sheet title 1.45em, main photo cards about 10em wide. Nothing
   smaller than about 0.8em.
 - **The savings are always visible.** Offer pill on the photo, a struck
   "was" price beside the real one, and the saving said plainly at the
-  end ("You saved $24").
-- **Copy:** short and warm. The dog is **Hector**. Headings so far:
+  end ("You saved $24"). A success screen, modelled on Cash App's
+  (close button and title bar, a big line, one picture in a rounded
+  frame, the saving counting up in a panel along the foot), is the
+  way to land a scene: see `puppy`.
+- **Copy:** short and warm. The dog is **Hector** in chapter 1; chapter
+  2's second screen is **Winnie**, a Dachshund. Headings so far:
   "Picked for Hector", "Get Hector pampered", "Make it special",
   "Booked". Prices are invented, so ask before treating any as real.
 - **Photos:** real photography, never illustrations. Sources:
@@ -196,6 +202,16 @@ NAME: {
 - `scrollTo(el, x, ms, curve)`: move a row by its transform
 - `em(n)`: convert scene ems to px
 - `count(el, to, ms)`: count a `$` figure up
+- `now(...)`: put states on with no transition, as if always there.
+  Chapter 1 opens on its UI: `if (t.first) now('app'); else at(0, () =>
+  on('app'))`. `t.first` is true on the first round after the chapter
+  arrives; later rounds rise over the film's last frame.
+- `roll()`: play the chapter's closing film (`data-outro`) from its
+  start, usually with `on('out')` as the UI drops away.
+- `type(el, ms)`: type the element's `data-type` text into it, a
+  letter every `ms` (50–60 reads as typing). Turn `s-typing` on for the
+  caret and off when done. Use it on an `.sx-type` inside `.sx-search`;
+  until a letter is in, the bar shows the app's placeholder.
 
 Times are absolute from the start of a round. Plan them as a table
 before writing. Measure positions at the moment of the step, never
@@ -206,6 +222,48 @@ pressed and bump states, counts and scrolled rows, with transitions off.
 `home.js` rewinds the scene whenever its chapter leaves. Under reduced
 motion `finalState` runs with transitions off and no cursor. Every new
 state class must look right when added with no transition.
+
+## Screens without a page
+
+Not every screen rises as a page over a film. Chapter 2's first screen
+(`puppy`, `.scene--glass`) frosts the chapter's photo instead:
+- a blurred copy fades in on top (`.sx-frost`, `s-frost`)
+- the search drops in and answers rise as glass cards (`.sx-result`:
+  white at 70% with `backdrop-filter`)
+- `.scene__app--clear` keeps the page's layout but has no background
+  and does not slide
+
+At the end it fades out rather than dropping away.
+
+## A chapter with more than one screen
+
+A chapter can hold several slides, each with its own screen of scroll
+and its own scene, under the same title and copy. Give every slide a
+`data-showcase-chapter` naming its text (the `data-showcase-text` index).
+Chapter 2 has two: `puppy` (slide 1) and `winnie` (slide 2), both
+`data-showcase-chapter="1"`. Add one `.showcase__trigger` per slide.
+Per-slide CSS keyed on `data-showcase-slide` must be renumbered when
+slides are added.
+
+## Closing films
+
+A film can close the scene instead of opening it. Chapter 1 opens on
+its UI and ends on the Samoyed shaking off his bath.
+- Mark the film `data-outro`. `home.js` never starts it; the scene does,
+  with `roll()`.
+- It plays once and holds its last frame. The next round's UI rises over
+  that frame.
+- The scene fetches it whole while the UI plays and plays it from
+  memory, so a slow connection can't stall it midway. A browser's "can
+  play through" is only a guess: it stalled at 80 KB/s in testing.
+  - Wrap the drop-away in `whenReady(fn)`, which holds the last screen
+    until the film is in memory (6s at most).
+  - Start the next round with `again(ms)` from there (`loopAt: null`).
+- Keep the file small: 720×1280 at CRF 24 is plenty for the frame. The
+  Samoyed went from 1.4 MB to 580 KB with no visible loss. Never use a
+  GIF: it's larger and worse.
+- The slide's still should be the film's first frame, so the drop-away
+  reveals the right picture before the film is running.
 
 ## Intro films
 
@@ -230,6 +288,14 @@ each round.
   ghosts.
 - Bump `?v=` on the film's `src` when replacing a file under the same
   name.
+
+## Shipping
+
+Bump the `?v=` tags on `home.css`, `scenes.css`, `scenes.js` and
+`home.js` in `index.html` with every change to those files. Browsers
+keep the old files otherwise: after the header change, the live site
+served the new markup with the old stylesheet and Hector's photo landed
+in the wrong place.
 
 ## Checking a scene
 

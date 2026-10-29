@@ -74,6 +74,10 @@ function initShowcase(root) {
   const stage = root.querySelector('.showcase__stage');
   const slides = [...root.querySelectorAll('[data-showcase-slide]')];
   const texts = [...root.querySelectorAll('[data-showcase-text]')];
+  // Which title and copy each slide shows. A chapter can span more than
+  // one slide (each its own screen of scroll and its own scene) under
+  // the same text; a slide without the attribute is its own chapter.
+  const chapterOf = (k) => Number(slides[k].dataset.showcaseChapter ?? k);
   const triggers = [...root.querySelectorAll('[data-showcase-trigger]')];
   const films = slides.map((s) => s.querySelector('video'));
   // A chapter can also carry a scene of app UI over its film (see
@@ -97,9 +101,9 @@ function initShowcase(root) {
     // that drops them on a re-parse still gets a silent, control-less
     // backdrop.
     film.muted = true;
-    // A film that opens a scene plays once and holds its last frame
-    // (data-once); the scene restarts it each round.
-    film.loop = !film.hasAttribute('data-once');
+    // A film that opens a scene (data-once) or closes it (data-outro)
+    // plays once and holds its last frame; the scene runs it each round.
+    film.loop = !film.hasAttribute('data-once') && !film.hasAttribute('data-outro');
     film.controls = false;
     film.setAttribute('playsinline', '');
     film.addEventListener('playing', () => { if (i === active) film.classList.add('is-playing'); });
@@ -157,7 +161,7 @@ function initShowcase(root) {
     if (!visible) {
       clearHold();
       stop(film);
-    } else if (film && film.paused && !film.ended && !hold) {
+    } else if (film && film.paused && !film.ended && !film.hasAttribute('data-outro') && !hold) {
       hold = setTimeout(() => { hold = 0; start(film); }, HOLD_MS);
     }
   };
@@ -194,8 +198,9 @@ function initShowcase(root) {
     // The text follows the still, but on a clock: once a still is
     // halfway in, its chapter's text takes over and the change plays
     // out by itself (see .showcase__col in home.css).
+    // A second slide of the same chapter changes the screen only.
     let shown = 0;
-    for (let k = 1; k < slides.length; k += 1) if (arrived(k) >= 0.5) shown = k;
+    for (let k = 1; k < slides.length; k += 1) if (arrived(k) >= 0.5) shown = chapterOf(k);
     if (shown !== shownText) {
       shownText = shown;
       texts.forEach((t) => {
