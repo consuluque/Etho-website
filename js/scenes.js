@@ -101,7 +101,21 @@ window.EthoScenes = (() => {
       requestAnimationFrame(step);
     };
 
-    const verbs = { at, on, off, target, glide, park, press, tap, drag, scrollTo, em, count, root };
+    // Types an element's data-type into it, a letter every ms, as into
+    // a search field; the caret shows while s-typing is on.
+    const type = (el, ms = 55) => {
+      const text = [...el.dataset.type];
+      let n = 0;
+      const next = () => {
+        if (!playing) return;
+        n += 1;
+        el.textContent = text.slice(0, n).join('');
+        if (n < text.length) at(ms, next);
+      };
+      next();
+    };
+
+    const verbs = { at, on, off, target, glide, park, press, tap, drag, scrollTo, type, em, count, root };
 
     // Back to the first frame with nothing animating on the way.
     const reset = () => {
@@ -112,6 +126,7 @@ window.EthoScenes = (() => {
       root.querySelectorAll('.is-pressed, .is-bump').forEach((el) => el.classList.remove('is-pressed', 'is-bump'));
       root.querySelectorAll('[data-scene-count]').forEach((el) => { el.textContent = el.dataset.sceneCountFrom; });
       root.querySelectorAll('[data-scroll]').forEach((el) => { el.style.transition = ''; el.style.transform = ''; });
+      root.querySelectorAll('[data-type]').forEach((el) => { el.textContent = ''; });
       cursor.style.setProperty('--press', '1');
       park();
       void root.offsetWidth;
@@ -142,6 +157,7 @@ window.EthoScenes = (() => {
         reset();
         if (reduced.matches) {
           root.classList.add('is-resetting');
+          root.querySelectorAll('[data-type]').forEach((el) => { el.textContent = el.dataset.type; });
           finalState(verbs);
           return;
         }
@@ -200,6 +216,42 @@ window.EthoScenes = (() => {
         on('app', 'sheet', 'extras', 'photo', 'dental', 'done');
         root.querySelector('[data-scene-count]').textContent = '$116';
       },
+    },
+
+    // Chapter 2, first screen — training a puppy. The room frosts over,
+    // the search drops in and "Train my puppy…" is typed into it, and
+    // two answers rise on glass: puppy school 200m away at 25% off, and
+    // the puppy parents' Wednesday meetup. Its offer hops once it lands.
+    puppy: {
+      loopAt: 9600,
+      script({ at, on, off, target, type }) {
+        const field = target('search').querySelector('[data-type]');
+        at(500, () => on('frost'));
+        at(1300, () => on('app'));
+        at(2000, () => { on('typing'); type(field, 60); });
+        at(3150, () => { off('typing'); on('results'); });
+        at(4000, () => on('pick'));
+        at(8500, () => on('out'));
+      },
+      finalState({ on }) { on('frost', 'app', 'results'); },
+    },
+
+    // Chapter 2, second screen — Winnie, a Dachshund with a sore back.
+    // The page rises, "Pain management for Winnie" is typed into the
+    // search, and the answers come in: three therapies near her, the
+    // first at 15% off, then two products picked for her back.
+    winnie: {
+      loopAt: 12000,
+      script({ at, on, off, target, type }) {
+        const field = target('search').querySelector('[data-type]');
+        at(1200, () => on('app'));
+        at(2400, () => { on('typing'); type(field, 50); });
+        at(3900, () => { off('typing'); on('svcs'); });
+        at(5000, () => on('products'));
+        at(5600, () => on('pick'));
+        at(11000, () => on('out'));
+      },
+      finalState({ on }) { on('app', 'svcs', 'products'); },
     },
   };
 

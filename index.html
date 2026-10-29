@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=20261029">
 <link rel="stylesheet" href="css/landing.css?v=20261002">
-<link rel="stylesheet" href="css/home.css?v=20261029c">
-<link rel="stylesheet" href="css/scenes.css?v=20261029c">
+<link rel="stylesheet" href="css/home.css?v=20261029d">
+<link rel="stylesheet" href="css/scenes.css?v=20261029d">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
@@ -90,7 +90,7 @@
 
       <div class="showcase__phone">
         <div class="showcase__screen">
-          <div class="showcase__slide is-active" data-showcase-slide="0">
+          <div class="showcase__slide is-active" data-showcase-slide="0" data-showcase-chapter="0">
             <img class="showcase__still" src="assets/images/Web_Image_1.webp"
                  alt="" width="1024" height="1536" loading="eager" decoding="async">
             <video class="showcase__film" src="assets/videos/Web_Video_1_intro.mp4?v=2"
@@ -230,13 +230,72 @@
               <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
             </div>
           </div>
-          <div class="showcase__slide" data-showcase-slide="1">
-            <img class="showcase__still" src="assets/images/Web_Image_2.webp"
-                 alt="" width="1024" height="1536" loading="eager" decoding="async">
-            <video class="showcase__film" src="assets/videos/Web_Video_2.mp4"
-                   muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <div class="showcase__slide" data-showcase-slide="1" data-showcase-chapter="1">
+            <img class="showcase__still" src="assets/images/scenes/lounge.webp"
+                 alt="" width="800" height="800" loading="lazy" decoding="async">
+            <!-- Chapter 2, first screen: the room frosts over, "Train my
+                 puppy…" is typed into the search, and two answers rise
+                 on glass: a puppy school close by at 25% off, and a
+                 Wednesday meetup for puppy parents. -->
+            <div class="scene scene--glass" data-scene="puppy" aria-hidden="true">
+              <div class="sx-frost"><img src="assets/images/scenes/lounge.webp" alt="" loading="lazy" decoding="async"></div>
+              <div class="scene__app scene__app--clear">
+                <div class="sx-status"><span>9:41</span><svg viewBox="0 0 62 14"><path d="M1 10h3v3H1zM6 7.5h3V13H6zM11 5h3v8h-3zM16 2h3v11h-3z"/><path d="M33 12.6l-2-2.3a3 3 0 014 0zM28.3 7.8a7 7 0 019.4 0l-1.5 1.7a4.8 4.8 0 00-6.4 0zM25.6 5a11 11 0 0114.8 0l-1.5 1.6a8.7 8.7 0 00-11.8 0z"/><rect x="45" y="2.5" width="14" height="9" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".45"/><rect x="46.6" y="4.1" width="10.8" height="5.8" rx="1.3"/><path d="M60.4 5.5c.8.3.8 2.7 0 3z" opacity=".45"/></svg></div>
+                <div class="sx-search" data-target="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span class="sx-type" data-type="Train my puppy…"></span></div>
+                <div class="sx-results">
+                  <div class="sx-result">
+                    <div class="sx-result__photo"><img src="assets/images/scenes/training.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
+                    <div><p class="sx-title">Puppy school</p><p class="sx-line">200m from you<br>Starts next week</p></div>
+                  </div>
+                  <div class="sx-result">
+                    <div class="sx-result__photo"><img src="assets/images/scenes/cinema.webp" alt="" loading="lazy" decoding="async"></div>
+                    <div><p class="sx-title">Puppy parents meetup 🍷</p><p class="sx-line">Every Wednesday night<br>The Wine Terrace</p></div>
+                  </div>
+                </div>
+              </div>
+              <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+            </div>
           </div>
-          <div class="showcase__slide" data-showcase-slide="2">
+          <div class="showcase__slide" data-showcase-slide="2" data-showcase-chapter="1">
+            <img class="showcase__still sx-still-winnie" src="assets/images/scenes/winnie.webp"
+                 alt="" width="230" height="368" loading="lazy" decoding="async">
+            <!-- Chapter 2, second screen: Winnie the Dachshund. The page
+                 rises, "Pain management for Winnie" is typed into the
+                 search, and the answers come in: three therapies, then
+                 two products for her back. -->
+            <div class="scene" data-scene="winnie" aria-hidden="true">
+              <div class="scene__app">
+                <div class="sx-status"><span>9:41</span><svg viewBox="0 0 62 14"><path d="M1 10h3v3H1zM6 7.5h3V13H6zM11 5h3v8h-3zM16 2h3v11h-3z"/><path d="M33 12.6l-2-2.3a3 3 0 014 0zM28.3 7.8a7 7 0 019.4 0l-1.5 1.7a4.8 4.8 0 00-6.4 0zM25.6 5a11 11 0 0114.8 0l-1.5 1.6a8.7 8.7 0 00-11.8 0z"/><rect x="45" y="2.5" width="14" height="9" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".45"/><rect x="46.6" y="4.1" width="10.8" height="5.8" rx="1.3"/><path d="M60.4 5.5c.8.3.8 2.7 0 3z" opacity=".45"/></svg></div>
+                <div class="sx-hello">
+                  <p class="sx-greeting">Here’s to a good day</p>
+                  <span class="sx-avatar"><img src="assets/images/scenes/winnie.webp" alt="" loading="lazy" decoding="async"></span>
+                </div>
+                <div class="sx-search" data-target="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span class="sx-type" data-type="Pain management for Winnie"></span></div>
+                <p class="sx-subhead">Therapies near you</p>
+                <div class="sx-svcs">
+                  <div class="sx-svc">
+                    <span class="sx-svc__photo"><img src="assets/images/scenes/pupuccino.webp" alt="" loading="lazy" decoding="async"></span>
+                    <div><p class="sx-title">Hydrotherapy</p><p class="sx-line">Hound Health · 1.2 km</p></div><span class="sx-pill">15% off</span>
+                  </div>
+                  <div class="sx-svc">
+                    <span class="sx-svc__photo"><img src="assets/images/scenes/massage.webp" alt="" loading="lazy" decoding="async"></span>
+                    <div><p class="sx-title">Red light therapy</p><p class="sx-line">Calm Paws Clinic · Bondi</p></div>
+                  </div>
+                  <div class="sx-svc">
+                    <span class="sx-svc__photo"><img src="assets/images/scenes/group.webp" alt="" loading="lazy" decoding="async"></span>
+                    <div><p class="sx-title">Pilates with pups</p><p class="sx-line">Saturdays 9am · Bronte</p></div>
+                  </div>
+                </div>
+                <p class="sx-subhead">Picked for her back</p>
+                <div class="sx-products">
+                  <div class="sx-product"><div class="sx-product__tile"><svg viewBox="0 0 64 48"><path d="M6 40h52M10 40l34-22h10v22"/><path d="M44 18v22"/></svg></div><p class="sx-title">Dog ramp</p><p class="sx-line sx-line--price"><s>$110</s> $89</p></div>
+                  <div class="sx-product"><div class="sx-product__tile"><svg viewBox="0 0 64 48"><path d="M14 22l36-6 2 8-36 6z"/><path d="M20 30l-4 12M46 26l4 16M14 42h40"/></svg></div><p class="sx-title">Tilted raised feeder</p><p class="sx-line sx-line--price">$45</p></div>
+                </div>
+              </div>
+              <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+            </div>
+          </div>
+          <div class="showcase__slide" data-showcase-slide="3" data-showcase-chapter="2">
             <img class="showcase__still" src="assets/images/Web_Image_3.webp"
                  alt="" width="941" height="1672" loading="eager" decoding="async">
             <video class="showcase__film" src="assets/videos/Web_Video_3.mp4"
@@ -253,10 +312,11 @@
 
     </div>
 
-    <!-- Structural: one screen of scroll per chapter. -->
+    <!-- Structural: one screen of scroll per slide. -->
     <div class="showcase__trigger" data-showcase-trigger="0" aria-hidden="true"></div>
     <div class="showcase__trigger" data-showcase-trigger="1" aria-hidden="true"></div>
     <div class="showcase__trigger" data-showcase-trigger="2" aria-hidden="true"></div>
+    <div class="showcase__trigger" data-showcase-trigger="3" aria-hidden="true"></div>
   </section>
 
   <!-- 4 — Footer ---------------------------------------------------------- -->
@@ -441,7 +501,7 @@
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/breeds.js?v=20261002"></script>
 <script src="js/profile.js?v=20261002"></script>
-<script src="js/scenes.js?v=20261029c"></script>
-<script src="js/home.js?v=20261029c"></script>
+<script src="js/scenes.js?v=20261029d"></script>
+<script src="js/home.js?v=20261029d"></script>
 </body>
 </html>

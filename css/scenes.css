@@ -188,7 +188,9 @@
    back as it comes to rest: the fun part of the fling. */
 .s-fling .sx-photo { transform: scale(0.92); }
 /* Once it settles, the picked card's offer gives a small hop. */
-.s-pick [data-target="wash"] .sx-pill { animation: sx-hop 600ms var(--ease-out); }
+.s-pick [data-target="wash"] .sx-pill,
+.s-pick .sx-result:first-child .sx-pill,
+.s-pick .sx-svc:first-child .sx-pill { animation: sx-hop 600ms var(--ease-out); }
 @keyframes sx-hop {
   35% { transform: translateY(-0.35em) scale(1.12); }
   100% { transform: none; }
@@ -472,6 +474,203 @@
   30% { transform: scale(1.15); }
   100% { transform: none; }
 }
+
+/* -- Search ------------------------------------------------------- */
+
+/* The search bar, typed into by scenes.js (type). Until a letter is in
+   it shows the app's placeholder; while s-typing is on, a caret blinks
+   after the text. */
+.sx-search {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  height: 2.75em;
+  margin: 1em 1.5em 0 0;
+  padding: 0 1.1em;
+  border-radius: 2em;
+  background: #FFFFFF;
+  box-shadow: 0 0.14em 0.7em rgba(0, 0, 0, 0.14);
+}
+.sx-search svg {
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  fill: none;
+  stroke: var(--sx-text2);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.sx-type {
+  font-size: 0.9em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.sx-type:empty::before {
+  content: 'Search pet services, events…';
+  font-weight: 500;
+  color: var(--sx-text2);
+}
+.s-typing .sx-type::after {
+  content: '';
+  display: inline-block;
+  width: 0.09em;
+  height: 1.15em;
+  margin-left: 0.08em;
+  vertical-align: -0.2em;
+  background: var(--sx-title);
+  animation: sx-caret 900ms steps(1) infinite;
+}
+.s-typing .sx-type:empty::before { content: none; }
+@keyframes sx-caret { 50% { opacity: 0; } }
+
+/* -- Chapter 2, first screen: answers on glass ---------------------
+
+   No page: the chapter's photo frosts over (a blurred copy fading in
+   on top), and the search and the answers float on it as glass. */
+
+.sx-frost {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+.sx-frost img { filter: blur(14px) saturate(1.1); transform: scale(1.15); }
+.sx-frost::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 249, 246, 0.38);
+}
+.s-frost .sx-frost { opacity: 1; }
+
+.scene__app--clear,
+.s-app .scene__app--clear {
+  background: none;
+  transform: none;
+  transition: opacity 600ms var(--ease-out);
+}
+.scene--glass .sx-status { opacity: 0; transition: opacity 600ms var(--ease-out); }
+.scene--glass.s-app .sx-status { opacity: 1; }
+.scene--glass .sx-search {
+  margin-top: 2.2em;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  opacity: 0;
+  transform: translateY(-0.8em);
+  transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.scene--glass.s-app .sx-search { opacity: 1; transform: none; }
+
+.sx-results { margin-top: 1.1em; padding-right: 1.5em; }
+.sx-result {
+  display: flex;
+  align-items: center;
+  gap: 0.85em;
+  margin-top: 0.75em;
+  padding: 0.6em;
+  border-radius: 1.45em;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    inset 0.05em 0.05em 0 rgba(255, 255, 255, 0.7),
+    0 0.4em 1.4em rgba(14, 15, 12, 0.1);
+  opacity: 0;
+  transform: translateY(1.4em);
+  transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
+}
+.s-results .sx-result { opacity: 1; transform: none; }
+.s-results .sx-result + .sx-result { transition-delay: 120ms; }
+.sx-result__photo {
+  position: relative;
+  flex: none;
+  width: 6.2em;
+  height: 6.2em;
+  border-radius: 1em;
+  overflow: hidden;
+}
+.sx-result__photo .sx-pill { position: absolute; top: 0.5em; left: 0.5em; }
+.sx-result .sx-title { margin: 0 !important; padding: 0; font-size: 0.95em; }
+.sx-result .sx-line { margin-top: 0.25em !important; line-height: 1.35; }
+
+.scene--glass.s-out .sx-frost,
+.scene--glass.s-out .scene__app--clear { opacity: 0; transform: none; filter: none; }
+
+/* -- Chapter 2, second screen: answers for Winnie ------------------- */
+
+.sx-subhead {
+  margin-top: 1.4em !important;
+  font-size: 0.95em;
+  font-weight: 700;
+  color: #464646;
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out);
+}
+.s-svcs .sx-subhead:first-of-type,
+.s-products .sx-subhead { opacity: 1; }
+
+.sx-svcs { margin-top: 0.35em; padding-right: 1.5em; }
+.sx-svc {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0.5em 0;
+  border-bottom: 1px solid var(--sx-rule);
+  opacity: 0;
+  transform: translateY(1em);
+  transition: opacity 500ms var(--ease-out), transform 650ms var(--ease-out);
+}
+.s-svcs .sx-svc { opacity: 1; transform: none; }
+.s-svcs .sx-svc:nth-child(2) { transition-delay: 90ms; }
+.s-svcs .sx-svc:nth-child(3) { transition-delay: 180ms; }
+.sx-svc__photo {
+  flex: none;
+  width: 3.3em;
+  height: 3.3em;
+  border-radius: 0.8em;
+  overflow: hidden;
+}
+.sx-svc > div { flex: 1; min-width: 0; }
+.sx-svc .sx-title { margin: 0 !important; padding: 0; }
+.sx-svc .sx-line { margin-top: 0.1em !important; }
+
+.sx-products {
+  display: flex;
+  gap: 0.85em;
+  margin-top: 0.7em;
+  padding-right: 1.5em;
+}
+.sx-product {
+  flex: 1;
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(1.2em);
+  transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
+}
+.s-products .sx-product { opacity: 1; transform: none; }
+.s-products .sx-product + .sx-product { transition-delay: 100ms; }
+/* Stand-ins until the products' own photos arrive: a drawn ramp and
+   feeder on the app's warm grey. */
+.sx-product__tile {
+  display: grid;
+  place-items: center;
+  height: 6.4em;
+  border-radius: 1.1em;
+  background: #EFEDE8;
+}
+.sx-product__tile svg {
+  width: 3.4em;
+  height: auto;
+  fill: none;
+  stroke: #9A958C;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sx-product .sx-title { margin-top: 0.55em !important; padding: 0; font-size: 0.88em; }
+.sx-product .sx-line--price { padding: 0; }
 
 /* -- The cursor ----------------------------------------------------- */
 

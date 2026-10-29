@@ -74,6 +74,10 @@ function initShowcase(root) {
   const stage = root.querySelector('.showcase__stage');
   const slides = [...root.querySelectorAll('[data-showcase-slide]')];
   const texts = [...root.querySelectorAll('[data-showcase-text]')];
+  // Which title and copy each slide shows. A chapter can span more than
+  // one slide (each its own screen of scroll and its own scene) under
+  // the same text; a slide without the attribute is its own chapter.
+  const chapterOf = (k) => Number(slides[k].dataset.showcaseChapter ?? k);
   const triggers = [...root.querySelectorAll('[data-showcase-trigger]')];
   const films = slides.map((s) => s.querySelector('video'));
   // A chapter can also carry a scene of app UI over its film (see
@@ -194,8 +198,9 @@ function initShowcase(root) {
     // The text follows the still, but on a clock: once a still is
     // halfway in, its chapter's text takes over and the change plays
     // out by itself (see .showcase__col in home.css).
+    // A second slide of the same chapter changes the screen only.
     let shown = 0;
-    for (let k = 1; k < slides.length; k += 1) if (arrived(k) >= 0.5) shown = k;
+    for (let k = 1; k < slides.length; k += 1) if (arrived(k) >= 0.5) shown = chapterOf(k);
     if (shown !== shownText) {
       shownText = shown;
       texts.forEach((t) => {

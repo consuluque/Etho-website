@@ -60,7 +60,8 @@ otherwise.
 - **The savings are always visible.** Offer pill on the photo, a struck
   "was" price beside the real one, and the saving said plainly at the
   end ("You saved $24").
-- **Copy:** short and warm. The dog is **Hector**. Headings so far:
+- **Copy:** short and warm. The dog is **Hector** in chapter 1; chapter
+  2's second screen is **Winnie**, a Dachshund. Headings so far:
   "Picked for Hector", "Get Hector pampered", "Make it special",
   "Booked". Prices are invented, so ask before treating any as real.
 - **Photos:** real photography, never illustrations. Sources:
@@ -196,6 +197,10 @@ NAME: {
 - `scrollTo(el, x, ms, curve)`: move a row by its transform
 - `em(n)`: convert scene ems to px
 - `count(el, to, ms)`: count a `$` figure up
+- `type(el, ms)`: type the element's `data-type` text into it, a
+  letter every `ms` (50–60 reads as typing). Turn `s-typing` on for the
+  caret and off when done. Use it on an `.sx-type` inside `.sx-search`;
+  until a letter is in, the bar shows the app's placeholder.
 
 Times are absolute from the start of a round. Plan them as a table
 before writing. Measure positions at the moment of the step, never
@@ -206,6 +211,28 @@ pressed and bump states, counts and scrolled rows, with transitions off.
 `home.js` rewinds the scene whenever its chapter leaves. Under reduced
 motion `finalState` runs with transitions off and no cursor. Every new
 state class must look right when added with no transition.
+
+## Screens without a page
+
+Not every screen rises as a page over a film. Chapter 2's first screen
+(`puppy`, `.scene--glass`) frosts the chapter's photo instead:
+- a blurred copy fades in on top (`.sx-frost`, `s-frost`)
+- the search drops in and answers rise as glass cards (`.sx-result`:
+  white at 70% with `backdrop-filter`)
+- `.scene__app--clear` keeps the page's layout but has no background
+  and does not slide
+
+At the end it fades out rather than dropping away.
+
+## A chapter with more than one screen
+
+A chapter can hold several slides, each with its own screen of scroll
+and its own scene, under the same title and copy. Give every slide a
+`data-showcase-chapter` naming its text (the `data-showcase-text` index).
+Chapter 2 has two: `puppy` (slide 1) and `winnie` (slide 2), both
+`data-showcase-chapter="1"`. Add one `.showcase__trigger` per slide.
+Per-slide CSS keyed on `data-showcase-slide` must be renumbered when
+slides are added.
 
 ## Intro films
 
@@ -230,6 +257,14 @@ each round.
   ghosts.
 - Bump `?v=` on the film's `src` when replacing a file under the same
   name.
+
+## Shipping
+
+Bump the `?v=` tags on `home.css`, `scenes.css`, `scenes.js` and
+`home.js` in `index.html` with every change to those files. Browsers
+keep the old files otherwise: after the header change, the live site
+served the new markup with the old stylesheet and Hector's photo landed
+in the wrong place.
 
 ## Checking a scene
 

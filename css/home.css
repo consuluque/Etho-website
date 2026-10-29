@@ -177,9 +177,10 @@
 /* ---------------------------------------------------------------
    Product story — one phone, three chapters
 
-   The section is four screens tall. Its stage sticks to the top of
-   the viewport for the first three of them, while the three trigger
-   blocks that follow it in flow scroll past underneath; home.js sets
+   The section is one screen taller than it has slides (four: the
+   second chapter has two). Its stage sticks to the top of the viewport
+   while the trigger blocks, one per slide, that follow it in flow
+   scroll past underneath; home.js sets
    data-showcase-active from whichever trigger is in view. The stage
    then scrolls away with the fourth screen, so the footer arrives the
    way any section does.
@@ -342,8 +343,8 @@
    crop clipped its right edge. The window is moved so the line has
    the same clearance on both sides. The still takes the same crop, so
    nothing shifts when the film comes in over it. */
-[data-showcase-slide="2"] .showcase__still,
-[data-showcase-slide="2"] .showcase__film { object-position: 77.5% 50%; }
+[data-showcase-slide="3"] .showcase__still,
+[data-showcase-slide="3"] .showcase__film { object-position: 77.5% 50%; }
 .showcase__film.is-playing { opacity: 1; }
 
 /* Stacked for a phone: title, phone, copy, all centred, under the
