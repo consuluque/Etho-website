@@ -36,7 +36,7 @@ otherwise.
   Fewer pieces, one idea per screen, the way Cash App's site does it.
   The exception is the header, which is the app's real one: "Here's to
   a good day" on the left in bold `#464646`, and the dog's photo on the
-  right with its red unread dot (`#FF8383`). Under it comes one big
+  right (no unread dot: the owner removed it). Under it comes one big
   headline ("Picked for Hector").
 - **The app's own vocabulary.** Taken from the web app (repo
   `consuluque/Etho`: `src/components/theme.ts`,

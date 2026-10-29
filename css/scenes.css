@@ -89,8 +89,8 @@
 .s-sheet .scene__app { filter: blur(4px) brightness(0.88); }
 
 
-/* The app's own header: the greeting on the left, Hector's photo with
-   its unread dot on the right. */
+/* The app's own header: the greeting on the left, Hector's photo on
+   the right. */
 .sx-hello {
   display: flex;
   justify-content: space-between;
@@ -110,18 +110,6 @@
   height: 2.5em;
 }
 .sx-avatar img { border-radius: 50%; }
-/* The unread dot, lifted off the photo by a ring of the page. */
-.sx-avatar::after {
-  content: '';
-  position: absolute;
-  top: 0.05em;
-  right: -0.05em;
-  width: 0.6em;
-  height: 0.6em;
-  border-radius: 50%;
-  background: #FF8383;
-  box-shadow: 0 0 0 0.14em #F0EFED;
-}
 
 .sx-headline {
   margin-top: 1.7em !important;
@@ -717,6 +705,7 @@
     top 800ms var(--ease-out), margin 800ms var(--ease-out), height 800ms var(--ease-out);
 }
 .scene--winnie.s-bar .sx-search--hero { opacity: 1; transform: none; }
+.scene--winnie .sx-type:empty::before { content: 'Search for anything'; }
 
 .sx-page {
   position: absolute;
