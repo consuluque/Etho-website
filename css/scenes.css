@@ -766,11 +766,10 @@
 .sx-tcard .sx-title { margin: 0 !important; padding: 0; font-size: 1.15em; }
 .sx-tcard .sx-line { margin-top: 0.35em !important; font-size: 0.9em; line-height: 1.4; }
 .s-pick .sx-tcard:first-of-type .sx-pill { animation: sx-hop 600ms var(--ease-out); }
-/* Each therapy's photo holds on its dog; the Pilates dog sits small
-   on the reformer, so that crop steps in. */
+/* Each therapy's photo holds on its dog. */
 .scene img.sx-focus-hydro { object-position: 42% 40%; }
 .scene img.sx-focus-redlight { object-position: 88% 60%; }
-.scene img.sx-focus-pilates { object-position: 50% 80%; transform: scale(1.6); transform-origin: 47% 60%; }
+.scene img.sx-focus-pilates { object-position: 74% 50%; }
 .scene img.sx-focus-feeder { object-position: 45% 70%; }
 
 /* The confirmation: the puppy's success screen, with the extras in
