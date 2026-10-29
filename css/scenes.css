@@ -632,6 +632,11 @@
   border-radius: 0.8em;
   overflow: hidden;
 }
+/* Each therapy's photo holds on its dog; the Pilates dog sits small
+   on the reformer, so that crop steps in. */
+.sx-svc img.sx-focus-hydro { object-position: 42% 40%; }
+.sx-svc img.sx-focus-redlight { object-position: 88% 60%; }
+.sx-svc img.sx-focus-pilates { object-position: 50% 85%; transform: scale(2.2); transform-origin: 47% 58%; }
 .sx-svc > div { flex: 1; min-width: 0; }
 .sx-svc .sx-title { margin: 0 !important; padding: 0; }
 .sx-svc .sx-line { margin-top: 0.1em !important; }
