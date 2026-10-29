@@ -53,6 +53,13 @@
 .scene *::after { box-sizing: border-box; }
 .scene p { margin: 0; }
 .scene img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* The grooming room is a tall shot with the dog in the tub left of
+   centre and low; every crop of it holds on the dog. */
+.scene img.sx-groom { object-position: 29% 58%; }
+/* In the small crops the room would leave the dog a speck, so those
+   step in on the tub. */
+.sx-card img.sx-groom,
+.sx-booking img.sx-groom { transform: scale(1.75); transform-origin: 30% 57%; }
 
 /* Snapping back to the start between loops, and the whole scene under
    reduced motion: no transitions at all. */
@@ -421,7 +428,7 @@
   transform: translateY(0.8em);
   transition: opacity 400ms var(--ease-out) 750ms, transform 600ms var(--ease-out) 750ms;
 }
-.sx-booking img { flex: none; width: 3.2em; height: 3.2em; border-radius: 0.8em; }
+.sx-thumb { flex: none; width: 3.2em; height: 3.2em; border-radius: 0.8em; overflow: hidden; }
 .sx-booking .sx-title { margin: 0 !important; padding: 0; font-size: 0.92em; }
 .s-done .sx-booking { opacity: 1; transform: none; }
 

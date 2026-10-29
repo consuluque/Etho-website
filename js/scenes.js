@@ -116,7 +116,18 @@ window.EthoScenes = (() => {
     };
     root.querySelectorAll('[data-scene-count]').forEach((el) => { el.dataset.sceneCountFrom = el.textContent; });
 
+    // The chapter's film, when it plays once ahead of the scene: each
+    // later round starts it again, so the scene always opens on it.
+    const film = root.parentElement.querySelector('video[data-once]');
+    const replay = () => {
+      if (!film || !film.ended) return;
+      film.currentTime = 0;
+      const played = film.play();
+      if (played) played.catch(() => {});
+    };
+
     const run = () => {
+      replay();
       script(verbs);
       at(loopAt, () => { reset(); run(); });
     };

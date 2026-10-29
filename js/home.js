@@ -97,11 +97,14 @@ function initShowcase(root) {
     // that drops them on a re-parse still gets a silent, control-less
     // backdrop.
     film.muted = true;
-    film.loop = true;
+    // A film that opens a scene plays once and holds its last frame
+    // (data-once); the scene restarts it each round.
+    film.loop = !film.hasAttribute('data-once');
     film.controls = false;
     film.setAttribute('playsinline', '');
     film.addEventListener('playing', () => { if (i === active) film.classList.add('is-playing'); });
-    film.addEventListener('pause', () => film.classList.remove('is-playing'));
+    // A film that has played to its end stays up on its last frame.
+    film.addEventListener('pause', () => { if (!film.ended) film.classList.remove('is-playing'); });
     film.addEventListener('error', () => film.classList.remove('is-playing'));
   });
 
@@ -154,7 +157,7 @@ function initShowcase(root) {
     if (!visible) {
       clearHold();
       stop(film);
-    } else if (film && film.paused && !hold) {
+    } else if (film && film.paused && !film.ended && !hold) {
       hold = setTimeout(() => { hold = 0; start(film); }, HOLD_MS);
     }
   };
