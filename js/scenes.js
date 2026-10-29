@@ -7,7 +7,10 @@
    scenes.css. home.js plays a chapter's scene once the chapter is in
    and on screen, and stops it (back to the very start) whenever the
    chapter leaves, so a scene always opens from its first beat. A
-   scene loops by sending its sheet back down and starting over.
+   scene loops by sending everything back down and starting over.
+
+   How to make a new one, and the style to keep: the showcase-scenes
+   skill (.claude/skills/showcase-scenes/SKILL.md).
 
    Under prefers-reduced-motion a scene skips straight to its final
    frame and holds it, with no cursor.
@@ -153,10 +156,10 @@ window.EthoScenes = (() => {
   }
 
   // Chapter 1 — grooming, for Hector. The film plays alone for a few
-  // seconds, then Explore rises over it. The cursor swipes "Picked for
-  // you and Hector" and lets go; the row flies past more picks than
-  // can be read and settles with the wash & dry, at 20% off, first in
-  // view. The cursor opens it, books it for Saturday, ticks a $20
+  // seconds, then a simplified home rises over it. The cursor swipes
+  // "Picked for Hector" and lets go; the row flies past more picks
+  // than can be read and settles with the wash & dry, at 20% off,
+  // first in view. The cursor opens it, books it for Saturday, ticks a $20
   // post-groom photo (the total counts up) and a free dental check,
   // and confirms. "Booked" and the saving hold, everything drops away,
   // and the film has the screen again before the next round.
