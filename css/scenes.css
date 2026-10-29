@@ -8,12 +8,10 @@
    on the shared --ease-out curve, so the whole scene keeps one feel.
 
    The look is the app's own (etho: src/components/theme.ts and
-   explore/tokens.ts): the grey-to-white page, square photo cards in a
-   row, the black offer pill, black titles over grey lines, a glass
-   tab bar, sheets over a frosted page. Proportions follow the app's
-   Figma frame (1em is 28.3 of its 662 px); type runs a step larger
-   than the app's so it reads from across the page, and each screen
-   carries one idea.
+   explore/tokens.ts): the grey-to-white page, photo cards, the black
+   offer pill, black titles over grey lines, sheets over a frosted
+   page. It is a simplified version of the app, never a copy of a real
+   screen: fewer pieces, bigger type, one idea per screen.
 
    Sizes are in em off one font size tied to the phone's width (a 375
    pt phone is 23.4em wide), so the UI scales with the frame. Only
@@ -28,14 +26,12 @@
   --sx-mid: #FBFBFB;
   --sx-bottom: #FCFCFC;
   --sx-card: #FFFFFF;
-  --sx-heading: #464646;
   --sx-title: #000000;
   --sx-text2: rgba(14, 15, 12, 0.59);
   --sx-was: #717171;
   --sx-green: #177245;
   --sx-rule: #E4E6E8;
   --sx-edge: rgba(0, 0, 0, 0.25);
-  --sx-chip: #DADADA;
   --sx-shadow: 0 0 0 1px rgba(14, 15, 12, 0.04), 0 1px 2px rgba(14, 15, 12, 0.04), 0 6px 16px rgba(14, 15, 12, 0.06);
 
   position: absolute;
@@ -63,12 +59,17 @@
 .scene.is-resetting,
 .scene.is-resetting * { transition: none !important; }
 
-/* -- Explore, rising over the film ---------------------------------- */
+/* -- Hector's picks, rising over the film ---------------------------
+
+   A simplified home, not the app's own: no tabs, no search, one big
+   line and one row of large cards to fling through. Made from the
+   app's pieces (the page, the photo cards, the black offer pill) so it
+   reads as Etho without showing the real screen. */
 
 .scene__app {
   position: absolute;
   inset: 0;
-  padding: 0 0 0 1.3em;
+  padding: 0 0 0 1.5em;
   background: linear-gradient(180deg, var(--sx-top) 0%, var(--sx-mid) 23.5%, var(--sx-bottom) 100%);
   border-radius: calc(var(--phone-h) * 0.063) calc(var(--phone-h) * 0.063) 0 0;
   transform: translateY(102%);
@@ -83,111 +84,117 @@
   justify-content: space-between;
   align-items: center;
   height: 2.6em;
-  padding: 0.5em 1.6em 0 0.5em;
+  padding: 0.5em 1.7em 0 0.4em;
 }
 .sx-status span { font-size: 0.8em; font-weight: 700; }
-/* Signal and battery, drawn as two quiet blocks. */
-.sx-status i {
-  width: 2.6em;
-  height: 0.62em;
-  border-radius: 0.2em;
-  background:
-    linear-gradient(90deg, #000 0 1.1em, transparent 1.1em 1.4em, #000 1.4em 2.35em, transparent 2.35em);
-  opacity: 0.85;
-}
+/* Signal, wi-fi and battery. */
+.sx-status svg { width: 3.4em; height: auto; fill: currentColor; }
 
-.sx-top {
+.sx-hello {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 0.4em;
-  padding-right: 1.3em;
+  gap: 0.6em;
+  margin-top: 3em;
 }
-.sx-greeting {
-  font-size: 1.2em;
-  font-weight: 700;
-  color: var(--sx-heading);
-}
+.sx-hello .sx-line { margin: 0 !important; font-size: 0.95em; font-weight: 600; }
 .sx-avatar {
+  position: relative;
+  flex: none;
   width: 2.3em;
   height: 2.3em;
+}
+.sx-avatar img { border-radius: 50%; }
+/* The unread dot, lifted off the photo by a ring of the page. */
+.sx-avatar::after {
+  content: '';
+  position: absolute;
+  top: 0.05em;
+  right: -0.05em;
+  width: 0.6em;
+  height: 0.6em;
   border-radius: 50%;
-  overflow: hidden;
+  background: #FF8383;
+  box-shadow: 0 0 0 0.14em #F0EFED;
 }
 
-.sx-search {
-  display: flex;
-  align-items: center;
-  gap: 0.55em;
-  height: 2.75em;
-  margin: 0.9em 1.3em 0 -0.15em;
-  padding-left: 1.2em;
-  border-radius: 2em;
-  background: #FFFFFF;
-  box-shadow: 0 0.14em 0.7em rgba(0, 0, 0, 0.14);
-  font-size: 0.85em;
-  font-weight: 500;
-  color: var(--sx-text2);
-}
-.sx-search svg {
-  width: 1.15em;
-  height: 1.15em;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.sx-heading {
-  margin-top: 1.55em !important;
-  font-size: 1.05em;
+.sx-headline {
+  margin-top: 0.45em !important;
+  font-size: 2.35em;
   font-weight: 700;
-  color: var(--sx-heading);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
-/* A row of square photo cards, the third peeking past the edge. Each
+/* One row of large photo cards, the next peeking past the edge. Each
    comes up a beat after the one before. */
 .sx-rail {
   display: flex;
-  gap: 0.95em;
-  margin-top: 0.85em;
+  gap: 0.9em;
+  margin-top: 1.6em;
 }
+/* The row the cursor scrolls: scenes.js drags and flings it by its
+   transform, so it never reflows. */
+.sx-rail[data-scroll] { will-change: transform; }
 .sx-card {
   flex: none;
-  width: 8.6em;
+  width: 15em;
   opacity: 0;
   transform: translateY(1.6em);
   transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
 }
-.s-app .sx-card { opacity: 1; transform: none; transition-delay: 250ms; }
-.s-app .sx-card:nth-child(2) { transition-delay: 330ms; }
-.s-app .sx-card:nth-child(3) { transition-delay: 410ms; }
-.s-app .sx-rail + .sx-heading + .sx-rail .sx-card { transition-delay: 450ms; }
+.s-app .sx-card { opacity: 1; transform: none; transition-delay: 380ms; }
+.s-app .sx-card:nth-child(1) { transition-delay: 250ms; }
 
 .sx-photo {
   position: relative;
-  height: 8.8em;
-  border-radius: 1.1em;
+  height: 20.5em;
+  border-radius: 1.6em;
   overflow: hidden;
   background: var(--sx-top);
+  box-shadow: var(--sx-shadow);
+  transition: transform 450ms var(--ease-out);
 }
 .sx-photo .sx-pill {
   position: absolute;
-  top: 0.65em;
-  right: 0.65em;
+  top: 0.75em;
+  right: 0.75em;
+  font-size: 0.8em;
 }
-.sx-heart {
-  position: absolute;
-  right: 0.55em;
-  bottom: 0.55em;
-  display: grid;
-  place-items: center;
-  width: 1.45em;
-  height: 1.45em;
+/* While the row is in flight its cards draw in a little, and swell
+   back as it comes to rest: the fun part of the fling. */
+.s-fling .sx-photo { transform: scale(0.92); }
+/* Once it settles, the picked card's offer gives a small hop. */
+.s-pick [data-target="wash"] .sx-pill { animation: sx-hop 600ms var(--ease-out); }
+@keyframes sx-hop {
+  35% { transform: translateY(-0.35em) scale(1.12); }
+  100% { transform: none; }
+}
+
+/* Page dots under the row, one per card. The dark one is a separate
+   mark that scenes.js runs along with the row, so it races ahead in
+   the fling and lands on the picked card's dot. */
+.sx-dots {
+  position: relative;
+  display: flex;
+  gap: 0.5em;
+  margin-top: 1.5em;
+  padding-left: 0.2em;
+}
+.sx-dots span,
+.sx-dots i {
+  flex: none;
+  width: 0.35em;
+  height: 0.35em;
   border-radius: 50%;
-  background: rgba(218, 218, 218, 0.55);
+  background: rgba(14, 15, 12, 0.16);
 }
-.sx-heart svg { width: 0.9em; height: 0.9em; fill: #FFFFFF; }
+.sx-dots i {
+  position: absolute;
+  top: 0;
+  left: 0.2em;
+  background: var(--sx-title);
+  will-change: transform;
+}
 
 /* The offer pill: the app's one solid black shape, so the saving is
    the first thing the eye finds. */
@@ -204,8 +211,9 @@
 }
 
 .sx-title {
-  margin-top: 0.7em !important;
-  font-size: 0.92em;
+  margin-top: 0.75em !important;
+  padding-left: 0.2em;
+  font-size: 1.05em;
   font-weight: 700;
 }
 .sx-line {
@@ -214,35 +222,19 @@
   font-weight: 500;
   color: var(--sx-text2);
 }
-.sx-line--price { margin-top: 0.05em !important; font-weight: 700; color: var(--sx-title); }
+.sx-line--price {
+  margin-top: 0.1em !important;
+  padding-left: 0.25em;
+  font-size: 0.95em;
+  font-weight: 700;
+  color: var(--sx-title);
+}
 .sx-line s,
 .sx-price s {
   margin-right: 0.1em;
   font-weight: 500;
   color: var(--sx-was);
 }
-
-/* The glass tab bar, floating over the page's foot. */
-.sx-tabbar {
-  position: absolute;
-  left: 0.6em;
-  right: 0.6em;
-  bottom: 0.6em;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 3.1em;
-  border-radius: 2em;
-  background: rgba(252, 252, 252, 0.55);
-  backdrop-filter: blur(14px) saturate(1.4);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  box-shadow:
-    inset 0.05em 0.05em 0 rgba(255, 255, 255, 0.55),
-    inset -0.04em -0.04em 0 rgba(255, 255, 255, 0.25),
-    0.07em 0.14em 0.42em rgba(0, 0, 0, 0.2);
-}
-.sx-tabbar > * { font-size: 0.78em; font-weight: 500; color: var(--sx-text2); }
-.sx-tabbar b { font-weight: 700; color: var(--sx-title); }
 
 /* -- The sheet ------------------------------------------------------ */
 
@@ -349,7 +341,7 @@
   border-radius: 0.8em;
 }
 .sx-row > div { flex: 1; min-width: 0; }
-.sx-row .sx-title { margin: 0 !important; }
+.sx-row .sx-title { margin: 0 !important; padding: 0; font-size: 0.92em; }
 .sx-row .sx-line .sx-pill { font-size: 0.85em; }
 
 .sx-check {
@@ -446,7 +438,7 @@
   transition: opacity 400ms var(--ease-out) 750ms, transform 600ms var(--ease-out) 750ms;
 }
 .sx-booking img { flex: none; width: 3.2em; height: 3.2em; border-radius: 0.8em; }
-.sx-booking .sx-title { margin: 0 !important; }
+.sx-booking .sx-title { margin: 0 !important; padding: 0; font-size: 0.92em; }
 .s-done .sx-booking { opacity: 1; transform: none; }
 
 .sx-saved {
