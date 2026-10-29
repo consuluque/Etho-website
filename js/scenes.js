@@ -319,22 +319,47 @@ window.EthoScenes = (() => {
       },
     },
 
-    // Chapter 2, second screen — Winnie, a Dachshund with a sore back.
-    // The page rises, "Pain management for Winnie" is typed into the
-    // search, and the answers come in: three therapies near her, the
-    // first at 15% off, then two products picked for her back.
+    // Chapter 2, second screen — Winnie, a Dachshund with sore hips.
+    // She steps down the sofa stairs (the film, rolled once it is in
+    // memory) and a glass search rises over her; "Winnie has hip pain"
+    // is typed, the film frosts over, the page comes in behind with its
+    // header, the bar settles under it, and three large therapies fill
+    // the screen, hydrotherapy at 15% off. The cursor books it, a
+    // confirmation slides up (like the puppy's success screen) offering
+    // "The little extras matter", and the cursor picks the dog ramp and
+    // taps Shop; the total Etho saving opens above it.
     winnie: {
-      loopAt: 12000,
-      script({ at, on, off, target, type }) {
+      loopAt: null,
+      script({ at, on, off, target, glide, tap, type, count, roll, whenReady, again, root }) {
         const field = target('search').querySelector('[data-type]');
-        at(1200, () => on('app'));
-        at(2400, () => { on('typing'); type(field, 50); });
-        at(3900, () => { off('typing'); on('svcs'); });
-        at(5000, () => on('products'));
-        at(5600, () => on('pick'));
-        at(11000, () => on('out'));
+        const saved = root.querySelector('[data-scene-count]');
+        whenReady(() => {
+          roll();
+          at(1300, () => on('bar'));
+          at(2000, () => { on('typing'); type(field, 60); });
+          at(3300, () => { off('typing'); on('frost'); });
+          at(3900, () => on('app', 'up'));
+          at(4600, () => on('list'));
+          at(5400, () => on('pick'));
+          at(6300, () => { on('cursor'); glide(target('hydro'), 850, 0.5, 0.5); });
+          at(7350, () => tap(target('hydro')));
+          at(7600, () => on('success'));
+          at(9600, () => glide(target('ramp').querySelector('.sx-extra__photo'), 800, 0.5, 0.55));
+          at(10600, () => tap(target('ramp'), () => on('ramp')));
+          at(11400, () => glide(target('shop'), 750, 0.5, 0.55));
+          at(12350, () => tap(target('shop'), () => on('shop')));
+          at(13000, () => off('cursor'));
+          // Then the total opens: $21 off the ramp, 15% off an $80 swim.
+          at(13300, () => on('total'));
+          at(13700, () => count(saved, 33, 900));
+          at(16900, () => on('out'));
+          again(18000);
+        });
       },
-      finalState({ on }) { on('app', 'svcs', 'products'); },
+      finalState({ on, root }) {
+        on('bar', 'frost', 'app', 'up', 'list', 'success', 'ramp', 'shop', 'total');
+        root.querySelector('[data-scene-count]').textContent = '$33';
+      },
     },
   };
 

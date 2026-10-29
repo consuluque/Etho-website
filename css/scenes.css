@@ -89,8 +89,8 @@
 .s-sheet .scene__app { filter: blur(4px) brightness(0.88); }
 
 
-/* The app's own header: the greeting on the left, Hector's photo with
-   its unread dot on the right. */
+/* The app's own header: the greeting on the left, Hector's photo on
+   the right. */
 .sx-hello {
   display: flex;
   justify-content: space-between;
@@ -110,18 +110,6 @@
   height: 2.5em;
 }
 .sx-avatar img { border-radius: 50%; }
-/* The unread dot, lifted off the photo by a ring of the page. */
-.sx-avatar::after {
-  content: '';
-  position: absolute;
-  top: 0.05em;
-  right: -0.05em;
-  width: 0.6em;
-  height: 0.6em;
-  border-radius: 50%;
-  background: #FF8383;
-  box-shadow: 0 0 0 0.14em #F0EFED;
-}
 
 .sx-headline {
   margin-top: 1.7em !important;
@@ -674,84 +662,206 @@
 
 .scene--glass.s-out .scene__app--clear { opacity: 0; }
 
-/* -- Chapter 2, second screen: answers for Winnie ------------------- */
+/* -- Chapter 2, second screen: Winnie ------------------------------
+
+   Opens like the puppy screen: a large search on her photo, frosted.
+   Once "Winnie has hip pain" is in, the page fades in behind (s-app),
+   the bar settles under the header (s-up), and three large therapies
+   fill the screen (s-list). Tapping hydrotherapy brings up a
+   confirmation built like the puppy's success screen (s-success),
+   with "The little extras matter"; the ramp is picked (s-ramp) and
+   Shop tapped (s-shop). */
+
+/* Frosts the film once the search is in: a blur of whatever plays
+   behind, under a pale veil. */
+.sx-veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 249, 246, 0.38);
+  opacity: 0;
+  transition: opacity 800ms var(--ease-out);
+}
+.s-frost .sx-veil { opacity: 1; }
+/* The blur itself is on the film (and its still): a backdrop blur
+   cannot reach a playing video in every browser. Scaled a touch so
+   the soft edges stay outside the screen. */
+.showcase__slide:has(.scene--winnie) .showcase__film,
+.showcase__slide:has(.scene--winnie) .showcase__still {
+  transition: filter 800ms var(--ease-out), transform 800ms var(--ease-out), opacity 200ms var(--ease);
+}
+.showcase__slide:has(.scene--winnie.s-frost) .showcase__film,
+.showcase__slide:has(.scene--winnie.s-frost) .showcase__still {
+  filter: blur(14px) saturate(1.1);
+  transform: scale(1.08);
+}
+.showcase__slide:has(.scene--winnie.is-resetting) .showcase__film,
+.showcase__slide:has(.scene--winnie.is-resetting) .showcase__still { transition: none; }
+/* Winnie's search waits for the film, then rises in over it. */
+.scene--winnie .sx-search--hero {
+  opacity: 0;
+  transform: translateY(1em) scale(0.96);
+  transition:
+    opacity 600ms var(--ease-out), transform 800ms var(--ease-out),
+    top 800ms var(--ease-out), margin 800ms var(--ease-out), height 800ms var(--ease-out);
+}
+.scene--winnie.s-bar .sx-search--hero { opacity: 1; transform: none; }
+.scene--winnie .sx-type:empty::before { content: 'Search for anything'; }
+
+.sx-page {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--sx-top) 0%, var(--sx-mid) 23.5%, var(--sx-bottom) 100%);
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+}
+.s-app .sx-page { opacity: 1; }
+.scene--winnie .sx-hello {
+  opacity: 0;
+  transform: translateY(-0.6em);
+  transition: opacity 500ms var(--ease-out) 150ms, transform 700ms var(--ease-out) 150ms;
+}
+.scene--winnie.s-app .sx-hello { opacity: 1; transform: none; }
+.scene--winnie.s-up .sx-search--hero { top: 6.3em; margin-top: 0; height: 3em; background: #FFFFFF; }
 
 .sx-subhead {
-  margin-top: 1.4em !important;
   font-size: 0.95em;
   font-weight: 700;
   color: #464646;
-  opacity: 0;
-  transition: opacity 500ms var(--ease-out);
 }
-.s-svcs .sx-subhead:first-of-type,
-.s-products .sx-subhead { opacity: 1; }
 
-.sx-svcs { margin-top: 0.35em; padding-right: 1.5em; }
-.sx-svc {
+.sx-tcards {
+  position: absolute;
+  top: 10.3em;
+  left: 1.2em;
+  right: 1.2em;
+}
+.sx-tcards .sx-subhead { opacity: 0; transition: opacity 500ms var(--ease-out); }
+.s-list .sx-tcards .sx-subhead { opacity: 1; }
+.sx-tcard {
   display: flex;
   align-items: center;
-  gap: 0.75em;
-  padding: 0.5em 0;
-  border-bottom: 1px solid var(--sx-rule);
+  gap: 1em;
+  margin-top: 0.75em;
+  padding: 0.6em;
+  border-radius: 1.6em;
+  background: #FFFFFF;
+  box-shadow: var(--sx-shadow);
   opacity: 0;
-  transform: translateY(1em);
-  transition: opacity 500ms var(--ease-out), transform 650ms var(--ease-out);
-}
-.s-svcs .sx-svc { opacity: 1; transform: none; }
-.s-svcs .sx-svc:nth-child(2) { transition-delay: 90ms; }
-.s-svcs .sx-svc:nth-child(3) { transition-delay: 180ms; }
-.sx-svc__photo {
-  flex: none;
-  width: 3.3em;
-  height: 3.3em;
-  border-radius: 0.8em;
-  overflow: hidden;
-}
-/* Each therapy's photo holds on its dog; the Pilates dog sits small
-   on the reformer, so that crop steps in. */
-.sx-svc img.sx-focus-hydro { object-position: 42% 40%; }
-.sx-svc img.sx-focus-redlight { object-position: 88% 60%; }
-.sx-svc img.sx-focus-pilates { object-position: 50% 85%; transform: scale(2.2); transform-origin: 47% 58%; }
-.sx-svc > div { flex: 1; min-width: 0; }
-.sx-svc .sx-title { margin: 0 !important; padding: 0; }
-.sx-svc .sx-line { margin-top: 0.1em !important; }
-
-.sx-products {
-  display: flex;
-  gap: 0.85em;
-  margin-top: 0.7em;
-  padding-right: 1.5em;
-}
-.sx-product {
-  flex: 1;
-  min-width: 0;
-  opacity: 0;
-  transform: translateY(1.2em);
+  transform: translateY(1.6em);
   transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
 }
-.s-products .sx-product { opacity: 1; transform: none; }
-.s-products .sx-product + .sx-product { transition-delay: 100ms; }
-/* Stand-ins until the products' own photos arrive: a drawn ramp and
-   feeder on the app's warm grey. */
-.sx-product__tile {
-  display: grid;
-  place-items: center;
-  height: 6.4em;
-  border-radius: 1.1em;
-  background: #EFEDE8;
+.s-list .sx-tcard { opacity: 1; transform: none; }
+.s-list .sx-tcard:nth-of-type(2) { transition-delay: 100ms; }
+.s-list .sx-tcard:nth-of-type(3) { transition-delay: 200ms; }
+.s-list .sx-tcard.is-pressed { transform: scale(0.97); transition-duration: 160ms; transition-delay: 0ms; }
+.sx-tcard__photo {
+  position: relative;
+  flex: none;
+  width: 9.2em;
+  height: 9.2em;
+  border-radius: 1.15em;
+  overflow: hidden;
 }
-.sx-product__tile svg {
-  width: 3.4em;
-  height: auto;
+.sx-tcard__photo .sx-pill { position: absolute; top: 0.55em; left: 0.55em; }
+.sx-tcard .sx-title { margin: 0 !important; padding: 0; font-size: 1.15em; }
+.sx-tcard .sx-line { margin-top: 0.35em !important; font-size: 0.9em; line-height: 1.4; }
+.s-pick .sx-tcard:first-of-type .sx-pill { animation: sx-hop 600ms var(--ease-out); }
+/* Each therapy's photo holds on its dog. */
+.scene img.sx-focus-hydro { object-position: 42% 40%; }
+.scene img.sx-focus-redlight { object-position: 88% 60%; }
+.scene img.sx-focus-pilates { object-position: 74% 50%; }
+.scene img.sx-focus-feeder { object-position: 45% 70%; }
+
+/* The confirmation: the puppy's success screen, with the extras in
+   place of its picture and Shop in its foot panel. */
+.sx-success--extras .sx-cheer { font-size: 1.6em; }
+.sx-extras {
+  margin: auto 0;
+  opacity: 0;
+  transform: translateY(1.4em);
+  transition: opacity 500ms var(--ease-out) 550ms, transform 800ms var(--ease-out) 550ms;
+}
+.s-success .sx-extras { opacity: 1; transform: none; }
+.sx-extras__row { display: flex; gap: 0.85em; margin-top: 0.8em; }
+.sx-extra { flex: 1; min-width: 0; transition: transform 160ms var(--ease-out); }
+.sx-extra.is-pressed { transform: scale(0.96); }
+.sx-extra__photo {
+  position: relative;
+  height: 14em;
+  border-radius: 1.4em;
+  overflow: hidden;
+  background: #EFEDE8;
+  transition: box-shadow 300ms var(--ease-out);
+}
+.sx-extra__photo .sx-check {
+  position: absolute;
+  top: 0.6em;
+  right: 0.6em;
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.95);
+}
+.s-ramp [data-target="ramp"] .sx-extra__photo { box-shadow: inset 0 0 0 0.16em #000000; }
+.s-ramp [data-target="ramp"] .sx-check { background: #000000; border-color: #000000; }
+.s-ramp [data-target="ramp"] .sx-check path { stroke-dashoffset: 0; }
+.sx-extra .sx-title { margin-top: 0.6em !important; padding: 0; font-size: 0.95em; }
+.sx-extra .sx-line--price { padding: 0; }
+
+.sx-benefit--shop { padding: 0.9em; }
+/* The total opens above Shop once the ramp is added: Etho's savings on
+   the booking and the ramp, counted up in the app's green. */
+.sx-total {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 600ms var(--ease-out);
+}
+.sx-total > p {
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 0.3em;
+  font-size: 1.15em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out) 200ms, padding 600ms var(--ease-out);
+}
+.sx-total b { font-size: 1.35em; font-weight: 700; color: var(--sx-green); font-variant-numeric: tabular-nums; }
+.s-total .sx-total { grid-template-rows: 1fr; }
+.s-total .sx-total > p { opacity: 1; padding: 0.15em 0.3em 0.75em; }
+.sx-benefit--shop .sx-button {
+  position: relative;
+  margin: 0;
+  opacity: 0.35;
+  transition: opacity 300ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.s-ramp .sx-benefit--shop .sx-button { opacity: 1; }
+.sx-shop__label,
+.sx-shop__done {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  transition: opacity 300ms var(--ease-out), transform 500ms var(--ease-out);
+}
+.sx-shop__done { opacity: 0; transform: translateY(0.8em); }
+.s-shop .sx-shop__label { opacity: 0; transform: translateY(-0.8em); }
+.s-shop .sx-shop__done { opacity: 1; transform: none; }
+.sx-shop__done svg {
+  width: 1.25em;
+  height: 1.25em;
   fill: none;
-  stroke: #9A958C;
-  stroke-width: 2.4;
+  stroke: #FFFFFF;
+  stroke-width: 2.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.sx-product .sx-title { margin-top: 0.55em !important; padding: 0; font-size: 0.88em; }
-.sx-product .sx-line--price { padding: 0; }
+
+.scene--winnie.s-out .sx-page,
+.scene--winnie.s-out .sx-veil { opacity: 0; }
+.scene--winnie.s-out .sx-success { transform: translateY(105%); }
 
 /* -- The cursor ----------------------------------------------------- */
 
