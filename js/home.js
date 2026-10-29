@@ -76,6 +76,12 @@ function initShowcase(root) {
   const texts = [...root.querySelectorAll('[data-showcase-text]')];
   const triggers = [...root.querySelectorAll('[data-showcase-trigger]')];
   const films = slides.map((s) => s.querySelector('video'));
+  // A chapter can also carry a scene of app UI over its film (see
+  // scenes.js); it plays and rewinds alongside the film.
+  const scenes = slides.map((s) => {
+    const el = s.querySelector('[data-scene]');
+    return el && window.EthoScenes ? window.EthoScenes.create(el) : null;
+  });
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const inView = new Set();
   const loading = new Set();
@@ -137,6 +143,10 @@ function initShowcase(root) {
   // running, after the hold, only while the stage is on screen.
   const sync = () => {
     films.forEach((film, k) => { if (k !== active) stop(film); });
+    scenes.forEach((scene, k) => {
+      if (!scene) return;
+      if (k === active && near && visible) scene.play(); else scene.stop();
+    });
     if (!near) { clearHold(); return; }
     load(active);
     load(active + 1);
@@ -208,6 +218,7 @@ function initShowcase(root) {
     // Always from the top, and after the full hold, even on a return
     // to a chapter seen before.
     stop(films[i]);
+    if (scenes[i]) scenes[i].stop();
     clearHold();
     sync();
     placeSlides();
