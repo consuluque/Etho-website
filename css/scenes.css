@@ -2,29 +2,48 @@
    Showcase scenes — Etho's app UI, acted out inside the phone
 
    A scene sits over its chapter's film and plays a short, simplified
-   interaction on a clock: a sheet rises, a cursor taps, the screen
+   interaction on a clock: the app rises, a cursor taps, the screen
    answers. scenes.js only adds and removes state classes (s-*) on the
    scene and moves the cursor; every move is a CSS transition below,
    on the shared --ease-out curve, so the whole scene keeps one feel.
 
-   Sizes are in em off one font size tied to the phone's height, so
-   the UI is drawn once at a 375-wide phone's proportions and scales
-   with the frame. Only leaf text sets its own font-size, so ems never
-   compound. With no script the sheet waits below the screen and the
-   film carries the chapter.
+   The look is the app's own (etho: src/components/theme.ts and
+   explore/tokens.ts): the grey-to-white page, white cards on a soft
+   three-layer shadow, photos first, the black offer pill, black
+   titles and grey lines, sheets over a blurred page. What changes is
+   the scale: one idea per screen and type half as big again as the
+   app's, so it reads at a glance from across the page.
+
+   Sizes are in em off one font size tied to the phone's width (a 375
+   pt phone is 23.4em wide), so the UI scales with the frame. Only
+   leaf text sets its own font-size, so ems never compound. With no
+   script everything waits below the screen and the film carries the
+   chapter.
    --------------------------------------------------------------- */
 
 .scene {
+  /* The app's light theme. */
+  --sx-top: #E6E5E3;
+  --sx-mid: #FBFBFB;
+  --sx-bottom: #FCFCFC;
+  --sx-card: #FFFFFF;
+  --sx-heading: #464646;
+  --sx-title: #000000;
+  --sx-text2: rgba(14, 15, 12, 0.59);
+  --sx-was: #717171;
+  --sx-edge: rgba(0, 0, 0, 0.25);
+  --sx-shadow: 0 0 0 1px rgba(14, 15, 12, 0.04), 0 1px 2px rgba(14, 15, 12, 0.04), 0 6px 16px rgba(14, 15, 12, 0.06);
+
   position: absolute;
   inset: 0;
   z-index: 1;
   overflow: hidden;
   font-family: var(--body-font);
-  font-size: calc(var(--phone-h) * 0.0213);
-  line-height: 1.3;
+  font-size: calc(var(--phone-h) * 0.5 / 23.4);
+  line-height: 1.25;
   /* The stacked phone layout centres its text; the app does not. */
   text-align: left;
-  color: var(--app-ink);
+  color: var(--sx-title);
   pointer-events: none;
   user-select: none;
   -webkit-font-smoothing: antialiased;
@@ -33,349 +52,291 @@
 .scene *::before,
 .scene *::after { box-sizing: border-box; }
 .scene p { margin: 0; }
-.scene small { display: block; }
+.scene img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Snapping back to the start between loops, and the whole scene under
    reduced motion: no transitions at all. */
 .scene.is-resetting,
 .scene.is-resetting * { transition: none !important; }
 
-/* The film dims a little as the sheet comes up over it. */
-.scene::before {
-  content: '';
+/* -- The app page, rising over the film ----------------------------- */
+
+.scene__app {
   position: absolute;
   inset: 0;
-  background: rgba(14, 15, 12, 0);
-  transition: background 700ms var(--ease-out);
+  padding: 3.4em 1.3em 0;
+  background: linear-gradient(180deg, var(--sx-top) 0%, var(--sx-mid) 23.5%, var(--sx-bottom) 100%);
+  border-radius: calc(var(--phone-h) * 0.063) calc(var(--phone-h) * 0.063) 0 0;
+  transform: translateY(102%);
+  transition: transform 850ms var(--ease-out), filter 600ms var(--ease-out), opacity 600ms var(--ease-out);
 }
-.scene.s-sheet::before { background: rgba(14, 15, 12, 0.3); }
+.s-app .scene__app { transform: none; }
+/* Behind a sheet the page frosts and sinks a little, as the app's
+   search sheet does. */
+.s-sheet .scene__app { filter: blur(5px) brightness(0.9); }
 
-/* -- The sheet ---------------------------------------------------- */
+.sx-heading {
+  font-size: 1.6em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--sx-heading);
+}
+
+.sx-card {
+  margin-top: 1.1em;
+  padding: 0.65em 0.65em 1em;
+  border-radius: 1.6em;
+  background: var(--sx-card);
+  box-shadow: var(--sx-shadow);
+  opacity: 0;
+  transform: translateY(2em);
+  transition: opacity 600ms var(--ease-out), transform 750ms var(--ease-out);
+}
+.sx-heading + .sx-card { margin-top: 1em; }
+.s-app .sx-card { opacity: 1; transform: none; transition-delay: 250ms; }
+.s-app .sx-card + .sx-card { transition-delay: 380ms; }
+
+.sx-photo {
+  position: relative;
+  height: 10.6em;
+  border-radius: 1.15em;
+  overflow: hidden;
+  background: var(--sx-top);
+}
+.sx-photo .sx-pill {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+}
+
+/* The offer pill: the app's one solid black shape, so the saving is
+   the first thing the eye finds. */
+.sx-pill {
+  display: inline-block;
+  padding: 0.38em 0.8em;
+  border-radius: 2em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.sx-title {
+  margin-top: 0.65em !important;
+  padding: 0 0.3em;
+  font-size: 1.35em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sx-price {
+  margin-top: 0.15em !important;
+  padding: 0 0.35em;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+.sx-price s {
+  margin-right: 0.15em;
+  font-weight: 500;
+  color: var(--sx-was);
+}
+
+/* -- The sheet ------------------------------------------------------ */
 
 .scene__sheet {
   position: absolute;
-  inset: 15% 0 0;
-  background: #FBF9F5;
-  border-radius: 1.7em 1.7em 0 0;
-  box-shadow: 0 -0.6em 2.4em rgba(14, 15, 12, 0.14);
+  left: 0.55em;
+  right: 0.55em;
+  bottom: 0.55em;
+  /* Tall enough for the service page, the tallest; the frosted page
+     shows above it. */
+  height: 29.5em;
+  border-radius: 1.9em;
+  background: var(--sx-card);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  transform: translateY(102%);
-  transition: transform 800ms var(--ease-out);
+  transform: translateY(110%);
+  transition: transform 750ms var(--ease-out);
 }
 .s-sheet .scene__sheet { transform: none; }
-/* Going out at the end of a loop it drops a touch quicker. */
-.s-out .scene__sheet { transform: translateY(102%); transition-duration: 600ms; }
-.s-out::before { background: rgba(14, 15, 12, 0); }
 
-.scene__grabber {
-  width: 2.4em;
-  height: 0.3em;
-  margin: 0.6em auto 0;
-  border-radius: 1em;
-  background: rgba(14, 15, 12, 0.16);
-}
-
-.scene__pages {
-  position: absolute;
-  inset: 1.3em 0 0;
-}
 .scene__page {
   position: absolute;
   inset: 0;
-  padding: 0.5em 1.1em 1.1em;
-  transition: transform 650ms var(--ease-out), opacity 650ms var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  padding: 0.7em 0.7em 0.8em;
+  transition: transform 650ms var(--ease-out), opacity 500ms var(--ease-out);
 }
-
-/* The booking page pushes in from the right, iOS-style, as the list
+/* Each page pushes in from the right, iOS-style, as the one before
    slides a short way left and fades under it. */
-.scene__page--book { transform: translateX(100%); display: flex; flex-direction: column; }
-.s-book .scene__page--list { transform: translateX(-30%); opacity: 0; }
-.s-book .scene__page--book { transform: none; }
+.scene__page--extras,
+.scene__page--done { transform: translateX(100%); }
+.s-extras .scene__page--service { transform: translateX(-30%); opacity: 0; }
+.s-extras .scene__page--extras { transform: none; }
+.s-done .scene__page--extras { transform: translateX(-30%); opacity: 0; }
+.s-done .scene__page--done { transform: none; }
 
-/* -- Shared app pieces -------------------------------------------- */
+.sx-hero {
+  height: 15.5em;
+  border-radius: 1.4em;
+  overflow: hidden;
+}
+.sx-big {
+  margin-top: 0.55em !important;
+  padding: 0 0.3em;
+  font-size: 2.1em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.sx-price--big { margin-top: 0.2em !important; font-size: 1.6em; }
+.sx-price--big .sx-pill { margin-left: 0.3em; font-size: 0.62em; vertical-align: 0.25em; }
 
-.sc-label {
+.sx-button {
+  margin-top: auto;
   display: flex;
   align-items: center;
-  gap: 0.45em;
-  font-size: 0.66em;
+  justify-content: center;
+  height: 3.1em;
+  border-radius: 1.55em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 1.15em;
   font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--app-muted);
+  font-variant-numeric: tabular-nums;
 }
-.sc-label svg { width: 1.2em; height: 1.2em; fill: var(--app-accent); flex: none; }
-.sc-title {
-  margin-top: 0.3em !important;
-  font-size: 1.45em;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.15;
-}
-.sc-sub { margin-top: 0.15em !important; font-size: 0.8em; color: var(--app-muted); }
 
-/* The benefit itself: the one warm, solid shape on the screen, so the
-   saving is the first thing the eye lands on. */
-.sc-badge {
+/* Extras: a photo, a name, a price and a round check. */
+.scene__page--extras { padding: 1.3em 0.7em 0.8em; }
+.scene__page--extras .sx-big { margin-top: 0 !important; margin-bottom: 0.3em !important; }
+.sx-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  margin-top: 0.8em;
+  padding: 0.65em 1em 0.65em 0.65em;
+  border-radius: 1.5em;
+  background: var(--sx-card);
+  box-shadow: var(--sx-shadow);
+}
+.sx-row img {
   flex: none;
-  padding: 0.38em 0.7em;
-  border-radius: 2em;
-  background: var(--app-accent);
-  font-size: 0.72em;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-.sc-badge--soft {
-  display: inline-block;
-  margin-top: 0.7em;
-  background: rgba(210, 184, 147, 0.32);
-  font-weight: 600;
-}
-
-.sc-price { display: inline-flex; align-items: baseline; gap: 0.4em; white-space: nowrap; }
-.sc-price s { font-size: 0.78em; color: var(--app-muted); }
-.sc-price b { font-size: 1em; font-weight: 700; }
-
-.sc-toggle {
-  position: relative;
-  flex: none;
-  width: 2.7em;
-  height: 1.65em;
+  width: 4.8em;
+  height: 4.8em;
   border-radius: 1em;
-  background: rgba(14, 15, 12, 0.13);
-  transition: background 320ms var(--ease-out), transform 160ms var(--ease-out);
 }
-.sc-toggle::after {
-  content: '';
-  position: absolute;
-  top: 0.13em;
-  left: 0.13em;
-  width: 1.39em;
-  height: 1.39em;
-  border-radius: 50%;
-  background: #FFFFFF;
-  box-shadow: 0 0.18em 0.5em rgba(0, 0, 0, 0.15), 0 0.06em 0.06em rgba(0, 0, 0, 0.16);
-  transition: transform 420ms var(--ease-out);
+.sx-row > div { flex: 1; min-width: 0; }
+.sx-row .sx-title { margin: 0 !important; padding: 0; font-size: 1.2em; }
+.sx-line {
+  margin-top: 0.2em !important;
+  font-size: 1.15em;
+  font-weight: 600;
+  color: var(--sx-text2);
 }
-.s-photo [data-target="photo"] .sc-toggle,
-.s-dental [data-target="dental"] .sc-toggle { background: var(--app-accent); }
-.s-photo [data-target="photo"] .sc-toggle::after,
-.s-dental [data-target="dental"] .sc-toggle::after { transform: translateX(1.05em); }
+.sx-line .sx-pill { font-size: 0.85em; }
 
-/* Whatever the cursor taps gives a little under it. */
-[data-target] { transition: transform 160ms var(--ease-out), background 300ms var(--ease-out), color 300ms var(--ease-out); }
-[data-target].is-pressed { transform: scale(0.95); }
-
-/* -- Page 1: groomers with member prices -------------------------- */
-
-.sc-head,
-.gr-card {
-  opacity: 0;
-  transform: translateY(1.4em);
-  transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out);
-}
-.s-cards .sc-head,
-.s-cards .gr-card { opacity: 1; transform: none; }
-.s-cards .gr-card { transition-delay: 90ms; }
-.s-cards .gr-card + .gr-card { transition-delay: 180ms; }
-
-.gr-card {
-  margin-top: 0.85em;
-  padding: 0.85em 0.9em 0.9em;
-  border-radius: 1.25em;
-  background: #FFFFFF;
-  border: 1px solid rgba(14, 15, 12, 0.05);
-  box-shadow: 0 0.4em 1.4em rgba(50, 48, 49, 0.07);
-}
-.sc-head + .gr-card { margin-top: 1em; }
-.gr-card__top { display: flex; align-items: center; gap: 0.6em; }
-.gr-avatar {
+.sx-check {
   flex: none;
   display: grid;
   place-items: center;
-  width: 3.2em;
-  height: 3.2em;
+  width: 2.1em;
+  height: 2.1em;
   border-radius: 50%;
-  background: #EFE6D8;
-  color: #8A7250;
-  font-size: 0.72em;
-  font-weight: 700;
+  border: 2px solid var(--sx-edge);
+  transition: background 300ms var(--ease-out), border-color 300ms var(--ease-out), transform 300ms var(--ease-out);
 }
-.gr-avatar--alt { background: #E4E8E1; color: #5E6B58; }
-.gr-card__name { flex: 1; min-width: 0; }
-.gr-card__name b { display: block; font-size: 0.86em; font-weight: 600; letter-spacing: -0.01em; }
-.gr-card__name small { font-size: 0.7em; color: var(--app-muted); margin-top: 0.1em; }
-
-.gr-offer {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-top: 0.75em;
-  padding-top: 0.7em;
-  border-top: 1px solid rgba(14, 15, 12, 0.07);
-  font-size: 0.84em;
-  font-weight: 500;
-}
-
-.gr-slots { display: flex; gap: 0.4em; margin-top: 0.7em; }
-.gr-slot {
-  padding: 0.5em 0.72em;
-  border-radius: 2em;
-  background: rgba(14, 15, 12, 0.055);
-  font-size: 0.68em;
-  font-weight: 600;
-  white-space: nowrap;
-}
-.s-slot [data-target="slot"] { background: var(--app-ink); color: #FFFFFF; }
-
-/* -- Page 2: booking with add-ons --------------------------------- */
-
-.bk-bar {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 1.6em;
-}
-.bk-bar svg {
-  position: absolute;
-  left: -0.2em;
+.sx-check svg {
   width: 1.3em;
   height: 1.3em;
   fill: none;
-  stroke: var(--app-ink);
-  stroke-width: 2;
+  stroke: #FFFFFF;
+  stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.bk-bar span { font-size: 0.8em; font-weight: 600; }
+.sx-check path {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  transition: stroke-dashoffset 420ms var(--ease-out) 120ms;
+}
+.s-photo [data-target="photo"] .sx-check,
+.s-dental [data-target="dental"] .sx-check { background: #000000; border-color: #000000; }
+.s-photo [data-target="photo"] .sx-check path,
+.s-dental [data-target="dental"] .sx-check path { stroke-dashoffset: 0; }
 
-.bk-summary {
-  margin-top: 0.8em;
-  padding: 0.95em 0.95em 1em;
-  border-radius: 1.25em;
-  background: #FFFFFF;
-  border: 1px solid rgba(14, 15, 12, 0.05);
-  box-shadow: 0 0.4em 1.4em rgba(50, 48, 49, 0.07);
-}
-.bk-summary__row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-size: 1em;
-}
-.bk-summary__row > b { font-size: 1.05em; font-weight: 600; letter-spacing: -0.02em; }
-.bk-summary small { margin-top: 0.25em; font-size: 0.74em; color: var(--app-muted); }
-
-.bk-label {
-  margin: 1.4em 0 0.1em !important;
-  font-size: 0.66em;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--app-muted);
-}
-.bk-addon {
-  display: flex;
+/* Booked: a tick that draws itself, and the saving, big. */
+.scene__page--done {
   align-items: center;
-  justify-content: space-between;
-  gap: 0.8em;
-  margin-top: 0.55em;
-  padding: 0.8em 0.9em;
-  border-radius: 1.1em;
-  background: #FFFFFF;
-  border: 1px solid rgba(14, 15, 12, 0.05);
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 3em;
 }
-.bk-addon b { display: block; font-size: 0.8em; font-weight: 600; letter-spacing: -0.01em; }
-.bk-addon small { margin-top: 0.2em; font-size: 0.7em; font-weight: 600; color: #8A7250; }
-.bk-addon small s { font-weight: 500; color: var(--app-muted); margin-right: 0.2em; }
-/* The row itself stays put when tapped; only its switch gives. */
-.bk-addon.is-pressed { transform: none; }
-.bk-addon.is-pressed .sc-toggle { transform: scale(0.92); }
+.scene__page--done .sx-big { margin-top: 0.45em !important; }
+.scene__page--done .sx-line { margin-top: 0.35em !important; line-height: 1.35; }
+.sx-done {
+  display: grid;
+  place-items: center;
+  width: 6.2em;
+  height: 6.2em;
+  border-radius: 50%;
+  background: #000000;
+  transform: scale(0.6);
+  opacity: 0;
+  transition: transform 700ms var(--ease-out) 150ms, opacity 300ms var(--ease-out) 150ms;
+}
+.sx-done svg {
+  width: 3.4em;
+  height: 3.4em;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sx-done path {
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+  transition: stroke-dashoffset 600ms var(--ease-out) 550ms;
+}
+.s-done .sx-done { transform: none; opacity: 1; }
+.s-done .sx-done path { stroke-dashoffset: 0; }
 
-/* What Etho already knows about Luna, passed to the groomer. */
-.bk-notes {
-  margin-top: 1.1em;
-  padding: 0.85em 0.9em 0.9em;
-  border-radius: 1.1em;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px dashed rgba(14, 15, 12, 0.12);
-}
-.bk-notes__tags { display: flex; flex-wrap: wrap; gap: 0.35em; margin-top: 0.6em; }
-.bk-notes__tags span {
-  padding: 0.42em 0.65em;
+.sx-saved {
+  margin-top: 1.3em;
+  padding: 0.55em 1.1em;
   border-radius: 2em;
-  background: #FFFFFF;
-  border: 1px solid rgba(14, 15, 12, 0.07);
-  font-size: 0.66em;
-  font-weight: 600;
-}
-
-.bk-foot { margin-top: auto; }
-.bk-save {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.7em;
-  padding: 0.6em 0.9em;
-  border-radius: 1em;
-  background: rgba(210, 184, 147, 0.26);
-}
-.bk-save span { font-size: 0.78em; font-weight: 600; }
-.bk-save b {
-  font-size: 1.15em;
+  background: var(--sx-top);
+  font-size: 1.2em;
   font-weight: 700;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transform: translateY(0.8em);
+  transition: opacity 400ms var(--ease-out) 900ms, transform 600ms var(--ease-out) 900ms;
 }
-.bk-save b.is-bump { animation: sc-bump 520ms var(--ease-out); }
-@keyframes sc-bump {
-  30% { transform: scale(1.18); }
+.s-done .sx-saved { opacity: 1; transform: none; }
+
+/* Going out at the end of a loop, the sheet and the page drop away
+   together and the film has the screen again. */
+.s-out .scene__sheet,
+.s-out .scene__app { transform: translateY(105%); filter: none; transition-duration: 650ms; }
+
+/* Whatever the cursor taps gives a little under it: a card or button
+   as a whole, a row only at its check. The card keeps its entrance
+   timing and only shortens it while pressed. */
+.sx-button { transition: transform 160ms var(--ease-out); }
+.sx-card.is-pressed { transform: scale(0.96); transition-duration: 160ms; transition-delay: 0ms; }
+.sx-button.is-pressed { transform: scale(0.96); }
+.sx-row.is-pressed .sx-check { transform: scale(0.85); }
+
+/* Count-up: a small lift as the total changes. */
+[data-scene-count] { display: inline-block; }
+[data-scene-count].is-bump { animation: sx-bump 520ms var(--ease-out); }
+@keyframes sx-bump {
+  30% { transform: scale(1.15); }
   100% { transform: none; }
 }
 
-.bk-btn {
-  position: relative;
-  height: 3.1em;
-  border-radius: 1.55em;
-  background: var(--app-ink);
-  color: #FFFFFF;
-  overflow: hidden;
-}
-.bk-btn__label,
-.bk-btn__done {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45em;
-  font-size: 0.84em;
-  font-weight: 600;
-  transition: opacity 300ms var(--ease-out), transform 500ms var(--ease-out);
-}
-.bk-btn__done { opacity: 0; transform: translateY(1em); }
-.s-booked .bk-btn__label { opacity: 0; transform: translateY(-1em); }
-.s-booked .bk-btn__done { opacity: 1; transform: none; }
-.bk-btn__done svg {
-  width: 1.35em;
-  height: 1.35em;
-  fill: none;
-  stroke: var(--app-accent);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-/* The tick draws itself once the label is in. */
-.bk-btn__done path {
-  stroke-dasharray: 24;
-  stroke-dashoffset: 24;
-  transition: stroke-dashoffset 520ms var(--ease-out) 220ms;
-}
-.s-booked .bk-btn__done path { stroke-dashoffset: 0; }
-
-/* -- The cursor ---------------------------------------------------- */
+/* -- The cursor ----------------------------------------------------- */
 
 /* Its tip is its top-left corner, so placing the box places the tip.
    scenes.js sets --x/--y and the length of each glide; a glide eases
@@ -386,7 +347,7 @@
   left: 0;
   top: 0;
   z-index: 3;
-  width: 1.45em;
+  width: 1.7em;
   height: auto;
   overflow: visible;
   opacity: 0;
@@ -398,7 +359,7 @@
   filter: drop-shadow(0 0.12em 0.28em rgba(0, 0, 0, 0.28));
 }
 .scene__cursor path {
-  fill: var(--app-ink);
+  fill: #000000;
   stroke: #FFFFFF;
   stroke-width: 1.4;
   stroke-linejoin: round;

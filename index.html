@@ -95,82 +95,58 @@
                  alt="" width="1024" height="1536" loading="eager" decoding="async">
             <video class="showcase__film" src="assets/videos/Web_Video_1.mp4"
                    muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-            <!-- The grooming scene plays over the film: a sheet of
-                 member prices rises, a cursor books a full groom for
-                 Saturday at 10:00 with two free add-ons, and the
-                 savings add up as it goes. scenes.js runs it; with no
-                 script the sheet stays below the screen and the film
-                 carries the chapter. -->
+            <!-- The grooming scene plays over the film, in the app's own
+                 look: Hector's picks rise over the film, a cursor opens
+                 the full groom at 20% off, books it for Saturday, adds a
+                 photo and a free dental check, and confirms. scenes.js
+                 runs it; with no script it stays below the screen and
+                 the film carries the chapter. -->
             <div class="scene" data-scene="groom" aria-hidden="true">
-              <div class="scene__sheet">
-                <div class="scene__grabber"></div>
-                <div class="scene__pages">
-
-                  <div class="scene__page scene__page--list">
-                    <div class="sc-head">
-                      <p class="sc-label"><svg viewBox="0 0 100 100"><path d="M55.7,0C57.5,0.1 61.1,1.3 62.7,2.1C64.3,2.9 64.8,3.8 65.5,4.9C66.3,5.9 66.7,6.6 67.2,8.4C67.8,10.1 68.4,11.8 68.6,15.3C68.9,18.9 66.7,28.3 68.6,29.6C70.6,31 78,24.5 80.5,23.3C82.9,22.2 81.5,22.6 83.3,22.6C85,22.6 89.2,23 90.9,23.3C92.7,23.7 92.6,23.6 93.7,24.7C94.9,25.9 97.2,27.7 97.9,30.3C98.7,32.9 98.5,37.9 98.3,40.4C98,42.9 97.3,43.8 96.5,45.3C95.7,46.7 96.1,47.3 93.4,49.1C90.7,51 81.4,53.6 80.5,56.4C79.6,59.3 86.5,63.2 88.2,66.2C89.8,69.2 90.2,71.8 90.6,74.2C90.9,76.7 90.6,78.9 90.2,80.8C89.9,82.8 89.4,84.3 88.5,86.1C87.6,87.9 86.4,90 85,91.6C83.7,93.3 82.4,94.8 80.5,96.2C78.6,97.5 75.4,99 73.5,99.7C71.6,100.3 70.4,100.1 69,100C67.6,99.9 66.8,99.8 65.2,99C63.5,98.1 60.6,96.4 58.9,95.1C57.2,93.8 57.1,94.1 55.1,91.3C53,88.5 48.4,79.9 46.7,78.4C44.9,76.9 45.7,80.3 44.6,82.2C43.5,84.1 41.3,88 40.1,89.9C38.8,91.8 38.1,92.3 36.9,93.4C35.8,94.4 34.5,95.4 33.1,96.2C31.7,96.9 31.1,97.7 28.6,97.9C26,98.1 20.4,98 17.8,97.6C15.2,97.1 14.3,96.1 12.9,95.1C11.4,94.1 10.3,93.5 9.1,91.6C7.8,89.8 5.8,86.6 5.2,84C4.6,81.3 4.8,78.6 5.6,75.6C6.4,72.6 7.9,69.5 10.1,65.9C12.3,62.3 19.5,57.5 18.8,54C18.2,50.5 9,47.5 6.3,44.9C3.5,42.4 3.3,40.8 2.4,38.7C1.6,36.6 1.5,34.1 1.4,32.4C1.3,30.7 1.5,30 2.1,28.6C2.7,27.1 3.9,25 4.9,23.7C5.9,22.4 6.4,21.8 8,20.9C9.6,20 12.5,18.6 14.6,18.1C16.7,17.7 18.2,17.7 20.6,18.1C22.9,18.6 26.1,19.8 28.6,20.9C31,22 33,23.2 35.2,24.7C37.3,26.2 39.5,32.8 41.5,30C43.4,27.2 45.3,12.8 47,8C48.8,3.3 50.5,2.7 51.9,1.4C53.4,0.1 53.9,-0.1 55.7,0Z"/></svg>Etho benefits</p>
-                      <p class="sc-title">Grooming for Luna</p>
-                      <p class="sc-sub">Member prices near you</p>
-                    </div>
-                    <div class="gr-card">
-                      <div class="gr-card__top">
-                        <span class="gr-avatar">FT</span>
-                        <div class="gr-card__name"><b>The Fluffy Tub</b><small>0.8 km · ★ 4.9</small></div>
-                        <span class="sc-badge">20% off</span>
-                      </div>
-                      <div class="gr-offer"><span>Full groom</span><span class="sc-price"><s>$120</s><b>$96</b></span></div>
-                      <div class="gr-slots">
-                        <span class="gr-slot" data-target="slot">Sat 10:00</span>
-                        <span class="gr-slot">Sat 13:30</span>
-                        <span class="gr-slot">Sun 9:00</span>
-                      </div>
-                    </div>
-                    <div class="gr-card">
-                      <div class="gr-card__top">
-                        <span class="gr-avatar gr-avatar--alt">CC</span>
-                        <div class="gr-card__name"><b>Coat &amp; Co.</b><small>1.4 km · ★ 4.8</small></div>
-                        <span class="sc-badge">40% off</span>
-                      </div>
-                      <div class="gr-offer"><span>Deshedding</span><span class="sc-price"><s>$90</s><b>$54</b></span></div>
-                      <div class="gr-slots">
-                        <span class="gr-slot">Fri 15:00</span>
-                        <span class="gr-slot">Sat 11:30</span>
-                        <span class="gr-slot">Mon 8:30</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="scene__page scene__page--book">
-                    <div class="bk-bar"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span>The Fluffy Tub</span></div>
-                    <div class="bk-summary">
-                      <div class="bk-summary__row"><b>Full groom</b><span class="sc-price"><s>$120</s><b>$96</b></span></div>
-                      <small>Saturday · 10:00 · 2 hrs</small>
-                      <span class="sc-badge sc-badge--soft">Etho member · 20% off</span>
-                    </div>
-                    <p class="bk-label">Add-ons</p>
-                    <div class="bk-addon" data-target="photo">
-                      <div><b>Post-groom photo</b><small><s>$15</s> Free with Etho</small></div>
-                      <span class="sc-toggle"></span>
-                    </div>
-                    <div class="bk-addon" data-target="dental">
-                      <div><b>Complimentary dental check</b><small><s>$25</s> Free with Etho</small></div>
-                      <span class="sc-toggle"></span>
-                    </div>
-                    <div class="bk-notes">
-                      <p class="sc-label"><svg viewBox="0 0 100 100"><path d="M55.7,0C57.5,0.1 61.1,1.3 62.7,2.1C64.3,2.9 64.8,3.8 65.5,4.9C66.3,5.9 66.7,6.6 67.2,8.4C67.8,10.1 68.4,11.8 68.6,15.3C68.9,18.9 66.7,28.3 68.6,29.6C70.6,31 78,24.5 80.5,23.3C82.9,22.2 81.5,22.6 83.3,22.6C85,22.6 89.2,23 90.9,23.3C92.7,23.7 92.6,23.6 93.7,24.7C94.9,25.9 97.2,27.7 97.9,30.3C98.7,32.9 98.5,37.9 98.3,40.4C98,42.9 97.3,43.8 96.5,45.3C95.7,46.7 96.1,47.3 93.4,49.1C90.7,51 81.4,53.6 80.5,56.4C79.6,59.3 86.5,63.2 88.2,66.2C89.8,69.2 90.2,71.8 90.6,74.2C90.9,76.7 90.6,78.9 90.2,80.8C89.9,82.8 89.4,84.3 88.5,86.1C87.6,87.9 86.4,90 85,91.6C83.7,93.3 82.4,94.8 80.5,96.2C78.6,97.5 75.4,99 73.5,99.7C71.6,100.3 70.4,100.1 69,100C67.6,99.9 66.8,99.8 65.2,99C63.5,98.1 60.6,96.4 58.9,95.1C57.2,93.8 57.1,94.1 55.1,91.3C53,88.5 48.4,79.9 46.7,78.4C44.9,76.9 45.7,80.3 44.6,82.2C43.5,84.1 41.3,88 40.1,89.9C38.8,91.8 38.1,92.3 36.9,93.4C35.8,94.4 34.5,95.4 33.1,96.2C31.7,96.9 31.1,97.7 28.6,97.9C26,98.1 20.4,98 17.8,97.6C15.2,97.1 14.3,96.1 12.9,95.1C11.4,94.1 10.3,93.5 9.1,91.6C7.8,89.8 5.8,86.6 5.2,84C4.6,81.3 4.8,78.6 5.6,75.6C6.4,72.6 7.9,69.5 10.1,65.9C12.3,62.3 19.5,57.5 18.8,54C18.2,50.5 9,47.5 6.3,44.9C3.5,42.4 3.3,40.8 2.4,38.7C1.6,36.6 1.5,34.1 1.4,32.4C1.3,30.7 1.5,30 2.1,28.6C2.7,27.1 3.9,25 4.9,23.7C5.9,22.4 6.4,21.8 8,20.9C9.6,20 12.5,18.6 14.6,18.1C16.7,17.7 18.2,17.7 20.6,18.1C22.9,18.6 26.1,19.8 28.6,20.9C31,22 33,23.2 35.2,24.7C37.3,26.2 39.5,32.8 41.5,30C43.4,27.2 45.3,12.8 47,8C48.8,3.3 50.5,2.7 51.9,1.4C53.4,0.1 53.9,-0.1 55.7,0Z"/></svg>Shared from Luna’s profile</p>
-                      <div class="bk-notes__tags"><span>Double coat</span><span>Sensitive skin</span><span>Nervous with dryers</span></div>
-                    </div>
-                    <div class="bk-foot">
-                      <div class="bk-save"><span>You save</span><b data-scene-count>$24</b></div>
-                      <div class="bk-btn" data-target="book">
-                        <span class="bk-btn__label">Book for $96</span>
-                        <span class="bk-btn__done"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Booked · Sat 10:00</span>
-                      </div>
-                    </div>
-                  </div>
-
+              <div class="scene__app">
+                <p class="sx-heading">Picked for Hector</p>
+                <div class="sx-card" data-target="groom">
+                  <div class="sx-photo"><img src="assets/images/scenes/comb.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">20% off</span></div>
+                  <p class="sx-title">Full groom</p>
+                  <p class="sx-price"><s>$120</s> $96</p>
+                </div>
+                <div class="sx-card">
+                  <div class="sx-photo"><img src="assets/images/scenes/brush.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">40% off</span></div>
+                  <p class="sx-title">Deshedding</p>
+                  <p class="sx-price"><s>$90</s> $54</p>
                 </div>
               </div>
+
+              <div class="scene__sheet">
+                <div class="scene__page scene__page--service">
+                  <div class="sx-hero"><img src="assets/images/scenes/comb.webp" alt="" loading="lazy" decoding="async"></div>
+                  <p class="sx-big">Full groom</p>
+                  <p class="sx-price sx-price--big"><s>$120</s> $96 <span class="sx-pill">20% off</span></p>
+                  <div class="sx-button" data-target="book">Book for Saturday</div>
+                </div>
+
+                <div class="scene__page scene__page--extras">
+                  <p class="sx-big">Add extras</p>
+                  <div class="sx-row" data-target="photo">
+                    <img src="assets/images/scenes/nose.webp" alt="" loading="lazy" decoding="async">
+                    <div><p class="sx-title">Post-groom photo</p><p class="sx-line">$20</p></div>
+                    <span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+                  </div>
+                  <div class="sx-row" data-target="dental">
+                    <img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async">
+                    <div><p class="sx-title">Dental check</p><p class="sx-line"><span class="sx-pill">Free</span></p></div>
+                    <span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+                  </div>
+                  <div class="sx-button" data-target="confirm"><span>Confirm · <span data-scene-count>$96</span></span></div>
+                </div>
+
+                <div class="scene__page scene__page--done">
+                  <span class="sx-done"><svg viewBox="0 0 48 48"><path d="M14 25l7 7 13-15"/></svg></span>
+                  <p class="sx-big">Booked</p>
+                  <p class="sx-line">Hector’s full groom<br>Saturday, 10am</p>
+                  <span class="sx-saved">You saved $24</span>
+                </div>
+              </div>
+
               <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
             </div>
           </div>

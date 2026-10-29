@@ -114,34 +114,35 @@ window.EthoScenes = (() => {
     };
   }
 
-  // Chapter 1 — grooming. The film plays alone for a few seconds, then
-  // a sheet of member prices rises over it. The cursor picks Saturday
-  // 10:00 for a full groom at 20% off, the booking page pushes in, two
-  // add-ons that are free with Etho are switched on while the saving
-  // counts up, and the booking is made. It holds, the sheet drops
-  // away, and the film has the screen again before the next round.
+  // Chapter 1 — grooming, for Hector. The film plays alone for a few
+  // seconds, then his picks rise over it: a full groom at 20% off and
+  // deshedding at 40% off. The cursor opens the full groom, books it
+  // for Saturday, ticks a $20 post-groom photo (the total counts up)
+  // and a free dental check, and confirms. "Booked" and the saving
+  // hold, everything drops away, and the film has the screen again
+  // before the next round.
   const scripts = {
     groom: {
-      loopAt: 17000,
+      loopAt: 18000,
       script({ at, on, off, target, glide, tap, count, root }) {
-        const saved = root.querySelector('[data-scene-count]');
-        at(4200, () => on('sheet'));
-        at(4650, () => on('cards'));
-        at(5700, () => { on('cursor'); glide(target('slot'), 950, 0.45, 0.6); });
-        at(6800, () => tap(target('slot'), () => on('slot')));
-        at(7350, () => on('book'));
-        at(8250, () => glide(target('photo').querySelector('.sc-toggle'), 800));
-        at(9150, () => tap(target('photo'), () => { on('photo'); count(saved, 39); }));
-        at(9750, () => glide(target('dental').querySelector('.sc-toggle'), 550));
-        at(10450, () => tap(target('dental'), () => { on('dental'); count(saved, 64); }));
-        at(11100, () => glide(target('book'), 750, 0.5, 0.55));
-        at(12000, () => tap(target('book'), () => on('booked')));
-        at(12800, () => off('cursor'));
-        at(15900, () => on('out'));
+        const total = root.querySelector('[data-scene-count]');
+        at(3800, () => on('app'));
+        at(5300, () => { on('cursor'); glide(target('groom'), 900, 0.5, 0.4); });
+        at(6350, () => tap(target('groom'), () => on('sheet')));
+        at(7400, () => glide(target('book'), 750, 0.5, 0.55));
+        at(8350, () => tap(target('book'), () => on('extras')));
+        at(9250, () => glide(target('photo').querySelector('.sx-check'), 750));
+        at(10150, () => tap(target('photo'), () => { on('photo'); count(total, 116); }));
+        at(10850, () => glide(target('dental').querySelector('.sx-check'), 550));
+        at(11550, () => tap(target('dental'), () => on('dental')));
+        at(12250, () => glide(target('confirm'), 700, 0.5, 0.55));
+        at(13100, () => tap(target('confirm'), () => on('done')));
+        at(13700, () => off('cursor'));
+        at(17000, () => on('out'));
       },
       finalState({ on, root }) {
-        on('sheet', 'cards', 'slot', 'book', 'photo', 'dental', 'booked');
-        root.querySelector('[data-scene-count]').textContent = '$64';
+        on('app', 'sheet', 'extras', 'photo', 'dental', 'done');
+        root.querySelector('[data-scene-count]').textContent = '$116';
       },
     },
   };
