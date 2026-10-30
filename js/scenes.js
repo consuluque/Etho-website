@@ -365,10 +365,11 @@ window.EthoScenes = (() => {
     // Chapter 3 — a weekend away for Bobbi's birthday. A notification
     // drops in over the chapter's photo; the cursor taps it and Etho
     // opens out of it on three dog-friendly stays, the tiny cabin at
-    // 20% off. The cursor opens the cabin, picks pumpkin for the free
-    // welcome pupcake, adds an outdoor dinner, and books the weekend.
+    // 20% off. The cursor opens the cabin, taps the free welcome pupcake
+    // to see its flavours, picks pumpkin (the choice folds back into the
+    // row), adds an outdoor dinner, and books the weekend.
     trip: {
-      loopAt: 16500,
+      loopAt: 18500,
       script({ at, on, off, target, glide, tap }) {
         at(600, () => on('notif'));
         at(2000, () => { on('cursor'); glide(target('notif'), 800, 0.55, 0.55); });
@@ -377,16 +378,19 @@ window.EthoScenes = (() => {
         at(4300, () => on('pick'));
         at(5200, () => glide(target('cabin'), 800, 0.5, 0.5));
         at(6150, () => tap(target('cabin'), () => on('sheet')));
-        at(7300, () => glide(target('pumpkin'), 800, 0.5, 0.6));
-        at(8250, () => tap(target('pumpkin'), () => on('pumpkin')));
-        at(9000, () => glide(target('dinner').querySelector('.sx-check'), 700));
-        at(9850, () => tap(target('dinner'), () => on('dinner')));
-        at(10600, () => glide(target('book'), 700, 0.5, 0.55));
-        at(11450, () => tap(target('book'), () => on('booked')));
-        at(12100, () => off('cursor'));
-        at(15500, () => on('out'));
+        at(7300, () => glide(target('cake'), 800, 0.6, 0.5));
+        at(8250, () => tap(target('cake'), () => on('cake')));
+        at(9050, () => glide(target('pumpkin'), 650, 0.5, 0.6));
+        at(9850, () => tap(target('pumpkin'), () => on('pumpkin')));
+        at(10500, () => on('caked'));
+        at(11200, () => glide(target('dinner').querySelector('.sx-check'), 700));
+        at(12050, () => tap(target('dinner'), () => on('dinner')));
+        at(12800, () => glide(target('book'), 700, 0.5, 0.55));
+        at(13650, () => tap(target('book'), () => on('booked')));
+        at(14300, () => off('cursor'));
+        at(17500, () => on('out'));
       },
-      finalState({ on }) { on('notif', 'open', 'app', 'list', 'sheet', 'pumpkin', 'dinner', 'booked'); },
+      finalState({ on }) { on('notif', 'open', 'app', 'list', 'sheet', 'cake', 'pumpkin', 'caked', 'dinner', 'booked'); },
     },
   };
 

@@ -902,14 +902,11 @@
 .s-open .sx-notif { opacity: 0; transform: scale(0.96); transition-duration: 400ms; }
 .sx-notif__icon {
   flex: none;
-  display: grid;
-  place-items: center;
   width: 2.5em;
   height: 2.5em;
   border-radius: 0.65em;
-  background: #000000;
+  overflow: hidden;
 }
-.sx-notif__icon svg { width: 1.35em; height: 1.35em; fill: var(--app-accent); }
 .sx-notif > div { flex: 1; min-width: 0; }
 .sx-notif__app {
   font-size: 0.72em;
@@ -932,8 +929,9 @@
 .scene__app--trip .sx-headline { margin-top: 1.2em !important; }
 .sx-line--lead { margin-top: 0.3em !important; padding-right: 1.5em; font-size: 0.9em; }
 .sx-tcards--trip { top: 7.6em; }
-.scene img.sx-focus-cabin { object-position: 70% 70%; }
-.scene img.sx-focus-farm { object-position: 40% 85%; }
+.scene img.sx-focus-cabin { object-position: 40% 62%; }
+.scene img.sx-focus-hotel { object-position: 50% 62%; }
+.scene img.sx-focus-farm { object-position: 50% 68%; }
 
 /* The cabin's sheet: taller than chapter 1's, it carries the stay,
    the pupcake and the dinner. */
@@ -941,15 +939,22 @@
 .sx-hero--trip { height: 9.6em; }
 .sx-price__note { font-size: 0.75em; font-weight: 500; color: var(--sx-text2); }
 
+/* The pupcake opens on a tap (s-cake) to show its flavours; once one
+   is picked (s-pumpkin) it folds away again (s-caked) and the line
+   names the choice. */
 .sx-pupcake {
-  display: flex;
-  align-items: center;
-  gap: 0.8em;
   margin-top: 1em;
   padding: 0.7em 0 0.75em;
   border-top: 1px solid var(--sx-rule);
   border-bottom: 1px solid var(--sx-rule);
 }
+.sx-pupcake__head {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  transition: transform 160ms var(--ease-out);
+}
+.sx-pupcake__head.is-pressed { transform: scale(0.98); }
 .sx-pupcake__photo {
   flex: none;
   width: 4.3em;
@@ -957,10 +962,42 @@
   border-radius: 0.9em;
   overflow: hidden;
 }
-.sx-pupcake > div { flex: 1; min-width: 0; }
+.sx-pupcake__head > div { flex: 1; min-width: 0; }
 .sx-pupcake .sx-title { margin: 0 !important; padding: 0; }
 .sx-pupcake .sx-title .sx-pill { margin-left: 0.3em; font-size: 0.78em; vertical-align: 0.1em; }
-.sx-chips { display: flex; gap: 0.4em; margin-top: 0.55em; }
+.sx-pupcake .sx-line { margin-top: 0.25em !important; }
+.sx-pupcake__pick { display: none; font-weight: 700; color: var(--sx-title); }
+.s-caked .sx-pupcake__ask { display: none; }
+.s-caked .sx-pupcake__pick { display: inline; }
+.sx-chevron {
+  flex: none;
+  width: 1.3em;
+  height: 1.3em;
+  fill: none;
+  stroke: var(--sx-text2);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 400ms var(--ease-out);
+}
+.s-cake .sx-chevron { transform: rotate(180deg); }
+.s-caked .sx-chevron { transform: none; }
+.sx-flavours {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 550ms var(--ease-out);
+}
+.sx-flavours > .sx-chips {
+  overflow: hidden;
+  padding-left: 5.1em;
+  opacity: 0;
+  transition: opacity 350ms var(--ease-out), padding-top 550ms var(--ease-out);
+}
+.s-cake .sx-flavours { grid-template-rows: 1fr; }
+.s-cake .sx-flavours > .sx-chips { opacity: 1; padding-top: 0.65em; transition-delay: 120ms, 0ms; }
+.s-caked .sx-flavours { grid-template-rows: 0fr; }
+.s-caked .sx-flavours > .sx-chips { opacity: 0; padding-top: 0; transition-delay: 0ms; }
+.sx-chips { display: flex; gap: 0.4em; }
 .sx-chip {
   padding: 0.42em 0.8em;
   border-radius: 2em;
