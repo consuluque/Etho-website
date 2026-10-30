@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=20261029">
 <link rel="stylesheet" href="css/landing.css?v=20261002">
-<link rel="stylesheet" href="css/home.css?v=20261030c">
-<link rel="stylesheet" href="css/scenes.css?v=20261030c">
+<link rel="stylesheet" href="css/home.css?v=20261030d">
+<link rel="stylesheet" href="css/scenes.css?v=20261030d">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
@@ -346,7 +346,7 @@
                 <span class="sx-lock__bar"></span>
               </div>
               <div class="sx-notif" data-target="notif">
-                <span class="sx-notif__icon"><img src="assets/images/scenes/etho-app-icon.webp" alt="" loading="lazy" decoding="async"></span>
+                <span class="sx-notif__icon"><svg viewBox="0 0 100 100"><path d="M55.7,0C57.5,0.1 61.1,1.3 62.7,2.1C64.3,2.9 64.8,3.8 65.5,4.9C66.3,5.9 66.7,6.6 67.2,8.4C67.8,10.1 68.4,11.8 68.6,15.3C68.9,18.9 66.7,28.3 68.6,29.6C70.6,31 78,24.5 80.5,23.3C82.9,22.2 81.5,22.6 83.3,22.6C85,22.6 89.2,23 90.9,23.3C92.7,23.7 92.6,23.6 93.7,24.7C94.9,25.9 97.2,27.7 97.9,30.3C98.7,32.9 98.5,37.9 98.3,40.4C98,42.9 97.3,43.8 96.5,45.3C95.7,46.7 96.1,47.3 93.4,49.1C90.7,51 81.4,53.6 80.5,56.4C79.6,59.3 86.5,63.2 88.2,66.2C89.8,69.2 90.2,71.8 90.6,74.2C90.9,76.7 90.6,78.9 90.2,80.8C89.9,82.8 89.4,84.3 88.5,86.1C87.6,87.9 86.4,90 85,91.6C83.7,93.3 82.4,94.8 80.5,96.2C78.6,97.5 75.4,99 73.5,99.7C71.6,100.3 70.4,100.1 69,100C67.6,99.9 66.8,99.8 65.2,99C63.5,98.1 60.6,96.4 58.9,95.1C57.2,93.8 57.1,94.1 55.1,91.3C53,88.5 48.4,79.9 46.7,78.4C44.9,76.9 45.7,80.3 44.6,82.2C43.5,84.1 41.3,88 40.1,89.9C38.8,91.8 38.1,92.3 36.9,93.4C35.8,94.4 34.5,95.4 33.1,96.2C31.7,96.9 31.1,97.7 28.6,97.9C26,98.1 20.4,98 17.8,97.6C15.2,97.1 14.3,96.1 12.9,95.1C11.4,94.1 10.3,93.5 9.1,91.6C7.8,89.8 5.8,86.6 5.2,84C4.6,81.3 4.8,78.6 5.6,75.6C6.4,72.6 7.9,69.5 10.1,65.9C12.3,62.3 19.5,57.5 18.8,54C18.2,50.5 9,47.5 6.3,44.9C3.5,42.4 3.3,40.8 2.4,38.7C1.6,36.6 1.5,34.1 1.4,32.4C1.3,30.7 1.5,30 2.1,28.6C2.7,27.1 3.9,25 4.9,23.7C5.9,22.4 6.4,21.8 8,20.9C9.6,20 12.5,18.6 14.6,18.1C16.7,17.7 18.2,17.7 20.6,18.1C22.9,18.6 26.1,19.8 28.6,20.9C31,22 33,23.2 35.2,24.7C37.3,26.2 39.5,32.8 41.5,30C43.4,27.2 45.3,12.8 47,8C48.8,3.3 50.5,2.7 51.9,1.4C53.4,0.1 53.9,-0.1 55.7,0Z"/></svg></span>
                 <div><p class="sx-notif__app">Etho <span>now</span></p><p class="sx-title">Bobbi’s birthday is in 1 week 🎂</p><p class="sx-line">Plan something special for her</p></div>
               </div>
               <div class="scene__app scene__app--trip">
@@ -386,6 +386,7 @@
                     <div><p class="sx-title">Dinner reservation</p><p class="sx-line">Outdoor seating · Sat 7pm</p></div>
                     <span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
                   </div>
+                  <div class="sx-total sx-total--trip"><p><span>Total savings</span><b data-scene-count>$0</b></p></div>
                   <div class="sx-button" data-target="book"><span class="sx-book__label">Book weekend</span><span class="sx-book__done"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Booked for Bobbi</span></div>
                 </div>
               </div>
@@ -592,7 +593,7 @@
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/breeds.js?v=20261002"></script>
 <script src="js/profile.js?v=20261002"></script>
-<script src="js/scenes.js?v=20261030c"></script>
-<script src="js/home.js?v=20261030c"></script>
+<script src="js/scenes.js?v=20261030d"></script>
+<script src="js/home.js?v=20261030d"></script>
 </body>
 </html>
