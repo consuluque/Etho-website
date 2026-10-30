@@ -765,7 +765,8 @@
 .sx-tcard__photo .sx-pill { position: absolute; top: 0.55em; left: 0.55em; }
 .sx-tcard .sx-title { margin: 0 !important; padding: 0; font-size: 1.15em; }
 .sx-tcard .sx-line { margin-top: 0.35em !important; font-size: 0.9em; line-height: 1.4; }
-.s-pick .sx-tcard:first-of-type .sx-pill { animation: sx-hop 600ms var(--ease-out); }
+.scene--winnie.s-pick .sx-tcard:first-of-type .sx-pill,
+.scene--trip.s-pick [data-target="hotel"] .sx-pill { animation: sx-hop 600ms var(--ease-out); }
 /* Each therapy's photo holds on its dog. */
 .scene img.sx-focus-hydro { object-position: 42% 40%; }
 .scene img.sx-focus-redlight { object-position: 88% 60%; }
@@ -862,6 +863,262 @@
 .scene--winnie.s-out .sx-page,
 .scene--winnie.s-out .sx-veil { opacity: 0; }
 .scene--winnie.s-out .sx-success { transform: translateY(105%); }
+
+/* -- Chapter 3: a weekend away for Bobbi --------------------------
+
+   Opens on the chapter's photo as a lock screen: a notification drops
+   in (s-notif), the cursor taps it, and Etho opens out of it (s-open,
+   s-app) on three stays (s-list). The cabin's sheet rises (s-sheet);
+   a pupcake flavour is picked (s-pumpkin), an outdoor dinner added
+   (s-dinner), and the weekend booked (s-booked). */
+
+.scene--trip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14, 15, 12, 0.4) 0%, rgba(14, 15, 12, 0.05) 38%, rgba(14, 15, 12, 0.05) 75%, rgba(14, 15, 12, 0.35) 100%);
+  transition: opacity 500ms var(--ease-out);
+}
+.scene--trip.s-open::before { opacity: 0; }
+
+/* The first frame is an iPhone lock screen over the chapter's photo:
+   padlock, date and a large clock, the torch and camera buttons, and
+   the home bar. It fades once the notification is opened. */
+.sx-lock {
+  position: absolute;
+  inset: 0;
+  color: #FFFFFF;
+  text-align: center;
+  text-shadow: 0 0.05em 0.6em rgba(0, 0, 0, 0.25);
+  transition: opacity 450ms var(--ease-out);
+}
+.s-open .sx-lock { opacity: 0; }
+.sx-lock__padlock {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+  margin: 2.3em auto 0;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.sx-lock__date {
+  margin-top: 0.7em !important;
+  font-size: 1.05em;
+  font-weight: 600;
+}
+.sx-lock__time {
+  margin-top: -0.05em !important;
+  font-size: 5.4em;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.sx-lock__btn {
+  position: absolute;
+  bottom: 2.6em;
+  display: grid;
+  place-items: center;
+  width: 2.9em;
+  height: 2.9em;
+  border-radius: 50%;
+  background: rgba(30, 30, 30, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.sx-lock__btn--left { left: 2.4em; }
+.sx-lock__btn--right { right: 2.4em; }
+.sx-lock__btn svg {
+  width: 1.3em;
+  height: 1.3em;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+.sx-lock__bar {
+  position: absolute;
+  left: 50%;
+  bottom: 0.7em;
+  width: 7.5em;
+  height: 0.28em;
+  margin-left: -3.75em;
+  border-radius: 1em;
+  background: #FFFFFF;
+}
+
+.sx-notif {
+  position: absolute;
+  z-index: 2;
+  top: 13.8em;
+  left: 0.7em;
+  right: 0.7em;
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0.8em 0.9em;
+  border-radius: 1.5em;
+  background: rgba(250, 249, 246, 0.82);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  box-shadow: 0 0.5em 1.8em rgba(14, 15, 12, 0.22);
+  opacity: 0;
+  transform: translateY(1.5em) scale(0.94);
+  transition: transform 750ms var(--ease-out), opacity 400ms var(--ease-out);
+}
+.s-notif .sx-notif { opacity: 1; transform: none; }
+.sx-notif.is-pressed { transform: scale(0.97); transition-duration: 160ms; }
+.s-open .sx-notif { opacity: 0; transform: scale(0.96); transition-duration: 400ms; }
+.sx-notif__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 0.65em;
+  background: #000000;
+}
+.sx-notif__icon svg { width: 1.45em; height: 1.45em; fill: #FFFFFF; }
+.sx-notif > div { flex: 1; min-width: 0; }
+.sx-notif__app {
+  font-size: 0.72em;
+  font-weight: 600;
+  color: var(--sx-text2);
+}
+.sx-notif__app span { float: right; font-weight: 500; }
+.sx-notif .sx-title { margin: 0.1em 0 0 !important; padding: 0; font-size: 0.92em; }
+.sx-notif .sx-line { margin-top: 0.05em !important; font-size: 0.82em; }
+
+/* Etho opens out of the notification, rather than rising from below. */
+.scene__app--trip {
+  padding-top: 1.2em;
+  opacity: 0;
+  transform: scale(0.9);
+  transform-origin: 50% 33%;
+  transition: transform 750ms var(--ease-out), opacity 450ms var(--ease-out), filter 600ms var(--ease-out);
+}
+.s-app .scene__app--trip { opacity: 1; transform: none; }
+.scene__app--trip .sx-headline { margin-top: 1.2em !important; }
+.sx-line--lead { margin-top: 0.3em !important; padding-right: 1.5em; font-size: 0.9em; }
+.sx-tcards--trip { top: 7.6em; }
+.scene img.sx-focus-cabin { object-position: 40% 62%; }
+.scene img.sx-focus-hotel { object-position: 50% 62%; }
+.scene img.sx-focus-farm { object-position: 50% 68%; }
+.scene img.sx-focus-bed { object-position: 50% 55%; }
+
+/* The cabin's sheet: taller than chapter 1's, it carries the stay,
+   the pupcake and the dinner. */
+.scene__sheet--trip { height: 33.5em; }
+.sx-hero--trip { height: 9.6em; }
+.sx-price__note { font-size: 0.75em; font-weight: 500; color: var(--sx-text2); }
+
+/* The pupcake opens on a tap (s-cake) to show its flavours; once one
+   is picked (s-pumpkin) it folds away again (s-caked) and the line
+   names the choice. */
+.sx-pupcake {
+  margin-top: 1em;
+  padding: 0.7em 0 0.75em;
+  border-top: 1px solid var(--sx-rule);
+  border-bottom: 1px solid var(--sx-rule);
+}
+.sx-pupcake__head {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  transition: transform 160ms var(--ease-out);
+}
+.sx-pupcake__head.is-pressed { transform: scale(0.98); }
+.sx-pupcake__photo {
+  flex: none;
+  width: 4.3em;
+  height: 4.3em;
+  border-radius: 0.9em;
+  overflow: hidden;
+}
+.sx-pupcake__head > div { flex: 1; min-width: 0; }
+.sx-pupcake .sx-title { margin: 0 !important; padding: 0; }
+.sx-pupcake .sx-title .sx-pill { margin-left: 0.3em; font-size: 0.78em; vertical-align: 0.1em; }
+.sx-pupcake .sx-line { margin-top: 0.25em !important; }
+.sx-pupcake__pick { display: none; font-weight: 700; color: var(--sx-title); }
+.s-caked .sx-pupcake__ask { display: none; }
+.s-caked .sx-pupcake__pick { display: inline; }
+.sx-chevron {
+  flex: none;
+  width: 1.3em;
+  height: 1.3em;
+  fill: none;
+  stroke: var(--sx-text2);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 400ms var(--ease-out);
+}
+.s-cake .sx-chevron { transform: rotate(180deg); }
+.s-caked .sx-chevron { transform: none; }
+.sx-flavours {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 550ms var(--ease-out);
+}
+.sx-flavours > .sx-chips {
+  overflow: hidden;
+  padding-left: 5.1em;
+  opacity: 0;
+  transition: opacity 350ms var(--ease-out), padding-top 550ms var(--ease-out);
+}
+.s-cake .sx-flavours { grid-template-rows: 1fr; }
+.s-cake .sx-flavours > .sx-chips { opacity: 1; padding-top: 0.65em; transition-delay: 120ms, 0ms; }
+.s-caked .sx-flavours { grid-template-rows: 0fr; }
+.s-caked .sx-flavours > .sx-chips { opacity: 0; padding-top: 0; transition-delay: 0ms; }
+.sx-chips { display: flex; gap: 0.4em; }
+.sx-chip {
+  padding: 0.42em 0.8em;
+  border-radius: 2em;
+  border: 1.5px solid rgba(14, 15, 12, 0.14);
+  font-size: 0.78em;
+  font-weight: 600;
+  transition: background 300ms var(--ease-out), color 300ms var(--ease-out), border-color 300ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.sx-chip.is-pressed { transform: scale(0.92); }
+.s-pumpkin [data-target="pumpkin"] { background: #000000; border-color: #000000; color: #FFFFFF; }
+
+.scene--trip .sx-row { border-bottom: 0; }
+.s-dinner [data-target="dinner"] .sx-check { background: #000000; border-color: #000000; }
+.s-dinner [data-target="dinner"] .sx-check path { stroke-dashoffset: 0; }
+
+.scene__sheet--trip .sx-button { position: relative; }
+.sx-book__label,
+.sx-book__done {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  transition: opacity 300ms var(--ease-out), transform 500ms var(--ease-out);
+}
+.sx-book__done { opacity: 0; transform: translateY(0.8em); }
+.s-booked .sx-book__label { opacity: 0; transform: translateY(-0.8em); }
+.s-booked .sx-book__done { opacity: 1; transform: none; }
+.s-booked .scene__sheet--trip .sx-button { background: var(--sx-green); }
+.sx-book__done svg {
+  width: 1.25em;
+  height: 1.25em;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sx-total--trip { margin-top: auto; }
+.sx-total--trip + .sx-button { margin-top: 0; }
+.sx-total--trip > p { padding-left: 0; padding-right: 0; }
+.s-total .sx-total--trip > p { padding: 0.2em 0 0.7em; }
+
+.scene--trip.s-out .scene__app--trip { opacity: 0; transform: none; filter: none; }
+.scene--trip.s-out .scene__sheet { transform: translateY(110%); }
 
 /* -- The cursor ----------------------------------------------------- */
 
