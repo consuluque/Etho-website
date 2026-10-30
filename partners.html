@@ -3,67 +3,503 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Etho for partners — Be one of the first</title>
-<meta name="description" content="Etho is bringing together the best dog services and brands. Apply to be one of the first providers and brands on the platform.">
+<title>Etho for partners — Connect with proactive dog parents</title>
+<meta name="description" content="Etho helps pet services attract new customers, fill available appointments and grow revenue per booking. Register your interest to become a founding partner.">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/images/favicon-64.png?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png?v=3">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20261002">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=20261029">
 <link rel="stylesheet" href="css/landing.css?v=20261002">
+<link rel="stylesheet" href="css/home.css?v=20261030e">
+<link rel="stylesheet" href="css/scenes.css?v=20261030e">
+<link rel="stylesheet" href="css/consent.css?v=20261026b">
+<link rel="stylesheet" href="css/partners.css?v=20261030a">
+<!-- Flags that scripting is on, before anything paints. The reveal
+     animation and the word-by-word paragraph are opt-in on this, so the
+     page is readable without it. -->
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <div class="page">
 
-  <nav class="site-nav" aria-label="Primary">
-    <a class="site-nav__mark" href="index.html">etho</a>
+  <!-- The wordmark on the left and the way back to the dog-parent site
+       on the right, across the top of the hero. -->
+  <nav class="site-nav site-nav--b2b" aria-label="Primary">
+    <a class="site-nav__mark" href="#top">etho</a>
+    <a class="site-nav__link" href="/">For dog parents <span aria-hidden="true">→</span></a>
   </nav>
 
   <!-- 1 — Hero ---------------------------------------------------------- -->
-  <section id="top" class="hero hero--partners on-dark" data-section="partners_hero">
-    <div class="hero-scrim"></div>
-
-    <div class="hero-content">
-      <p class="hero-kicker">For providers and brands</p>
-      <h1 class="hero-title">Be one of the first.</h1>
-      <p class="hero-sub">Etho sends dog owners to the people and products worth paying for. We are choosing our founding partners now.</p>
-
-      <div id="apply" class="access-slot">
-        <form class="waitlist-form access-form"
-              action="/api/waitlist" method="POST"
-              data-form-name="partner_application"
-              data-done-message="Thanks — we'll be in touch about partnering.">
-          <label class="u-visually-hidden" for="partner-email">Work email address</label>
-          <input id="partner-email" type="email" name="email" class="waitlist-input"
-                 placeholder="you@yourbusiness.com" autocomplete="email" required>
-          <div class="hp" aria-hidden="true">
-            <label for="partner-hp-field">Leave this field empty</label>
-            <input id="partner-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <!-- Two halves: the pitch on the left, and on the right a wall of
+       bookings coming in for providers, drifting up in three columns
+       (partners.css). Every call to action opens the partner intake
+       form; until its link is set they point at #typeform. -->
+  <section id="top" class="hero hero--b2b on-dark" data-section="partners_hero">
+    <div class="b2b-hero__copy">
+      <p class="b2b-hero__kicker">Etho for partners</p>
+      <h1 class="hero-title">Connect your services to proactive dog parents</h1>
+      <p class="hero-sub">Etho helps pet services attract new customers, fill available appointments and grow revenue per booking.</p>
+      <a class="b2b-cta" href="#typeform" data-typeform>Register your interest</a>
+      <p class="b2b-hero__note">Founding partner places are now open</p>
+      <ul class="b2b-hero__types" aria-label="Who Etho works with">
+        <li>Grooming</li><li>Training</li><li>Vets &amp; therapy</li><li>Daycare</li><li>Stays</li><li>Experiences</li>
+      </ul>
+    </div>
+    <div class="b2b-wall" aria-hidden="true">
+        <div class="b2b-wall__col b2b-wall__col--1">
+          <div class="b2b-wall__track">
+          <figure class="b2b-tile b2b-tile--glow"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Wash &amp; Dry</b><span>Slot filled · Sat 10am</span></figcaption></figure>
+          <figure class="b2b-tile"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Welcome pupcake</b><span>Add-on · +$12</span></figcaption></figure>
+          <figure class="b2b-tile"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Group training</b><span>New customer</span></figcaption></figure>
+          <figure class="b2b-tile b2b-tile--glow"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Hydrotherapy</b><span>Booked · Thu 4pm</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Wash &amp; Dry</b><span>Slot filled · Sat 10am</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Welcome pupcake</b><span>Add-on · +$12</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Group training</b><span>New customer</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Hydrotherapy</b><span>Booked · Thu 4pm</span></figcaption></figure>
           </div>
-          <button type="submit" class="btn-solid waitlist-submit">Apply here</button>
-        </form>
-        <p class="waitlist-status" data-form-status aria-live="polite"></p>
-      </div>
+        </div>
+        <div class="b2b-wall__col b2b-wall__col--2">
+          <div class="b2b-wall__track">
+          <figure class="b2b-tile b2b-tile--glow"><img class="sx-focus-bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Palm Beach Hotel</b><span>2 nights · Paid</span></figcaption></figure>
+          <figure class="b2b-tile"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Post-groom photo</b><span>Add-on · +$20</span></figcaption></figure>
+          <figure class="b2b-tile"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy parents meetup</b><span>12 going</span></figcaption></figure>
+          <figure class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Dog ramp</b><span>Bundle · +$89</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-focus-bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Palm Beach Hotel</b><span>2 nights · Paid</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Post-groom photo</b><span>Add-on · +$20</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy parents meetup</b><span>12 going</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Dog ramp</b><span>Bundle · +$89</span></figcaption></figure>
+          </div>
+        </div>
+        <div class="b2b-wall__col b2b-wall__col--3">
+          <div class="b2b-wall__track">
+          <figure class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy school</b><span>Course full</span></figcaption></figure>
+          <figure class="b2b-tile"><img class="sx-focus-pilates" src="assets/images/scenes/pilates.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pilates with pups</b><span>New customer</span></figcaption></figure>
+          <figure class="b2b-tile b2b-tile--glow"><img class="sx-focus-redlight" src="assets/images/scenes/redlight.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Red light therapy</b><span>Repeat booking</span></figcaption></figure>
+          <figure class="b2b-tile"><img src="assets/images/scenes/pupuccino-corgis.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pupuccino meetup</b><span>Offer redeemed</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy school</b><span>Course full</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile"><img class="sx-focus-pilates" src="assets/images/scenes/pilates.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pilates with pups</b><span>New customer</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-focus-redlight" src="assets/images/scenes/redlight.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Red light therapy</b><span>Repeat booking</span></figcaption></figure>
+          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/pupuccino-corgis.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pupuccino meetup</b><span>Offer redeemed</span></figcaption></figure>
+          </div>
+        </div>
     </div>
   </section>
 
-  <footer class="site-footer" data-section="footer">
-    <p class="site-footer__mark">etho</p>
-    <p class="site-footer__tagline">Know their nature</p>
-    <nav class="site-footer__links" aria-label="Footer">
-      <a href="index.html">Home</a>
-      <a href="mailto:hello@ethopethealth.com">Contact</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
+  <!-- 2 — The story ------------------------------------------------------ -->
+  <!-- One paragraph. home.js wraps each word so it can darken them in
+       turn as the reader scrolls, like the line being typed out. -->
+  <section class="story" id="story" data-section="story">
+    <p class="story__copy" data-scroll-words>Dogs are living longer than ever, and their parents want more than the essentials. Preventative care, enrichment and experiences they can share. Etho turns that intent into personalised, proactive bookings, sent to providers like you.</p>
+  </section>
+
+  <!-- 3 — Product story --------------------------------------------------- -->
+  <!-- One phone, three chapters. The stage pins to the top of the screen
+       for the length of the section while the trigger blocks after it
+       scroll past underneath; home.js reads which trigger is in view and
+       switches the text and the phone's screen to match. Each chapter's
+       screen is a still with its film on top, so the still is what shows
+       until the film is actually running. The first chapter ships
+       active in the markup, so the section reads without a script. -->
+  <section class="showcase" id="showcase" data-section="showcase" data-showcase>
+    <div class="showcase__stage">
+
+      <div class="showcase__col showcase__col--title">
+        <h2 class="showcase__title is-active" data-showcase-text="0">Fill your available appointments</h2>
+        <h2 class="showcase__title" data-showcase-text="1">Be found for every need</h2>
+        <h2 class="showcase__title" data-showcase-text="2">Grow every booking</h2>
+      </div>
+
+      <div class="showcase__phone">
+        <div class="showcase__screen">
+          <div class="showcase__slide is-active" data-showcase-slide="0" data-showcase-chapter="0">
+            <img class="showcase__still" src="assets/images/scenes/samoyed-still.webp"
+                 alt="" width="720" height="1280" loading="eager" decoding="async">
+            <video class="showcase__film" src="assets/videos/samoyed-shaking.mp4?v=2"
+                   muted playsinline data-outro preload="none" aria-hidden="true" tabindex="-1"></video>
+            <!-- The grooming scene opens the chapter, in the app's own
+                 look: Hector's picks are on screen from the first frame,
+                 a cursor flicks through them, opens the wash &amp; dry at
+                 20% off, books it for Saturday, adds a photo and a free
+                 dental check, and confirms. Then the app drops away and
+                 the Samoyed shakes off his bath (data-outro: scenes.js
+                 rolls it). With no script the Samoyed's still carries
+                 the chapter. -->
+            <div class="scene" data-scene="groom" aria-hidden="true">
+              <div class="scene__app">
+                <div class="sx-hello">
+                  <p class="sx-greeting">Here’s to a good day</p>
+                  <span class="sx-avatar"><img src="assets/images/scenes/hector.webp" alt="" loading="lazy" decoding="async"></span>
+                </div>
+                <p class="sx-headline">Picked for Hector</p>
+                <div class="sx-rail" data-scroll="picked">
+                    <div class="sx-card">
+                      <div class="sx-photo"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">40% off</span></div>
+                      <p class="sx-title">Group training</p>
+                      <p class="sx-line sx-line--price"><s>$50</s> $30</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/pupuccino-corgis.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">Free</span></div>
+                      <p class="sx-title">Pupuccino meetup</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/beach.webp" alt="" loading="lazy" decoding="async"></div>
+                      <p class="sx-title">Beach walk</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/cinema.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">Free</span></div>
+                      <p class="sx-title">Dog cinema</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/markets.webp" alt="" loading="lazy" decoding="async"></div>
+                      <p class="sx-title">Dog markets</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/training.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
+                      <p class="sx-title">Puppy school</p>
+                      <p class="sx-line sx-line--price"><s>$240</s> $180</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async"></div>
+                      <p class="sx-title">Ear care</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/massage.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">30% off</span></div>
+                      <p class="sx-title">Massage</p>
+                      <p class="sx-line sx-line--price"><s>$80</s> $56</p>
+                    </div>
+                    <div class="sx-card" data-target="wash">
+                      <div class="sx-photo"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">20% off</span></div>
+                      <p class="sx-title">Wash &amp; Dry</p>
+                      <p class="sx-line sx-line--price"><s>$120</s> $96</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">Free</span></div>
+                      <p class="sx-title">Dental check</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/shampoo.webp" alt="" loading="lazy" decoding="async"></div>
+                      <p class="sx-title">Hair treatment</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/brush.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">40% off</span></div>
+                      <p class="sx-title">Deshedding</p>
+                      <p class="sx-line sx-line--price"><s>$90</s> $54</p>
+                    </div>
+                </div>
+
+                <p class="sx-heading">Get Hector pampered</p>
+                <div class="sx-rail sx-rail--small">
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/massage.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">30% off</span></div>
+                      <p class="sx-title">Massage</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">Free</span></div>
+                      <p class="sx-title">Dental check</p>
+                    </div>
+                    <div class="sx-card">
+                      <div class="sx-photo"><img src="assets/images/scenes/shampoo.webp" alt="" loading="lazy" decoding="async"></div>
+                      <p class="sx-title">Hair treatment</p>
+                    </div>
+                </div>
+              </div>
+
+              <div class="scene__sheet">
+                <div class="scene__page scene__page--service">
+                  <div class="sx-hero"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">20% off</span></div>
+                  <p class="sx-meta"><span>The Fluffy Tub</span><svg viewBox="0 0 18 18"><path d="M9 1.5l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.8l5-.7z"/></svg>4.9 · Bondi</p>
+                  <p class="sx-big">Wash &amp; Dry</p>
+                  <p class="sx-line">Full body wash, blow-dry and detangling</p>
+                  <p class="sx-price"><s>$120</s> $96</p>
+                  <div class="sx-button" data-target="book"><span>Book for Saturday</span></div>
+                </div>
+
+                <div class="scene__page scene__page--extras">
+                  <p class="sx-big">Make it special</p>
+                  <p class="sx-line">Add to Hector’s wash &amp; dry</p>
+                  <div class="sx-rows">
+                    <div class="sx-row" data-target="photo">
+                      <img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async">
+                      <div><p class="sx-title">Post-groom photo</p><p class="sx-line">$20</p></div>
+                      <span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+                    </div>
+                    <div class="sx-row" data-target="dental">
+                      <img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async">
+                      <div><p class="sx-title">Dental check</p><p class="sx-line"><span class="sx-pill">Free</span></p></div>
+                      <span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+                    </div>
+                    <div class="sx-row">
+                      <img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async">
+                      <div><p class="sx-title">Ear cleaner</p><p class="sx-line">$24.50</p></div>
+                      <span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+                    </div>
+                  </div>
+                  <p class="sx-sum"><span>Etho saving</span><b>−$24</b></p>
+                  <div class="sx-button" data-target="confirm"><span>Confirm · <span data-scene-count>$96</span></span></div>
+                </div>
+
+                <div class="scene__page scene__page--done">
+                  <span class="sx-done"><svg viewBox="0 0 48 48"><path d="M14 25l7 7 13-15"/></svg></span>
+                  <p class="sx-big">Booked</p>
+                  <div class="sx-booking">
+                    <span class="sx-thumb"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span>
+                    <div><p class="sx-title">Wash &amp; Dry</p><p class="sx-line">Saturday 10am · The Fluffy Tub</p></div>
+                  </div>
+                  <span class="sx-saved">You saved $24</span>
+                </div>
+              </div>
+
+              <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+            </div>
+          </div>
+          <div class="showcase__slide" data-showcase-slide="1" data-showcase-chapter="1">
+            <img class="showcase__still" src="assets/images/scenes/lounge-frost.webp"
+                 alt="" width="800" height="800" loading="lazy" decoding="async">
+            <!-- Chapter 2, first screen: a large search in the middle of
+                 frosted glass. "Train my puppy…" is typed into it, the bar
+                 rises, three answers come in on glass, and a success
+                 screen slides up: "A+ for your pup. Perks for you.", the
+                 trained puppy, and the month's saving counting up. -->
+            <div class="scene scene--glass" data-scene="puppy" aria-hidden="true">
+              <div class="scene__app scene__app--clear">
+                <div class="sx-search sx-search--hero" data-target="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span class="sx-type" data-type="Train my puppy…"></span></div>
+                <div class="sx-results">
+                  <div class="sx-result" data-target="school">
+                    <div class="sx-result__photo"><img src="assets/images/scenes/training.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
+                    <div><p class="sx-title">Puppy school</p><p class="sx-line">200m from you<br>Starts next week</p></div>
+                  </div>
+                  <div class="sx-result">
+                    <div class="sx-result__photo"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"></div>
+                    <div><p class="sx-title">Puppy parents meetup 🍷</p><p class="sx-line">Every Wednesday night<br>The Wine Terrace</p></div>
+                  </div>
+                  <div class="sx-result">
+                    <div class="sx-result__photo"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">30% off</span></div>
+                    <div><p class="sx-title">Group training</p><p class="sx-line">Saturdays 10:00am<br>Bondi Junction</p></div>
+                  </div>
+                </div>
+              </div>
+              <div class="sx-success">
+                <div class="sx-nav"><span class="sx-close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span><p>Etho Perks</p></div>
+                <p class="sx-cheer">A+ for your pup.<br>Perks for you.</p>
+                <div class="sx-frame"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"></div>
+                <div class="sx-benefit"><p>Saved <b data-scene-count>$0</b> this month</p></div>
+              </div>
+              <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+            </div>
+          </div>
+          <div class="showcase__slide" data-showcase-slide="2" data-showcase-chapter="1">
+            <img class="showcase__still" src="assets/images/scenes/winnie-still.webp"
+                 alt="" width="720" height="1280" loading="lazy" decoding="async">
+            <video class="showcase__film" src="assets/videos/winnie-stairs.mp4"
+                   muted playsinline data-outro preload="none" aria-hidden="true" tabindex="-1"></video>
+            <!-- Chapter 2, second screen: Winnie the Dachshund. She steps
+                 down the sofa stairs (the film, which the scene rolls) and
+                 a glass search rises over her; "Winnie has hip pain" is
+                 typed, the film frosts over,
+                 the page comes in with three large therapies, the cursor
+                 books hydrotherapy, and a confirmation like the puppy's
+                 success screen slides up with "The little extras matter":
+                 the cursor picks the dog ramp and taps Shop. -->
+            <div class="scene scene--glass scene--winnie" data-scene="winnie" aria-hidden="true">
+              <div class="sx-veil"></div>
+              <div class="sx-page"></div>
+              <div class="scene__app scene__app--clear">
+                <div class="sx-hello">
+                  <p class="sx-greeting">Here’s to a good day</p>
+                  <span class="sx-avatar"><img src="assets/images/scenes/winnie-avatar.webp" alt="" loading="lazy" decoding="async"></span>
+                </div>
+                <div class="sx-search sx-search--hero" data-target="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span class="sx-type" data-type="Winnie has hip pain"></span></div>
+                <div class="sx-tcards">
+                  <p class="sx-subhead">Therapies near you</p>
+                  <div class="sx-tcard" data-target="hydro">
+                    <div class="sx-tcard__photo"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">15% off</span></div>
+                    <div><p class="sx-title">Hydrotherapy</p><p class="sx-line">Dogue Wellness<br>1.2 km · Thursdays 4pm</p></div>
+                  </div>
+                  <div class="sx-tcard">
+                    <div class="sx-tcard__photo"><img class="sx-focus-redlight" src="assets/images/scenes/redlight.webp" alt="" loading="lazy" decoding="async"></div>
+                    <div><p class="sx-title">Red light therapy</p><p class="sx-line">Calm Paws Clinic<br>Bondi</p></div>
+                  </div>
+                  <div class="sx-tcard">
+                    <div class="sx-tcard__photo"><img class="sx-focus-pilates" src="assets/images/scenes/pilates.webp?v=2" alt="" loading="lazy" decoding="async"></div>
+                    <div><p class="sx-title">Pilates with pups</p><p class="sx-line">Saturdays 9am<br>Bronte</p></div>
+                  </div>
+                </div>
+              </div>
+              <div class="sx-success sx-success--extras">
+                <div class="sx-nav"><span class="sx-close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span><p>Dogue Wellness</p></div>
+                <p class="sx-cheer">Hydrotherapy booked.<br>Thursday, 4pm.</p>
+                <div class="sx-extras">
+                  <p class="sx-subhead">The little extras matter</p>
+                  <div class="sx-extras__row">
+                    <div class="sx-extra" data-target="ramp">
+                      <div class="sx-extra__photo"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"><span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span></div>
+                      <p class="sx-title">Dog ramp</p><p class="sx-line sx-line--price"><s>$110</s> $89</p>
+                    </div>
+                    <div class="sx-extra">
+                      <div class="sx-extra__photo"><img class="sx-focus-feeder" src="assets/images/scenes/feeder.webp" alt="" loading="lazy" decoding="async"></div>
+                      <p class="sx-title">Raised feeder</p><p class="sx-line sx-line--price">$45</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="sx-benefit sx-benefit--shop">
+                  <div class="sx-total"><p><span>Total savings</span><b data-scene-count>$0</b></p></div>
+                  <div class="sx-button" data-target="shop"><span class="sx-shop__label">Shop</span><span class="sx-shop__done"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Ramp added</span></div>
+                </div>
+              </div>
+              <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+            </div>
+          </div>
+          <div class="showcase__slide" data-showcase-slide="3" data-showcase-chapter="2">
+            <img class="showcase__still" src="assets/images/Web_Image_3.webp"
+                 alt="" width="941" height="1672" loading="eager" decoding="async">
+            <!-- Chapter 3: a weekend away for Bobbi's birthday. A
+                 notification drops in over the lock screen; tapping it
+                 opens Etho on three dog-friendly stays. The cursor opens
+                 the hotel, opens the free welcome pupcake and picks
+                 a flavour, adds an outdoor dinner, and books it. -->
+            <div class="scene scene--trip" data-scene="trip" aria-hidden="true">
+              <div class="sx-lock">
+                <svg class="sx-lock__padlock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.4"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                <p class="sx-lock__date">Thursday 30 October</p>
+                <p class="sx-lock__time">9:41</p>
+                <span class="sx-lock__btn sx-lock__btn--left"><svg viewBox="0 0 24 24"><path d="M9 3h6l-1 5h-4zM10 8h4v9a2 2 0 0 1-4 0z"/></svg></span>
+                <span class="sx-lock__btn sx-lock__btn--right"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.4"/><path d="M8.5 7l1.5-2.5h4L15.5 7"/></svg></span>
+                <span class="sx-lock__bar"></span>
+              </div>
+              <div class="sx-notif" data-target="notif">
+                <span class="sx-notif__icon"><svg viewBox="0 0 100 100"><path d="M55.7,0C57.5,0.1 61.1,1.3 62.7,2.1C64.3,2.9 64.8,3.8 65.5,4.9C66.3,5.9 66.7,6.6 67.2,8.4C67.8,10.1 68.4,11.8 68.6,15.3C68.9,18.9 66.7,28.3 68.6,29.6C70.6,31 78,24.5 80.5,23.3C82.9,22.2 81.5,22.6 83.3,22.6C85,22.6 89.2,23 90.9,23.3C92.7,23.7 92.6,23.6 93.7,24.7C94.9,25.9 97.2,27.7 97.9,30.3C98.7,32.9 98.5,37.9 98.3,40.4C98,42.9 97.3,43.8 96.5,45.3C95.7,46.7 96.1,47.3 93.4,49.1C90.7,51 81.4,53.6 80.5,56.4C79.6,59.3 86.5,63.2 88.2,66.2C89.8,69.2 90.2,71.8 90.6,74.2C90.9,76.7 90.6,78.9 90.2,80.8C89.9,82.8 89.4,84.3 88.5,86.1C87.6,87.9 86.4,90 85,91.6C83.7,93.3 82.4,94.8 80.5,96.2C78.6,97.5 75.4,99 73.5,99.7C71.6,100.3 70.4,100.1 69,100C67.6,99.9 66.8,99.8 65.2,99C63.5,98.1 60.6,96.4 58.9,95.1C57.2,93.8 57.1,94.1 55.1,91.3C53,88.5 48.4,79.9 46.7,78.4C44.9,76.9 45.7,80.3 44.6,82.2C43.5,84.1 41.3,88 40.1,89.9C38.8,91.8 38.1,92.3 36.9,93.4C35.8,94.4 34.5,95.4 33.1,96.2C31.7,96.9 31.1,97.7 28.6,97.9C26,98.1 20.4,98 17.8,97.6C15.2,97.1 14.3,96.1 12.9,95.1C11.4,94.1 10.3,93.5 9.1,91.6C7.8,89.8 5.8,86.6 5.2,84C4.6,81.3 4.8,78.6 5.6,75.6C6.4,72.6 7.9,69.5 10.1,65.9C12.3,62.3 19.5,57.5 18.8,54C18.2,50.5 9,47.5 6.3,44.9C3.5,42.4 3.3,40.8 2.4,38.7C1.6,36.6 1.5,34.1 1.4,32.4C1.3,30.7 1.5,30 2.1,28.6C2.7,27.1 3.9,25 4.9,23.7C5.9,22.4 6.4,21.8 8,20.9C9.6,20 12.5,18.6 14.6,18.1C16.7,17.7 18.2,17.7 20.6,18.1C22.9,18.6 26.1,19.8 28.6,20.9C31,22 33,23.2 35.2,24.7C37.3,26.2 39.5,32.8 41.5,30C43.4,27.2 45.3,12.8 47,8C48.8,3.3 50.5,2.7 51.9,1.4C53.4,0.1 53.9,-0.1 55.7,0Z"/></svg></span>
+                <div><p class="sx-notif__app">Etho <span>now</span></p><p class="sx-title">Bobbi’s birthday is in 1 week 🎂</p><p class="sx-line">Plan something special for her</p></div>
+              </div>
+              <div class="scene__app scene__app--trip">
+                <p class="sx-headline">Weekend getaways</p>
+                <p class="sx-line sx-line--lead">Dog-friendly stays for Bobbi’s birthday</p>
+                <div class="sx-tcards sx-tcards--trip">
+                  <div class="sx-tcard">
+                    <div class="sx-tcard__photo"><img class="sx-focus-cabin" src="assets/images/scenes/stay-cabin.webp?v=2" alt="" loading="lazy" decoding="async"><span class="sx-pill">20% off</span></div>
+                    <div><p class="sx-title">Tiny Cabin Blue Mountains</p><p class="sx-line">2 nights<br>Free pupcake</p></div>
+                  </div>
+                  <div class="sx-tcard" data-target="hotel">
+                    <div class="sx-tcard__photo"><img class="sx-focus-hotel" src="assets/images/scenes/stay-hotel.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
+                    <div><p class="sx-title">Palm Beach Hotel</p><p class="sx-line">Beachfront rooms<br>Dogs on the sand</p></div>
+                  </div>
+                  <div class="sx-tcard">
+                    <div class="sx-tcard__photo"><img class="sx-focus-farm" src="assets/images/scenes/stay-farm.webp?v=2" alt="" loading="lazy" decoding="async"><span class="sx-pill">15% off</span></div>
+                    <div><p class="sx-title">Conto’s Farm Stay</p><p class="sx-line">Cottage in Central Coast<br>Paddocks to roam</p></div>
+                  </div>
+                </div>
+              </div>
+              <div class="scene__sheet scene__sheet--trip">
+                <div class="scene__page">
+                  <div class="sx-hero sx-hero--trip"><img class="sx-focus-bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
+                  <p class="sx-big">Palm Beach Hotel</p>
+                  <p class="sx-price"><s>$560</s> $420 <span class="sx-price__note">· 2 nights</span></p>
+                  <div class="sx-pupcake">
+                    <div class="sx-pupcake__head" data-target="cake">
+                      <span class="sx-pupcake__photo"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"></span>
+                      <div><p class="sx-title">Welcome pupcake <span class="sx-pill">Free</span></p>
+                        <p class="sx-line"><span class="sx-pupcake__ask">Choose a flavour</span><span class="sx-pupcake__pick">Pumpkin</span></p></div>
+                      <svg class="sx-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg>
+                    </div>
+                    <div class="sx-flavours"><div class="sx-chips"><span class="sx-chip">Vanilla</span><span class="sx-chip" data-target="pumpkin">Pumpkin</span><span class="sx-chip">Apple</span></div></div>
+                  </div>
+                  <div class="sx-row" data-target="dinner">
+                    <img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async">
+                    <div><p class="sx-title">Dinner reservation</p><p class="sx-line">Outdoor seating · Sat 7pm</p></div>
+                    <span class="sx-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+                  </div>
+                  <div class="sx-total sx-total--trip"><p><span>Total savings</span><b data-scene-count>$0</b></p></div>
+                  <div class="sx-button" data-target="book"><span class="sx-book__label">Book weekend</span><span class="sx-book__done"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Booked for Bobbi</span></div>
+                </div>
+              </div>
+              <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase__col showcase__col--copy">
+        <p class="showcase__copy is-active" data-showcase-text="0">Reach new customers with targeted offers on the slots you want filled, matched to each dog’s needs, location and preferences.</p>
+        <p class="showcase__copy" data-showcase-text="1">A curated storefront for your services, products and bundles, shown to dog parents at the moment they need them.</p>
+        <p class="showcase__copy" data-showcase-text="2">Relevant add-ons and seamless payments, with benefits applied automatically at checkout.</p>
+      </div>
+
+    </div>
+
+    <!-- Structural: one screen of scroll per slide. -->
+    <div class="showcase__trigger" data-showcase-trigger="0" aria-hidden="true"></div>
+    <div class="showcase__trigger" data-showcase-trigger="1" aria-hidden="true"></div>
+    <div class="showcase__trigger" data-showcase-trigger="2" aria-hidden="true"></div>
+    <div class="showcase__trigger" data-showcase-trigger="3" aria-hidden="true"></div>
+  </section>
+
+  <!-- 4 — What Etho does for providers ---------------------------------- -->
+  <section class="b2b-values" id="value" data-section="partners_value">
+    <p class="b2b-section__kicker">Revenue growth, personalised commerce and experience-led discovery</p>
+    <h2 class="b2b-section__title">More opportunities for providers.<br>More of the good life for dogs.</h2>
+    <div class="b2b-values__grid">
+      <article class="b2b-value" data-reveal>
+        <span class="b2b-value__num">01</span>
+        <h3>Fill available capacity</h3>
+        <p>Reach new customers and use targeted offers to bring demand to the appointments you choose. Etho matches your services to each dog’s needs, location and preferences.</p>
+      </article>
+      <article class="b2b-value" data-reveal>
+        <span class="b2b-value__num">02</span>
+        <h3>Optimise your catalogue</h3>
+        <p>Build a curated storefront of services, products and bundles. Present, package and price your offering to convert more of the dog parents who find it.</p>
+      </article>
+      <article class="b2b-value" data-reveal>
+        <span class="b2b-value__num">03</span>
+        <h3>Increase transaction value</h3>
+        <p>Grow revenue per booking with relevant add-ons and cross-sells, suggested at the moment they matter.</p>
+      </article>
+      <article class="b2b-value" data-reveal>
+        <span class="b2b-value__num">04</span>
+        <h3>Seamless payments</h3>
+        <p>Integrated checkout with benefits applied automatically, so booking with you takes fewer steps.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 5 — Join ------------------------------------------------------------ -->
+  <section class="b2b-join on-dark" id="join" data-section="partners_join">
+    <h2 class="b2b-section__title">Become a founding partner</h2>
+    <p>We’re choosing the first groomers, trainers, clinics, stays and experiences to launch with. Tell us about your business and we’ll be in touch.</p>
+    <a class="b2b-cta" href="#typeform" data-typeform>Register your interest</a>
+  </section>
+
+  <!-- 6 — Footer ---------------------------------------------------------- -->
+  <footer class="foot" data-section="footer">
+    <div class="foot__brand">
+      <img class="foot__logo" src="assets/images/etho%20logo%20dark.png" alt="Etho"
+           width="276" height="76" loading="lazy" decoding="async">
+      <p class="foot__tagline">More of the good life for dogs.</p>
+    </div>
+    <nav class="foot__links" aria-label="Footer">
+      <a href="mailto:maria@etho.pet">Get in touch</a>
+      <a href="https://www.linkedin.com/company/etho.pet/" target="_blank" rel="noopener">Linkedin</a>
+      <a href="https://www.instagram.com/etho.pet" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61593629438506" target="_blank" rel="noopener">Facebook</a>
+      <a href="/privacy">Privacy</a>
+      <button type="button" class="consent-link" data-consent-settings>Cookie settings</button>
     </nav>
-    <p class="site-footer__domain">etho.pet</p>
   </footer>
 </div>
 
-<div class="sticky-cta" data-sticky-cta>
-  <a class="btn-solid sticky-cta__btn" href="#apply">Apply here</a>
+<!-- Pinned to the foot of the screen once the hero has scrolled away
+     (initStickyCta() in landing.js): the same call to action as the
+     hero's. -->
+<div class="sticky-cta sticky-cta--b2b" data-sticky-cta>
+  <a class="b2b-cta sticky-cta__btn" href="#typeform" data-typeform>Register your interest</a>
 </div>
 
+
 <script src="js/main.js?v=20261002"></script>
+<script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
+<script src="js/scenes.js?v=20261030e"></script>
+<script src="js/home.js?v=20261030e"></script>
 </body>
 </html>
