@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Etho for partners — Connect with proactive dog parents</title>
-<meta name="description" content="Etho helps pet services attract new customers, fill available appointments and grow revenue per booking. Register your interest to become a founding partner.">
+<title>Etho for partners</title>
+<meta name="description" content="Etho fills your free slots and adds the extras that grow every booking. Become a founding partner.">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/images/favicon-64.png?v=3">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png?v=3">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=3">
@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="css/home.css?v=20261030e">
 <link rel="stylesheet" href="css/scenes.css?v=20261030e">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
-<link rel="stylesheet" href="css/partners.css?v=20261030a">
+<link rel="stylesheet" href="css/partners.css?v=20261030b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -33,56 +33,42 @@
   </nav>
 
   <!-- 1 — Hero ---------------------------------------------------------- -->
-  <!-- Two halves: the pitch on the left, and on the right a wall of
-       bookings coming in for providers, drifting up in three columns
-       (partners.css). Every call to action opens the partner intake
-       form; until its link is set they point at #typeform. -->
+  <!-- The pitch on the left; on the right, a photo of a service with the
+       add-ons Etho suggests alongside it, cycling through grooming, a
+       stay and a therapy (partners.js). The button opens the partner
+       intake form; until its link is set it points at #typeform. -->
   <section id="top" class="hero hero--b2b on-dark" data-section="partners_hero">
     <div class="b2b-hero__copy">
-      <p class="b2b-hero__kicker">Etho for partners</p>
-      <h1 class="hero-title">Connect your services to proactive dog parents</h1>
-      <p class="hero-sub">Etho helps pet services attract new customers, fill available appointments and grow revenue per booking.</p>
-      <a class="b2b-cta" href="#typeform" data-typeform>Register your interest</a>
-      <p class="b2b-hero__note">Founding partner places are now open</p>
+      <h1 class="hero-title">More bookings from dog parents who plan ahead</h1>
+      <p class="hero-sub">Etho fills your free slots and adds the extras that grow every booking.</p>
+      <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Become a partner</a>
       <ul class="b2b-hero__types" aria-label="Who Etho works with">
-        <li>Grooming</li><li>Training</li><li>Vets &amp; therapy</li><li>Daycare</li><li>Stays</li><li>Experiences</li>
+        <li>Grooming</li><li>Day care &amp; boarding</li><li>Training</li><li>Vets</li><li>Wellness therapies</li><li>Stays</li><li>Dog-friendly events</li>
       </ul>
     </div>
-    <div class="b2b-wall" aria-hidden="true">
-        <div class="b2b-wall__col b2b-wall__col--1">
-          <div class="b2b-wall__track">
-          <figure class="b2b-tile b2b-tile--glow"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Wash &amp; Dry</b><span>Slot filled · Sat 10am</span></figcaption></figure>
-          <figure class="b2b-tile"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Welcome pupcake</b><span>Add-on · +$12</span></figcaption></figure>
-          <figure class="b2b-tile"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Group training</b><span>New customer</span></figcaption></figure>
-          <figure class="b2b-tile b2b-tile--glow"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Hydrotherapy</b><span>Booked · Thu 4pm</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Wash &amp; Dry</b><span>Slot filled · Sat 10am</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Welcome pupcake</b><span>Add-on · +$12</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Group training</b><span>New customer</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Hydrotherapy</b><span>Booked · Thu 4pm</span></figcaption></figure>
+    <div class="b2b-panels" aria-hidden="true">
+        <div class="b2b-panel b2b-panel--groom is-active" data-panel>
+          <img class="b2b-panel__photo" src="assets/images/partners/groom.webp" alt="" loading="eager" decoding="async">
+          <div class="b2b-panel__ui">
+            <p class="b2b-panel__title">Make it extra special</p>
+            <div class="b2b-addon"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>For you</span><b>Post-groom photo</b><span class="b2b-addon__price">$20</span></div></div>
+            <div class="b2b-addon"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Popular</span><b>Teeth cleaning</b><span class="b2b-addon__price">$15</span></div></div>
           </div>
         </div>
-        <div class="b2b-wall__col b2b-wall__col--2">
-          <div class="b2b-wall__track">
-          <figure class="b2b-tile b2b-tile--glow"><img class="sx-focus-bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Palm Beach Hotel</b><span>2 nights · Paid</span></figcaption></figure>
-          <figure class="b2b-tile"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Post-groom photo</b><span>Add-on · +$20</span></figcaption></figure>
-          <figure class="b2b-tile"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy parents meetup</b><span>12 going</span></figcaption></figure>
-          <figure class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Dog ramp</b><span>Bundle · +$89</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-focus-bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Palm Beach Hotel</b><span>2 nights · Paid</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Post-groom photo</b><span>Add-on · +$20</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy parents meetup</b><span>12 going</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Dog ramp</b><span>Bundle · +$89</span></figcaption></figure>
+        <div class="b2b-panel b2b-panel--stay" data-panel>
+          <img class="b2b-panel__photo" src="assets/images/partners/stay.webp" alt="" loading="lazy" decoding="async">
+          <div class="b2b-panel__ui">
+            <p class="b2b-panel__title">Add to their stay</p>
+            <div class="b2b-addon"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>For you</span><b>Welcome pupcake</b><span class="b2b-addon__price">$12</span></div></div>
+            <div class="b2b-addon"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Popular</span><b>Dinner, outdoor seating</b><span class="b2b-addon__price">$40</span></div></div>
           </div>
         </div>
-        <div class="b2b-wall__col b2b-wall__col--3">
-          <div class="b2b-wall__track">
-          <figure class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy school</b><span>Course full</span></figcaption></figure>
-          <figure class="b2b-tile"><img class="sx-focus-pilates" src="assets/images/scenes/pilates.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pilates with pups</b><span>New customer</span></figcaption></figure>
-          <figure class="b2b-tile b2b-tile--glow"><img class="sx-focus-redlight" src="assets/images/scenes/redlight.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Red light therapy</b><span>Repeat booking</span></figcaption></figure>
-          <figure class="b2b-tile"><img src="assets/images/scenes/pupuccino-corgis.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pupuccino meetup</b><span>Offer redeemed</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Puppy school</b><span>Course full</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile"><img class="sx-focus-pilates" src="assets/images/scenes/pilates.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pilates with pups</b><span>New customer</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile b2b-tile--glow"><img class="sx-focus-redlight" src="assets/images/scenes/redlight.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Red light therapy</b><span>Repeat booking</span></figcaption></figure>
-          <figure aria-hidden="true" class="b2b-tile"><img src="assets/images/scenes/pupuccino-corgis.webp" alt="" loading="lazy" decoding="async"><figcaption><b>Pupuccino meetup</b><span>Offer redeemed</span></figcaption></figure>
+        <div class="b2b-panel b2b-panel--hydro" data-panel>
+          <img class="b2b-panel__photo" src="assets/images/partners/hydro.webp" alt="" loading="lazy" decoding="async">
+          <div class="b2b-panel__ui">
+            <p class="b2b-panel__title">Keep the progress going</p>
+            <div class="b2b-addon"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>For you</span><b>Dog ramp</b><span class="b2b-addon__price">$89</span></div></div>
+            <div class="b2b-addon"><img src="assets/images/scenes/feeder.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Bundle</span><b>Raised feeder</b><span class="b2b-addon__price">$45</span></div></div>
           </div>
         </div>
     </div>
@@ -92,7 +78,7 @@
   <!-- One paragraph. home.js wraps each word so it can darken them in
        turn as the reader scrolls, like the line being typed out. -->
   <section class="story" id="story" data-section="story">
-    <p class="story__copy" data-scroll-words>Dogs are living longer than ever, and their parents want more than the essentials. Preventative care, enrichment and experiences they can share. Etho turns that intent into personalised, proactive bookings, sent to providers like you.</p>
+    <p class="story__copy" data-scroll-words>Dog parents want more than the essentials for their dogs. Etho turns that into bookings with you.</p>
   </section>
 
   <!-- 3 — Product story --------------------------------------------------- -->
@@ -421,9 +407,9 @@
       </div>
 
       <div class="showcase__col showcase__col--copy">
-        <p class="showcase__copy is-active" data-showcase-text="0">Reach new customers with targeted offers on the slots you want filled, matched to each dog’s needs, location and preferences.</p>
-        <p class="showcase__copy" data-showcase-text="1">A curated storefront for your services, products and bundles, shown to dog parents at the moment they need them.</p>
-        <p class="showcase__copy" data-showcase-text="2">Relevant add-ons and seamless payments, with benefits applied automatically at checkout.</p>
+        <p class="showcase__copy is-active" data-showcase-text="0">Reach new customers with offers on the slots you want filled.</p>
+        <p class="showcase__copy" data-showcase-text="1">Your services shown to the dogs who need them, when they need them.</p>
+        <p class="showcase__copy" data-showcase-text="2">Relevant add-ons at checkout, paid in one tap.</p>
       </div>
 
     </div>
@@ -435,30 +421,25 @@
     <div class="showcase__trigger" data-showcase-trigger="3" aria-hidden="true"></div>
   </section>
 
-  <!-- 4 — What Etho does for providers ---------------------------------- -->
+  <!-- 4 — What partners get -------------------------------------------- -->
   <section class="b2b-values" id="value" data-section="partners_value">
-    <p class="b2b-section__kicker">Revenue growth, personalised commerce and experience-led discovery</p>
-    <h2 class="b2b-section__title">More opportunities for providers.<br>More of the good life for dogs.</h2>
+    <h2 class="b2b-section__title">More opportunities for you.<br>More of the good life for dogs.</h2>
     <div class="b2b-values__grid">
       <article class="b2b-value" data-reveal>
-        <span class="b2b-value__num">01</span>
-        <h3>Fill available capacity</h3>
-        <p>Reach new customers and use targeted offers to bring demand to the appointments you choose. Etho matches your services to each dog’s needs, location and preferences.</p>
+        <h3>Fill your free slots</h3>
+        <p>Targeted offers bring demand to the times you choose.</p>
       </article>
       <article class="b2b-value" data-reveal>
-        <span class="b2b-value__num">02</span>
-        <h3>Optimise your catalogue</h3>
-        <p>Build a curated storefront of services, products and bundles. Present, package and price your offering to convert more of the dog parents who find it.</p>
+        <h3>Grow every booking</h3>
+        <p>Add-ons and bundles, suggested at the right moment.</p>
       </article>
       <article class="b2b-value" data-reveal>
-        <span class="b2b-value__num">03</span>
-        <h3>Increase transaction value</h3>
-        <p>Grow revenue per booking with relevant add-ons and cross-sells, suggested at the moment they matter.</p>
+        <h3>Reach new customers</h3>
+        <p>Matched to each dog’s needs and location.</p>
       </article>
       <article class="b2b-value" data-reveal>
-        <span class="b2b-value__num">04</span>
-        <h3>Seamless payments</h3>
-        <p>Integrated checkout with benefits applied automatically, so booking with you takes fewer steps.</p>
+        <h3>Get paid simply</h3>
+        <p>One checkout, with benefits applied for you.</p>
       </article>
     </div>
   </section>
@@ -466,8 +447,8 @@
   <!-- 5 — Join ------------------------------------------------------------ -->
   <section class="b2b-join on-dark" id="join" data-section="partners_join">
     <h2 class="b2b-section__title">Become a founding partner</h2>
-    <p>We’re choosing the first groomers, trainers, clinics, stays and experiences to launch with. Tell us about your business and we’ll be in touch.</p>
-    <a class="b2b-cta" href="#typeform" data-typeform>Register your interest</a>
+    <p>Places are open for our launch.</p>
+    <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Become a partner</a>
   </section>
 
   <!-- 6 — Footer ---------------------------------------------------------- -->
@@ -492,7 +473,7 @@
      (initStickyCta() in landing.js): the same call to action as the
      hero's. -->
 <div class="sticky-cta sticky-cta--b2b" data-sticky-cta>
-  <a class="b2b-cta sticky-cta__btn" href="#typeform" data-typeform>Register your interest</a>
+  <a class="btn-solid b2b-cta sticky-cta__btn" href="#typeform" data-typeform>Become a partner</a>
 </div>
 
 
@@ -501,5 +482,6 @@
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261030e"></script>
 <script src="js/home.js?v=20261030e"></script>
+<script src="js/partners.js?v=20261030a"></script>
 </body>
 </html>

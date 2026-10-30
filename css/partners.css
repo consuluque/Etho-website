@@ -1,12 +1,9 @@
-/* partners.html only, on top of the homepage's styles: the B2B hero,
-   the value grid and the closing call to action. The phone showcase
-   and the story paragraph are the homepage's own. */
+/* partners.html only, on top of the homepage's styles. The page keeps
+   the homepage's look (cream sections, the same buttons and type); the
+   hero is the exception, black with the pitch on the left and a photo
+   of add-ons being suggested on the right. */
 
-:root {
-  --b2b-bg: #0E0F0C;
-  --b2b-tile: #1C1E1A;
-  --b2b-glow: 255, 246, 196; /* --accent2, the pale yellow, as rgb */
-}
+:root { --b2b-bg: #0E0F0C; }
 
 /* ---------------------------------------------------------------
    Nav: the wordmark on the left, the dog-parent site on the right.
@@ -24,111 +21,77 @@
   -webkit-backdrop-filter: none;
 }
 .site-nav--b2b.is-past-hero {
+  top: 0;
+  padding-top: clamp(14px, 3vw, 28px);
+  border-radius: 0;
   background: rgba(247, 245, 240, 0.86);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   box-shadow: 0 6px 24px rgba(50, 48, 49, 0.08);
-  border-radius: 0;
-  top: 0;
-  padding-top: clamp(14px, 3vw, 28px);
 }
 .site-nav__link {
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(14, 15, 12, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   font-family: var(--body-font);
   font-size: var(--type-small);
   font-weight: 600;
   color: #F7F5F0;
-  text-decoration: underline;
-  text-underline-offset: 4px;
   transition: color 120ms var(--ease);
 }
-.site-nav--b2b.is-past-hero .site-nav__link { color: var(--ink); background: none; }
+.site-nav--b2b.is-past-hero .site-nav__link { color: var(--ink); }
 
 /* ---------------------------------------------------------------
-   Hero: the pitch on the left, a wall of bookings on the right
+   Buttons: the homepage's pill. White on the black sections, ink on
+   the cream ones.
+   --------------------------------------------------------------- */
+
+.b2b-cta { text-align: center; }
+.on-dark .b2b-cta,
+.sticky-cta--b2b .b2b-cta { background: #FFFFFF; color: var(--ink); }
+
+/* ---------------------------------------------------------------
+   Hero
    --------------------------------------------------------------- */
 
 .hero--b2b {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: center;
+  align-items: stretch;
+  gap: clamp(16px, 2vw, 32px);
   min-height: 100vh;
   min-height: 100svh;
+  padding: clamp(76px, 9vh, 96px) clamp(16px, 2vw, 28px) clamp(16px, 2vw, 28px);
   background: var(--b2b-bg);
   color: #F7F5F0;
 }
 
 .b2b-hero__copy {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  gap: clamp(18px, 2.4vw, 26px);
-  padding: 120px clamp(20px, 4vw, 64px) 96px;
-}
-.b2b-hero__kicker {
-  font-family: var(--body-font);
-  font-size: var(--type-small);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgb(var(--b2b-glow));
+  gap: clamp(20px, 2.6vw, 30px);
+  padding: 24px clamp(8px, 3vw, 48px);
 }
 .hero--b2b .hero-title {
-  /* Manrope rather than the display face: plainer, more B2B. */
-  font-family: var(--body-font);
-  font-weight: 700;
-  font-size: clamp(36px, 3.9vw, 60px);
-  line-height: 1.08;
-  letter-spacing: -0.035em;
-  max-width: 15ch;
+  font-size: clamp(40px, 4.4vw, 68px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  max-width: 12ch;
 }
 .hero--b2b .hero-sub {
-  font-size: clamp(15px, 1.35vw, 18px);
+  font-size: clamp(15px, 1.4vw, 18px);
   font-weight: 300;
-  max-width: 40ch;
+  max-width: 34ch;
   text-wrap: balance;
 }
 
-/* The one bright shape on the page, as Karma's lime: Etho's pale
-   yellow. */
-.b2b-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: min(340px, 100%);
-  padding: 18px 36px;
-  border-radius: 999px;
-  background: rgb(var(--b2b-glow));
-  color: var(--ink);
-  font-family: var(--body-font);
-  font-size: 17px;
-  font-weight: 600;
-  box-shadow: 0 0 0 0 rgba(var(--b2b-glow), 0);
-  transition: transform 160ms var(--ease-out), box-shadow 300ms var(--ease-out);
-}
-.b2b-cta:hover { transform: translateY(-1px); box-shadow: 0 0 32px rgba(var(--b2b-glow), 0.35); }
-.b2b-cta:active { transform: scale(0.98); }
-
-.b2b-hero__note {
-  font-family: var(--body-font);
-  font-size: var(--type-small);
-  font-weight: 600;
-  color: rgba(247, 245, 240, 0.86);
-}
 .b2b-hero__types {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
-  max-width: 560px;
-  margin: 0;
+  max-width: 480px;
+  margin: 8px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -141,122 +104,137 @@
   color: rgba(247, 245, 240, 0.78);
 }
 
-/* The wall: three columns of tiles drifting up at different speeds
-   (the middle one down), each track two copies long so the loop never
-   shows a seam. It fades out at the top and bottom of the screen. */
-.b2b-wall {
-  align-self: stretch;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 1.6vw, 24px);
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-  padding: 0 clamp(0px, 1.5vw, 24px) 0 0;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
-}
-.b2b-wall__track {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(14px, 1.6vw, 24px);
-  padding-top: clamp(14px, 1.6vw, 24px);
-  animation: b2b-drift 60s linear infinite;
-}
-.b2b-wall__col--1 .b2b-wall__track { animation-duration: 64s; }
-.b2b-wall__col--2 .b2b-wall__track { animation-duration: 76s; animation-direction: reverse; }
-.b2b-wall__col--3 .b2b-wall__track { animation-duration: 56s; }
-@keyframes b2b-drift {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
-}
-
-.b2b-tile {
+/* The panels: one photo at a time, rounded like the phone frame, with
+   the add-ons Etho suggests for that service floating on glass across
+   its lower left. The active one fades in, then its title and cards
+   come up in turn. */
+.b2b-panels {
   position: relative;
-  margin: 0;
-  aspect-ratio: 4 / 5;
-  border-radius: 18px;
+  min-height: 560px;
+  border-radius: 28px;
   overflow: hidden;
-  background: var(--b2b-tile);
+  background: #1C1E1A;
 }
-.b2b-tile img {
-  display: block;
+.b2b-panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+.b2b-panel.is-active { opacity: 1; }
+.b2b-panel__photo {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 6s linear;
 }
-/* Each photo holds on its dog, as in the phone scenes. */
-.b2b-tile img.sx-groom { object-position: 29% 58%; transform: scale(1.5); transform-origin: 30% 57%; }
-.b2b-tile img.sx-focus-hydro { object-position: 42% 40%; }
-.b2b-tile img.sx-focus-redlight { object-position: 88% 60%; }
-.b2b-tile img.sx-focus-pilates { object-position: 74% 50%; }
-.b2b-tile img.sx-focus-training { object-position: 42% 70%; }
-.b2b-tile img.sx-focus-bed { object-position: 50% 55%; }
-
-/* What each tile means to a provider, on glass across its foot. */
-.b2b-tile figcaption {
+.b2b-panel.is-active .b2b-panel__photo { transform: none; }
+.b2b-panel--groom .b2b-panel__photo { object-position: 30% 55%; }
+.b2b-panel--stay .b2b-panel__photo { object-position: 50% 45%; }
+.b2b-panel--hydro .b2b-panel__photo { object-position: 45% 35%; }
+.b2b-panel::after {
+  content: '';
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14, 15, 12, 0) 35%, rgba(14, 15, 12, 0.55) 100%);
+}
+
+.b2b-panel__ui {
+  position: absolute;
+  z-index: 1;
+  left: clamp(16px, 2.4vw, 36px);
+  right: clamp(16px, 2.4vw, 36px);
+  bottom: clamp(16px, 2.4vw, 36px);
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 9px 12px;
-  border-radius: 12px;
-  background: rgba(14, 15, 12, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  align-items: flex-start;
+  gap: 12px;
+}
+.b2b-panel__title {
+  margin-bottom: 4px;
   font-family: var(--body-font);
-  color: #F7F5F0;
+  font-size: clamp(24px, 2.6vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
 }
-.b2b-tile figcaption b { font-size: 13px; font-weight: 600; }
-.b2b-tile figcaption span { font-size: 12px; color: rgb(var(--b2b-glow)); }
+.b2b-addon {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(380px, 100%);
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(30, 30, 28, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  color: #FFFFFF;
+  font-family: var(--body-font);
+}
+.b2b-addon img {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+.b2b-addon > div { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; }
+.b2b-addon__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+  font-weight: 500;
+}
+.b2b-addon__tag svg { width: 11px; height: 11px; fill: #FFFFFF; }
+.b2b-addon b { font-size: 17px; font-weight: 600; }
+.b2b-addon__price { font-size: 14px; color: rgba(255, 255, 255, 0.86); }
 
-/* The glow: a booking that just came in. */
-.b2b-tile--glow {
-  box-shadow:
-    0 0 0 1px rgba(var(--b2b-glow), 0.55),
-    0 0 36px rgba(var(--b2b-glow), 0.28);
+.b2b-panel__title,
+.b2b-addon {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out);
 }
+.b2b-panel.is-active .b2b-panel__title,
+.b2b-panel.is-active .b2b-addon { opacity: 1; transform: none; }
+.b2b-panel.is-active .b2b-panel__title { transition-delay: 350ms; }
+.b2b-panel.is-active .b2b-addon { transition-delay: 600ms; }
+.b2b-panel.is-active .b2b-addon + .b2b-addon { transition-delay: 800ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .b2b-wall__track { animation: none; }
+  .b2b-panel,
+  .b2b-panel__photo,
+  .b2b-panel__title,
+  .b2b-addon { transition: none; }
 }
 
-/* Stacked on a phone: the pitch, then a short band of the wall. */
+/* Stacked on a phone: the pitch, then the panel. */
 @media (max-width: 900px) {
-  .hero--b2b { grid-template-columns: 1fr; min-height: 0; }
-  .b2b-hero__copy { padding: 104px 20px 40px; }
-  .b2b-wall {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    height: 70vh;
-    height: 70svh;
-    padding: 0 16px;
-  }
-  .b2b-wall__col--3 { display: none; }
-  .b2b-tile figcaption { left: 8px; right: 8px; bottom: 8px; padding: 7px 10px; }
+  .hero--b2b { grid-template-columns: 1fr; min-height: 0; padding-top: 88px; }
+  .b2b-hero__copy { padding: 24px 4px 16px; }
+  .b2b-panels { min-height: 0; aspect-ratio: 4 / 5; border-radius: 22px; }
+  .b2b-addon img { width: 56px; height: 56px; }
 }
 
 /* ---------------------------------------------------------------
-   What Etho does for providers
+   What partners get: four short cards on the cream page
    --------------------------------------------------------------- */
 
 .b2b-values {
   width: 100%;
-  padding: clamp(80px, 11vw, 160px) clamp(20px, 8.4vw, 160px);
+  padding: clamp(80px, 11vw, 150px) clamp(20px, 8.4vw, 160px);
   text-align: center;
 }
-.b2b-section__kicker {
-  font-family: var(--body-font);
-  font-size: var(--type-small);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--eyebrow);
-}
 .b2b-section__title {
-  margin: 16px auto 0;
+  margin: 0 auto;
   font-family: var(--body-font);
   font-size: var(--type-title);
   font-weight: var(--body-weight);
@@ -268,35 +246,29 @@
 .b2b-values__grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 28px);
-  margin-top: clamp(40px, 6vw, 72px);
+  gap: clamp(16px, 2vw, 24px);
+  margin-top: clamp(40px, 5vw, 64px);
   text-align: left;
 }
 .b2b-value {
-  padding: clamp(22px, 2.4vw, 32px);
+  padding: clamp(22px, 2.4vw, 30px);
   border-radius: 24px;
   background: #FFFFFF;
   box-shadow: 0 0 0 1px rgba(14, 15, 12, 0.04), 0 6px 20px rgba(14, 15, 12, 0.05);
 }
-.b2b-value__num {
-  font-family: var(--body-font);
-  font-size: var(--type-small);
-  font-weight: 700;
-  color: var(--eyebrow);
-}
 .b2b-value h3 {
-  margin: 14px 0 0;
+  margin: 0;
   font-family: var(--body-font);
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ink);
 }
 .b2b-value p {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   font-family: var(--body-font);
   font-size: 15px;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--muted);
 }
 @media (max-width: 1100px) {
@@ -315,23 +287,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
-  padding: clamp(80px, 11vw, 140px) 20px;
+  gap: 18px;
+  padding: clamp(80px, 10vw, 130px) 20px;
   background: var(--b2b-bg);
   text-align: center;
 }
-.b2b-join .b2b-section__title { margin: 0; color: #F7F5F0; }
+.b2b-join .b2b-section__title { color: #F7F5F0; }
 .b2b-join p {
-  max-width: 46ch;
+  margin-bottom: 8px;
   font-family: var(--body-font);
   font-size: clamp(15px, 1.35vw, 18px);
   font-weight: 300;
-  line-height: 1.5;
   color: rgba(247, 245, 240, 0.82);
 }
 
 /* ---------------------------------------------------------------
-   The pinned bar: one button, on every screen size
+   The pinned bar: the same button, on every screen size
    --------------------------------------------------------------- */
 
 .sticky-cta--b2b {
@@ -340,4 +311,7 @@
   padding: 24px 16px calc(16px + env(safe-area-inset-bottom));
   background: none;
 }
-.sticky-cta--b2b .b2b-cta { width: min(340px, 100%); box-shadow: 0 14px 40px rgba(14, 15, 12, 0.22); }
+.sticky-cta--b2b .b2b-cta {
+  width: min(340px, 100%);
+  box-shadow: 0 14px 40px rgba(14, 15, 12, 0.18);
+}
