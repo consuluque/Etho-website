@@ -364,20 +364,21 @@ window.EthoScenes = (() => {
 
     // Chapter 3 — a weekend away for Bobbi's birthday. A notification
     // drops in over the chapter's photo; the cursor taps it and Etho
-    // opens out of it on three dog-friendly stays, the tiny cabin at
-    // 20% off. The cursor opens the cabin, taps the free welcome pupcake
+    // opens out of it on three dog-friendly stays, the beach hotel at
+    // 25% off. The cursor opens the hotel, taps the free welcome pupcake
     // to see its flavours, picks pumpkin (the choice folds back into the
     // row), adds an outdoor dinner, and books the weekend.
     trip: {
       loopAt: 18500,
       script({ at, on, off, target, glide, tap }) {
-        at(600, () => on('notif'));
-        at(2000, () => { on('cursor'); glide(target('notif'), 800, 0.55, 0.55); });
-        at(2950, () => tap(target('notif'), () => on('open', 'app')));
+        // The lock screen holds a moment before the notification lands.
+        at(1100, () => on('notif'));
+        at(2300, () => { on('cursor'); glide(target('notif'), 800, 0.55, 0.55); });
+        at(3250, () => tap(target('notif'), () => on('open', 'app')));
         at(3500, () => on('list'));
         at(4300, () => on('pick'));
-        at(5200, () => glide(target('cabin'), 800, 0.5, 0.5));
-        at(6150, () => tap(target('cabin'), () => on('sheet')));
+        at(5200, () => glide(target('hotel'), 800, 0.5, 0.5));
+        at(6150, () => tap(target('hotel'), () => on('sheet')));
         at(7300, () => glide(target('cake'), 800, 0.6, 0.5));
         at(8250, () => tap(target('cake'), () => on('cake')));
         at(9050, () => glide(target('pumpkin'), 650, 0.5, 0.6));

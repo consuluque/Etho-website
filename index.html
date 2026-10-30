@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=20261029">
 <link rel="stylesheet" href="css/landing.css?v=20261002">
-<link rel="stylesheet" href="css/home.css?v=20261030b">
-<link rel="stylesheet" href="css/scenes.css?v=20261030b">
+<link rel="stylesheet" href="css/home.css?v=20261030c">
+<link rel="stylesheet" href="css/scenes.css?v=20261030c">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
@@ -334,23 +334,31 @@
             <!-- Chapter 3: a weekend away for Bobbi's birthday. A
                  notification drops in over the lock screen; tapping it
                  opens Etho on three dog-friendly stays. The cursor opens
-                 the tiny cabin, opens the free welcome pupcake and picks
+                 the hotel, opens the free welcome pupcake and picks
                  a flavour, adds an outdoor dinner, and books it. -->
             <div class="scene scene--trip" data-scene="trip" aria-hidden="true">
+              <div class="sx-lock">
+                <svg class="sx-lock__padlock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.4"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                <p class="sx-lock__date">Thursday 30 October</p>
+                <p class="sx-lock__time">9:41</p>
+                <span class="sx-lock__btn sx-lock__btn--left"><svg viewBox="0 0 24 24"><path d="M9 3h6l-1 5h-4zM10 8h4v9a2 2 0 0 1-4 0z"/></svg></span>
+                <span class="sx-lock__btn sx-lock__btn--right"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.4"/><path d="M8.5 7l1.5-2.5h4L15.5 7"/></svg></span>
+                <span class="sx-lock__bar"></span>
+              </div>
               <div class="sx-notif" data-target="notif">
-                <span class="sx-notif__icon"><img src="assets/images/scenes/etho-app-icon.png" alt="" loading="lazy" decoding="async"></span>
+                <span class="sx-notif__icon"><img src="assets/images/scenes/etho-app-icon.webp" alt="" loading="lazy" decoding="async"></span>
                 <div><p class="sx-notif__app">Etho <span>now</span></p><p class="sx-title">Bobbi’s birthday is in 1 week 🎂</p><p class="sx-line">Plan something special for her</p></div>
               </div>
               <div class="scene__app scene__app--trip">
                 <p class="sx-headline">Weekend getaways</p>
                 <p class="sx-line sx-line--lead">Dog-friendly stays for Bobbi’s birthday</p>
                 <div class="sx-tcards sx-tcards--trip">
-                  <div class="sx-tcard" data-target="cabin">
+                  <div class="sx-tcard">
                     <div class="sx-tcard__photo"><img class="sx-focus-cabin" src="assets/images/scenes/stay-cabin.webp?v=2" alt="" loading="lazy" decoding="async"><span class="sx-pill">20% off</span></div>
                     <div><p class="sx-title">Tiny Cabin Blue Mountains</p><p class="sx-line">2 nights<br>Free pupcake</p></div>
                   </div>
-                  <div class="sx-tcard">
-                    <div class="sx-tcard__photo"><img class="sx-focus-hotel" src="assets/images/scenes/stay-hotel.webp" alt="" loading="lazy" decoding="async"></div>
+                  <div class="sx-tcard" data-target="hotel">
+                    <div class="sx-tcard__photo"><img class="sx-focus-hotel" src="assets/images/scenes/stay-hotel.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
                     <div><p class="sx-title">Palm Beach Hotel</p><p class="sx-line">Beachfront rooms<br>Dogs on the sand</p></div>
                   </div>
                   <div class="sx-tcard">
@@ -361,9 +369,9 @@
               </div>
               <div class="scene__sheet scene__sheet--trip">
                 <div class="scene__page">
-                  <div class="sx-hero sx-hero--trip"><img class="sx-focus-cabin" src="assets/images/scenes/stay-cabin.webp?v=2" alt="" loading="lazy" decoding="async"><span class="sx-pill">20% off</span></div>
-                  <p class="sx-big">Tiny Cabin Blue Mountains</p>
-                  <p class="sx-price"><s>$480</s> $384 <span class="sx-price__note">· 2 nights</span></p>
+                  <div class="sx-hero sx-hero--trip"><img class="sx-focus-bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">25% off</span></div>
+                  <p class="sx-big">Palm Beach Hotel</p>
+                  <p class="sx-price"><s>$560</s> $420 <span class="sx-price__note">· 2 nights</span></p>
                   <div class="sx-pupcake">
                     <div class="sx-pupcake__head" data-target="cake">
                       <span class="sx-pupcake__photo"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"></span>
@@ -584,7 +592,7 @@
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/breeds.js?v=20261002"></script>
 <script src="js/profile.js?v=20261002"></script>
-<script src="js/scenes.js?v=20261030b"></script>
-<script src="js/home.js?v=20261030b"></script>
+<script src="js/scenes.js?v=20261030c"></script>
+<script src="js/home.js?v=20261030c"></script>
 </body>
 </html>
