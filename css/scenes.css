@@ -1150,15 +1150,16 @@
 .sx-outfits__shop { font-size: 0.85em; font-weight: 700; }
 .sx-outfits__row { display: flex; gap: 0.6em; margin-top: 0.65em; }
 .sx-outfit { flex: 1; min-width: 0; }
-/* Stand-ins until the outfits' own photos arrive. */
 .sx-outfit__img {
-  display: grid;
-  place-items: center;
-  height: 2.6em;
-  border-radius: 0.5em;
-  font-size: 2em;
-  line-height: 1;
+  display: block;
+  height: 9em;
+  border-radius: 1em;
+  overflow: hidden;
+  background: #EFEDE8;
 }
+.scene img.sx-focus-hatbow { object-position: 50% 22%; }
+.scene img.sx-focus-bandana { object-position: 55% 70%; }
+.scene img.sx-focus-hat { object-position: 60% 25%; }
 .sx-outfit .sx-title { margin-top: 0.45em !important; padding: 0; font-size: 0.8em; }
 .sx-outfit .sx-line--price { padding: 0; font-size: 0.78em; }
 
