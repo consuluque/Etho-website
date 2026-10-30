@@ -1101,7 +1101,6 @@
 .sx-book__done { opacity: 0; transform: translateY(0.8em); }
 .s-booked .sx-book__label { opacity: 0; transform: translateY(-0.8em); }
 .s-booked .sx-book__done { opacity: 1; transform: none; }
-.s-booked .scene__sheet--trip .sx-button { background: var(--sx-green); }
 .sx-book__done svg {
   width: 1.25em;
   height: 1.25em;
