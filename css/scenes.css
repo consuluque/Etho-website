@@ -1119,6 +1119,81 @@
 .scene--trip.s-out .scene__app--trip { opacity: 0; transform: none; filter: none; }
 .scene--trip.s-out .scene__sheet { transform: translateY(110%); }
 
+/* Chapter 3's success screen: the puppy's, with a confetti burst
+   across the frame, the booking as a card, the saving counting up,
+   and birthday outfits to shop along the foot. */
+.sx-success--party .sx-cheer { font-size: 1.7em; }
+.sx-booking--party {
+  margin-top: 1.2em;
+  opacity: 0;
+  transform: translateY(0.8em);
+  transition: opacity 400ms var(--ease-out) 550ms, transform 600ms var(--ease-out) 550ms;
+}
+.s-success .sx-booking--party { opacity: 1; transform: none; }
+.sx-benefit--party {
+  margin: 0.9em -0.75em 0;
+  padding: 0.95em 1.3em;
+}
+.sx-benefit--party p { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.15em; }
+.sx-benefit--party b { font-size: 1.3em; font-variant-numeric: tabular-nums; }
+.sx-outfits {
+  margin-top: auto;
+  padding-bottom: 0.9em;
+  opacity: 0;
+  transform: translateY(1.2em);
+  transition: opacity 500ms var(--ease-out) 900ms, transform 700ms var(--ease-out) 900ms;
+}
+.s-success .sx-outfits { opacity: 1; transform: none; }
+.sx-outfits__head { display: flex; justify-content: space-between; align-items: flex-end; }
+.sx-outfits__head .sx-title { margin: 0 !important; padding: 0; }
+.sx-outfits__head .sx-line { margin-top: 0.1em !important; }
+.sx-outfits__shop { font-size: 0.85em; font-weight: 700; }
+.sx-outfits__row { display: flex; gap: 0.6em; margin-top: 0.65em; }
+.sx-outfit { flex: 1; min-width: 0; }
+.sx-outfit__img {
+  display: block;
+  height: 9em;
+  border-radius: 1em;
+  overflow: hidden;
+  background: #EFEDE8;
+}
+.scene img.sx-focus-hatbow { object-position: 50% 22%; }
+.scene img.sx-focus-bandana { object-position: 55% 70%; }
+.scene img.sx-focus-hat { object-position: 60% 25%; }
+.sx-outfit .sx-title { margin-top: 0.45em !important; padding: 0; font-size: 0.8em; }
+.sx-outfit .sx-line--price { padding: 0; font-size: 0.78em; }
+
+.sx-confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.sx-confetti span {
+  position: absolute;
+  top: -1em;
+  left: var(--x);
+  width: 0.42em;
+  height: 0.7em;
+  border-radius: 0.1em;
+  background: var(--c);
+  opacity: 0;
+}
+.s-success .sx-confetti span {
+  animation: sx-confetti var(--t) var(--d) cubic-bezier(0.25, 0.6, 0.5, 1) both;
+}
+@keyframes sx-confetti {
+  0% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0) scale(var(--s)); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(1.5em, 44em, 0) rotate(var(--r)) scale(var(--s)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sx-confetti { display: none; }
+}
+.scene--trip.s-out .sx-success { transform: translateY(105%); }
+
 /* -- The cursor ----------------------------------------------------- */
 
 /* Its tip is its top-left corner, so placing the box places the tip.

@@ -367,9 +367,10 @@ window.EthoScenes = (() => {
     // opens out of it on three dog-friendly stays, the beach hotel at
     // 25% off. The cursor opens the hotel, taps the free welcome pupcake
     // to see its flavours, picks pumpkin (the choice folds back into the
-    // row), adds an outdoor dinner, and books the weekend.
+    // row), adds an outdoor dinner, and books the weekend: a success
+    // screen with confetti, the total saving, and outfits to shop.
     trip: {
-      loopAt: 19500,
+      loopAt: 21500,
       script({ at, on, off, target, glide, tap, count, root }) {
         const saved = root.querySelector('[data-scene-count]');
         // The lock screen holds a moment before the notification lands.
@@ -390,13 +391,14 @@ window.EthoScenes = (() => {
         at(12800, () => glide(target('book'), 700, 0.5, 0.55));
         at(13650, () => tap(target('book'), () => on('booked')));
         at(14300, () => off('cursor'));
-        // Then the total opens: $140 off the stay and the free pupcake ($12).
-        at(14500, () => on('total'));
-        at(14900, () => count(saved, 152, 900));
-        at(18500, () => on('out'));
+        // Then the success screen slides up with confetti, and the total
+        // counts up: $140 off the stay and the free pupcake ($12).
+        at(14500, () => on('success'));
+        at(15600, () => count(saved, 152, 900));
+        at(20500, () => on('out'));
       },
       finalState({ on, root }) {
-        on('notif', 'open', 'app', 'list', 'sheet', 'cake', 'pumpkin', 'caked', 'dinner', 'booked', 'total');
+        on('notif', 'open', 'app', 'list', 'sheet', 'cake', 'pumpkin', 'caked', 'dinner', 'booked', 'success');
         root.querySelector('[data-scene-count]').textContent = '$152';
       },
     },
