@@ -82,15 +82,15 @@
 .hero--b2b .hero-title {
   font-family: var(--body-font);
   font-weight: 700;
-  font-size: clamp(40px, 4.6vw, 72px);
-  line-height: 1.05;
+  font-size: var(--type-display);
+  line-height: 1.02;
   letter-spacing: -0.035em;
-  max-width: none;
+  max-width: 13ch;
 }
 .hero--b2b .hero-sub {
   font-size: clamp(15px, 1.4vw, 18px);
   font-weight: 300;
-  max-width: 34ch;
+  max-width: 44ch;
   text-wrap: balance;
 }
 
@@ -224,10 +224,10 @@
   text-align: center;
 }
 .b2b-intro__line {
-  max-width: 30ch;
+  max-width: 40ch;
   margin: 0 auto;
   font-family: var(--body-font);
-  font-size: var(--type-title);
+  font-size: var(--type-lead-lg);
   font-weight: var(--body-weight);
   line-height: 1.3;
   letter-spacing: -0.02em;
@@ -284,7 +284,7 @@
 .b2b-feature h3 {
   margin: 14px 0 0;
   font-family: var(--body-font);
-  font-size: clamp(30px, 3.4vw, 48px);
+  font-size: var(--type-title);
   font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -296,7 +296,14 @@
   font-family: var(--body-font);
   font-size: var(--type-lead);
   font-weight: var(--body-weight);
-  line-height: 1.4;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.b2b-feature p.b2b-feature__desc {
+  margin-top: 12px;
+  max-width: 40ch;
+  font-size: var(--type-body);
+  line-height: 1.55;
   color: var(--muted);
 }
 .b2b-feature__tags {
@@ -374,7 +381,7 @@
 .b2b-section__title {
   margin: 0 auto;
   font-family: var(--body-font);
-  font-size: clamp(30px, 3.4vw, 48px);
+  font-size: var(--type-title);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -445,15 +452,14 @@
 }
 .b2b-foot__cta h2 {
   margin: 0;
-  max-width: 14ch;
-  font-size: clamp(36px, 4.6vw, 68px);
+  font-size: var(--type-title);
   font-weight: 700;
-  line-height: 1.02;
+  line-height: 1.1;
   letter-spacing: -0.035em;
 }
 .b2b-foot__cols {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 32px;
   padding-top: clamp(36px, 4vw, 56px);
 }
