@@ -409,5 +409,8 @@ window.EthoScenes = (() => {
       const def = scripts[root.dataset.scene];
       return def ? createScene(root, def) : null;
     },
+    // Lets another page add scenes of its own (partners.js), run by the
+    // same engine and verbs.
+    define(name, def) { scripts[name] = def; },
   };
 })();

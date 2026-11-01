@@ -1,0 +1,545 @@
+/* ---------------------------------------------------------------
+   Partner scenes: the four value cards' animations (partners.html)
+
+   Each is a short loop of Etho's own UI, run by the homepage's scene
+   engine (scenes.js, scripts defined in partners.js). The script only
+   adds state classes (s-a, s-b … and named ones); every move is a CSS
+   transition here, on the shared --ease-out.
+
+   Sizing: everything is in em off one font size tied to the frame's
+   width (cqw), so a scene scales with its card. On a phone the frame
+   turns portrait (4:5) and the em grows, so the same ~28em-wide
+   column fills it at a readable size.
+
+   Steps: an element with data-in="x" comes in when s-x is on, and
+   one with data-out="y" leaves when s-y is on. Each sits centred,
+   nudged by --y (em).
+   --------------------------------------------------------------- */
+
+.b2b-feature__media { container-type: inline-size; }
+@media (max-width: 900px) {
+  .b2b-feature__media { aspect-ratio: 4 / 5; }
+}
+
+.pscene {
+  --ps-ink: #000000;
+  --ps-text2: rgba(14, 15, 12, 0.59);
+  --ps-was: #717171;
+  --ps-green: #177245;
+  --ps-shadow: 0 0 0 1px rgba(14, 15, 12, 0.04), 0 1px 2px rgba(14, 15, 12, 0.04), 0 0.6em 1.6em rgba(14, 15, 12, 0.08);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  font-family: var(--body-font);
+  font-size: 2.35cqw;
+  line-height: 1.3;
+  text-align: left;
+  color: var(--ps-ink);
+  pointer-events: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+@media (max-width: 900px) {
+  .pscene { font-size: 3.55cqw; }
+}
+.pscene *,
+.pscene *::before,
+.pscene *::after { box-sizing: border-box; }
+.pscene p { margin: 0; }
+.pscene img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pscene.is-resetting,
+.pscene.is-resetting * { transition: none !important; }
+
+/* -- Steps -------------------------------------------------------- */
+
+.ps-step {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 25em;
+  opacity: 0;
+  transform: translate(-50%, calc(-50% + var(--y, 0em) + var(--dy, 1.6em))) scale(var(--sc, 0.97));
+  transition: opacity 500ms var(--ease-out), transform 750ms var(--ease-out);
+}
+.s-a [data-in="a"], .s-b [data-in="b"], .s-c [data-in="c"], .s-d [data-in="d"],
+.s-e [data-in="e"], .s-f [data-in="f"], .s-g [data-in="g"], .s-h [data-in="h"] {
+  opacity: 1;
+  --dy: 0em;
+  --sc: 1;
+}
+.s-a [data-out="a"], .s-b [data-out="b"], .s-c [data-out="c"], .s-d [data-out="d"],
+.s-e [data-out="e"], .s-f [data-out="f"], .s-g [data-out="g"], .s-h [data-out="h"] {
+  opacity: 0;
+  --dy: -1.6em;
+  --sc: 0.97;
+}
+.s-out .ps-step { opacity: 0; transition-duration: 500ms; }
+
+/* -- Shared pieces ------------------------------------------------ */
+
+.ps-card {
+  padding: 1em;
+  border-radius: 1.5em;
+  background: #FFFFFF;
+  box-shadow: var(--ps-shadow);
+}
+.ps-dark { background: #0E0F0C; color: #FFFFFF; box-shadow: 0 0.8em 2em rgba(14, 15, 12, 0.28); }
+.ps-dark .ps-line { color: rgba(255, 255, 255, 0.66); }
+
+.ps-row { display: flex; align-items: center; gap: 0.8em; }
+.ps-row > div { flex: 1; min-width: 0; }
+.ps-kicker {
+  margin-bottom: 0.55em !important;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ps-text2);
+}
+.ps-dark .ps-kicker { color: rgba(255, 246, 196, 0.85); margin-bottom: 0.25em !important; }
+.ps-head { margin-bottom: 0.7em !important; font-size: 1.25em; font-weight: 700; color: #464646; }
+.ps-title { font-size: 1em; font-weight: 700; line-height: 1.25; }
+.ps-line { margin-top: 0.2em !important; font-size: 0.82em; font-weight: 500; color: var(--ps-text2); }
+.ps-big { margin-top: 0.6em !important; font-size: 1.4em; font-weight: 700; letter-spacing: -0.02em; text-align: center; }
+.ps-price { font-size: 1.05em; font-weight: 700; }
+.ps-price s { margin-right: 0.2em; font-weight: 500; color: var(--ps-was); }
+.ps-price__note { font-size: 0.8em; font-weight: 500; color: var(--ps-text2); }
+
+.ps-photo {
+  position: relative;
+  height: 9.5em;
+  margin-bottom: 0.8em;
+  border-radius: 1.1em;
+  overflow: hidden;
+  background: #EFEDE8;
+}
+.ps-photo .ps-pill { position: absolute; top: 0.7em; right: 0.7em; }
+.ps-thumb {
+  flex: none;
+  width: 3.8em;
+  height: 3.8em;
+  border-radius: 0.9em;
+  overflow: hidden;
+  background: #EFEDE8;
+}
+
+/* The offer pill: Etho's one solid black shape. */
+.ps-pill {
+  display: inline-block;
+  padding: 0.36em 0.72em;
+  border-radius: 2em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 0.86em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.ps-pill--soft { background: rgba(255, 255, 255, 0.92); color: #000000; opacity: 0; transition: opacity 400ms var(--ease-out); }
+
+.ps-buy { display: flex; justify-content: space-between; align-items: center; gap: 0.8em; margin-top: 0.8em; }
+.ps-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  height: 2.7em;
+  padding: 0 1.3em;
+  border-radius: 1.35em;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 0.9em;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: transform 160ms var(--ease-out), background 300ms var(--ease-out);
+}
+.ps-btn.is-pressed,
+.ps-action.is-pressed,
+.ps-opt.is-pressed { transform: scale(0.95); }
+.ps-btn svg,
+.ps-action svg {
+  width: 1.15em;
+  height: 1.15em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* A button that changes to its done state (s-pay, s-reserve, s-add). */
+.ps-btn--state { min-width: 11.5em; }
+.ps-btn__a,
+.ps-btn__b {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  transition: opacity 300ms var(--ease-out), transform 450ms var(--ease-out);
+}
+.ps-btn__b { position: absolute; opacity: 0; transform: translateY(0.7em); }
+.s-pay [data-target="pay"],
+.s-reserve [data-target="reserve"],
+.s-add [data-target="add"] { background: var(--ps-green); }
+.s-pay [data-target="pay"] .ps-btn__a,
+.s-reserve [data-target="reserve"] .ps-btn__a,
+.s-add [data-target="add"] .ps-btn__a { opacity: 0; transform: translateY(-0.7em); }
+.s-pay [data-target="pay"] .ps-btn__b,
+.s-reserve [data-target="reserve"] .ps-btn__b,
+.s-add [data-target="add"] .ps-btn__b { opacity: 1; transform: none; }
+
+/* A confirmation: a tick that draws itself, then the lines. */
+.ps-done { display: flex; flex-direction: column; align-items: center; padding: 1.6em 1.2em; text-align: center; }
+.ps-tick {
+  display: grid;
+  place-items: center;
+  width: 3.6em;
+  height: 3.6em;
+  border-radius: 50%;
+  background: #000000;
+}
+.ps-tick svg { width: 2em; height: 2em; fill: none; stroke: #FFFFFF; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.ps-tick path { stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset 600ms var(--ease-out) 350ms; }
+.s-c .pscene--capacity .ps-tick path,
+.pscene--capacity.s-c .ps-tick path,
+.pscene--retention.s-e .ps-tick path { stroke-dashoffset: 0; }
+.ps-saved {
+  margin-top: 0.9em;
+  padding: 0.45em 1em;
+  border-radius: 2em;
+  background: var(--ps-green);
+  color: #FFFFFF;
+  font-size: 0.95em;
+  font-weight: 700;
+}
+
+.ps-check {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.25);
+  transition: background 300ms var(--ease-out), border-color 300ms var(--ease-out);
+}
+.ps-check svg { width: 1em; height: 1em; fill: none; stroke: #FFFFFF; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.ps-check path { stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset 420ms var(--ease-out) 120ms; }
+
+/* -- 1. Fill quiet periods ---------------------------------------- */
+
+.ps-notif { --y: -2em; }
+.ps-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.6em;
+  height: 2.6em;
+  border-radius: 0.8em;
+  background: rgba(255, 246, 196, 0.16);
+}
+.ps-ico svg { width: 1.4em; height: 1.4em; fill: none; stroke: #FFF6C4; stroke-width: 1.8; stroke-linecap: round; }
+.ps-slots { display: flex; gap: 0.45em; margin-top: 0.9em; }
+.ps-slots span {
+  flex: 1;
+  padding: 0.5em 0;
+  border-radius: 0.7em;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.78em;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: line-through;
+}
+.ps-slots .is-free { background: rgba(255, 246, 196, 0.16); color: #FFF6C4; text-decoration: none; }
+.ps-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.7em;
+  margin-top: 0.9em;
+  border-radius: 1.35em;
+  background: #FFF6C4;
+  color: #000000;
+  font-size: 0.88em;
+  font-weight: 700;
+  transition: transform 160ms var(--ease-out), background 300ms var(--ease-out);
+}
+.ps-action__label,
+.ps-action__done { display: flex; align-items: center; gap: 0.35em; transition: opacity 300ms var(--ease-out), transform 450ms var(--ease-out); }
+.ps-action__done { position: absolute; opacity: 0; transform: translateY(0.7em); }
+.s-offer .ps-action { background: #FFFFFF; }
+.s-offer .ps-action__label { opacity: 0; transform: translateY(-0.7em); }
+.s-offer .ps-action__done { opacity: 1; transform: none; }
+
+.ps-rec { width: 21em; }
+.ps-svc .ps-photo { height: 10.5em; }
+
+.ps-toast {
+  --y: 8.2em;
+  width: 21em;
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.85em 1em;
+  border-radius: 1.3em;
+}
+.ps-toast__ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.2em;
+  height: 2.2em;
+  border-radius: 50%;
+  background: #FFF6C4;
+}
+.ps-toast__ico svg { width: 1.2em; height: 1.2em; fill: none; stroke: #000; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.pscene--capacity .ps-done { --y: -2.5em; }
+.s-d .pscene--capacity .ps-done,
+.pscene--capacity.s-d .ps-done { --y: -4.5em; }
+
+/* -- 2. Get loyal customers (puppy school) ------------------------ */
+
+.ps-pkg { width: 22em; }
+.ps-bar {
+  height: 0.6em;
+  margin-top: 1em;
+  border-radius: 1em;
+  background: rgba(14, 15, 12, 0.08);
+  overflow: hidden;
+}
+.ps-bar span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: #000000;
+  transition: width 1.4s var(--ease-out) 300ms;
+}
+.s-b .ps-bar span { width: 80%; }
+.ps-note {
+  margin-top: 0.8em !important;
+  font-size: 0.9em;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out) 1.4s;
+}
+.s-b .ps-note { opacity: 1; }
+.ps-next .ps-btn,
+.ps-grad .ps-btn { margin-top: 0.9em; }
+/* The masterclass moves up to make room for the graduation offer. */
+.pscene--retention.s-d .ps-next { --y: -7.4em; }
+.ps-grad { --y: 7.4em; }
+.ps-list { margin: 1em 0 0; padding: 0; list-style: none; }
+.ps-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  margin-top: 0.4em;
+  font-size: 0.95em;
+  font-weight: 600;
+}
+.ps-list svg { width: 1.2em; height: 1.2em; fill: none; stroke: var(--ps-green); stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* -- 3. Grow each booking (daycare) ------------------------------- */
+
+.ps-day { --y: -5.6em; width: 22em; }
+.ps-day .ps-photo { height: 8em; }
+.ps-added {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  max-height: 0;
+  margin-top: 0 !important;
+  overflow: hidden;
+  font-size: 0.82em;
+  font-weight: 700;
+  color: var(--ps-green);
+  transition: max-height 500ms var(--ease-out), margin 500ms var(--ease-out);
+}
+.ps-added svg { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+.s-enrich .ps-added { max-height: 1.6em; margin-top: 0.35em !important; }
+.ps-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 0.7em;
+  padding-top: 0.7em;
+  border-top: 1px solid #E4E6E8;
+}
+.ps-total span { font-size: 0.9em; font-weight: 600; }
+.ps-total b { font-size: 1.3em; font-variant-numeric: tabular-nums; }
+.ps-total b.is-bump { animation: sx-bump 520ms var(--ease-out); }
+.s-e .pscene--basket .ps-pill--soft,
+.pscene--basket.s-e .ps-pill--soft { opacity: 1; }
+
+.ps-addons { --y: 8.6em; width: 24em; }
+.ps-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.65em 0;
+  border-top: 1px solid #E4E6E8;
+  transition: transform 160ms var(--ease-out);
+}
+.ps-opt > div { flex: 1; min-width: 0; }
+.ps-opt .ps-title b { margin-left: 0.2em; }
+.s-enrich [data-target="enrich"] .ps-check { background: #000000; border-color: #000000; }
+.s-enrich [data-target="enrich"] .ps-check path { stroke-dashoffset: 0; }
+
+/* Boarding is a separate booking, so it reads as its own thing: the
+   brand's pastel yellow, a photo and a link rather than a check. */
+.ps-season {
+  --y: 8.8em;
+  width: 24em;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  background: #FFF6C4;
+  box-shadow: 0 0.6em 1.6em rgba(14, 15, 12, 0.08);
+}
+.ps-season .ps-thumb { width: 5.2em; height: 5.2em; }
+.ps-season > div { flex: 1; min-width: 0; }
+.ps-season .ps-kicker { margin-bottom: 0.3em !important; color: #8A7250; }
+.ps-link { display: inline-block; margin-top: 0.55em; font-size: 0.85em; font-weight: 700; }
+
+/* -- 4. Be discoverable by AI search ------------------------------ */
+
+.ps-ask {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 25em;
+  transform: translate(-50%, -50%);
+  transition: top 850ms var(--ease-out), transform 850ms var(--ease-out);
+}
+.s-b .ps-ask,
+.pscene--ai.s-b .ps-ask { top: 1.3em; transform: translate(-50%, 0); }
+.ps-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  margin-bottom: 1em;
+  transition: opacity 400ms var(--ease-out), max-height 600ms var(--ease-out), margin 600ms var(--ease-out);
+  max-height: 4em;
+}
+.pscene--ai.s-b .ps-profile { opacity: 0; max-height: 0; margin-bottom: 0; }
+.ps-avatar {
+  display: grid;
+  place-items: center;
+  width: 2.8em;
+  height: 2.8em;
+  border-radius: 50%;
+  background: #FFF6C4;
+  font-weight: 700;
+}
+.ps-profile > div { flex: none; }
+.ps-search {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6em;
+  min-height: 3em;
+  padding: 0.85em 1.1em;
+  border-radius: 1.5em;
+  background: #FFFFFF;
+  box-shadow: 0 0.14em 0.9em rgba(0, 0, 0, 0.12);
+}
+.ps-search svg {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  margin-top: 0.1em;
+  fill: none;
+  stroke: var(--ps-text2);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.ps-type { font-size: 0.92em; font-weight: 600; line-height: 1.35; }
+.ps-type:empty::before { content: 'Search for anything'; font-weight: 500; color: var(--ps-text2); }
+.s-typing .ps-type::after {
+  content: '';
+  display: inline-block;
+  width: 0.09em;
+  height: 1.1em;
+  margin-left: 0.08em;
+  vertical-align: -0.18em;
+  background: #000000;
+  animation: sx-caret 900ms steps(1) infinite;
+}
+.s-typing .ps-type:empty::before { content: none; }
+
+.ps-results {
+  position: absolute;
+  left: 50%;
+  top: 7em;
+  bottom: 1em;
+  width: 25em;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out) 300ms;
+}
+.pscene--ai.s-b .ps-results { opacity: 1; }
+.ps-results__head { margin-bottom: 0.6em !important; }
+.ps-window {
+  position: absolute;
+  top: 1.6em;
+  left: -0.6em;
+  right: -0.6em;
+  bottom: 0;
+  padding: 0 0.6em;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, #000 85%, transparent);
+          mask-image: linear-gradient(180deg, #000 85%, transparent);
+}
+.ps-track { padding-top: 0.3em; will-change: transform; }
+.ps-r {
+  margin-bottom: 0.7em;
+  padding: 0.8em;
+  border-radius: 1.3em;
+  background: #FFFFFF;
+  box-shadow: var(--ps-shadow);
+  opacity: 0;
+  transform: translateY(1.4em);
+  transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out), box-shadow 400ms var(--ease-out);
+}
+.pscene--ai.s-r1 .ps-r1, .pscene--ai.s-r2 .ps-r2,
+.pscene--ai.s-r3 .ps-r3, .pscene--ai.s-r4 .ps-r4 { opacity: 1; transform: none; }
+.ps-cat {
+  display: inline-block;
+  margin-bottom: 0.25em;
+  padding: 0.18em 0.6em;
+  border-radius: 2em;
+  background: #F2F1EF;
+  font-size: 0.7em;
+  font-weight: 600;
+  color: #464646;
+}
+.ps-r .ps-thumb { width: 3.6em; height: 3.6em; }
+.ps-why {
+  max-height: 0;
+  margin-top: 0 !important;
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4;
+  color: #464646;
+  opacity: 0;
+  transition: max-height 600ms var(--ease-out), margin 600ms var(--ease-out), opacity 400ms var(--ease-out) 150ms;
+}
+.ps-why b { color: #8A7250; }
+.pscene--ai.s-w1 .ps-r1 .ps-why, .pscene--ai.s-w2 .ps-r2 .ps-why,
+.pscene--ai.s-w3 .ps-r3 .ps-why, .pscene--ai.s-w4 .ps-r4 .ps-why {
+  max-height: 4.5em;
+  margin-top: 0.6em !important;
+  opacity: 1;
+}
+/* The mobility assessment is picked out before its provider opens. */
+.pscene--ai.s-hi .ps-r2 { box-shadow: 0 0 0 2px #000000, var(--ps-shadow); }
+.ps-provider { --y: 8.6em; width: 25em; padding: 1.1em; box-shadow: 0 -0.4em 2.4em rgba(14, 15, 12, 0.18); }
+.ps-provider .ps-title { font-size: 1.15em; margin-top: 0.15em !important; }
+.ps-desc { margin-top: 0.8em !important; line-height: 1.45; }
+.ps-provider .ps-btn { margin-top: 1em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pscene * { transition: none !important; animation: none !important; }
+}

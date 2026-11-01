@@ -15,7 +15,9 @@
 <link rel="stylesheet" href="css/landing.css?v=20261002">
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
-<link rel="stylesheet" href="css/partners.css?v=20261101k">
+<link rel="stylesheet" href="css/scenes.css?v=20261101a">
+<link rel="stylesheet" href="css/partners.css?v=20261101l">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261101a">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -87,8 +89,36 @@
         <p>More bookings at the right times.</p>
         <p class="b2b-feature__desc">Turn unused capacity into revenue with flexible offers you control, shown to pet parents most likely to book.</p>
       </div>
-      <!-- Placeholder: the fill quiet periods animation goes here. -->
-      <div class="b2b-feature__media" data-media="capacity"><span>Animation</span></div>
+      <div class="b2b-feature__media" data-media="capacity">
+        <div class="pscene pscene--capacity" data-scene="p-capacity" aria-hidden="true">
+          <div class="ps-step ps-card ps-dark ps-notif" data-in="a" data-out="b">
+            <div class="ps-row"><span class="ps-ico"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span><div><p class="ps-kicker">Your availability</p><p class="ps-title">Tuesday morning has 2 available 1-hour slots.</p></div></div>
+            <div class="ps-slots"><span>9:00</span><span class="is-free">10:30</span><span class="is-free">11:30</span><span>1:00</span></div>
+            <div class="ps-action" data-target="offer"><span class="ps-action__label">Create an exclusive offer · 30% off</span><span class="ps-action__done"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Offer live</span></div>
+          </div>
+          <div class="ps-step ps-rec" data-in="b" data-out="c">
+            <p class="ps-head">Picked for you and Cooper</p>
+            <div class="ps-card ps-svc">
+              <div class="ps-photo"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><span class="ps-pill">30% off</span></div>
+              <p class="ps-title">Wash &amp; Dry</p>
+              <p class="ps-line">Example Grooming Studio</p>
+              <p class="ps-line">Tuesday, 10:30 AM</p>
+              <div class="ps-buy"><p class="ps-price"><s>$100</s> $70</p><span class="ps-btn" data-target="book">Book</span></div>
+            </div>
+          </div>
+          <div class="ps-step ps-card ps-done" data-in="c">
+            <span class="ps-tick"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+            <p class="ps-big">Cooper’s grooming is booked!</p>
+            <p class="ps-line">Tuesday · 10:30 AM</p>
+            <span class="ps-saved">You saved $30</span>
+          </div>
+          <div class="ps-step ps-toast ps-dark" data-in="d">
+            <span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+            <div><p class="ps-title">1 appointment filled</p><p class="ps-line">New booking generated</p></div>
+          </div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
     </article>
     <article class="b2b-feature b2b-feature--flip" data-stack id="basket">
       <div class="b2b-feature__text">
@@ -96,8 +126,27 @@
         <p>A little extra goes a long way.</p>
         <p class="b2b-feature__desc">Increase booking value with personalised add-ons and complementary services recommended at the right moment.</p>
       </div>
-      <!-- Placeholder: the grow each booking animation goes here. -->
-      <div class="b2b-feature__media" data-media="basket"><span>Animation</span></div>
+      <div class="b2b-feature__media" data-media="basket">
+        <div class="pscene pscene--basket" data-scene="p-basket" aria-hidden="true">
+          <div class="ps-step ps-card ps-day" data-in="a">
+            <div class="ps-photo"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><span class="ps-pill ps-pill--soft">Booked</span></div>
+            <p class="ps-title">Cooper’s daycare day</p>
+            <p class="ps-line">Full-day daycare</p>
+            <p class="ps-added"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Enrichment session added</p>
+            <div class="ps-total"><span>Total</span><b data-scene-count>$65</b></div>
+          </div>
+          <div class="ps-step ps-card ps-addons" data-in="b" data-out="d">
+            <p class="ps-kicker">Make Cooper’s day even better</p>
+            <div class="ps-opt" data-target="enrich"><div><p class="ps-title">Enrichment play session <b>+$15</b></p><p class="ps-line">Extra mental stimulation and play</p></div><span class="ps-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span></div>
+            <div class="ps-opt"><div><p class="ps-title">One-on-one training <b>+$25</b></p><p class="ps-line">Individual training during daycare</p></div><span class="ps-check"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span></div>
+          </div>
+          <div class="ps-step ps-card ps-season" data-in="d">
+            <span class="ps-thumb"><img class="sx-focus-bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"></span>
+            <div><p class="ps-kicker">Going away this Christmas?</p><p class="ps-title">Explore holiday boarding for Cooper.</p><p class="ps-line">Christmas &amp; summer holiday stays</p><span class="ps-link">View boarding options →</span></div>
+          </div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
     </article>
     <article class="b2b-feature" data-stack id="ai">
       <div class="b2b-feature__text">
@@ -105,8 +154,41 @@
         <p>Be part of the answer.</p>
         <p class="b2b-feature__desc">As pet parents turn to AI for search, Etho makes your services discoverable by agents.</p>
       </div>
-      <!-- Placeholder: the AI discovery animation goes here. -->
-      <div class="b2b-feature__media" data-media="ai"><span>Animation</span></div>
+      <div class="b2b-feature__media" data-media="ai">
+        <div class="pscene pscene--ai" data-scene="p-ai" aria-hidden="true">
+          <div class="ps-ask">
+            <div class="ps-profile"><span class="ps-avatar">L</span><div><p class="ps-title">Lola</p><p class="ps-line">Greyhound · 8 years old</p></div></div>
+            <div class="ps-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span class="ps-type" data-type="Lola is getting older. How can I help her stay healthy, comfortable and happy?"></span></div>
+          </div>
+          <div class="ps-results">
+            <p class="ps-kicker ps-results__head">Personalised for Lola</p>
+            <div class="ps-window"><div class="ps-track" data-scroll="recs">
+              <div class="ps-r ps-r1">
+                <div class="ps-row"><span class="ps-thumb"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"></span><div><span class="ps-cat">Preventative health</span><p class="ps-title">Senior wellness check</p><p class="ps-line">Vets on Falcon · 0.9 km</p></div></div>
+                <p class="ps-why"><b>Why for Lola?</b> Regular senior checkups can help identify age-related health changes early.</p>
+              </div>
+              <div class="ps-r ps-r2" data-target="mob">
+                <div class="ps-row"><span class="ps-thumb"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><span class="ps-cat">Physiotherapy</span><p class="ps-title">Mobility assessment</p><p class="ps-line">Dogue Wellness · 1.2 km</p></div></div>
+                <p class="ps-why"><b>Why for Lola?</b> A professional assessment can help identify changes in Lola’s movement and whether supportive therapies are appropriate.</p>
+              </div>
+              <div class="ps-r ps-r3">
+                <div class="ps-row"><span class="ps-thumb"><img src="assets/images/partners/bed.webp" alt="" loading="lazy" decoding="async"></span><div><span class="ps-cat">Comfort</span><p class="ps-title">Supportive orthopaedic bed</p><p class="ps-line">Etho Shop · $149</p></div></div>
+                <p class="ps-why"><b>Why for Lola?</b> Greyhounds have lean bodies and may benefit from additional cushioning when resting.</p>
+              </div>
+              <div class="ps-r ps-r4">
+                <div class="ps-row"><span class="ps-thumb"><img src="assets/images/scenes/group.webp" alt="" loading="lazy" decoding="async"></span><div><span class="ps-cat">Enrichment &amp; wellbeing</span><p class="ps-title">Gentle enrichment experiences</p><p class="ps-line">Scent games · Saturdays</p></div></div>
+                <p class="ps-why"><b>Why for Lola?</b> Low-impact activities such as scent games can provide mental stimulation without intense exercise.</p>
+              </div>
+            </div></div>
+          </div>
+          <div class="ps-step ps-card ps-provider" data-in="h">
+            <div class="ps-row"><span class="ps-thumb"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-line">Dogue Wellness · Physiotherapy · ★ 4.9</p><p class="ps-title">Mobility assessment</p></div></div>
+            <p class="ps-line ps-desc">A 45-minute look at Lola’s movement, posture and comfort, with advice on supportive therapies.</p>
+            <span class="ps-btn" data-target="explore">Explore appointments</span>
+          </div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
     </article>
     <article class="b2b-feature b2b-feature--flip" data-stack id="retention">
       <div class="b2b-feature__text">
@@ -114,8 +196,38 @@
         <p>Get paid earlier. Keep them coming back.</p>
         <p class="b2b-feature__desc">Offer personalised payment packages, encourage repeat visits and follow-up services.</p>
       </div>
-      <!-- Placeholder: the loyal customers animation goes here. -->
-      <div class="b2b-feature__media" data-media="retention"><span>Animation</span></div>
+      <div class="b2b-feature__media" data-media="retention">
+        <div class="pscene pscene--retention" data-scene="p-retention" aria-hidden="true">
+          <div class="ps-step ps-card ps-pkg" data-in="a" data-out="b">
+            <div class="ps-photo"><img class="sx-focus-training" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"><span class="ps-pill">Bundle</span></div>
+            <p class="ps-title">Puppy School</p>
+            <p class="ps-line">5-session training package</p>
+            <div class="ps-buy"><p class="ps-price">$250 <span class="ps-price__note">· Paid upfront</span></p><span class="ps-btn ps-btn--state" data-target="pay"><span class="ps-btn__a">Pay $250</span><span class="ps-btn__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Package confirmed</span></span></div>
+          </div>
+          <div class="ps-step ps-card ps-progress" data-in="b" data-out="c">
+            <p class="ps-kicker">Coming up next</p>
+            <div class="ps-row"><span class="ps-thumb"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-title">Puppy School</p><p class="ps-line">4 of 5 sessions completed</p></div></div>
+            <div class="ps-bar"><span></span></div>
+            <p class="ps-note">Graduation is coming up! 🎓</p>
+          </div>
+          <div class="ps-step ps-card ps-next" data-in="c" data-out="e">
+            <p class="ps-kicker">Ready for the next step?</p>
+            <div class="ps-row"><span class="ps-thumb"><img src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-title">Next-level puppy masterclass</p><p class="ps-line">Secure your spot in the next intake.</p></div></div>
+            <span class="ps-btn ps-btn--state" data-target="reserve"><span class="ps-btn__a">Reserve my spot</span><span class="ps-btn__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Spot reserved</span></span>
+          </div>
+          <div class="ps-step ps-card ps-grad" data-in="d" data-out="e">
+            <p class="ps-kicker">Celebrate graduation!</p>
+            <div class="ps-row"><span class="ps-thumb"><img src="assets/images/scenes/pupuccino-corgis.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-title">Graduation Morning · $10</p><p class="ps-line">Demonstration session + coffee for dog parents</p></div></div>
+            <span class="ps-btn ps-btn--state" data-target="add"><span class="ps-btn__a">Add to booking</span><span class="ps-btn__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Added</span></span>
+          </div>
+          <div class="ps-step ps-card ps-done" data-in="e">
+            <span class="ps-tick"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span>
+            <p class="ps-big">You’re all set</p>
+            <ul class="ps-list"><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Next masterclass reserved</li><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Graduation Morning added</li></ul>
+          </div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
     </article>
   </section>
 
@@ -199,6 +311,7 @@
 <script src="js/main.js?v=20261002"></script>
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
-<script src="js/partners.js?v=20261101b"></script>
+<script src="js/scenes.js?v=20261101a"></script>
+<script src="js/partners.js?v=20261101c"></script>
 </body>
 </html>

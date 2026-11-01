@@ -302,7 +302,7 @@
 .b2b-feature--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 .b2b-feature--flip .b2b-feature__text { order: 2; }
 
-.b2b-feature h3 {
+.b2b-feature__text h3 {
   margin: 0;
   font-family: var(--body-font);
   font-size: var(--type-title);
@@ -311,7 +311,7 @@
   letter-spacing: -0.03em;
   color: var(--ink);
 }
-.b2b-feature p {
+.b2b-feature__text p {
   margin: 14px 0 0;
   max-width: 32ch;
   font-family: var(--body-font);
@@ -320,7 +320,7 @@
   line-height: 1.35;
   color: var(--ink);
 }
-.b2b-feature p.b2b-feature__desc {
+.b2b-feature__text p.b2b-feature__desc {
   margin-top: 12px;
   max-width: 40ch;
   font-size: var(--type-body);
