@@ -16,8 +16,8 @@
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
-<link rel="stylesheet" href="css/partners.css?v=20261101h">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261101f">
+<link rel="stylesheet" href="css/partners.css?v=20261101i">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261101i">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -227,7 +227,125 @@
     </article>
   </section>
 
-  <!-- 4 — Frequently asked questions: native <details>, one open to begin -->
+  <!-- 4 — The demo: a phone playing the parent's side of Etho. From the
+       home, a parent opens a service, then its provider, and the
+       provider's storefront scrolls through: offers this week, services,
+       extras, bundles, products and the team. Run by scenes.js (p-demo in
+       partners.js) while the section is on screen. The business and team
+       are invented. With no script the storefront's top shows, still. -->
+  <section class="b2b-demo" id="demo" data-section="partners_demo">
+    <div class="b2b-demo__text">
+      <h2 class="b2b-section__title">Your storefront, in the Etho app</h2>
+      <p class="b2b-demo__sub">Pet parents find your offers, then everything you do, in one place.</p>
+      <ol class="b2b-demo__steps">
+        <li data-demo-step="1">Your offer appears on their home</li>
+        <li data-demo-step="2">They open your storefront</li>
+        <li data-demo-step="3">Offers this week, services, bundles, products and your team</li>
+      </ol>
+    </div>
+    <div class="b2b-demo__phone">
+      <div class="scene pd" data-scene="p-demo" aria-hidden="true">
+        <div class="scene__app">
+          <div class="sx-hello">
+            <p class="sx-greeting">Here’s to a good day</p>
+            <span class="sx-avatar"><img src="assets/images/scenes/hector.webp" alt="" loading="lazy" decoding="async"></span>
+          </div>
+          <p class="sx-headline">Picked for Hector</p>
+          <div class="sx-rail">
+            <div class="sx-card" data-target="wash">
+              <div class="sx-photo"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">50% off</span></div>
+              <p class="sx-title">Bath &amp; Dry</p>
+              <p class="sx-line sx-line--price"><s>$90</s> $45</p>
+            </div>
+            <div class="sx-card">
+              <div class="sx-photo"><img src="assets/images/scenes/massage.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">30% off</span></div>
+              <p class="sx-title">Massage</p>
+              <p class="sx-line sx-line--price"><s>$80</s> $56</p>
+            </div>
+            <div class="sx-card">
+              <div class="sx-photo"><img src="assets/images/scenes/beach.webp" alt="" loading="lazy" decoding="async"></div>
+              <p class="sx-title">Beach walk</p>
+            </div>
+          </div>
+          <p class="sx-heading">Get Hector pampered</p>
+          <div class="sx-rail sx-rail--small">
+            <div class="sx-card"><div class="sx-photo"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">Free</span></div><p class="sx-title">Dental check</p></div>
+            <div class="sx-card"><div class="sx-photo"><img src="assets/images/scenes/shampoo.webp" alt="" loading="lazy" decoding="async"></div><p class="sx-title">Hair treatment</p></div>
+            <div class="sx-card"><div class="sx-photo"><img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async"></div><p class="sx-title">Ear care</p></div>
+          </div>
+        </div>
+
+        <div class="scene__sheet">
+          <div class="scene__page scene__page--service">
+            <div class="sx-hero"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">50% off</span></div>
+            <p class="sx-meta pd-provider" data-target="provider"><span>Dogue Spa</span><svg viewBox="0 0 18 18"><path d="M9 1.5l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.8l5-.7z"/></svg>5.0 · Bondi<i class="pd-chev"></i></p>
+            <p class="sx-big">Bath &amp; Dry</p>
+            <p class="sx-line">Wednesdays, 11am to 3pm</p>
+            <p class="sx-price"><s>$90</s> $45</p>
+            <div class="sx-button"><span>Book for Wednesday</span></div>
+          </div>
+        </div>
+
+        <div class="pd-store" data-target="store">
+          <div class="pd-scroll" data-scroll="page">
+            <div class="pd-hero">
+              <img src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
+              <span class="pd-icon pd-icon--back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></span>
+              <span class="pd-icon pd-icon--fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg></span>
+              <div class="pd-hero__foot">
+                <p class="pd-name">Dogue Spa</p>
+                <div class="pd-rating"><p>★ 5.0 · 48 reviews</p><p>Bondi</p></div>
+              </div>
+            </div>
+
+            <div class="pd-body">
+              <p class="pd-h">Offers this week</p>
+              <div class="pd-offers" data-scroll="offers">
+                <div class="pd-offer" data-target="offer"><span class="sx-pill">50% off</span><p class="pd-t">Bath &amp; Dry</p><p class="pd-s">Wednesdays 11am to 3pm</p></div>
+                <div class="pd-offer"><span class="pd-ico"><svg viewBox="0 0 24 24"><path d="M12 7.5c-1.2-2-4.5-1.6-4.5 1 0 2 4.5 4.5 4.5 4.5s4.5-2.5 4.5-4.5c0-2.6-3.3-3-4.5-1zM4 15h4l3 2h4a1.5 1.5 0 010 3H9M4 21h12l4-3"/></svg></span><p class="pd-t">Complimentary dental check</p><p class="pd-s">With any bath</p></div>
+                <div class="pd-offer"><span class="pd-ico"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-2.5h6L17 8h3v11H4zM12 16.5a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/></svg></span><p class="pd-t">Post-groom photo</p><p class="pd-s">Free with a full groom</p></div>
+                <div class="pd-offer"><span class="sx-pill">20% off</span><p class="pd-t">Puppy’s first groom</p><p class="pd-s">Under 6 months</p></div>
+              </div>
+
+              <p class="pd-h">Services for Hector</p>
+              <p class="pd-h2">Grooming</p>
+              <div class="pd-item"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"><div><span class="pd-foryou">✨ For you</span><p class="pd-t">Wash &amp; Dry</p><p class="pd-s">Shampoo, condition, blow dry &amp; nail clip</p></div><b>$90</b></div>
+              <div class="pd-item"><img src="assets/images/scenes/brush.webp" alt="" loading="lazy" decoding="async"><div><p class="pd-t">Wash &amp; Tidy</p><p class="pd-s">Wash &amp; dry, ear clean, hygiene trim, paw and brow tidy</p></div><b>$105</b></div>
+              <div class="pd-item"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"><div><p class="pd-t">Full Groom</p><p class="pd-s">Wash &amp; tidy and a full body comfort clip</p></div><b>$145</b></div>
+
+              <p class="pd-h2">Extra pampering</p>
+              <div class="pd-extras">
+                <div class="pd-extra"><svg viewBox="0 0 24 24"><path d="M4 9a5 5 0 0110 0 5 5 0 01-10 0zM14 7h6v4h-6M8 14l-1 7h3l1-6"/></svg><p>De-shedding</p><b>$20</b></div>
+                <div class="pd-extra"><svg viewBox="0 0 24 24"><path d="M5 19L17 7M15 5l4 4M13 7l1.5-1.5M15 9l1.5-1.5"/></svg><p>Teeth brush</p><b>$30</b></div>
+                <div class="pd-extra"><svg viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 01-12 0c0-4.5 6-11 6-11z"/></svg><p>Ear plucking</p><b>$35</b></div>
+                <div class="pd-extra"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v3H8.5A2.5 2.5 0 006 8.5V19a2 2 0 002 2h8a2 2 0 002-2V8.5A2.5 2.5 0 0015.5 6H14V3"/></svg><p>Specialty shampoo</p><b>$10</b></div>
+              </div>
+
+              <p class="pd-h2">Bundles</p>
+              <div class="pd-item"><img src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"><div><p class="pd-t">Any grooming service × 3</p><p class="pd-s">Use Mon to Wed. Valid for 6 months.</p></div><b>40% off</b></div>
+
+              <p class="pd-h">Continue the care at home</p>
+              <div class="pd-products">
+                <div class="pd-product"><div class="pd-product__img"><img src="assets/images/scenes/shampoo.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">50% off</span></div><p class="pd-t"><span>$7.50</span> <s>$15</s></p><p class="pd-t">Oat shampoo</p><p class="pd-s">For long, thick coats</p></div>
+                <div class="pd-product"><div class="pd-product__img"><img src="assets/images/scenes/brush.webp" alt="" loading="lazy" decoding="async"><span class="sx-pill">20% off</span></div><p class="pd-t"><span>$28</span> <s>$35</s></p><p class="pd-t">Long hair brush</p><p class="pd-s">Stainless steel pins</p></div>
+              </div>
+
+              <p class="pd-h">Team</p>
+              <div class="pd-team"><span class="pd-av" style="--av:#FFF6C4">A</span><div><p class="pd-t">Ava</p><p class="pd-s">Professional groomer</p></div></div>
+              <div class="pd-team"><span class="pd-av" style="--av:#E3ECDF">T</span><div><p class="pd-t">Theo</p><p class="pd-s">Professional groomer</p></div></div>
+              <div class="pd-team"><span class="pd-av" style="--av:#E7E3F1">S</span><div><p class="pd-t">Sana</p><p class="pd-s">Senior stylist</p></div></div>
+
+              <p class="pd-logo">DOGUE SPA</p>
+            </div>
+          </div>
+        </div>
+
+        <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 — Frequently asked questions: native <details>, one open to begin -->
   <section class="b2b-faq" id="faq" data-section="partners_faq">
     <h2 class="b2b-section__title">Frequently Asked Questions</h2>
     <div class="b2b-faq__list">
@@ -254,7 +372,7 @@
     </div>
   </section>
 
-  <!-- 5 — Footer: the call to action and the links, on one dark block -->
+  <!-- 6 — Footer: the call to action and the links, on one dark block -->
   <footer class="b2b-foot on-dark" id="join" data-section="footer">
     <div class="b2b-foot__cta">
       <h2>Become a founding partner</h2>
@@ -283,6 +401,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261101h"></script>
+<script src="js/partners.js?v=20261101i"></script>
 </body>
 </html>
