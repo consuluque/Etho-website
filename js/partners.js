@@ -58,102 +58,108 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 if (window.EthoScenes) {
   const S = window.EthoScenes;
 
-  // 1 — Fill quiet periods. Two free Tuesday slots; the groomer turns on
-  // a 30% offer, it reaches Cooper's parent as a pick for Cooper, they
-  // book, and the slot is filled.
+  // Counts an element up from 0 to `to` over ms, written by fmt; stops
+  // if the scene rewinds meanwhile (s-in is cleared on reset).
+  const countUp = (root, el, to, ms, fmt) => {
+    const start = performance.now();
+    const step = (now) => {
+      if (!root.classList.contains('s-in')) return;
+      const f = Math.min(1, (now - start) / ms);
+      el.textContent = fmt(Math.round(to * (1 - Math.pow(1 - f, 3))));
+      if (f < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const money = (n) => '$' + n.toLocaleString('en-AU');
+
+  // 1 — Fill quiet periods. A quiet Tuesday morning with two open slots;
+  // the off-peak offer goes live, both slots fill, and the morning's
+  // recovered revenue counts up.
   S.define('p-capacity', {
-    loopAt: 9200,
-    script({ at, on, off, target, glide, tap }) {
-      at(300, () => on('a'));
-      at(1400, () => { on('cursor'); glide(target('offer'), 750, 0.5, 0.55); });
-      at(2250, () => tap(target('offer'), () => on('offer')));
-      at(3100, () => on('b'));
-      at(4200, () => glide(target('book'), 750, 0.5, 0.55));
-      at(5050, () => tap(target('book'), () => on('c')));
-      at(5600, () => off('cursor'));
-      at(6500, () => on('d'));
-      at(8500, () => on('out'));
-    },
-    finalState({ on }) { on('a', 'offer', 'b', 'c', 'd'); },
-  });
-
-  // 2 — Get loyal customers. A five-session puppy school paid upfront;
-  // four sessions in, graduation nears; the next masterclass is
-  // reserved and a graduation morning added.
-  S.define('p-retention', {
-    loopAt: 12600,
-    script({ at, on, off, target, glide, tap }) {
-      at(300, () => on('a'));
-      at(1200, () => { on('cursor'); glide(target('pay'), 750, 0.5, 0.55); });
-      at(2050, () => tap(target('pay'), () => on('pay')));
-      at(3000, () => { off('cursor'); on('b'); });
-      at(5300, () => on('c'));
-      at(6000, () => { on('cursor'); glide(target('reserve'), 700, 0.5, 0.55); });
-      at(6800, () => tap(target('reserve'), () => on('reserve')));
-      at(7500, () => on('d'));
-      at(8300, () => glide(target('add'), 700, 0.5, 0.55));
-      at(9100, () => tap(target('add'), () => on('add')));
-      at(9700, () => { off('cursor'); on('e'); });
-      at(11900, () => on('out'));
-    },
-    finalState({ on }) { on('a', 'pay', 'b', 'c', 'reserve', 'd', 'add', 'e'); },
-  });
-
-  // 3 — Grow each booking. Cooper's daycare day; an enrichment session
-  // is added and the total climbs $65 to $80; then holiday boarding is
-  // suggested as a separate booking, under the confirmed day.
-  S.define('p-basket', {
-    loopAt: 10200,
-    script({ at, on, off, target, glide, tap, count, root }) {
-      const total = root.querySelector('[data-scene-count]');
-      at(300, () => on('a'));
-      at(1400, () => on('b'));
-      at(2300, () => { on('cursor'); glide(target('enrich').querySelector('.ps-check'), 800); });
-      at(3200, () => tap(target('enrich'), () => { on('enrich'); count(total, 80, 700); }));
-      at(4000, () => off('cursor'));
-      at(4900, () => on('d'));
-      at(5700, () => on('e'));
-      at(9500, () => on('out'));
+    loopAt: 9600,
+    script({ at, on, root }) {
+      const num = root.querySelector('.ps-stat .ps-num');
+      at(200, () => on('in'));
+      at(1700, () => on('live'));
+      at(3200, () => on('fill1'));
+      at(4300, () => on('fill2'));
+      at(5000, () => { on('stat'); countUp(root, num, 140, 1100, (n) => '+' + money(n)); });
+      at(8900, () => on('out'));
     },
     finalState({ on, root }) {
-      on('a', 'b', 'enrich', 'd', 'e');
-      root.querySelector('[data-scene-count]').textContent = '$80';
+      on('in', 'live', 'fill1', 'fill2', 'stat');
+      root.querySelector('.ps-stat .ps-num').textContent = '+$140';
     },
   });
 
-  // 4 — Be discoverable by AI search. Lola's question is typed; four
-  // recommendations arrive in turn, each with why it suits her; the
-  // mobility assessment is picked out and its provider opens.
-  S.define('p-ai', {
-    loopAt: 16800,
-    script({ at, on, off, target, glide, tap, type, root }) {
-      const field = root.querySelector('[data-type]');
-      const track = root.querySelector('[data-scroll="recs"]');
-      const card = (n) => root.querySelector('.ps-r' + n);
-      // Scrolls the list up so card n sits at the top of the window.
-      const show = (n) => {
-        track.style.transition = 'transform 800ms cubic-bezier(0.16, 1, 0.3, 1)';
-        track.style.transform = 'translateY(' + (-card(n).offsetTop + 4) + 'px)';
-      };
-      at(300, () => on('a'));
-      at(1000, () => { on('typing'); type(field, 36); });
-      at(4100, () => { off('typing'); on('b'); });
-      at(4900, () => on('r1'));
-      at(5500, () => on('w1'));
-      at(6400, () => on('r2'));
-      at(7000, () => on('w2'));
-      at(7900, () => { on('r3'); show(2); });
-      at(8500, () => on('w3'));
-      at(9400, () => { on('r4'); show(3); });
-      at(10000, () => on('w4'));
-      at(11300, () => { show(2); on('hi'); });
-      at(12300, () => on('h'));
-      at(13200, () => { on('cursor'); glide(target('explore'), 750, 0.5, 0.55); });
-      at(14050, () => tap(target('explore')));
-      at(14600, () => off('cursor'));
-      at(16100, () => on('out'));
+  // 2 — Grow each booking. A daycare booking comes in; Etho suggests
+  // add-ons, one is taken and the total climbs; the average booking
+  // value rises, and boarding is booked alongside.
+  S.define('p-basket', {
+    loopAt: 9600,
+    script({ at, on, root }) {
+      const total = root.querySelector('.ps-total b');
+      const avg = root.querySelector('.ps-stat .ps-num');
+      at(200, () => on('in'));
+      at(1400, () => on('sug'));
+      at(2900, () => { on('add1'); countUp(root, { set textContent(v) { total.textContent = v; } }, 15, 700, (n) => money(65 + n)); });
+      at(4100, () => { on('stat'); countUp(root, avg, 23, 1000, (n) => '+' + n + '%'); });
+      at(5400, () => on('cross'));
+      at(8900, () => on('out'));
     },
-    finalState({ on }) { on('a', 'b', 'r1', 'w1', 'r2', 'w2', 'r3', 'w3', 'r4', 'w4', 'hi', 'h'); },
+    finalState({ on, root }) {
+      on('in', 'sug', 'add1', 'stat', 'cross');
+      root.querySelector('.ps-total b').textContent = '$80';
+      root.querySelector('.ps-stat .ps-num').textContent = '+23%';
+    },
+  });
+
+  // 3 — Be discoverable by AI search. The service is written out as
+  // structured data behind; in front, an AI answer recommends the
+  // business and the booking comes through.
+  S.define('p-ai', {
+    loopAt: 10000,
+    script({ at, on, type, root }) {
+      at(150, () => on('in'));
+      let t = 500;
+      root.querySelectorAll('.ps-code [data-type]').forEach((el) => {
+        at(t, () => type(el, 16));
+        t += el.dataset.type.length * 16 + 40;
+      });
+      at(1100, () => on('q'));
+      at(2100, () => on('think'));
+      at(3300, () => on('ans'));
+      at(4300, () => on('tiles'));
+      at(5600, () => on('booked'));
+      at(6100, () => on('toast'));
+      at(9300, () => on('out'));
+    },
+    finalState({ on }) { on('in', 'q', 'ans', 'tiles', 'booked', 'toast'); },
+  });
+
+  // 4 — Get loyal customers. A five-session pack paid upfront, four
+  // sessions in; the month's prepaid revenue, repeat rate and rebookings
+  // count up, and a rebooking arrives.
+  S.define('p-retention', {
+    loopAt: 9600,
+    script({ at, on, root }) {
+      const nums = root.querySelectorAll('.ps-tl .ps-num');
+      at(200, () => on('in'));
+      at(1000, () => on('paid'));
+      at(2300, () => on('brief'));
+      at(2700, () => {
+        countUp(root, nums[0], 4250, 1300, money);
+        countUp(root, nums[1], 68, 1300, (n) => n + '%');
+        countUp(root, nums[2], 12, 1300, String);
+      });
+      at(5200, () => on('toast'));
+      at(8900, () => on('out'));
+    },
+    finalState({ on, root }) {
+      on('in', 'paid', 'brief', 'toast');
+      const nums = root.querySelectorAll('.ps-tl .ps-num');
+      nums[0].textContent = '$4,250'; nums[1].textContent = '68%'; nums[2].textContent = '12';
+    },
   });
 }
 
