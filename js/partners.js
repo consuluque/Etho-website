@@ -112,6 +112,55 @@ if (window.EthoScenes) {
   // products and a bundle they switch on; then a 30% offer set on
   // Tuesday and Wednesday mornings and put live; then a pet parent's
   // question to an AI answered with this studio, ready to book.
+  // The demo: the parent's side. The home rises; the cursor opens the
+  // bath & dry, then its provider, Dogue Spa, whose storefront pushes in.
+  // It swipes through this week's offers, then flicks the page down in
+  // four strokes to the foot, holds, and everything drops away.
+  S.define('p-demo', {
+    loopAt: 22500,
+    script({ at, on, off, target, glide, tap, drag, scrollTo, press, em, root }) {
+      const page = root.querySelector('[data-scroll="page"]');
+      const offers = root.querySelector('[data-scroll="offers"]');
+      const store = target('store');
+      const pageTo = (y, ms) => {
+        page.style.transition = 'transform ' + ms + 'ms cubic-bezier(0.05, 0.75, 0.15, 1)';
+        page.style.transform = 'translateY(' + (-y).toFixed(1) + 'px)';
+      };
+      // One upward flick: the cursor lands low, drags up and lets go as
+      // the page carries on; share is how far down its full depth.
+      const flick = (t0, share) => {
+        at(t0, () => glide(store, 450, 0.62, 0.8));
+        at(t0 + 600, () => {
+          press(true);
+          glide(store, 260, 0.62, 0.52);
+          pageTo(Math.max(0, page.offsetHeight - store.clientHeight) * share, 1300);
+        });
+        at(t0 + 880, () => press(false));
+      };
+
+      at(200, () => on('app'));
+      at(1400, () => { on('cursor'); glide(target('wash'), 900, 0.5, 0.4); });
+      at(2500, () => tap(target('wash'), () => on('sheet')));
+      at(3700, () => glide(target('provider'), 800, 0.35, 0.5));
+      at(4700, () => tap(target('provider'), () => on('store')));
+      at(6000, () => glide(target('offer'), 700, 0.75, 0.55));
+      at(6900, () => drag(offers, -em(5), 320));
+      at(7220, () => {
+        press(false);
+        // To the last offer, sitting inside the page's right margin.
+        const first = offers.firstElementChild;
+        const last = offers.lastElementChild;
+        const width = last.offsetLeft + last.offsetWidth - first.offsetLeft;
+        const max = width - (store.clientWidth - em(2.6));
+        scrollTo(offers, -max, 1600, 'cubic-bezier(0.05, 0.75, 0.15, 1)');
+      });
+      [9200, 11000, 12800, 14600].forEach((t0, i) => flick(t0, (i + 1) / 4));
+      at(17000, () => off('cursor'));
+      at(20800, () => on('out'));
+    },
+    finalState({ on }) { on('app', 'sheet', 'store'); },
+  });
+
   S.define('p-hero', {
     loopAt: 15500,
     script({ at, on, root }) {
@@ -225,6 +274,17 @@ if (window.EthoScenes) {
       nums[0].textContent = '$4,250'; nums[1].textContent = '68%'; nums[2].textContent = '12';
     },
   });
+}
+
+// The demo plays while its phone is well on screen.
+const demoRoot = document.querySelector('[data-scene="p-demo"]');
+const demoScene = demoRoot && window.EthoScenes ? window.EthoScenes.create(demoRoot) : null;
+if (demoScene) {
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) demoScene.play(); else demoScene.stop();
+    }, { threshold: 0.5 }).observe(demoRoot);
+  } else demoScene.play();
 }
 
 // The hero's scene plays while the hero is on screen.

@@ -872,3 +872,141 @@
   .ph-card { height: 25em; top: 45%; }
   .ph-caption { bottom: 1.1em; }
 }
+
+/* ---------------------------------------------------------------
+   The demo (p-demo): the app's home, a service in a sheet, then the
+   provider's storefront pushing in over both and scrolling down.
+   Built on the homepage's scene pieces (scenes.css); only the
+   storefront is new. States: s-app, s-sheet, s-store, s-cursor, s-out.
+   The two rows the cursor moves (offers, the page) are moved by
+   scenes.js through their transforms.
+   --------------------------------------------------------------- */
+
+.pd .sx-hello { margin-top: 2.4em; }
+.pd .scene__sheet { height: 24em; }
+.pd-provider { position: relative; padding: 0.55em 0.7em; margin-left: -0.7em !important; margin-right: -0.7em !important; border-radius: 0.8em; transition: background 200ms var(--ease-out); }
+.pd-provider.is-pressed { background: #F1F0EE; }
+.pd-chev {
+  margin-left: auto;
+  width: 0.55em;
+  height: 0.55em;
+  border-top: 2px solid var(--sx-title);
+  border-right: 2px solid var(--sx-title);
+  transform: rotate(45deg);
+}
+
+.pd-store {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background: #FCFCFC;
+  transform: translateX(100%);
+  transition: transform 650ms var(--ease-out), opacity 500ms var(--ease-out);
+}
+.s-store .pd-store { transform: none; }
+.s-store .scene__sheet { transform: translateX(-30%); opacity: 0; transition: transform 650ms var(--ease-out), opacity 500ms var(--ease-out); }
+.s-out .pd-store { transform: translateY(105%); transition-duration: 650ms; }
+html:not(.js) .pd-store { transform: none; }
+
+.pd-scroll { will-change: transform; }
+
+.pd-hero { position: relative; height: 17em; }
+.pd-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.6) 100%);
+}
+.pd-hero img { object-position: 50% 50%; }
+.pd-icon {
+  position: absolute;
+  z-index: 1;
+  top: 2.2em;
+  display: grid;
+  place-items: center;
+  width: 2.3em;
+  height: 2.3em;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+}
+.pd-icon--back { left: 1.2em; }
+.pd-icon--fav { right: 1.2em; }
+.pd-icon svg { width: 1.2em; height: 1.2em; fill: none; stroke: #000; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.pd-hero__foot {
+  position: absolute;
+  z-index: 1;
+  left: 1.3em;
+  right: 1.3em;
+  bottom: 1.1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: #FFFFFF;
+}
+.pd-name { font-size: 1.5em; font-weight: 700; letter-spacing: -0.01em; }
+.pd-rating { text-align: right; }
+.pd-rating p { font-size: 0.75em; font-weight: 600; }
+.pd-rating p + p { font-weight: 500; opacity: 0.85; }
+
+.pd-body { padding: 1.5em 0 2.5em 1.3em; }
+.pd-body > :not(.pd-offers):not(.pd-products) { margin-right: 1.3em; }
+.pd-h { margin-top: 2.6em !important; font-size: 1.2em; font-weight: 700; letter-spacing: -0.01em; }
+.pd-body > .pd-h:first-child { margin-top: 0 !important; }
+.pd-h2 { margin-top: 2.2em !important; font-size: 1em; font-weight: 700; color: #464646; }
+.pd-h + .pd-h2 { margin-top: 1em !important; }
+.pd-t { font-size: 0.88em; font-weight: 700; line-height: 1.25; }
+.pd-s { margin-top: 0.2em !important; font-size: 0.76em; font-weight: 500; line-height: 1.35; color: var(--sx-text2); }
+
+.pd-offers { display: flex; gap: 0.7em; margin-top: 0.9em; }
+.pd-offer {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 8.8em;
+  height: 9em;
+  padding: 1em;
+  border-radius: 1.1em;
+  background: var(--sx-card);
+  box-shadow: var(--sx-shadow);
+}
+.pd-offer .pd-t { margin-top: auto !important; }
+.pd-ico { display: grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; background: #000; }
+.pd-ico svg { width: 1.2em; height: 1.2em; fill: none; stroke: #FFF; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+.pd-item { display: flex; align-items: flex-start; gap: 0.85em; margin-top: 0.9em; }
+.pd-item > img { flex: none; width: 4.4em; height: 4.4em; border-radius: 0.9em; }
+.pd-item > img.sx-groom { object-position: 29% 58%; }
+.pd-item > div { flex: 1; min-width: 0; }
+.pd-item > b { flex: none; font-size: 0.88em; font-weight: 700; }
+.pd-foryou {
+  display: inline-block;
+  margin-bottom: 0.3em;
+  padding: 0.25em 0.6em;
+  border-radius: 2em;
+  background: #000;
+  color: #FFF;
+  font-size: 0.68em;
+  font-weight: 700;
+}
+
+.pd-extras { margin-top: 0.3em; }
+.pd-extra { display: flex; align-items: center; gap: 0.85em; padding: 0.8em 0; border-bottom: 1px solid var(--sx-rule); }
+.pd-extra:last-child { border-bottom: 0; }
+.pd-extra svg { flex: none; width: 1.4em; height: 1.4em; fill: none; stroke: #000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.pd-extra p { flex: 1; font-size: 0.86em; font-weight: 600; }
+.pd-extra b { font-size: 0.86em; font-weight: 700; }
+
+.pd-products { display: flex; gap: 0.8em; margin-top: 0.9em; }
+.pd-product { flex: none; width: 9.6em; }
+.pd-product__img { position: relative; height: 9.6em; border-radius: 1em; overflow: hidden; box-shadow: var(--sx-shadow); }
+.pd-product__img .sx-pill { position: absolute; top: 0.6em; left: 0.6em; font-size: 0.72em; }
+.pd-product .pd-t { margin-top: 0.55em !important; }
+.pd-product .pd-t + .pd-t { margin-top: 0.1em !important; }
+.pd-product s { font-weight: 500; color: var(--sx-was); }
+
+.pd-team { display: flex; align-items: center; gap: 0.85em; margin-top: 0.9em; }
+.pd-av { flex: none; display: grid; place-items: center; width: 3em; height: 3em; border-radius: 50%; background: var(--av); font-size: 1em; font-weight: 700; }
+
+.pd-logo { margin-top: 2.6em !important; text-align: center; font-size: 0.9em; font-weight: 800; letter-spacing: 0.24em; }
