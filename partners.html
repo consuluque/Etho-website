@@ -3,67 +3,289 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Etho for partners — Be one of the first</title>
-<meta name="description" content="Etho is bringing together the best dog services and brands. Apply to be one of the first providers and brands on the platform.">
+<title>Etho for partners</title>
+<meta name="description" content="A smarter way to grow your pet business. Fill quiet periods, increase transaction value and build lasting customer relationships.">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/images/favicon-64.png?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png?v=3">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20261002">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=20261029">
 <link rel="stylesheet" href="css/landing.css?v=20261002">
+<link rel="stylesheet" href="css/home.css?v=20261030h">
+<link rel="stylesheet" href="css/consent.css?v=20261026b">
+<link rel="stylesheet" href="css/scenes.css?v=20261101a">
+<link rel="stylesheet" href="css/partners.css?v=20261101l">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261101c">
+<!-- Flags that scripting is on, before anything paints. The reveal
+     animation and the word-by-word paragraph are opt-in on this, so the
+     page is readable without it. -->
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <div class="page">
 
-  <nav class="site-nav" aria-label="Primary">
-    <a class="site-nav__mark" href="index.html">etho</a>
+  <!-- The wordmark on the left and the way back to the dog-parent site
+       on the right, across the top of the hero. -->
+  <nav class="site-nav site-nav--b2b" aria-label="Primary">
+    <a class="site-nav__logo" href="#top" aria-label="Etho"><img class="site-nav__logo-light" src="assets/images/etho%20logo%20white.png" alt="Etho" height="22"><img class="site-nav__logo-dark" src="assets/images/etho%20logo%20dark.png" alt="" height="22"></a>
+    <a class="site-nav__link" href="/">For dog parents <span aria-hidden="true">→</span></a>
   </nav>
 
   <!-- 1 — Hero ---------------------------------------------------------- -->
-  <section id="top" class="hero hero--partners on-dark" data-section="partners_hero">
-    <div class="hero-scrim"></div>
-
-    <div class="hero-content">
-      <p class="hero-kicker">For providers and brands</p>
-      <h1 class="hero-title">Be one of the first.</h1>
-      <p class="hero-sub">Etho sends dog owners to the people and products worth paying for. We are choosing our founding partners now.</p>
-
-      <div id="apply" class="access-slot">
-        <form class="waitlist-form access-form"
-              action="/api/waitlist" method="POST"
-              data-form-name="partner_application"
-              data-done-message="Thanks — we'll be in touch about partnering.">
-          <label class="u-visually-hidden" for="partner-email">Work email address</label>
-          <input id="partner-email" type="email" name="email" class="waitlist-input"
-                 placeholder="you@yourbusiness.com" autocomplete="email" required>
-          <div class="hp" aria-hidden="true">
-            <label for="partner-hp-field">Leave this field empty</label>
-            <input id="partner-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <!-- The pitch on the left; on the right, a photo of a service with the
+       add-ons Etho suggests alongside it, cycling through grooming, a
+       stay and a therapy (partners.js). The button opens the partner
+       intake form; until its link is set it points at #typeform. -->
+  <section id="top" class="hero hero--b2b on-dark" data-section="partners_hero">
+    <div class="b2b-hero__copy">
+      <h1 class="hero-title">A smarter way to grow your pet business</h1>
+      <p class="hero-sub">Fill quiet periods, increase transaction value and build lasting customer relationships.</p>
+      <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with us</a>
+      <p class="hero-sub b2b-hero__zero">Zero new software <span aria-hidden="true">·</span> Zero new process change <span aria-hidden="true">·</span> Zero marketing costs</p>
+    </div>
+    <div class="b2b-panels" aria-hidden="true">
+        <div class="b2b-panel b2b-panel--groom is-active" data-panel>
+          <img class="b2b-panel__photo" src="assets/images/partners/groom.webp" alt="" loading="eager" decoding="async">
+          <div class="b2b-panel__ui">
+            <p class="b2b-panel__title">Make it extra special</p>
+            <div class="b2b-addon"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>For you</span><b>Post-groom photo</b><span class="b2b-addon__price">$20</span></div></div>
+            <div class="b2b-addon"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Popular</span><b>Teeth cleaning</b><span class="b2b-addon__price">$15</span></div></div>
           </div>
-          <button type="submit" class="btn-solid waitlist-submit">Apply here</button>
-        </form>
-        <p class="waitlist-status" data-form-status aria-live="polite"></p>
-      </div>
+        </div>
+        <div class="b2b-panel b2b-panel--stay" data-panel>
+          <img class="b2b-panel__photo" src="assets/images/partners/stay.webp" alt="" loading="lazy" decoding="async">
+          <div class="b2b-panel__ui">
+            <p class="b2b-panel__title">Add to their stay</p>
+            <div class="b2b-addon"><img src="assets/images/scenes/pupcake.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>For you</span><b>Welcome pupcake</b><span class="b2b-addon__price">$12</span></div></div>
+            <div class="b2b-addon"><img src="assets/images/scenes/wine.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Popular</span><b>Dinner, outdoor seating</b><span class="b2b-addon__price">$40</span></div></div>
+          </div>
+        </div>
+        <div class="b2b-panel b2b-panel--hydro" data-panel>
+          <img class="b2b-panel__photo" src="assets/images/partners/hydro.webp" alt="" loading="lazy" decoding="async">
+          <div class="b2b-panel__ui">
+            <p class="b2b-panel__title">Keep the progress going</p>
+            <div class="b2b-addon"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>For you</span><b>Dog ramp</b><span class="b2b-addon__price">$89</span></div></div>
+            <div class="b2b-addon"><img src="assets/images/scenes/feeder.webp" alt="" loading="lazy" decoding="async"><div><span class="b2b-addon__tag"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Bundle</span><b>Raised feeder</b><span class="b2b-addon__price">$45</span></div></div>
+          </div>
+        </div>
     </div>
   </section>
 
-  <footer class="site-footer" data-section="footer">
-    <p class="site-footer__mark">etho</p>
-    <p class="site-footer__tagline">Know their nature</p>
-    <nav class="site-footer__links" aria-label="Footer">
-      <a href="index.html">Home</a>
-      <a href="mailto:hello@ethopethealth.com">Contact</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-    </nav>
-    <p class="site-footer__domain">etho.pet</p>
+  <!-- 2 — Positioning -------------------------------------------------- -->
+  <section class="b2b-intro" data-section="partners_intro">
+    <p class="b2b-intro__line">Identify opportunities to generate more revenue and take action with <mark>dynamic pricing</mark>, <mark>personalised upsells</mark> and <mark>agentic commerce</mark>.</p>
+  </section>
+
+  <!-- 3 — Value points: large cards that stack as the page scrolls,
+       each new one sliding up over the last (partners.js), text and an
+       animation alternating sides. Each animation is a placeholder for
+       now. -->
+  <section class="b2b-features" data-section="partners_features">
+    <article class="b2b-feature" data-stack id="capacity">
+      <div class="b2b-feature__text">
+        <h3>Fill quiet periods</h3>
+        <p>More bookings at the right times.</p>
+        <p class="b2b-feature__desc">Turn unused capacity into revenue with flexible offers you control, shown to pet parents most likely to book.</p>
+      </div>
+      <div class="b2b-feature__media" data-media="capacity">
+        <div class="pscene pscene--capacity" data-scene="p-capacity" aria-hidden="true">
+          <img class="ps-bg" src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-glass ps-slots">
+            <p class="ps-cap">Tuesday · Morning</p>
+            <div class="ps-slot"><span>9:00</span><b class="ps-st">Booked</b></div>
+            <div class="ps-slot ps-slot--open ps-slot--1"><span>10:30</span><b class="ps-st"><i class="ps-open">Open</i><i class="ps-who"><em class="ps-av">C</em>Cooper</i></b></div>
+            <div class="ps-slot ps-slot--open ps-slot--2"><span>11:30</span><b class="ps-st"><i class="ps-open">Open</i><i class="ps-who"><em class="ps-av">L</em>Luna</i></b></div>
+            <div class="ps-slot"><span>1:00</span><b class="ps-st">Booked</b></div>
+          </div>
+          <div class="ps-glass ps-offer">
+            <div class="ps-offer__top"><div><p class="ps-cap">Off-peak offer</p><p class="ps-h">30% off quiet mornings</p></div><span class="ps-toggle"></span></div>
+            <p class="ps-sub"><span class="ps-sub__off">Paused</span><span class="ps-sub__on"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Live · shown to 240 pet parents nearby</span></p>
+          </div>
+          <div class="ps-glass ps-stat">
+            <p class="ps-cap">Quiet morning filled</p>
+            <p class="ps-num" data-scene-count>$0</p>
+          </div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
+    </article>
+    <article class="b2b-feature b2b-feature--flip" data-stack id="basket">
+      <div class="b2b-feature__text">
+        <h3>Grow each booking</h3>
+        <p>A little extra goes a long way.</p>
+        <p class="b2b-feature__desc">Increase booking value with personalised add-ons and complementary services recommended at the right moment.</p>
+      </div>
+      <div class="b2b-feature__media" data-media="basket">
+        <div class="pscene pscene--basket" data-scene="p-basket" aria-hidden="true">
+          <img class="ps-bg ps-bg--daycare" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-glass ps-up">
+            <p class="ps-cap">New booking · Cooper</p>
+            <div class="ps-line"><span class="ps-th"><img class="ps-th--daycare" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"></span><p>Full-day daycare</p><b>$65</b></div>
+            <div class="ps-sugg">
+              <p class="ps-cap ps-cap--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested for Cooper</p>
+              <div class="ps-line ps-add ps-add--1"><p>Enrichment play</p><b>+$15</b><span class="ps-chip"><i class="ps-chip__a">Add</i><i class="ps-chip__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Added</i></span></div>
+              <div class="ps-line ps-add ps-add--2"><p>One-on-one training</p><b>+$25</b><span class="ps-chip"><i class="ps-chip__a">Add</i></span></div>
+            </div>
+            <div class="ps-total"><p>Booking total</p><b data-scene-count>$65</b></div>
+          </div>
+          <div class="ps-glass ps-stat">
+            <p class="ps-cap">Avg. booking value</p>
+            <p class="ps-num" data-scene-count>+0%</p>
+          </div>
+          <div class="ps-glass ps-cross">
+            <span class="ps-th"><img class="ps-th--bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"></span>
+            <div><p class="ps-cap">Also booked</p><p class="ps-h">Christmas boarding</p><p class="ps-sub">3 nights · $255</p></div>
+          </div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
+    </article>
+    <article class="b2b-feature" data-stack id="ai">
+      <div class="b2b-feature__text">
+        <h3>Be discoverable by AI search</h3>
+        <p>Be part of the answer.</p>
+        <p class="b2b-feature__desc">As pet parents turn to AI for search, Etho makes your services discoverable by agents.</p>
+      </div>
+      <div class="b2b-feature__media" data-media="ai">
+        <div class="pscene pscene--ai" data-scene="p-ai" aria-hidden="true">
+          <div class="ps-glow"></div>
+          <div class="ps-code"><p class="ps-code__file">dogue-wellness.json</p><p><span class="ps-k" data-type="{"></span></p><p><span class="ps-k" data-type="  &quot;@type&quot;: "></span><span class="ps-v" data-type="&quot;Service&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;name&quot;: "></span><span class="ps-v" data-type="&quot;Mobility assessment&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;provider&quot;: "></span><span class="ps-v" data-type="&quot;Dogue Wellness&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;suitableFor&quot;: "></span><span class="ps-v" data-type="&quot;senior dogs&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;price&quot;: "></span><span class="ps-v" data-type="&quot;95 AUD&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;available&quot;: "></span><span class="ps-v" data-type="&quot;Thu 4:00pm&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;bookable&quot;: "></span><span class="ps-v" data-type="true"></span></p><p><span class="ps-k" data-type="}"></span></p></div>
+          <div class="ps-phone">
+            <div class="ps-screen">
+              <p class="ps-q">Best mobility help for my senior greyhound near Bondi?</p>
+              <p class="ps-dots"><i></i><i></i><i></i></p>
+              <div class="ps-ans">
+                <p class="ps-ans__lead"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>A mobility assessment is a good first step. Nearby:</p>
+                <div class="ps-pcard">
+                  <div class="ps-pcard__top"><span class="ps-th"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Dogue Wellness</p><p class="ps-sub">★ 4.9 · 1.2 km</p></div></div>
+                  <p class="ps-pcard__svc">Mobility assessment · $95</p>
+                  <p class="ps-sub">Next: Thu 4:00pm</p>
+                  <span class="ps-book"><i class="ps-book__a">Book</i><i class="ps-book__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Booked</i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="ps-tile ps-tile--1"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI agents</span>
+          <span class="ps-tile ps-tile--2"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI search</span>
+          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">New booking</p><p class="ps-sub">via AI agent · $95</p></div></div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
+    </article>
+    <article class="b2b-feature b2b-feature--flip" data-stack id="retention">
+      <div class="b2b-feature__text">
+        <h3>Get loyal customers</h3>
+        <p>Get paid earlier. Keep them coming back.</p>
+        <p class="b2b-feature__desc">Offer personalised payment packages, encourage repeat visits and follow-up services.</p>
+      </div>
+      <div class="b2b-feature__media" data-media="retention">
+        <div class="pscene pscene--retention" data-scene="p-retention" aria-hidden="true">
+          <img class="ps-bg ps-bg--puppy" src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-glass ps-pack">
+            <p class="ps-cap">Puppy School · 5-pack</p>
+            <p class="ps-big">$250</p>
+            <span class="ps-paid"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Paid upfront</span>
+            <div class="ps-dots5"><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="ps-sub">4 of 5 sessions done</p>
+          </div>
+          <div class="ps-glass ps-brief">
+            <p class="ps-h">This month</p>
+            <div class="ps-tiles">
+              <div class="ps-tl"><p class="ps-cap">Prepaid revenue</p><p class="ps-num" data-scene-count>$0</p></div>
+              <div class="ps-tl"><p class="ps-cap">Repeat customers</p><p class="ps-num" data-scene-count>0%</p></div>
+              <div class="ps-tl"><p class="ps-cap">Rebooked</p><p class="ps-num" data-scene-count>0</p></div>
+            </div>
+          </div>
+          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Cooper rebooked</p><p class="ps-sub">Puppy masterclass · $180</p></div></div>
+          <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- 4 — Frequently asked questions: native <details>, one open to begin -->
+  <section class="b2b-faq" id="faq" data-section="partners_faq">
+    <h2 class="b2b-section__title">Frequently Asked Questions</h2>
+    <div class="b2b-faq__list">
+      <details class="b2b-faq__item" open>
+        <summary>How much does it cost to join Etho?<span class="b2b-faq__icon" aria-hidden="true"></span></summary>
+        <p>There are no upfront costs to become a founding partner. Our planned model is commission-based, so you only pay when Etho generates a completed booking. Introductory partner terms will be confirmed during onboarding.</p>
+      </details>
+      <details class="b2b-faq__item">
+        <summary>Can I control my pricing, availability and offers?<span class="b2b-faq__icon" aria-hidden="true"></span></summary>
+        <p>Yes. You decide which services to promote, when offers are available and what benefits to provide. You remain in control of your business.</p>
+      </details>
+      <details class="b2b-faq__item">
+        <summary>Do I need to change my booking system?<span class="b2b-faq__icon" aria-hidden="true"></span></summary>
+        <p>No replacement is required to get started. Etho can initially showcase your services and direct enquiries to your business. We’re developing booking and payment integrations to make transactions more seamless.</p>
+      </details>
+      <details class="b2b-faq__item">
+        <summary>How will Etho bring me new customers?<span class="b2b-faq__icon" aria-hidden="true"></span></summary>
+        <p>Etho connects pet parents with suitable services through personalised recommendations, exclusive benefits and targeted offers. We aim to generate bookings during quieter periods and increase the value of existing bookings.</p>
+      </details>
+      <details class="b2b-faq__item">
+        <summary>What is agentic commerce, and why does it matter for my business?<span class="b2b-faq__icon" aria-hidden="true"></span></summary>
+        <p>Agentic commerce means AI can go beyond recommending services to helping customers find, book and pay for them. Etho is building the infrastructure to make pet businesses accessible to AI agents, creating a new way for customers to discover and transact with your services.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- 5 — How Etho works -------------------------------------------------- -->
+  <section class="b2b-how" id="how" data-section="partners_how">
+    <p class="b2b-section__kicker">How Etho works</p>
+    <h2 class="b2b-section__title">Your business. Your terms.</h2>
+    <div class="b2b-how__grid">
+      <div class="b2b-how__item">
+        <h3>Storefront</h3>
+        <p>Your services, products and bundles in one place.</p>
+      </div>
+      <div class="b2b-how__item">
+        <h3>Offer controls</h3>
+        <p>You choose what’s on offer, when, and for how much.</p>
+      </div>
+      <div class="b2b-how__item">
+        <h3>Commercial terms</h3>
+        <p>No upfront costs, with simple, transparent terms.</p>
+      </div>
+      <div class="b2b-how__item">
+        <h3>Simple onboarding</h3>
+        <p>We set you up and stay alongside you.</p>
+      </div>
+    </div>
+    <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with us</a>
+  </section>
+
+  <!-- 6 — Footer: the call to action and the links, on one dark block -->
+  <footer class="b2b-foot on-dark" id="join" data-section="footer">
+    <div class="b2b-foot__cta">
+      <h2>Become a founding partner</h2>
+      <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with us</a>
+    </div>
+    <div class="b2b-foot__cols">
+      <div class="b2b-foot__brand">
+        <img src="assets/images/etho%20logo%20white.png" alt="Etho" height="26" loading="lazy" decoding="async">
+        <p>More of the good life for dogs.</p>
+      </div>
+      <nav aria-label="Who it’s for"><p>Who it’s for</p><ul><li>Grooming</li><li>Day care &amp; boarding</li><li>Training</li><li>Vets</li><li>Wellness therapies</li><li>Stays</li><li>Dog-friendly events</li></ul></nav>
+      <nav aria-label="Company"><p>Company</p><ul><li><a href="/">For dog parents</a></li><li><a href="mailto:maria@etho.pet">Get in touch</a></li><li><a href="https://www.linkedin.com/company/etho.pet/">LinkedIn</a></li><li><a href="https://www.instagram.com/etho.pet">Instagram</a></li><li><a href="/privacy">Privacy</a></li><li><button type="button" class="consent-link" data-consent-settings>Cookie settings</button></li></ul></nav>
+    </div>
   </footer>
 </div>
 
-<div class="sticky-cta" data-sticky-cta>
-  <a class="btn-solid sticky-cta__btn" href="#apply">Apply here</a>
+<!-- Pinned to the foot of the screen once the hero has scrolled away
+     (initStickyCta() in landing.js): the same call to action as the
+     hero's. -->
+<div class="sticky-cta sticky-cta--b2b" data-sticky-cta>
+  <a class="btn-solid b2b-cta sticky-cta__btn" href="#typeform" data-typeform>Grow with us</a>
 </div>
 
+
 <script src="js/main.js?v=20261002"></script>
+<script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
+<script src="js/scenes.js?v=20261101a"></script>
+<script src="js/partners.js?v=20261101d"></script>
 </body>
 </html>

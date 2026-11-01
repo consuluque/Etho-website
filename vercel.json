@@ -7,14 +7,13 @@
     { "source": "/home-v2.html", "destination": "/", "permanent": false },
     { "source": "/home-v3.html", "destination": "/", "permanent": false },
     { "source": "/home-v3", "destination": "/", "permanent": false },
-    { "source": "/partners", "destination": "/", "permanent": false },
-    { "source": "/partners.html", "destination": "/", "permanent": false },
     { "source": "/shop", "destination": "/", "permanent": false },
     { "source": "/shop.html", "destination": "/", "permanent": false },
     { "source": "/terms", "destination": "/", "permanent": false },
     { "source": "/terms.html", "destination": "/", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/privacy", "destination": "/privacy.html" }
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/partners", "destination": "/partners.html" }
   ]
 }
