@@ -549,11 +549,11 @@
 
 .b2b-panels { container-type: inline-size; }
 .phero {
-  font-size: 2.85cqw;
+  font-size: 2.3cqw;
   background: #0E0F0C;
 }
 @media (max-width: 900px) {
-  .phero { font-size: 4cqw; }
+  .phero { font-size: 3cqw; }
 }
 .ph-bg {
   position: absolute;

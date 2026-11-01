@@ -16,8 +16,8 @@
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
-<link rel="stylesheet" href="css/partners.css?v=20261101l">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261101d">
+<link rel="stylesheet" href="css/partners.css?v=20261101f">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261101f">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -36,12 +36,12 @@
   <!-- 1 — Hero ---------------------------------------------------------- -->
   <!-- The pitch on the left; on the right, one storefront card telling
        Etho's story for providers (partners.js). The button opens the partner
-       intake form; until its link is set it points at #typeform. -->
+       intake form (Typeform). -->
   <section id="top" class="hero hero--b2b on-dark" data-section="partners_hero">
     <div class="b2b-hero__copy">
       <h1 class="hero-title">A smarter way to grow your pet business</h1>
       <p class="hero-sub">Fill quiet periods, increase transaction value and build lasting customer relationships.</p>
-      <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with us</a>
+      <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
       <p class="hero-sub b2b-hero__zero">Zero new software <span aria-hidden="true">·</span> Zero new process change <span aria-hidden="true">·</span> Zero marketing costs</p>
     </div>
     <!-- One large glass storefront over a photo, telling three stories
@@ -55,7 +55,7 @@
         <img class="ph-bg ph-bg--3" src="assets/images/partners/hydro.webp" alt="" loading="lazy" decoding="async">
         <div class="ph-card">
           <div class="ph-page ph-page--store">
-            <div class="ph-head"><span class="ph-logo"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-title">Example Grooming Studio</p><p class="ph-sub">★ 4.9 · Bondi</p></div></div>
+            <div class="ph-head"><span class="ph-logo"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-title">Dogue Spa</p><p class="ph-sub">★ 4.9 · Bondi</p></div></div>
             <div class="ph-tabs"><span class="ph-tab ph-tab--1">Services</span><span class="ph-tab ph-tab--2">Products</span><span class="ph-tab ph-tab--3">Bundles</span><i class="ph-tabbar"></i></div>
             <div class="ph-lists">
               <div class="ph-list ph-list--1"><div class="ph-row"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Wash &amp; Dry</p><p class="ph-sub">60 min</p></div><b>$100</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Full groom</p><p class="ph-sub">2 hrs</p></div><b>$140</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Nail &amp; ear care</p><p class="ph-sub">20 min</p></div><b>$25</b></div></div>
@@ -84,7 +84,7 @@
             <p class="ph-q">Groomer near Bondi with a free Tuesday morning?</p>
             <div class="ph-answer">
               <span class="ph-rec"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Recommended</span>
-              <div class="ph-row"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Example Grooming Studio</p><p class="ph-sub">Wash &amp; Dry · Tue 10:30</p></div><b>$70</b></div>
+              <div class="ph-row"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Dogue Spa</p><p class="ph-sub">Wash &amp; Dry · Tue 10:30</p></div><b>$70</b></div>
             </div>
             <ul class="ph-checks"><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Listed in AI search</li><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Bookable by agents</li><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Offers kept up to date</li></ul>
           </div>
@@ -254,36 +254,11 @@
     </div>
   </section>
 
-  <!-- 5 — How Etho works -------------------------------------------------- -->
-  <section class="b2b-how" id="how" data-section="partners_how">
-    <p class="b2b-section__kicker">How Etho works</p>
-    <h2 class="b2b-section__title">Your business. Your terms.</h2>
-    <div class="b2b-how__grid">
-      <div class="b2b-how__item">
-        <h3>Storefront</h3>
-        <p>Your services, products and bundles in one place.</p>
-      </div>
-      <div class="b2b-how__item">
-        <h3>Offer controls</h3>
-        <p>You choose what’s on offer, when, and for how much.</p>
-      </div>
-      <div class="b2b-how__item">
-        <h3>Commercial terms</h3>
-        <p>No upfront costs, with simple, transparent terms.</p>
-      </div>
-      <div class="b2b-how__item">
-        <h3>Simple onboarding</h3>
-        <p>We set you up and stay alongside you.</p>
-      </div>
-    </div>
-    <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with us</a>
-  </section>
-
-  <!-- 6 — Footer: the call to action and the links, on one dark block -->
+  <!-- 5 — Footer: the call to action and the links, on one dark block -->
   <footer class="b2b-foot on-dark" id="join" data-section="footer">
     <div class="b2b-foot__cta">
       <h2>Become a founding partner</h2>
-      <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with us</a>
+      <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
     </div>
     <div class="b2b-foot__cols">
       <div class="b2b-foot__brand">
@@ -300,7 +275,7 @@
      (initStickyCta() in landing.js): the same call to action as the
      hero's. -->
 <div class="sticky-cta sticky-cta--b2b" data-sticky-cta>
-  <a class="btn-solid b2b-cta sticky-cta__btn" href="#typeform" data-typeform>Grow with us</a>
+  <a class="btn-solid b2b-cta sticky-cta__btn" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
 </div>
 
 
