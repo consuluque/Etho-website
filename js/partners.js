@@ -1,20 +1,5 @@
-/* partners.html only. The hero's photo panels take turns: each shows a
-   service with the add-ons Etho suggests beside it, and every few
-   seconds the next one fades in and its cards slide up in turn
-   (partners.css). Under prefers-reduced-motion the first one holds. */
-function initPanels(root) {
-  const panels = [...root.querySelectorAll('[data-panel]')];
-  if (panels.length < 2) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let i = 0;
-  setInterval(() => {
-    panels[i].classList.remove('is-active');
-    i = (i + 1) % panels.length;
-    panels[i].classList.add('is-active');
-  }, 4800);
-}
-
-document.querySelectorAll('.b2b-panels').forEach(initPanels);
+/* partners.html only: the hero's storefront scene, the stacking value
+   cards and their animations. */
 
 /* The value cards stack (partners.css): as the next card rises over a
    pinned one, the pinned one shrinks back and dims a touch. --cover
@@ -75,6 +60,37 @@ if (window.EthoScenes) {
   // 1 — Fill quiet periods. A quiet Tuesday morning with two open slots;
   // the off-peak offer goes live, both slots fill, and the morning's
   // recovered revenue counts up.
+  // The hero — one storefront, three stories. The provider's services,
+  // products and a bundle they switch on; then a 30% offer set on
+  // Tuesday and Wednesday mornings and put live; then a pet parent's
+  // question to an AI answered with this studio, ready to book.
+  S.define('p-hero', {
+    loopAt: 15500,
+    script({ at, on, root }) {
+      const [price, disc] = root.querySelectorAll('.ph-page--offer [data-scene-count]');
+      at(200, () => on('in'));
+      at(2300, () => on('t2'));
+      at(3700, () => on('t3'));
+      at(4400, () => on('bundle'));
+      at(6000, () => on('p2'));
+      at(6800, () => {
+        on('disc');
+        countUp(root, disc, 30, 1100, (n) => n + '%');
+        countUp(root, price, 30, 1100, (n) => '$' + (100 - n));
+      });
+      at(8000, () => on('days'));
+      at(8800, () => on('live'));
+      at(10200, () => on('p3'));
+      at(10800, () => on('q'));
+      at(11700, () => on('ans'));
+      at(12400, () => on('checks'));
+      at(14900, () => on('out'));
+    },
+    finalState({ on, root }) {
+      on('in', 'p3', 'q', 'ans', 'checks');
+    },
+  });
+
   S.define('p-capacity', {
     loopAt: 9600,
     script({ at, on, root }) {
@@ -161,6 +177,17 @@ if (window.EthoScenes) {
       nums[0].textContent = '$4,250'; nums[1].textContent = '68%'; nums[2].textContent = '12';
     },
   });
+}
+
+// The hero's scene plays while the hero is on screen.
+const heroRoot = document.querySelector('[data-scene="p-hero"]');
+const heroScene = heroRoot && window.EthoScenes ? window.EthoScenes.create(heroRoot) : null;
+if (heroScene) {
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) heroScene.play(); else heroScene.stop();
+    }, { threshold: 0.3 }).observe(heroRoot);
+  } else heroScene.play();
 }
 
 const sceneCards = [...document.querySelectorAll('[data-stack]')].map((card) => {
