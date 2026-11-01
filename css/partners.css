@@ -246,6 +246,28 @@
   text-wrap: balance;
 }
 
+/* The three promises under it: one line on a wide screen, stacked
+   on a phone, in bold ink at the lead size. */
+.b2b-intro__zero {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 22px;
+  margin: clamp(22px, 2.6vw, 32px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.b2b-intro__zero li {
+  font-family: var(--body-font);
+  font-size: var(--type-lead);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+@media (max-width: 600px) {
+  .b2b-intro__zero { flex-direction: column; align-items: center; }
+}
+
 /* ---------------------------------------------------------------
    Value points: large blocks, text on one side and an animation on
    the other, alternating down the page
