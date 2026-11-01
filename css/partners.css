@@ -223,13 +223,15 @@
   padding: clamp(80px, 10vw, 140px) clamp(20px, 8.4vw, 160px) clamp(32px, 4vw, 56px);
   text-align: center;
 }
-/* The three capabilities in the line, picked out with a yellow
-   highlighter mark behind dark ink: yellow type on cream would not
-   read. */
+/* The three capabilities in the line, picked out in the brand's
+   pastel yellow behind dark ink: yellow type on cream would not read. */
 .b2b-intro__line mark {
-  padding: 0 0.12em;
-  border-radius: 0.2em;
-  background: linear-gradient(180deg, transparent 18%, #FFE873 18%, #FFE873 92%, transparent 92%);
+  padding: 0.04em 0.28em;
+  border-radius: 0.35em;
+  /* The brand's pastel yellow: a soft pill behind the words, with a
+     hairline of the same yellow a step deeper so it reads on cream. */
+  background: var(--accent2);
+  box-shadow: inset 0 0 0 1px rgba(214, 190, 80, 0.35);
   color: var(--ink);
   -webkit-box-decoration-break: clone;
           box-decoration-break: clone;
