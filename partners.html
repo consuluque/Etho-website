@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="css/landing.css?v=20261002">
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
-<link rel="stylesheet" href="css/partners.css?v=20261101a">
+<link rel="stylesheet" href="css/partners.css?v=20261101b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -75,10 +75,12 @@
     <p class="b2b-intro__line">Earn more from the customers, services and capacity you already have, and get ready for AI-powered commerce.</p>
   </section>
 
-  <!-- 3 — Value points: large blocks, text and an animation, alternating
-       sides. Each animation is a placeholder for now. -->
+  <!-- 3 — Value points: large cards that stack as the page scrolls,
+       each new one sliding up over the last (partners.js), text and an
+       animation alternating sides. Each animation is a placeholder for
+       now. -->
   <section class="b2b-features" data-section="partners_features">
-    <article class="b2b-feature" id="capacity" data-reveal>
+    <article class="b2b-feature" data-stack id="capacity">
       <div class="b2b-feature__text">
         <span class="b2b-feature__num">01</span>
         <h3>Fill quiet periods</h3>
@@ -88,7 +90,7 @@
       <!-- Placeholder: the fill quiet periods animation goes here. -->
       <div class="b2b-feature__media" data-media="capacity"><span>Animation</span></div>
     </article>
-    <article class="b2b-feature b2b-feature--flip" id="basket" data-reveal>
+    <article class="b2b-feature b2b-feature--flip" data-stack id="basket">
       <div class="b2b-feature__text">
         <span class="b2b-feature__num">02</span>
         <h3>Grow each booking</h3>
@@ -98,7 +100,7 @@
       <!-- Placeholder: the grow each booking animation goes here. -->
       <div class="b2b-feature__media" data-media="basket"><span>Animation</span></div>
     </article>
-    <article class="b2b-feature" id="retention" data-reveal>
+    <article class="b2b-feature" data-stack id="retention">
       <div class="b2b-feature__text">
         <span class="b2b-feature__num">03</span>
         <h3>Bundles and retention</h3>
@@ -108,7 +110,7 @@
       <!-- Placeholder: the bundles and retention animation goes here. -->
       <div class="b2b-feature__media" data-media="retention"><span>Animation</span></div>
     </article>
-    <article class="b2b-feature b2b-feature--flip" id="ai" data-reveal>
+    <article class="b2b-feature b2b-feature--flip" data-stack id="ai">
       <div class="b2b-feature__text">
         <span class="b2b-feature__num">04</span>
         <h3>AI discovery</h3>
@@ -145,27 +147,21 @@
     <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with Etho</a>
   </section>
 
-  <!-- 5 — Join ------------------------------------------------------------ -->
-  <section class="b2b-join on-dark" id="join" data-section="partners_join">
-    <h2 class="b2b-section__title">Become a founding partner</h2>
-    <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with Etho</a>
-  </section>
-
-  <!-- 6 — Footer ---------------------------------------------------------- -->
-  <footer class="foot" data-section="footer">
-    <div class="foot__brand">
-      <img class="foot__logo" src="assets/images/etho%20logo%20dark.png" alt="Etho"
-           width="276" height="76" loading="lazy" decoding="async">
-      <p class="foot__tagline">More of the good life for dogs.</p>
+  <!-- 5 — Footer: the call to action and the links, on one dark block -->
+  <footer class="b2b-foot on-dark" id="join" data-section="footer">
+    <div class="b2b-foot__cta">
+      <h2>Become a founding partner</h2>
+      <a class="btn-solid b2b-cta" href="#typeform" data-typeform>Grow with Etho</a>
     </div>
-    <nav class="foot__links" aria-label="Footer">
-      <a href="mailto:maria@etho.pet">Get in touch</a>
-      <a href="https://www.linkedin.com/company/etho.pet/" target="_blank" rel="noopener">Linkedin</a>
-      <a href="https://www.instagram.com/etho.pet" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.facebook.com/profile.php?id=61593629438506" target="_blank" rel="noopener">Facebook</a>
-      <a href="/privacy">Privacy</a>
-      <button type="button" class="consent-link" data-consent-settings>Cookie settings</button>
-    </nav>
+    <div class="b2b-foot__cols">
+      <div class="b2b-foot__brand">
+        <img src="assets/images/etho%20logo%20white.png" alt="Etho" height="26" loading="lazy" decoding="async">
+        <p>More of the good life for dogs.</p>
+      </div>
+      <nav aria-label="Why Etho"><p>Why Etho</p><ul><li><a href="#capacity">Fill quiet periods</a></li><li><a href="#basket">Grow each booking</a></li><li><a href="#retention">Bundles and retention</a></li><li><a href="#ai">AI discovery</a></li><li><a href="#how">How Etho works</a></li></ul></nav>
+      <nav aria-label="Who it’s for"><p>Who it’s for</p><ul><li>Grooming</li><li>Day care &amp; boarding</li><li>Training</li><li>Vets</li><li>Wellness therapies</li><li>Stays</li><li>Dog-friendly events</li></ul></nav>
+      <nav aria-label="Company"><p>Company</p><ul><li><a href="/">For dog parents</a></li><li><a href="mailto:maria@etho.pet">Get in touch</a></li><li><a href="https://www.linkedin.com/company/etho.pet/">LinkedIn</a></li><li><a href="https://www.instagram.com/etho.pet">Instagram</a></li><li><a href="/privacy">Privacy</a></li><li><button type="button" class="consent-link" data-consent-settings>Cookie settings</button></li></ul></nav>
+    </div>
   </footer>
 </div>
 
@@ -180,6 +176,6 @@
 <script src="js/main.js?v=20261002"></script>
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
-<script src="js/partners.js?v=20261030a"></script>
+<script src="js/partners.js?v=20261101b"></script>
 </body>
 </html>
