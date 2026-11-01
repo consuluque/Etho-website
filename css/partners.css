@@ -259,16 +259,23 @@
           box-decoration-break: clone;
 }
 .b2b-intro__line {
-  max-width: 40ch;
+  /* Set as the homepage's story line (.story__copy in home.css). */
+  width: min(100%, 65vw);
   margin: 0 auto;
   font-family: var(--body-font);
   font-size: var(--type-lead-lg);
-  font-weight: var(--body-weight);
-  line-height: 1.3;
+  font-weight: 500;
+  line-height: 1.5;
   letter-spacing: -0.02em;
   color: var(--ink);
-  text-wrap: balance;
+  text-align: left;
 }
+/* Lit word by word on scroll (partners.js), as on the homepage. */
+.b2b-intro__line .story__word {
+  color: rgba(50, 48, 49, 0.34);
+  transition: color 260ms var(--ease);
+}
+.b2b-intro__line .story__word.is-lit { color: var(--ink); }
 
 /* ---------------------------------------------------------------
    Value points: large blocks, text on one side and an animation on

@@ -1,5 +1,53 @@
-/* partners.html only: the hero's storefront scene, the stacking value
-   cards and their animations. */
+/* partners.html only: the intro line, the hero's storefront scene, the
+   stacking value cards and their animations. */
+
+/* The intro line lights word by word as it scrolls up the screen, as
+   the homepage's story paragraph does (home.js). Words inside the
+   yellow <mark> pills are split in place, so the pills stay whole. */
+function initScrollWords(el) {
+  const spans = [];
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((node) => {
+    const frag = document.createDocumentFragment();
+    node.textContent.split(/(\s+)/).forEach((part) => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) { frag.append(part); return; }
+      const span = document.createElement('span');
+      span.className = 'story__word';
+      span.textContent = part;
+      frag.append(span);
+      spans.push(span);
+    });
+    node.replaceWith(frag);
+  });
+
+  let lit = -1;
+  let queued = false;
+  const measure = () => {
+    queued = false;
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const start = vh * 0.82;
+    const end = vh * 0.38;
+    const span = rect.height + start - end;
+    const progress = span > 0 ? (start - rect.top) / span : 1;
+    const count = Math.round(Math.max(0, Math.min(1, progress)) * spans.length);
+    if (count === lit) return;
+    lit = count;
+    spans.forEach((s, i) => s.classList.toggle('is-lit', i < count));
+  };
+  const schedule = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(measure);
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  measure();
+}
+document.querySelectorAll('[data-scroll-words]').forEach(initScrollWords);
 
 /* The value cards stack (partners.css): as the next card rises over a
    pinned one, the pinned one shrinks back and dims a touch. --cover
