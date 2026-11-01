@@ -223,6 +223,17 @@
   padding: clamp(80px, 10vw, 140px) clamp(20px, 8.4vw, 160px) clamp(32px, 4vw, 56px);
   text-align: center;
 }
+/* The three capabilities in the line, picked out with a yellow
+   highlighter mark behind dark ink: yellow type on cream would not
+   read. */
+.b2b-intro__line mark {
+  padding: 0 0.12em;
+  border-radius: 0.2em;
+  background: linear-gradient(180deg, transparent 18%, #FFE873 18%, #FFE873 92%, transparent 92%);
+  color: var(--ink);
+  -webkit-box-decoration-break: clone;
+          box-decoration-break: clone;
+}
 .b2b-intro__line {
   max-width: 40ch;
   margin: 0 auto;
@@ -275,14 +286,8 @@
 .b2b-feature--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 .b2b-feature--flip .b2b-feature__text { order: 2; }
 
-.b2b-feature__num {
-  font-family: var(--body-font);
-  font-size: var(--type-small);
-  font-weight: 700;
-  color: var(--eyebrow);
-}
 .b2b-feature h3 {
-  margin: 14px 0 0;
+  margin: 0;
   font-family: var(--body-font);
   font-size: var(--type-title);
   font-weight: 700;
