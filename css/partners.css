@@ -228,10 +228,8 @@
 .b2b-intro__line mark {
   padding: 0.04em 0.28em;
   border-radius: 0.35em;
-  /* The brand's pastel yellow: a soft pill behind the words, with a
-     hairline of the same yellow a step deeper so it reads on cream. */
+  /* The brand's pastel yellow: a soft pill behind the words. */
   background: var(--accent2);
-  box-shadow: inset 0 0 0 1px rgba(214, 190, 80, 0.35);
   color: var(--ink);
   -webkit-box-decoration-break: clone;
           box-decoration-break: clone;
