@@ -951,10 +951,10 @@ html:not(.js) .pd-store { transform: none; }
 
 .pd-body { padding: 1.5em 0 2.5em 1.3em; }
 .pd-body > :not(.pd-offers):not(.pd-products) { margin-right: 1.3em; }
-.pd-h { margin-top: 1.9em !important; font-size: 1.2em; font-weight: 700; letter-spacing: -0.01em; }
+.pd-h { margin-top: 2.6em !important; font-size: 1.2em; font-weight: 700; letter-spacing: -0.01em; }
 .pd-body > .pd-h:first-child { margin-top: 0 !important; }
-.pd-h2 { margin-top: 1.3em !important; font-size: 1em; font-weight: 700; color: #464646; }
-.pd-h + .pd-h2 { margin-top: 0.9em !important; }
+.pd-h2 { margin-top: 2.2em !important; font-size: 1em; font-weight: 700; color: #464646; }
+.pd-h + .pd-h2 { margin-top: 1em !important; }
 .pd-t { font-size: 0.88em; font-weight: 700; line-height: 1.25; }
 .pd-s { margin-top: 0.2em !important; font-size: 0.76em; font-weight: 500; line-height: 1.35; color: var(--sx-text2); }
 
