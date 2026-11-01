@@ -87,16 +87,15 @@
   letter-spacing: -0.035em;
   max-width: 13ch;
 }
-/* The second paragraph: the three promises, a step brighter and
-   bolder than the line above, close under it. */
+/* The three promises, under the button: the subtitle's light weight
+   and colour, a step smaller, on one line, dots between. */
 .hero--b2b .hero-sub.b2b-hero__zero {
-  margin-top: calc(clamp(20px, 2.6vw, 30px) * -0.6);
+  margin-top: calc(clamp(20px, 2.6vw, 30px) * -0.4);
   max-width: none;
   font-size: clamp(12px, 1.05vw, 14px);
-  font-weight: 600;
   white-space: nowrap;
-  color: #F7F5F0;
 }
+.b2b-hero__zero span { margin: 0 0.35em; }
 /* One line on a phone too, at 11px; only the narrowest let it wrap. */
 @media (max-width: 600px) {
   .hero--b2b .hero-sub.b2b-hero__zero { font-size: 11px; }
