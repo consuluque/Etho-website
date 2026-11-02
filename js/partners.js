@@ -287,12 +287,11 @@ if (window.EthoScenes) {
       at(1100, () => on('q'));
       at(2100, () => on('think'));
       at(3300, () => on('ans'));
-      at(4300, () => on('tiles'));
       at(5600, () => on('booked'));
       at(6100, () => on('toast'));
       at(9300, () => on('out'));
     },
-    finalState({ on }) { on('in', 'q', 'ans', 'tiles', 'booked', 'toast'); },
+    finalState({ on }) { on('in', 'q', 'ans', 'booked', 'toast'); },
   });
 
   // 4 — Get loyal customers. A five-session pack paid upfront, four

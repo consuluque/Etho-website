@@ -89,8 +89,7 @@
 }
 .s-out .ps-glass,
 .s-out .ps-phone,
-.s-out .ps-code,
-.s-out .ps-tile { opacity: 0 !important; transition-duration: 500ms; }
+.s-out .ps-code { opacity: 0 !important; transition-duration: 500ms; }
 
 .ps-cap {
   display: flex;
@@ -473,28 +472,6 @@
 .s-booked .ps-book__a { opacity: 0; }
 .s-booked .ps-book__b { opacity: 1; }
 
-/* Floating tiles, after the reference's app tiles. */
-.ps-tile {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 0.4em;
-  padding: 0.7em 1em;
-  border-radius: 0.9em;
-  background: rgba(20, 20, 18, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 1em 2em rgba(0, 0, 0, 0.35);
-  font-size: 0.85em;
-  font-weight: 600;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out);
-}
-.ps-tile svg { width: 1.1em; height: 1.1em; fill: var(--ps-y); stroke: none; }
-.ps-tile--1 { left: 1em; top: 7.5em; }
-.ps-tile--2 { left: 15.5em; top: 18.5em; }
 .pscene--ai .ps-toast { right: 2.6em; bottom: 2.2em; }
 
 .pscene--ai.s-in .ps-code { opacity: 1; }
@@ -503,8 +480,6 @@
 .pscene--ai.s-think .ps-dots { opacity: 1; }
 .pscene--ai.s-ans .ps-dots { opacity: 0; }
 .pscene--ai.s-ans .ps-ans { opacity: 1; transform: none; }
-.pscene--ai.s-tiles .ps-tile { opacity: 1; transform: none; }
-.pscene--ai.s-tiles .ps-tile--2 { transition-delay: 200ms; }
 .pscene--ai.s-toast .ps-toast { opacity: 1; transform: none; }
 
 /* -- 4. More ways to say yes ---------------------------------------
@@ -634,8 +609,6 @@
   .pscene--basket .ps-stat { left: 1.2em; right: auto; bottom: 1.2em; min-width: 11em; }
   .ps-code { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; height: auto; padding: 1em 1.1em; font-size: 0.68em; line-height: 1.55; }
   .ps-phone { left: 50%; top: auto; bottom: -6em; width: 15em; height: 26em; margin-left: -7.5em; }
-  .ps-tile--1 { left: 1em; top: 14.5em; }
-  .ps-tile--2 { left: auto; right: 1em; top: 16.5em; }
   .pscene--ai .ps-toast { right: 1.2em; left: 1.2em; bottom: 1.2em; }
   .ps-pay { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
   .ps-stat--ret { left: 1.2em; right: auto; top: auto; bottom: 1.2em; min-width: 0; width: calc(50% - 1.5em); }
