@@ -16,8 +16,8 @@
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
-<link rel="stylesheet" href="css/partners.css?v=20261101i">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261101j">
+<link rel="stylesheet" href="css/partners.css?v=20261102b">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261102b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -112,23 +112,35 @@
         <p class="b2b-feature__desc">Turn unused capacity into revenue with targeted, time-limited offers that respect your operational constraints.</p>
       </div>
       <div class="b2b-feature__media" data-media="capacity">
+        <!-- A 45-minute cancellation, just long enough for a small dog.
+             The groomer opens that one slot at a discount, for small,
+             short-coated dogs, bookable until 2pm today; Etho shows it
+             only to pet parents whose dog fits, and it is booked. -->
         <div class="pscene pscene--capacity" data-scene="p-capacity" aria-hidden="true">
           <img class="ps-bg" src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-slots">
-            <p class="ps-cap">Tuesday · Morning</p>
-            <div class="ps-slot"><span>9:00</span><b class="ps-st">Booked</b></div>
-            <div class="ps-slot ps-slot--open ps-slot--1"><span>10:30</span><b class="ps-st"><i class="ps-open">Open</i><i class="ps-who"><em class="ps-av">C</em>Cooper</i></b></div>
-            <div class="ps-slot ps-slot--open ps-slot--2"><span>11:30</span><b class="ps-st"><i class="ps-open">Open</i><i class="ps-who"><em class="ps-av">L</em>Luna</i></b></div>
-            <div class="ps-slot"><span>1:00</span><b class="ps-st">Booked</b></div>
+          <div class="ps-glass ps-day">
+            <p class="ps-cap">Today</p>
+            <div class="ps-appt"><span>10:30</span><p>Full groom</p><b>Booked</b></div>
+            <div class="ps-appt ps-appt--gap">
+              <span>12:15</span>
+              <p class="ps-gap__name"><i class="ps-gap__was">Mini wash</i><i class="ps-gap__free">45 min free</i><i class="ps-gap__who"><em class="ps-av">B</em>Bella</i></p>
+              <b class="ps-gap__st"><i class="ps-gap__was">Booked</i><i class="ps-gap__x">Cancelled</i><i class="ps-gap__ok">Booked</i></b>
+            </div>
+            <div class="ps-appt"><span>1:00</span><p>Wash &amp; tidy</p><b>Booked</b></div>
           </div>
-          <div class="ps-glass ps-offer">
-            <div class="ps-offer__top"><div><p class="ps-cap">Off-peak offer</p><p class="ps-h">30% off quiet mornings</p></div><span class="ps-toggle"></span></div>
-            <p class="ps-sub"><span class="ps-sub__off">Paused</span><span class="ps-sub__on"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Live · shown to 240 pet parents nearby</span></p>
+          <div class="ps-glass ps-ctl">
+            <p class="ps-cap">Open this slot</p>
+            <p class="ps-h">12:15 to 1:00 today</p>
+            <div class="ps-rules">
+              <div class="ps-rule ps-rule--1"><span>Size</span><b>Small · short coat</b></div>
+              <div class="ps-rule ps-rule--2"><span>Duration</span><b>45 min</b></div>
+              <div class="ps-rule ps-rule--3"><span>Bookable until</span><b>2pm today</b></div>
+              <div class="ps-rule ps-rule--4"><span>Bookings</span><b>1</b></div>
+              <div class="ps-rule ps-rule--5"><span>Discount</span><b class="ps-rule__y">25% off</b></div>
+            </div>
+            <div class="ps-live"><div><p class="ps-h">Offer live</p><p class="ps-sub">Only for pet parents whose dog fits</p></div><span class="ps-toggle"></span></div>
           </div>
-          <div class="ps-glass ps-stat">
-            <p class="ps-cap">Quiet morning filled</p>
-            <p class="ps-num" data-scene-count>$0</p>
-          </div>
+          <div class="ps-glass ps-toast ps-toast--gap"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Bella booked 12:15</p><p class="ps-sub">Jack Russell · Mini wash · $45</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
@@ -401,6 +413,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261101i"></script>
+<script src="js/partners.js?v=20261102a"></script>
 </body>
 </html>

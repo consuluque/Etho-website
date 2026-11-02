@@ -149,46 +149,46 @@
 }
 .ps-toast__ico svg { width: 1.2em; height: 1.2em; stroke-width: 2.8; }
 
-/* -- 1. Fill quiet periods ---------------------------------------- */
+/* -- 1. Fill the gaps ---------------------------------------------
+   Today's book: the 12:15 is cancelled and shows "45 min free". The
+   slot's controls come in one at a time, the offer goes live, and
+   Bella books it. States: s-in, s-cancel, s-ctl, s-r1..s-r5, s-live,
+   s-booked. */
 
-.ps-slots { left: 1.8em; top: 2em; width: 16.5em; }
-.ps-slots .ps-cap { margin-bottom: 0.5em; }
-.ps-slot {
+.ps-day { left: 1.8em; top: 2em; width: 17.5em; }
+.ps-day .ps-cap { margin-bottom: 0.5em; }
+.ps-appt {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.55em 0;
+  gap: 0.8em;
+  padding: 0.6em 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.92em;
+  font-size: 0.9em;
 }
-.ps-slot > span { font-weight: 600; font-variant-numeric: tabular-nums; }
-.ps-st {
-  position: relative;
-  min-width: 6.2em;
-  text-align: right;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.45);
-}
-.ps-slot--open .ps-st { height: 1.6em; }
-.ps-open,
-.ps-who {
+.ps-appt > span { flex: none; width: 2.9em; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ps-appt > p { flex: 1; position: relative; height: 1.4em; line-height: 1.4em; color: rgba(255, 255, 255, 0.82); }
+.ps-appt > b { flex: none; position: relative; width: 5.4em; height: 1.4em; line-height: 1.4em; text-align: right; font-weight: 500; color: rgba(255, 255, 255, 0.45); }
+.ps-appt i {
   position: absolute;
-  right: 0;
-  top: 50%;
-  display: flex;
-  align-items: center;
-  gap: 0.4em;
+  inset: 0;
   white-space: nowrap;
   transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out);
 }
-.ps-open {
-  padding: 0.18em 0.7em;
+.ps-gap__free,
+.ps-gap__who,
+.ps-gap__x,
+.ps-gap__ok { opacity: 0; transform: translateY(0.4em); }
+.ps-appt .ps-gap__free {
+  right: auto;
+  padding: 0 0.6em;
   border-radius: 2em;
   border: 1px dashed rgba(255, 246, 196, 0.6);
   color: var(--ps-y);
-  transform: translateY(-50%);
+  font-weight: 600;
 }
-.ps-who { color: #FFFFFF; font-weight: 600; opacity: 0; transform: translateY(0.2em); }
+.ps-gap__who { display: flex; align-items: center; gap: 0.4em; color: #FFFFFF; font-weight: 600; }
+.ps-gap__x { color: #FFB4A8; }
+.ps-gap__ok { color: var(--ps-y); font-weight: 600; }
 .ps-av {
   display: grid;
   place-items: center;
@@ -200,14 +200,52 @@
   font-size: 0.8em;
   font-weight: 700;
 }
-.s-fill1 .ps-slot--1 .ps-open,
-.s-fill2 .ps-slot--2 .ps-open { opacity: 0; transform: translateY(-120%); }
-.s-fill1 .ps-slot--1 .ps-who,
-.s-fill2 .ps-slot--2 .ps-who { opacity: 1; transform: translateY(-50%); }
+.s-cancel .ps-gap__was { opacity: 0; transform: translateY(-0.4em); }
+.s-cancel .ps-gap__free,
+.s-cancel .ps-gap__x { opacity: 1; transform: none; }
+.s-booked .ps-gap__free,
+.s-booked .ps-gap__x { opacity: 0; transform: translateY(-0.4em); }
+.s-booked .ps-gap__who,
+.s-booked .ps-gap__ok { opacity: 1; transform: none; }
 
-.ps-offer { right: 1.8em; bottom: 2em; width: 17.5em; }
-.ps-offer__top { display: flex; justify-content: space-between; align-items: center; gap: 0.8em; }
-.ps-offer .ps-h { margin-top: 0.2em; }
+.ps-ctl { right: 1.8em; top: 2em; width: 19em; }
+.ps-ctl > .ps-h { margin-top: 0.2em; font-size: 1.15em; }
+.ps-rules { margin-top: 0.7em; }
+.ps-rule {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.5em 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.86em;
+  opacity: 0;
+  transform: translateX(0.8em);
+  transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.ps-rule span { color: var(--ps-w2); }
+.ps-rule b {
+  padding: 0.15em 0.65em;
+  border-radius: 2em;
+  background: rgba(255, 255, 255, 0.12);
+  font-weight: 600;
+}
+.ps-rule b.ps-rule__y { background: var(--ps-y); color: #000000; }
+.s-r1 .ps-rule--1,
+.s-r2 .ps-rule--2,
+.s-r3 .ps-rule--3,
+.s-r4 .ps-rule--4,
+.s-r5 .ps-rule--5 { opacity: 1; transform: none; }
+
+.ps-live {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8em;
+  margin-top: 0.4em;
+  padding-top: 0.8em;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
 .ps-toggle {
   position: relative;
   flex: none;
@@ -231,27 +269,14 @@
 }
 .s-live .ps-toggle { background: var(--ps-y); }
 .s-live .ps-toggle::after { transform: translateX(1.1em); }
-.ps-offer .ps-sub { position: relative; height: 1.3em; margin-top: 0.6em !important; }
-.ps-sub__off,
-.ps-sub__on {
-  position: absolute;
-  left: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.35em;
-  white-space: nowrap;
-  transition: opacity 400ms var(--ease-out), transform 500ms var(--ease-out);
-}
-.ps-sub__on { color: var(--ps-y); opacity: 0; transform: translateY(0.5em); }
-.ps-sub__on svg { width: 1em; height: 1em; fill: currentColor; stroke: none; }
-.s-live .ps-sub__off { opacity: 0; transform: translateY(-0.5em); }
-.s-live .ps-sub__on { opacity: 1; transform: none; }
+.ps-live .ps-sub { transition: color 400ms var(--ease-out); }
+.s-live .ps-live .ps-sub { color: var(--ps-y); }
 
-.s-in .pscene--capacity .ps-slots,
-.pscene--capacity.s-in .ps-slots,
-.pscene--capacity.s-in .ps-offer { opacity: 1; transform: none; }
-.pscene--capacity.s-in .ps-offer { transition-delay: 200ms; }
-.pscene--capacity.s-stat .ps-stat { opacity: 1; transform: none; }
+.ps-toast--gap { left: 1.8em; bottom: 2em; width: 17.5em; }
+
+.pscene--capacity.s-in .ps-day { opacity: 1; transform: none; }
+.pscene--capacity.s-ctl .ps-ctl { opacity: 1; transform: none; }
+.pscene--capacity.s-booked .ps-toast--gap { opacity: 1; transform: none; }
 
 /* -- 2. Grow each booking ----------------------------------------- */
 
@@ -521,8 +546,9 @@
 
 @media (max-width: 900px) {
   .ps-stat { right: 1.2em; top: auto; bottom: 12.2em; }
-  .ps-slots { left: 1.2em; top: 1.4em; width: 17em; }
-  .ps-offer { left: 1.2em; right: 1.2em; bottom: 1.4em; width: auto; }
+  .ps-day { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
+  .ps-ctl { left: 1.2em; right: 1.2em; top: auto; bottom: 1.2em; width: auto; }
+  .ps-toast--gap { left: 1.2em; right: 1.2em; bottom: 1.2em; width: auto; }
   .ps-up { left: 1.2em; right: 1.2em; top: 1.4em; width: auto; }
   .pscene--basket .ps-stat { left: 1.2em; right: auto; bottom: 1.4em; min-width: 9em; }
   .ps-cross { right: 1.2em; bottom: 1.4em; width: 15em; }

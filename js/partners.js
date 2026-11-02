@@ -188,21 +188,20 @@ if (window.EthoScenes) {
     },
   });
 
+  // Fill the gaps: a 45-minute cancellation becomes one discounted slot
+  // for a small, short-coated dog, live until 2pm, and it is booked.
   S.define('p-capacity', {
-    loopAt: 9600,
-    script({ at, on, root }) {
-      const num = root.querySelector('.ps-stat .ps-num');
+    loopAt: 10600,
+    script({ at, on }) {
       at(200, () => on('in'));
-      at(1700, () => on('live'));
-      at(3200, () => on('fill1'));
-      at(4300, () => on('fill2'));
-      at(5000, () => { on('stat'); countUp(root, num, 140, 1100, (n) => '+' + money(n)); });
-      at(8900, () => on('out'));
+      at(1300, () => on('cancel'));
+      at(2400, () => on('ctl'));
+      [3000, 3450, 3900, 4350, 4800].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
+      at(5800, () => on('live'));
+      at(7200, () => on('booked'));
+      at(9900, () => on('out'));
     },
-    finalState({ on, root }) {
-      on('in', 'live', 'fill1', 'fill2', 'stat');
-      root.querySelector('.ps-stat .ps-num').textContent = '+$140';
-    },
+    finalState({ on }) { on('in', 'cancel', 'ctl', 'r1', 'r2', 'r3', 'r4', 'r5', 'live', 'booked'); },
   });
 
   // 2 — Grow each booking. A daycare booking comes in; Etho suggests
