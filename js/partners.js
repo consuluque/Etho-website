@@ -263,25 +263,27 @@ if (window.EthoScenes) {
   // 4 — Get loyal customers. A five-session pack paid upfront, four
   // sessions in; the month's prepaid revenue, repeat rate and rebookings
   // count up, and a rebooking arrives.
+  // More ways to say yes: Cooper's parent moves from a single day to the
+  // 8-day pass (free same-day pick-up), splits it into 4 payments, and
+  // the provider sees eight visits booked ahead.
   S.define('p-retention', {
-    loopAt: 9600,
+    loopAt: 9800,
     script({ at, on, root }) {
-      const nums = root.querySelectorAll('.ps-tl .ps-num');
+      const each = root.querySelector('.ps-cta [data-scene-count]');
+      const ahead = root.querySelector('.ps-stat [data-scene-count]');
       at(200, () => on('in'));
-      at(1000, () => on('paid'));
-      at(2300, () => on('brief'));
-      at(2700, () => {
-        countUp(root, nums[0], 4250, 1300, money);
-        countUp(root, nums[1], 68, 1300, (n) => n + '%');
-        countUp(root, nums[2], 12, 1300, String);
-      });
-      at(5200, () => on('toast'));
-      at(8900, () => on('out'));
+      at(1400, () => { on('o2'); each.textContent = '$234'; });
+      at(2300, () => { on('o3'); each.textContent = '$440'; });
+      at(3500, () => { on('split'); countUp(root, each, 330, 800, (n) => '$' + (440 - n)); });
+      at(4900, () => on('done'));
+      at(5600, () => { on('stat'); countUp(root, ahead, 8, 900, String); });
+      at(6400, () => on('toast'));
+      at(9100, () => on('out'));
     },
     finalState({ on, root }) {
-      on('in', 'paid', 'brief', 'toast');
-      const nums = root.querySelectorAll('.ps-tl .ps-num');
-      nums[0].textContent = '$4,250'; nums[1].textContent = '68%'; nums[2].textContent = '12';
+      on('in', 'o2', 'o3', 'split', 'done', 'stat', 'toast');
+      root.querySelector('.ps-cta [data-scene-count]').textContent = '$110';
+      root.querySelector('.ps-stat [data-scene-count]').textContent = '8';
     },
   });
 }

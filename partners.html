@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
 <link rel="stylesheet" href="css/partners.css?v=20261102b">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261102e">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261102h">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -209,28 +209,30 @@
     <article class="b2b-feature b2b-feature--flip" data-stack id="retention">
       <div class="b2b-feature__text">
         <h3>Get loyal customers</h3>
-        <p>Get paid earlier. Keep them coming back.</p>
+        <p>More ways to say yes.</p>
         <p class="b2b-feature__desc">Offer personalised payment packages, encourage repeat visits and follow-up services.</p>
       </div>
       <div class="b2b-feature__media" data-media="retention">
+        <!-- More ways to say yes: Cooper's parent picks how to pay for
+             daycare. The 8-day pass comes with free same-day pick-up;
+             they choose it, split it into 4 payments, and the provider
+             sees eight visits booked ahead. -->
         <div class="pscene pscene--retention" data-scene="p-retention" aria-hidden="true">
-          <img class="ps-bg ps-bg--puppy" src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-pack">
-            <p class="ps-cap">Puppy School · 5-pack</p>
-            <p class="ps-big">$250</p>
-            <span class="ps-paid"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Paid upfront</span>
-            <div class="ps-dots5"><i></i><i></i><i></i><i></i><i></i></div>
-            <p class="ps-sub">4 of 5 sessions done</p>
+          <img class="ps-bg ps-bg--daycare" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-glass ps-pay">
+            <p class="ps-cap">Daycare for Cooper</p>
+            <p class="ps-h ps-pay__title">Make Wednesdays Cooper’s day</p>
+            <div class="ps-opt ps-opt--1"><span class="ps-radio"></span><div><p>Single day</p></div><b>$65</b></div>
+            <div class="ps-opt ps-opt--2"><span class="ps-radio"></span><div><p>4-visit pass</p><p class="ps-item__sub">Save 10%</p></div><b>$234</b></div>
+            <div class="ps-opt ps-opt--3"><span class="ps-radio"></span><div><p>8-day pass <em class="ps-tag ps-tag--y">Free pick-up</em></p><p class="ps-item__sub">Same-day pick-up · Save 15%</p></div><b>$440</b></div>
+            <div class="ps-seg"><span class="ps-seg__a">Pay now</span><span class="ps-seg__b">Pay in 4</span><i></i></div>
+            <div class="ps-cta"><span class="ps-cta__a">Pay <b data-scene-count>$65</b><em class="ps-cta__x">&nbsp;× 4</em></span><span class="ps-cta__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Pass active</span></div>
           </div>
-          <div class="ps-glass ps-brief">
-            <p class="ps-h">This month</p>
-            <div class="ps-tiles">
-              <div class="ps-tl"><p class="ps-cap">Prepaid revenue</p><p class="ps-num" data-scene-count>$0</p></div>
-              <div class="ps-tl"><p class="ps-cap">Repeat customers</p><p class="ps-num" data-scene-count>0%</p></div>
-              <div class="ps-tl"><p class="ps-cap">Rebooked</p><p class="ps-num" data-scene-count>0</p></div>
-            </div>
+          <div class="ps-glass ps-stat ps-stat--ret">
+            <p class="ps-cap">Booked ahead</p>
+            <p class="ps-num"><span data-scene-count>0</span> visits</p>
           </div>
-          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Cooper rebooked</p><p class="ps-sub">Puppy masterclass · $180</p></div></div>
+          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Cooper’s pass</p><p class="ps-sub">Wed 8am · pick-up 7:30</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
@@ -411,6 +413,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261102d"></script>
+<script src="js/partners.js?v=20261102g"></script>
 </body>
 </html>
