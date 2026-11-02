@@ -1,5 +1,5 @@
-/* partners.html only: the intro line, the hero's storefront scene, the
-   stacking value cards and their animations. */
+/* partners.html only: the intro line, the Typeform popup, the hero's
+   scene, the stacking value cards and their animations. */
 
 /* The intro line lights word by word as it scrolls up the screen, as
    the homepage's story paragraph does (home.js). Words inside the
@@ -48,6 +48,54 @@ function initScrollWords(el) {
   measure();
 }
 document.querySelectorAll('[data-scroll-words]').forEach(initScrollWords);
+
+/* "Grow with us" opens the partner Typeform in a popup over the page.
+   Typeform's embed script loads on the first click (nothing from them
+   loads before), and is warmed up on hover or touch. If it can't load,
+   or takes over 4s, the button falls back to its link: the form in a
+   new tab. */
+const TYPEFORM_ID = 'IHpQVqhu';
+let typeformReady = null;
+function loadTypeform() {
+  if (!typeformReady) {
+    typeformReady = new Promise((resolve, reject) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://embed.typeform.com/next/css/popup.css';
+      document.head.append(css);
+      const js = document.createElement('script');
+      js.src = 'https://embed.typeform.com/next/embed.js';
+      js.async = true;
+      js.onload = () => (window.tf && window.tf.createPopup ? resolve(window.tf) : reject());
+      js.onerror = reject;
+      document.head.append(js);
+    });
+    typeformReady.catch(() => { typeformReady = null; });
+  }
+  return typeformReady;
+}
+document.querySelectorAll('[data-typeform]').forEach((link) => {
+  const warm = () => { loadTypeform().catch(() => {}); };
+  link.addEventListener('pointerenter', warm, { once: true });
+  link.addEventListener('touchstart', warm, { once: true, passive: true });
+  link.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    let done = false;
+    const fallback = () => {
+      if (done) return;
+      done = true;
+      window.open(link.href, '_blank', 'noopener');
+    };
+    const timer = setTimeout(fallback, 4000);
+    loadTypeform().then((tf) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      tf.createPopup(TYPEFORM_ID, { size: 90 }).open();
+    }).catch(() => { clearTimeout(timer); fallback(); });
+  });
+});
 
 /* The value cards stack (partners.css): as the next card rises over a
    pinned one, the pinned one shrinks back and dims a touch. --cover
@@ -161,40 +209,27 @@ if (window.EthoScenes) {
     finalState({ on }) { on('app', 'sheet', 'store'); },
   });
 
-  // The hero, in three steps. Etho finds the opportunities in the
-  // business (empty slots, ongoing care, care at home); proposes a plan
-  // in the provider's own rules, which they edit (two more places) and
-  // confirm; then matches it to the right dogs, and places fill.
+  // The hero. Today's book at Dogue Spa, live. Etho spots two open slots
+  // this afternoon and suggests a plan in the provider's own rules: the
+  // service, the dogs it suits (large, high energy), new customers only,
+  // when, and the offer. The provider adds Huskies and approves; back on
+  // today's book, the slots fill with two new customers.
   S.define('p-hero', {
-    loopAt: 16200,
-    script({ at, on, root }) {
-      const sum = root.querySelector('.ph-sum b');
-      const book = root.querySelector('.ph-field--4 b');
-      const filled = root.querySelector('.ph-fill [data-scene-count]');
+    loopAt: 14200,
+    script({ at, on }) {
       at(200, () => on('in'));
-      at(900, () => on('o1'));
-      at(1350, () => on('o2'));
-      at(1800, () => on('o3'));
-      at(2400, () => { on('sum'); countUp(root, sum, 3590, 1100, money); });
-      at(3900, () => on('pick'));
-      at(5000, () => on('p2'));
-      at(5500, () => on('f1'));
-      at(5950, () => on('f2'));
-      at(6400, () => on('f3'));
-      at(7900, () => { on('edit'); countUp(root, book, 2, 700, (n) => String(4 + n)); });
-      at(9200, () => on('ok'));
-      at(10400, () => on('p3'));
-      at(10900, () => on('m1'));
-      at(11400, () => on('m2'));
-      at(11900, () => on('m3'));
-      at(12400, () => on('m4'));
-      at(13000, () => { on('fill'); countUp(root, filled, 2, 600, String); });
-      at(15500, () => on('out'));
+      at(1500, () => on('gap'));
+      at(3300, () => on('p2'));
+      [3800, 4150, 4500, 4850, 5200].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
+      at(6500, () => on('edit'));
+      at(7700, () => on('ok'));
+      at(8900, () => on('p3'));
+      at(9600, () => on('m1'));
+      at(10300, () => on('m2'));
+      at(11000, () => on('done'));
+      at(13500, () => on('out'));
     },
-    finalState({ on, root }) {
-      on('in', 'p2', 'p3', 'm1', 'm2', 'm3', 'm4', 'fill');
-      root.querySelector('.ph-fill [data-scene-count]').textContent = '2';
-    },
+    finalState({ on }) { on('in', 'gap', 'p2', 'r1', 'r2', 'r3', 'r4', 'r5', 'edit', 'ok', 'p3', 'm1', 'm2', 'done'); },
   });
 
   // Fill the gaps: a 45-minute cancellation becomes one discounted slot
@@ -240,24 +275,21 @@ if (window.EthoScenes) {
   // 3 — Be discoverable by AI search. The service is written out as
   // structured data behind; in front, an AI answer recommends the
   // business and the booking comes through.
+  // Be part of the answer: Etho's agent speaks first. It flags Lola's
+  // hip pain, suggests seeing a professional, lists Dogue Wellness's
+  // mobility assessment first; it is booked and the provider is told.
   S.define('p-ai', {
-    loopAt: 10000,
-    script({ at, on, type, root }) {
-      at(150, () => on('in'));
-      let t = 500;
-      root.querySelectorAll('.ps-code [data-type]').forEach((el) => {
-        at(t, () => type(el, 16));
-        t += el.dataset.type.length * 16 + 40;
-      });
-      at(1100, () => on('q'));
-      at(2100, () => on('think'));
-      at(3300, () => on('ans'));
-      at(4300, () => on('tiles'));
-      at(5600, () => on('booked'));
-      at(6100, () => on('toast'));
-      at(9300, () => on('out'));
+    loopAt: 9600,
+    script({ at, on }) {
+      at(200, () => on('in'));
+      at(1000, () => on('m1'));
+      at(2300, () => on('think'));
+      at(3200, () => on('m2'));
+      at(5200, () => on('booked'));
+      at(5800, () => on('toast'));
+      at(8900, () => on('out'));
     },
-    finalState({ on }) { on('in', 'q', 'ans', 'tiles', 'booked', 'toast'); },
+    finalState({ on }) { on('in', 'm1', 'm2', 'booked', 'toast'); },
   });
 
   // 4 — Get loyal customers. A five-session pack paid upfront, four

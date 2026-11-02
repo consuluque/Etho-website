@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
 <link rel="stylesheet" href="css/partners.css?v=20261102b">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261102h">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261102j">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -36,7 +36,7 @@
   <!-- 1 — Hero ---------------------------------------------------------- -->
   <!-- The pitch on the left; on the right, one storefront card telling
        Etho's story for providers (partners.js). The button opens the partner
-       intake form (Typeform). -->
+       intake form (Typeform) in a popup (partners.js). -->
   <section id="top" class="hero hero--b2b on-dark" data-section="partners_hero">
     <div class="b2b-hero__copy">
       <h1 class="hero-title">A smarter way to grow your pet business</h1>
@@ -44,50 +44,37 @@
       <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
       <p class="hero-sub b2b-hero__zero">Zero new software <span aria-hidden="true">·</span> Zero new process change <span aria-hidden="true">·</span> Zero marketing costs</p>
     </div>
-    <!-- One large glass card over a photo, in three steps: Etho finds
-         the business's opportunities (empty slots, ongoing care, care at
-         home); proposes a plan that the provider edits and confirms
-         (their rules: service, eligible dogs, window, places, discount);
-         then matches it to the right dogs at the right time. A caption
-         pill names each step. Run by scenes.js (p-hero in partners.js). -->
+    <!-- One glass card over a photo: today's book at Dogue Spa, live.
+         Etho spots two open slots this afternoon, suggests a plan in the
+         provider's own rules (service, the dogs it suits, new customers
+         only, when, the offer), the provider adds a breed and approves,
+         and the same afternoon fills with two new customers. Run by
+         scenes.js (p-hero in partners.js). -->
     <div class="b2b-panels" aria-hidden="true">
       <div class="pscene phero" data-scene="p-hero">
-        <img class="ph-bg ph-bg--1" src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
-        <img class="ph-bg ph-bg--2" src="assets/images/partners/stay.webp" alt="" loading="lazy" decoding="async">
-        <img class="ph-bg ph-bg--3" src="assets/images/partners/hydro.webp" alt="" loading="lazy" decoding="async">
+        <img class="ph-bg" src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
         <div class="ph-card">
-          <div class="ph-page ph-page--find">
-            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Opportunities this month</p>
-            <p class="ph-title ph-find__title">Etho found 3 for Dogue Spa</p>
-            <div class="ph-opp ph-opp--1"><span class="ph-ico"><svg viewBox="0 0 24 24"><path d="M4 6h16v14H4zM4 10h16M9 3v4M15 3v4"/></svg></span><div><p class="ph-name">Empty slots</p><p class="ph-sub">6 open Tue &amp; Wed mornings</p></div><b>$540</b></div>
-            <div class="ph-opp ph-opp--2"><span class="ph-ico"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-2.3-5.6M20 4v4h-4"/></svg></span><div><p class="ph-name">Ongoing care</p><p class="ph-sub">18 dogs due a groom</p></div><b>$2,160</b></div>
-            <div class="ph-opp ph-opp--3"><span class="ph-ico"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4zM10 20v-5h4v5"/></svg></span><div><p class="ph-name">Care at home</p><p class="ph-sub">Deshedding kits for 32 long coats</p></div><b>$890</b></div>
-            <div class="ph-sum"><p>Potential revenue</p><b data-scene-count>$0</b></div>
+          <div class="ph-page ph-page--day">
+            <div class="ph-dayhead"><p class="ph-title">Today</p><span class="ph-pulse"><i></i>Live</span></div>
+            <div class="ph-slot "><span class="ph-slot__t">9:00</span><p>Full groom</p><b>Max</b></div>
+            <div class="ph-slot "><span class="ph-slot__t">10:30</span><p>Wash &amp; Dry</p><b>Coco</b></div>
+            <div class="ph-slot "><span class="ph-slot__t">12:00</span><p>Nail care</p><b>Pip</b></div>
+            <div class="ph-slot ph-slot--open ph-slot--a"><span class="ph-slot__t">2:30</span><p><i class="ph-open">Open</i><i class="ph-who">Rocky · Kelpie <em>New</em></i></p><b></b></div>
+            <div class="ph-slot ph-slot--open ph-slot--b"><span class="ph-slot__t">4:00</span><p><i class="ph-open">Open</i><i class="ph-who">Juno · Husky <em>New</em></i></p><b></b></div>
+            <p class="ph-note"><span class="ph-note__a"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>2 open slots this afternoon</span><span class="ph-note__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>2 new customers today</span></p>
           </div>
 
           <div class="ph-page ph-page--plan">
-            <div class="ph-plan__head"><p class="ph-title">Proposed plan</p><span class="ph-chip ph-chip--state"><i class="ph-chip__a">Review</i><i class="ph-chip__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Confirmed</i></span></div>
-            <div class="ph-field ph-field--1"><p class="ph-label">Service</p><div class="ph-input"><span>Wash &amp; Dry</span><svg class="ph-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg></div></div>
-            <div class="ph-pair">
-              <div class="ph-field ph-field--2"><p class="ph-label">Eligible dogs</p><div class="ph-input"><span>Large · high energy</span><svg class="ph-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg></div></div>
-              <div class="ph-field ph-field--3"><p class="ph-label">Offer window</p><div class="ph-input"><span>Tue &amp; Wed AM</span><svg class="ph-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg></div></div>
-            </div>
-            <div class="ph-field ph-field--4"><div class="ph-range__top"><p class="ph-label">Available bookings</p><b data-scene-count>4</b></div><div class="ph-range ph-range--book"><i></i><em></em></div></div>
-            <div class="ph-field ph-field--5"><div class="ph-range__top"><p class="ph-label">Exclusive discount</p><b>25%</b></div><div class="ph-range ph-range--disc"><i></i><em></em></div></div>
-            <div class="ph-confirm"><span class="ph-confirm__a">Confirm plan</span><span class="ph-confirm__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Plan live</span></div>
-          </div>
-
-          <div class="ph-page ph-page--match">
-            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Matched to your plan</p>
-            <p class="ph-title ph-find__title">Large, high-energy dogs nearby</p>
-            <div class="ph-dog ph-dog--1"><span class="ph-av">R</span><div><p class="ph-name">Rocky · Kelpie</p><p class="ph-sub">Free Tuesday morning · 1.2 km</p></div><em class="ph-st ph-st--y">Booked</em></div>
-            <div class="ph-dog ph-dog--2"><span class="ph-av">J</span><div><p class="ph-name">Juno · Border Collie</p><p class="ph-sub">Due a groom · 2 km</p></div><em class="ph-st ph-st--y">Booked</em></div>
-            <div class="ph-dog ph-dog--3"><span class="ph-av">M</span><div><p class="ph-name">Max · Labrador</p><p class="ph-sub">Walks near you on Wednesdays</p></div><em class="ph-st">Notified</em></div>
-            <div class="ph-dog ph-dog--4"><span class="ph-av">B</span><div><p class="ph-name">Bear · Husky</p><p class="ph-sub">Moulting season · 3 km</p></div><em class="ph-st">Notified</em></div>
-            <div class="ph-fill"><div class="ph-range__top"><p class="ph-label">Places filled</p><b><span data-scene-count>0</span> of 6</b></div><div class="ph-range ph-range--fill"><i></i></div></div>
+            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested by Etho</p>
+            <p class="ph-title ph-plan__title">Fill this afternoon</p>
+            <div class="ph-rule ph-rule--1"><p class="ph-label">Service</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Full groom</span></div></div>
+            <div class="ph-rule ph-rule--2"><p class="ph-label">Dogs</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Large dogs</span><span class="ph-chip ph-chip--on">High energy</span><span class="ph-chip ph-chip--add">Husky</span></div></div>
+            <div class="ph-rule ph-rule--3"><p class="ph-label">Who</p><div class="ph-chips"><span class="ph-chip ph-chip--on">New customers</span></div></div>
+            <div class="ph-rule ph-rule--4"><p class="ph-label">When</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Today 2:30 &amp; 4:00</span></div></div>
+            <div class="ph-rule ph-rule--5"><p class="ph-label">Offer</p><div class="ph-chips"><span class="ph-chip ph-chip--on">20% off first visit</span></div></div>
+            <div class="ph-confirm"><span class="ph-confirm__a">Approve</span><span class="ph-confirm__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Live</span></div>
           </div>
         </div>
-        <p class="ph-caption"><span class="ph-cap ph-cap--1">1 · Etho finds the opportunities</span><span class="ph-cap ph-cap--2">2 · You confirm the plan</span><span class="ph-cap ph-cap--3">3 · Etho finds the right customers</span></p>
         <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
       </div>
     </div>
@@ -181,27 +168,26 @@
         <p class="b2b-feature__desc">As pet parents turn to AI for search, Etho makes your services discoverable by agents.</p>
       </div>
       <div class="b2b-feature__media" data-media="ai">
+        <!-- Etho's agent is proactive: no one searches. It notices Lola's
+             hip pain is getting worse and suggests seeing a professional,
+             with Dogue Wellness's mobility assessment first in its list;
+             it is booked, and the provider gets the booking. -->
         <div class="pscene pscene--ai" data-scene="p-ai" aria-hidden="true">
           <div class="ps-glow"></div>
-          <div class="ps-code"><p class="ps-code__file">dogue-wellness.json</p><p><span class="ps-k" data-type="{"></span></p><p><span class="ps-k" data-type="  &quot;@type&quot;: "></span><span class="ps-v" data-type="&quot;Service&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;name&quot;: "></span><span class="ps-v" data-type="&quot;Mobility assessment&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;provider&quot;: "></span><span class="ps-v" data-type="&quot;Dogue Wellness&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;suitableFor&quot;: "></span><span class="ps-v" data-type="&quot;senior dogs&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;price&quot;: "></span><span class="ps-v" data-type="&quot;95 AUD&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;available&quot;: "></span><span class="ps-v" data-type="&quot;Thu 4:00pm&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;bookable&quot;: "></span><span class="ps-v" data-type="true"></span></p><p><span class="ps-k" data-type="}"></span></p></div>
           <div class="ps-phone">
             <div class="ps-screen">
-              <p class="ps-q">Best mobility help for my senior greyhound near Bondi?</p>
+              <p class="ps-agent"><span class="ps-agent__av"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>Etho</p>
+              <p class="ps-msg ps-msg--1">Lola’s hip pain is increasing. Worth checking with a professional.</p>
               <p class="ps-dots"><i></i><i></i><i></i></p>
-              <div class="ps-ans">
-                <p class="ps-ans__lead"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>A mobility assessment is a good first step. Nearby:</p>
-                <div class="ps-pcard">
-                  <div class="ps-pcard__top"><span class="ps-th"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Dogue Wellness</p><p class="ps-sub">★ 4.9 · 1.2 km</p></div></div>
-                  <p class="ps-pcard__svc">Mobility assessment · $95</p>
-                  <p class="ps-sub">Next: Thu 4:00pm</p>
-                  <span class="ps-book"><i class="ps-book__a">Book</i><i class="ps-book__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Booked</i></span>
-                </div>
+              <div class="ps-msg ps-msg--2">
+                <p>Good options near you:</p>
+                <div class="ps-opt2 ps-opt2--top"><span class="ps-th"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Mobility assessment</p><p class="ps-sub">Dogue Wellness</p></div><span class="ps-book"><i class="ps-book__a">Book</i><i class="ps-book__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></i></span></div>
+                <div class="ps-opt2"><span class="ps-th"><img src="assets/images/scenes/massage.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Massage therapy</p><p class="ps-sub">Paws &amp; Restore · Fri</p></div></div>
+                <div class="ps-opt2"><span class="ps-th"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Pet ramp</p><p class="ps-sub">For the car and sofa</p></div></div>
               </div>
             </div>
           </div>
-          <span class="ps-tile ps-tile--1"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI agents</span>
-          <span class="ps-tile ps-tile--2"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI search</span>
-          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">New booking</p><p class="ps-sub">via AI agent · $95</p></div></div>
+          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Lola booked via Etho</p><p class="ps-sub">Mobility assessment</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
@@ -413,6 +399,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261102g"></script>
+<script src="js/partners.js?v=20261102i"></script>
 </body>
 </html>
