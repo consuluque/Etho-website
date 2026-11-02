@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
 <link rel="stylesheet" href="css/partners.css?v=20261102b">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261102c">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261102e">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -44,52 +44,50 @@
       <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
       <p class="hero-sub b2b-hero__zero">Zero new software <span aria-hidden="true">·</span> Zero new process change <span aria-hidden="true">·</span> Zero marketing costs</p>
     </div>
-    <!-- One large glass storefront over a photo, telling three stories
-         in turn: the storefront (services, products, a bundle), offer
-         controls, and AI discoverability. A caption pill names each.
-         Run by scenes.js (p-hero in partners.js). -->
+    <!-- One large glass card over a photo, in three steps: Etho finds
+         the business's opportunities (empty slots, ongoing care, care at
+         home); proposes a plan that the provider edits and confirms
+         (their rules: service, eligible dogs, window, places, discount);
+         then matches it to the right dogs at the right time. A caption
+         pill names each step. Run by scenes.js (p-hero in partners.js). -->
     <div class="b2b-panels" aria-hidden="true">
       <div class="pscene phero" data-scene="p-hero">
         <img class="ph-bg ph-bg--1" src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
         <img class="ph-bg ph-bg--2" src="assets/images/partners/stay.webp" alt="" loading="lazy" decoding="async">
         <img class="ph-bg ph-bg--3" src="assets/images/partners/hydro.webp" alt="" loading="lazy" decoding="async">
         <div class="ph-card">
-          <div class="ph-page ph-page--store">
-            <div class="ph-head"><span class="ph-logo"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-title">Dogue Spa</p><p class="ph-sub">★ 4.9 · Bondi</p></div></div>
-            <div class="ph-tabs"><span class="ph-tab ph-tab--1">Services</span><span class="ph-tab ph-tab--2">Products</span><span class="ph-tab ph-tab--3">Bundles</span><i class="ph-tabbar"></i></div>
-            <div class="ph-lists">
-              <div class="ph-list ph-list--1"><div class="ph-row"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Wash &amp; Dry</p><p class="ph-sub">60 min</p></div><b>$100</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Full groom</p><p class="ph-sub">2 hrs</p></div><b>$140</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Nail &amp; ear care</p><p class="ph-sub">20 min</p></div><b>$25</b></div></div>
-              <div class="ph-list ph-list--2"><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/brush.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Deshedding brush</p><p class="ph-sub">In stock</p></div><b>$39</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/shampoo.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Oat shampoo</p><p class="ph-sub">In stock</p></div><b>$28</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Ear cleaner</p><p class="ph-sub">In stock</p></div><b>$24.50</b></div></div>
-              <div class="ph-list ph-list--3">
-                <div class="ph-bundle">
-                  <div class="ph-bundle__top"><p class="ph-name">Spa day</p><span class="ph-save">Save $25</span></div>
-                  <p class="ph-sub">Wash &amp; Dry + teeth cleaning + post-groom photo</p>
-                  <div class="ph-bundle__imgs"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><span class="ph-th"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"></span><span class="ph-th"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"></span></div>
-                  <div class="ph-bundle__foot"><p class="ph-price"><s>$160</s> $135</p><span class="ph-toggle ph-toggle--bundle"></span></div>
-                </div>
-              </div>
-            </div>
+          <div class="ph-page ph-page--find">
+            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Opportunities this month</p>
+            <p class="ph-title ph-find__title">Etho found 3 for Dogue Spa</p>
+            <div class="ph-opp ph-opp--1"><span class="ph-ico"><svg viewBox="0 0 24 24"><path d="M4 6h16v14H4zM4 10h16M9 3v4M15 3v4"/></svg></span><div><p class="ph-name">Empty slots</p><p class="ph-sub">6 open Tue &amp; Wed mornings</p></div><b>$540</b></div>
+            <div class="ph-opp ph-opp--2"><span class="ph-ico"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-2.3-5.6M20 4v4h-4"/></svg></span><div><p class="ph-name">Ongoing care</p><p class="ph-sub">18 dogs due a groom</p></div><b>$2,160</b></div>
+            <div class="ph-opp ph-opp--3"><span class="ph-ico"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4zM10 20v-5h4v5"/></svg></span><div><p class="ph-name">Care at home</p><p class="ph-sub">Deshedding kits for 32 long coats</p></div><b>$890</b></div>
+            <div class="ph-sum"><p>Potential revenue</p><b data-scene-count>$0</b></div>
           </div>
-          <div class="ph-page ph-page--offer">
-            <p class="ph-kicker">Offer · Wash &amp; Dry</p>
-            <p class="ph-big"><s>$100</s> <span data-scene-count>$100</span></p>
-            <div class="ph-ctl"><p>Discount</p><b data-scene-count>0%</b></div>
-            <div class="ph-slider"><i></i><em></em></div>
-            <div class="ph-ctl"><p>When</p><b>Mornings</b></div>
-            <div class="ph-days"><span>Mon</span><span class="ph-day">Tue</span><span class="ph-day">Wed</span><span>Thu</span><span>Fri</span></div>
-            <div class="ph-live"><div><p class="ph-name">Offer live</p><p class="ph-sub ph-live__sub">Shown to pet parents nearby</p></div><span class="ph-toggle ph-toggle--live"></span></div>
-          </div>
-          <div class="ph-page ph-page--ai">
-            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Visible to AI agents</p>
-            <p class="ph-q">Groomer near Bondi with a free Tuesday morning?</p>
-            <div class="ph-answer">
-              <span class="ph-rec"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Recommended</span>
-              <div class="ph-row"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Dogue Spa</p><p class="ph-sub">Wash &amp; Dry · Tue 10:30</p></div><b>$70</b></div>
+
+          <div class="ph-page ph-page--plan">
+            <div class="ph-plan__head"><p class="ph-title">Proposed plan</p><span class="ph-chip ph-chip--state"><i class="ph-chip__a">Review</i><i class="ph-chip__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Confirmed</i></span></div>
+            <div class="ph-field ph-field--1"><p class="ph-label">Service</p><div class="ph-input"><span>Wash &amp; Dry</span><svg class="ph-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg></div></div>
+            <div class="ph-pair">
+              <div class="ph-field ph-field--2"><p class="ph-label">Eligible dogs</p><div class="ph-input"><span>Large · high energy</span><svg class="ph-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg></div></div>
+              <div class="ph-field ph-field--3"><p class="ph-label">Offer window</p><div class="ph-input"><span>Tue &amp; Wed AM</span><svg class="ph-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></svg></div></div>
             </div>
-            <ul class="ph-checks"><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Listed in AI search</li><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Bookable by agents</li><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Offers kept up to date</li></ul>
+            <div class="ph-field ph-field--4"><div class="ph-range__top"><p class="ph-label">Available bookings</p><b data-scene-count>4</b></div><div class="ph-range ph-range--book"><i></i><em></em></div></div>
+            <div class="ph-field ph-field--5"><div class="ph-range__top"><p class="ph-label">Exclusive discount</p><b>25%</b></div><div class="ph-range ph-range--disc"><i></i><em></em></div></div>
+            <div class="ph-confirm"><span class="ph-confirm__a">Confirm plan</span><span class="ph-confirm__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Plan live</span></div>
+          </div>
+
+          <div class="ph-page ph-page--match">
+            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Matched to your plan</p>
+            <p class="ph-title ph-find__title">Large, high-energy dogs nearby</p>
+            <div class="ph-dog ph-dog--1"><span class="ph-av">R</span><div><p class="ph-name">Rocky · Kelpie</p><p class="ph-sub">Free Tuesday morning · 1.2 km</p></div><em class="ph-st ph-st--y">Booked</em></div>
+            <div class="ph-dog ph-dog--2"><span class="ph-av">J</span><div><p class="ph-name">Juno · Border Collie</p><p class="ph-sub">Due a groom · 2 km</p></div><em class="ph-st ph-st--y">Booked</em></div>
+            <div class="ph-dog ph-dog--3"><span class="ph-av">M</span><div><p class="ph-name">Max · Labrador</p><p class="ph-sub">Walks near you on Wednesdays</p></div><em class="ph-st">Notified</em></div>
+            <div class="ph-dog ph-dog--4"><span class="ph-av">B</span><div><p class="ph-name">Bear · Husky</p><p class="ph-sub">Moulting season · 3 km</p></div><em class="ph-st">Notified</em></div>
+            <div class="ph-fill"><div class="ph-range__top"><p class="ph-label">Places filled</p><b><span data-scene-count>0</span> of 6</b></div><div class="ph-range ph-range--fill"><i></i></div></div>
           </div>
         </div>
-        <p class="ph-caption"><span class="ph-cap ph-cap--1">Your storefront</span><span class="ph-cap ph-cap--2">Offer controls</span><span class="ph-cap ph-cap--3">AI discoverability</span></p>
+        <p class="ph-caption"><span class="ph-cap ph-cap--1">1 · Etho finds the opportunities</span><span class="ph-cap ph-cap--2">2 · You confirm the plan</span><span class="ph-cap ph-cap--3">3 · Etho finds the right customers</span></p>
         <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
       </div>
     </div>
@@ -158,7 +156,7 @@
              follow-up session; the kit is added and the total grows. -->
         <div class="pscene pscene--basket" data-scene="p-basket" aria-hidden="true">
           <img class="ps-bg ps-bg--puppy" src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-paper ps-cart">
+          <div class="ps-glass ps-cart">
             <p class="ps-cart__dog">Milo (Dachshund puppy)</p>
             <div class="ps-item ps-item--on"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Puppy school</p><p class="ps-item__sub">6 weeks · Saturdays 9am</p></div><b>$220</b></div>
             <div class="ps-sugg">
@@ -413,6 +411,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261102c"></script>
+<script src="js/partners.js?v=20261102d"></script>
 </body>
 </html>

@@ -161,30 +161,39 @@ if (window.EthoScenes) {
     finalState({ on }) { on('app', 'sheet', 'store'); },
   });
 
+  // The hero, in three steps. Etho finds the opportunities in the
+  // business (empty slots, ongoing care, care at home); proposes a plan
+  // in the provider's own rules, which they edit (two more places) and
+  // confirm; then matches it to the right dogs, and places fill.
   S.define('p-hero', {
-    loopAt: 15500,
+    loopAt: 16200,
     script({ at, on, root }) {
-      const [price, disc] = root.querySelectorAll('.ph-page--offer [data-scene-count]');
+      const sum = root.querySelector('.ph-sum b');
+      const book = root.querySelector('.ph-field--4 b');
+      const filled = root.querySelector('.ph-fill [data-scene-count]');
       at(200, () => on('in'));
-      at(2300, () => on('t2'));
-      at(3700, () => on('t3'));
-      at(4400, () => on('bundle'));
-      at(6000, () => on('p2'));
-      at(6800, () => {
-        on('disc');
-        countUp(root, disc, 30, 1100, (n) => n + '%');
-        countUp(root, price, 30, 1100, (n) => '$' + (100 - n));
-      });
-      at(8000, () => on('days'));
-      at(8800, () => on('live'));
-      at(10200, () => on('p3'));
-      at(10800, () => on('q'));
-      at(11700, () => on('ans'));
-      at(12400, () => on('checks'));
-      at(14900, () => on('out'));
+      at(900, () => on('o1'));
+      at(1350, () => on('o2'));
+      at(1800, () => on('o3'));
+      at(2400, () => { on('sum'); countUp(root, sum, 3590, 1100, money); });
+      at(3900, () => on('pick'));
+      at(5000, () => on('p2'));
+      at(5500, () => on('f1'));
+      at(5950, () => on('f2'));
+      at(6400, () => on('f3'));
+      at(7900, () => { on('edit'); countUp(root, book, 2, 700, (n) => String(4 + n)); });
+      at(9200, () => on('ok'));
+      at(10400, () => on('p3'));
+      at(10900, () => on('m1'));
+      at(11400, () => on('m2'));
+      at(11900, () => on('m3'));
+      at(12400, () => on('m4'));
+      at(13000, () => { on('fill'); countUp(root, filled, 2, 600, String); });
+      at(15500, () => on('out'));
     },
     finalState({ on, root }) {
-      on('in', 'p3', 'q', 'ans', 'checks');
+      on('in', 'p2', 'p3', 'm1', 'm2', 'm3', 'm4', 'fill');
+      root.querySelector('.ph-fill [data-scene-count]').textContent = '2';
     },
   });
 
