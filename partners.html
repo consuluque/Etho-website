@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
 <link rel="stylesheet" href="css/partners.css?v=20261102b">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261102b">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261102c">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -152,25 +152,25 @@
         <p class="b2b-feature__desc">Increase transaction value with relevant add&#8209;ons, complementary services and products.</p>
       </div>
       <div class="b2b-feature__media" data-media="basket">
+        <!-- A puppy school booking becomes a starter package. At checkout
+             for a $220 course, Etho suggests a $45 starter kit (treats,
+             a clicker, enrichment toys) at a bundle price, and an optional
+             follow-up session; the kit is added and the total grows. -->
         <div class="pscene pscene--basket" data-scene="p-basket" aria-hidden="true">
-          <img class="ps-bg ps-bg--daycare" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-up">
-            <p class="ps-cap">New booking · Cooper</p>
-            <div class="ps-line"><span class="ps-th"><img class="ps-th--daycare" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"></span><p>Full-day daycare</p><b>$65</b></div>
+          <img class="ps-bg ps-bg--puppy" src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-paper ps-cart">
+            <p class="ps-cart__dog">Milo (Dachshund puppy)</p>
+            <div class="ps-item ps-item--on"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Puppy school</p><p class="ps-item__sub">6 weeks · Saturdays 9am</p></div><b>$220</b></div>
             <div class="ps-sugg">
-              <p class="ps-cap ps-cap--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested for Cooper</p>
-              <div class="ps-line ps-add ps-add--1"><p>Enrichment play</p><b>+$15</b><span class="ps-chip"><i class="ps-chip__a">Add</i><i class="ps-chip__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Added</i></span></div>
-              <div class="ps-line ps-add ps-add--2"><p>One-on-one training</p><b>+$25</b><span class="ps-chip"><i class="ps-chip__a">Add</i></span></div>
+              <p class="ps-sugg__cap"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested for Milo</p>
+              <div class="ps-item ps-item--kit"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Puppy starter kit <em class="ps-tag ps-tag--y">Bundle</em></p><p class="ps-item__sub">Training treats, clicker, enrichment toys</p></div><b><s>$62</s> $45</b></div>
+              <div class="ps-item ps-item--follow"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Follow-up session <em class="ps-tag">Optional</em></p><p class="ps-item__sub">One-on-one, after week 6</p></div><b>$60</b></div>
             </div>
-            <div class="ps-total"><p>Booking total</p><b data-scene-count>$65</b></div>
+            <div class="ps-cart__total"><p>Total</p><b data-scene-count>$220</b></div>
           </div>
           <div class="ps-glass ps-stat">
-            <p class="ps-cap">Avg. booking value</p>
+            <p class="ps-cap">Avg. transaction value</p>
             <p class="ps-num" data-scene-count>+0%</p>
-          </div>
-          <div class="ps-glass ps-cross">
-            <span class="ps-th"><img class="ps-th--bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"></span>
-            <div><p class="ps-cap">Also booked</p><p class="ps-h">Christmas boarding</p><p class="ps-sub">3 nights · $255</p></div>
           </div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
@@ -413,6 +413,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261102a"></script>
+<script src="js/partners.js?v=20261102c"></script>
 </body>
 </html>

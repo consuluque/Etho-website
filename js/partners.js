@@ -207,22 +207,24 @@ if (window.EthoScenes) {
   // 2 — Grow each booking. A daycare booking comes in; Etho suggests
   // add-ons, one is taken and the total climbs; the average booking
   // value rises, and boarding is booked alongside.
+  // Make every booking worth more: at checkout for a $220 puppy course,
+  // Etho suggests a $45 starter kit and an optional follow-up; the kit
+  // goes in and the total and the average transaction value count up.
   S.define('p-basket', {
     loopAt: 9600,
     script({ at, on, root }) {
-      const total = root.querySelector('.ps-total b');
+      const total = root.querySelector('.ps-cart__total b');
       const avg = root.querySelector('.ps-stat .ps-num');
       at(200, () => on('in'));
-      at(1400, () => on('sug'));
-      at(2900, () => { on('add1'); countUp(root, { set textContent(v) { total.textContent = v; } }, 15, 700, (n) => money(65 + n)); });
-      at(4100, () => { on('stat'); countUp(root, avg, 23, 1000, (n) => '+' + n + '%'); });
-      at(5400, () => on('cross'));
+      at(1500, () => on('sug'));
+      at(3300, () => { on('kit'); countUp(root, total, 45, 800, (n) => money(220 + n)); });
+      at(4600, () => { on('stat'); countUp(root, avg, 20, 1000, (n) => '+' + n + '%'); });
       at(8900, () => on('out'));
     },
     finalState({ on, root }) {
-      on('in', 'sug', 'add1', 'stat', 'cross');
-      root.querySelector('.ps-total b').textContent = '$80';
-      root.querySelector('.ps-stat .ps-num').textContent = '+23%';
+      on('in', 'sug', 'kit', 'stat');
+      root.querySelector('.ps-cart__total b').textContent = '$265';
+      root.querySelector('.ps-stat .ps-num').textContent = '+20%';
     },
   });
 

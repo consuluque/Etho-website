@@ -278,73 +278,107 @@
 .pscene--capacity.s-ctl .ps-ctl { opacity: 1; transform: none; }
 .pscene--capacity.s-booked .ps-toast--gap { opacity: 1; transform: none; }
 
-/* -- 2. Grow each booking ----------------------------------------- */
+/* -- 2. Make every booking worth more -----------------------------
+   A checkout, as a white card over the photo: the puppy course, then
+   Etho's suggestions for Milo. The starter kit (a bundle price) ticks
+   on and the total counts up; the follow-up stays optional. States:
+   s-in, s-sug, s-kit, s-stat. */
 
-.ps-up { left: 1.8em; top: 2em; width: 19.5em; }
-.ps-up > .ps-cap { margin-bottom: 0.6em; }
-.ps-line {
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
-  font-size: 0.92em;
+.ps-paper {
+  position: absolute;
+  padding: 1.2em 1.3em;
+  border-radius: 1.4em;
+  background: #FFFFFF;
+  color: #0E0F0C;
+  box-shadow: 0 1.4em 3em rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(1.2em) scale(0.98);
+  transition: opacity 600ms var(--ease-out), transform 800ms var(--ease-out);
 }
-.ps-line p { flex: 1; min-width: 0; font-weight: 500; }
-.ps-line b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.s-out .ps-paper { opacity: 0 !important; transition-duration: 500ms; }
+.ps-cart { left: 1.8em; top: 2em; width: 23em; }
+.ps-cart__dog { font-size: 0.95em; font-weight: 700; }
+.ps-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75em;
+  padding: 0.75em 0;
+  font-size: 0.9em;
+}
+.ps-cart__dog + .ps-item { padding-top: 0.6em; }
+.ps-item > div { flex: 1; min-width: 0; }
+.ps-item p { font-weight: 500; }
+.ps-item__sub { margin-top: 0.15em !important; font-size: 0.85em; color: rgba(14, 15, 12, 0.55); }
+.ps-item > b { flex: none; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ps-item s { margin-right: 0.2em; font-weight: 500; color: #9A9A9A; }
+.ps-box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.35em;
+  height: 1.35em;
+  margin-top: 0.05em;
+  border-radius: 0.35em;
+  border: 1.5px solid #D3D3D1;
+  color: #000000;
+  transition: background 300ms var(--ease-out), border-color 300ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.ps-box svg { width: 0.95em; height: 0.95em; stroke-width: 3; stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset 420ms var(--ease-out) 120ms; }
+.ps-item--on .ps-box,
+.s-kit .ps-item--kit .ps-box { background: var(--ps-y); border-color: #E9D97A; }
+.ps-item--on .ps-box svg,
+.s-kit .ps-item--kit .ps-box svg { stroke-dashoffset: 0; }
+.s-kit .ps-item--kit .ps-box { animation: ps-tick 450ms var(--ease-out); }
+@keyframes ps-tick { 40% { transform: scale(0.82); } 100% { transform: none; } }
+.ps-tag {
+  display: inline-block;
+  margin-left: 0.3em;
+  padding: 0.1em 0.5em;
+  border-radius: 2em;
+  background: #F1F0EE;
+  font-size: 0.75em;
+  font-weight: 600;
+  vertical-align: 0.1em;
+  color: rgba(14, 15, 12, 0.7);
+}
+.ps-tag--y { background: var(--ps-y); color: #000000; }
+
 .ps-sugg {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 700ms var(--ease-out), opacity 400ms var(--ease-out), margin 700ms var(--ease-out);
+  border-top: 1px dashed #DCDCDA;
+  transition: max-height 800ms var(--ease-out), opacity 400ms var(--ease-out);
 }
-.s-sug .ps-sugg { max-height: 9em; opacity: 1; margin-top: 0.8em; }
-.ps-sugg > .ps-cap { margin-bottom: 0.3em; }
-.ps-add { padding: 0.55em 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-.ps-add b { color: var(--ps-w2); }
-.ps-chip {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 5.2em;
-  height: 1.9em;
-  border-radius: 1em;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  font-size: 0.82em;
-  font-weight: 600;
-  transition: background 350ms var(--ease-out), border-color 350ms var(--ease-out), color 350ms var(--ease-out), transform 160ms var(--ease-out);
+.s-sug .ps-sugg { max-height: 12em; opacity: 1; }
+.ps-sugg__cap {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-top: 0.8em !important;
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8A7A1E;
 }
-.ps-chip i { position: absolute; display: flex; align-items: center; gap: 0.25em; transition: opacity 300ms var(--ease-out); }
-.ps-chip svg { width: 1em; height: 1em; stroke-width: 3; }
-.ps-chip__b { opacity: 0; }
-.s-add1 .ps-add--1 .ps-chip { background: var(--ps-y); border-color: var(--ps-y); color: #000000; }
-.s-add1 .ps-add--1 .ps-chip__a { opacity: 0; }
-.s-add1 .ps-add--1 .ps-chip__b { opacity: 1; }
-.s-add1 .ps-add--1 b { color: #FFFFFF; }
-.ps-total {
+.ps-sugg__cap svg { width: 1.1em; height: 1.1em; fill: currentColor; stroke: none; }
+.ps-item--kit + .ps-item { border-top: 1px dashed #DCDCDA; }
+.ps-item--follow > b { color: rgba(14, 15, 12, 0.55); }
+
+.ps-cart__total {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-top: 0.7em;
-  padding-top: 0.7em;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 0.75em;
+  border-top: 1px solid #E4E4E2;
 }
-.ps-total p { font-size: 0.85em; color: var(--ps-w2); }
-.ps-total b { font-size: 1.5em; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ps-cart__total p { font-size: 0.85em; color: rgba(14, 15, 12, 0.55); }
+.ps-cart__total b { font-size: 1.45em; font-weight: 700; font-variant-numeric: tabular-nums; }
 
-.ps-cross {
-  right: 1.8em;
-  bottom: 2em;
-  width: 15.5em;
-  display: flex;
-  align-items: center;
-  gap: 0.8em;
-  padding: 0.8em;
-}
-.ps-cross .ps-th { width: 3.2em; height: 3.2em; }
-.ps-cross .ps-h { margin-top: 0.15em; }
-
-.pscene--basket.s-in .ps-up { opacity: 1; transform: none; }
+.pscene--basket .ps-stat { top: auto; bottom: 2em; }
+.pscene--basket.s-in .ps-cart { opacity: 1; transform: none; }
 .pscene--basket.s-stat .ps-stat { opacity: 1; transform: none; }
-.pscene--basket.s-cross .ps-cross { opacity: 1; transform: none; }
 
 /* -- 3. Be discoverable by AI search ------------------------------ */
 
@@ -549,9 +583,8 @@
   .ps-day { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
   .ps-ctl { left: 1.2em; right: 1.2em; top: auto; bottom: 1.2em; width: auto; }
   .ps-toast--gap { left: 1.2em; right: 1.2em; bottom: 1.2em; width: auto; }
-  .ps-up { left: 1.2em; right: 1.2em; top: 1.4em; width: auto; }
-  .pscene--basket .ps-stat { left: 1.2em; right: auto; bottom: 1.4em; min-width: 9em; }
-  .ps-cross { right: 1.2em; bottom: 1.4em; width: 15em; }
+  .ps-cart { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
+  .pscene--basket .ps-stat { left: 1.2em; right: auto; bottom: 1.2em; min-width: 11em; }
   .ps-code { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; height: auto; padding: 1em 1.1em; font-size: 0.68em; line-height: 1.55; }
   .ps-phone { left: 50%; top: auto; bottom: -6em; width: 15em; height: 26em; margin-left: -7.5em; }
   .ps-tile--1 { left: 1em; top: 14.5em; }
