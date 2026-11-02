@@ -69,8 +69,9 @@
   background: linear-gradient(180deg, rgba(10, 10, 9, 0.25) 0%, rgba(10, 10, 9, 0.5) 100%);
 }
 .pscene > *:not(.ps-bg) { z-index: 1; }
-.ps-bg--daycare { object-position: 42% 70%; }
-.ps-bg--puppy { object-position: 50% 30%; }
+.ps-bg--web2 { object-position: 50% 40%; }
+.ps-bg--web3 { object-position: 50% 60%; }
+.ps-bg--web4 { object-position: 60% 40%; }
 
 /* -- Glass -------------------------------------------------------- */
 
@@ -644,7 +645,7 @@
   transform: scale(1.06);
   transition: opacity 1s var(--ease-out), transform 6s linear;
 }
-.ph-bg { object-position: 30% 55%; }
+.ph-bg { object-position: 50% 30%; }
 .phero.s-in .ph-bg { opacity: 1; transform: none; }
 .phero::after {
   content: '';
