@@ -275,21 +275,24 @@ if (window.EthoScenes) {
   // 3 — Be discoverable by AI search. The service is written out as
   // structured data behind; in front, an AI answer recommends the
   // business and the booking comes through.
-  // Be part of the answer: Etho's agent speaks first. It flags Lola's
-  // hip pain, suggests seeing a professional, lists Dogue Wellness's
-  // mobility assessment first; it is booked and the provider is told.
   S.define('p-ai', {
-    loopAt: 9600,
-    script({ at, on }) {
-      at(200, () => on('in'));
-      at(1000, () => on('m1'));
-      at(2300, () => on('think'));
-      at(3200, () => on('m2'));
-      at(5200, () => on('booked'));
-      at(5800, () => on('toast'));
-      at(8900, () => on('out'));
+    loopAt: 10000,
+    script({ at, on, type, root }) {
+      at(150, () => on('in'));
+      let t = 500;
+      root.querySelectorAll('.ps-code [data-type]').forEach((el) => {
+        at(t, () => type(el, 16));
+        t += el.dataset.type.length * 16 + 40;
+      });
+      at(1100, () => on('q'));
+      at(2100, () => on('think'));
+      at(3300, () => on('ans'));
+      at(4300, () => on('tiles'));
+      at(5600, () => on('booked'));
+      at(6100, () => on('toast'));
+      at(9300, () => on('out'));
     },
-    finalState({ on }) { on('in', 'm1', 'm2', 'booked', 'toast'); },
+    finalState({ on }) { on('in', 'q', 'ans', 'tiles', 'booked', 'toast'); },
   });
 
   // 4 — Get loyal customers. A five-session pack paid upfront, four

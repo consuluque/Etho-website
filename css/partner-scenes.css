@@ -365,16 +365,41 @@
   background: radial-gradient(circle, rgba(255, 246, 196, 0.14) 0%, rgba(255, 246, 196, 0.04) 45%, transparent 70%);
 }
 
-/* A phone in the middle of the glow: the agent's own messages, no
-   search. States: s-in, s-m1, s-think, s-m2, s-booked, s-toast. */
+/* The service as structured data: what an AI agent reads. */
+.ps-code {
+  position: absolute;
+  right: 1.6em;
+  top: 1.8em;
+  width: 23em;
+  height: calc(100% - 3.6em);
+  padding: 1.2em 1.3em;
+  border-radius: 1.2em;
+  background: linear-gradient(160deg, rgba(40, 38, 30, 0.9) 0%, rgba(18, 18, 16, 0.9) 70%);
+  border: 1px solid rgba(255, 246, 196, 0.14);
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.82em;
+  line-height: 1.7;
+  white-space: pre;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+}
+.ps-code__file {
+  margin-bottom: 0.8em !important;
+  font-family: var(--body-font);
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.45);
+}
+.ps-k { color: var(--ps-y); }
+.ps-v { color: rgba(255, 255, 255, 0.86); }
+
 .ps-phone {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 15em;
-  height: 21.5em;
-  margin: -10.75em 0 0 -10.5em;
-  padding: 0.5em;
+  left: 3em;
+  top: 2.2em;
+  width: 14.5em;
+  height: 28em;
+  padding: 0.55em;
   border-radius: 2.4em;
   background: #050505;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14), 0 2em 4em rgba(0, 0, 0, 0.5);
@@ -384,75 +409,102 @@
 }
 .ps-screen {
   height: 100%;
-  padding: 1.6em 0.8em 0.8em;
-  border-radius: 1.95em;
+  padding: 2.2em 0.8em 0.8em;
+  border-radius: 1.9em;
   background: #F7F5F0;
   color: #000000;
   overflow: hidden;
 }
-.ps-agent { display: flex; align-items: center; gap: 0.4em; font-size: 0.68em; font-weight: 700; }
+/* The agent speaks first: no question from the pet parent. */
+.ps-agent { display: flex; align-items: center; gap: 0.4em; font-size: 0.68em; font-weight: 700; opacity: 0; transition: opacity 400ms var(--ease-out); }
 .ps-agent__av { display: grid; place-items: center; width: 1.8em; height: 1.8em; border-radius: 50%; background: #000; }
 .ps-agent__av svg { width: 1.05em; height: 1.05em; fill: var(--ps-y); stroke: none; }
-.ps-msg {
-  margin-top: 0.7em !important;
-  margin-right: 1.2em;
+.pscene--ai.s-in .ps-agent { opacity: 1; }
+.ps-q {
+  margin: 0.7em 1.2em 0 0 !important;
   padding: 0.6em 0.75em;
   border-radius: 0.3em 1em 1em 1em;
   background: #FFFFFF;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
-  font-size: 0.66em;
+  color: #000000;
+  font-size: 0.7em;
   line-height: 1.4;
   opacity: 0;
   transform: translateY(0.6em);
   transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out);
 }
-.ps-msg--2 { margin-right: 0; padding: 0.6em 0.6em 0.3em; font-size: 0.66em; }
-.ps-msg--2 > p { padding-left: 0.15em; }
-.ps-dots { display: flex; gap: 0.25em; margin-top: 0.8em !important; opacity: 0; transition: opacity 300ms var(--ease-out); }
-.ps-dots i { width: 0.35em; height: 0.35em; border-radius: 50%; background: rgba(0, 0, 0, 0.35); animation: ps-dot 900ms ease-in-out infinite; }
+.ps-dots { display: flex; gap: 0.25em; margin-top: 0.9em !important; opacity: 0; transition: opacity 300ms var(--ease-out); }
+.ps-dots i { width: 0.4em; height: 0.4em; border-radius: 50%; background: rgba(0, 0, 0, 0.35); animation: ps-dot 900ms ease-in-out infinite; }
 .ps-dots i:nth-child(2) { animation-delay: 150ms; }
 .ps-dots i:nth-child(3) { animation-delay: 300ms; }
 @keyframes ps-dot { 50% { opacity: 0.25; transform: translateY(-0.15em); } }
-.pscene--ai.s-m2 .ps-dots { display: none; }
-.ps-opt2 {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin-top: 0.5em;
-  padding: 0.45em;
-  border-radius: 0.8em;
+.ps-ans { margin-top: -0.6em; opacity: 0; transform: translateY(0.8em); transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out); }
+.ps-ans__lead { display: flex; gap: 0.35em; font-size: 0.74em; line-height: 1.4; color: #464646; }
+.ps-ans__lead svg { flex: none; width: 1.1em; height: 1.1em; margin-top: 0.1em; fill: #8A7250; stroke: none; }
+.ps-pcard {
+  margin-top: 0;
+  padding: 0.6em;
+  border-radius: 1em;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 0.5em 1.2em rgba(0, 0, 0, 0.08);
 }
-.ps-opt2 + .ps-opt2 { margin-top: 0.1em; border-top: 1px solid #EEEDEA; border-radius: 0; }
-.ps-opt2--top { background: #FFF6C4; }
-.ps-opt2 > div { flex: 1; min-width: 0; }
-.ps-opt2 .ps-th { width: 2.5em; height: 2.5em; border-radius: 0.6em; }
-.ps-opt2 .ps-h { font-size: 1em; font-weight: 600; }
-.ps-opt2 .ps-sub { margin-top: 0.05em !important; font-size: 0.88em; color: rgba(0, 0, 0, 0.55); }
+.ps-pcard__top { display: flex; align-items: center; gap: 0.55em; }
+.ps-pcard .ps-th { width: 2.2em; height: 2.2em; }
+.ps-pcard .ps-h { font-size: 0.74em; font-weight: 600; }
+.ps-pcard .ps-sub { margin-top: 0.1em !important; color: rgba(0, 0, 0, 0.55); font-size: 0.64em; }
+.ps-pcard__svc { margin-top: 0.6em !important; font-size: 0.8em; font-weight: 600; }
 .ps-book {
   position: relative;
-  flex: none;
   display: grid;
   place-items: center;
-  width: 3.6em;
-  height: 2em;
-  border-radius: 1em;
+  height: 2.1em;
+  margin-top: 0.6em;
+  border-radius: 1.1em;
   background: #000000;
   color: #FFFFFF;
-  font-size: 0.9em;
+  font-size: 0.7em;
   font-weight: 600;
-  transition: transform 160ms var(--ease-out);
+  transition: background 300ms var(--ease-out), color 300ms var(--ease-out);
 }
-.ps-book i { grid-area: 1 / 1; display: flex; transition: opacity 300ms var(--ease-out); }
-.ps-book svg { width: 1.2em; height: 1.2em; stroke-width: 3; }
+.ps-book i { position: absolute; display: flex; align-items: center; gap: 0.25em; transition: opacity 300ms var(--ease-out); }
+.ps-book svg { width: 1.1em; height: 1.1em; stroke-width: 3; }
 .ps-book__b { opacity: 0; }
+.s-booked .ps-book { background: var(--ps-y); color: #000000; }
 .s-booked .ps-book__a { opacity: 0; }
 .s-booked .ps-book__b { opacity: 1; }
-.pscene--ai .ps-toast { left: 50%; right: auto; bottom: 5em; margin-left: 2.5em; width: 14em; }
 
+/* Floating tiles, after the reference's app tiles. */
+.ps-tile {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.7em 1em;
+  border-radius: 0.9em;
+  background: rgba(20, 20, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1em 2em rgba(0, 0, 0, 0.35);
+  font-size: 0.85em;
+  font-weight: 600;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.ps-tile svg { width: 1.1em; height: 1.1em; fill: var(--ps-y); stroke: none; }
+.ps-tile--1 { left: 1em; top: 7.5em; }
+.ps-tile--2 { left: 15.5em; top: 18.5em; }
+.pscene--ai .ps-toast { right: 2.6em; bottom: 2.2em; }
+
+.pscene--ai.s-in .ps-code { opacity: 1; }
 .pscene--ai.s-in .ps-phone { opacity: 1; transform: none; }
-.pscene--ai.s-m1 .ps-msg--1,
-.pscene--ai.s-m2 .ps-msg--2 { opacity: 1; transform: none; }
+.pscene--ai.s-q .ps-q { opacity: 1; transform: none; }
 .pscene--ai.s-think .ps-dots { opacity: 1; }
+.pscene--ai.s-ans .ps-dots { opacity: 0; }
+.pscene--ai.s-ans .ps-ans { opacity: 1; transform: none; }
+.pscene--ai.s-tiles .ps-tile { opacity: 1; transform: none; }
+.pscene--ai.s-tiles .ps-tile--2 { transition-delay: 200ms; }
 .pscene--ai.s-toast .ps-toast { opacity: 1; transform: none; }
 
 /* -- 4. More ways to say yes ---------------------------------------
@@ -580,8 +632,11 @@
   .ps-toast--gap { left: 1.2em; right: 1.2em; bottom: 1.2em; width: auto; }
   .ps-cart { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
   .pscene--basket .ps-stat { left: 1.2em; right: auto; bottom: 1.2em; min-width: 11em; }
-  .ps-phone { top: 2em; width: 17em; height: 24em; margin: 0 0 0 -8.5em; }
-  .pscene--ai .ps-toast { left: 1.2em; right: 1.2em; bottom: 1.2em; margin-left: 0; width: auto; }
+  .ps-code { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; height: auto; padding: 1em 1.1em; font-size: 0.68em; line-height: 1.55; }
+  .ps-phone { left: 50%; top: auto; bottom: -6em; width: 15em; height: 26em; margin-left: -7.5em; }
+  .ps-tile--1 { left: 1em; top: 14.5em; }
+  .ps-tile--2 { left: auto; right: 1em; top: 16.5em; }
+  .pscene--ai .ps-toast { right: 1.2em; left: 1.2em; bottom: 1.2em; }
   .ps-pay { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
   .ps-stat--ret { left: 1.2em; right: auto; top: auto; bottom: 1.2em; min-width: 0; width: calc(50% - 1.5em); }
   .pscene--retention .ps-toast { left: auto; right: 1.2em; bottom: 1.2em; width: calc(50% - 1.5em); }

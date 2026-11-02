@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
 <link rel="stylesheet" href="css/partners.css?v=20261102b">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261102k">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261102l">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -168,26 +168,25 @@
         <p class="b2b-feature__desc">As pet parents turn to AI for search, Etho makes your services discoverable by agents.</p>
       </div>
       <div class="b2b-feature__media" data-media="ai">
-        <!-- Etho's agent is proactive: no one searches. It notices Lola's
-             hip pain is getting worse and suggests seeing a professional,
-             with Dogue Wellness's mobility assessment first in its list;
-             it is booked, and the provider gets the booking. -->
         <div class="pscene pscene--ai" data-scene="p-ai" aria-hidden="true">
           <div class="ps-glow"></div>
+          <div class="ps-code"><p class="ps-code__file">dogue-wellness.json</p><p><span class="ps-k" data-type="{"></span></p><p><span class="ps-k" data-type="  &quot;@type&quot;: "></span><span class="ps-v" data-type="&quot;Service&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;name&quot;: "></span><span class="ps-v" data-type="&quot;Mobility assessment&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;provider&quot;: "></span><span class="ps-v" data-type="&quot;Dogue Wellness&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;suitableFor&quot;: "></span><span class="ps-v" data-type="&quot;senior dogs&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;price&quot;: "></span><span class="ps-v" data-type="&quot;95 AUD&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;available&quot;: "></span><span class="ps-v" data-type="&quot;Thu 4:00pm&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;bookable&quot;: "></span><span class="ps-v" data-type="true"></span></p><p><span class="ps-k" data-type="}"></span></p></div>
           <div class="ps-phone">
             <div class="ps-screen">
               <p class="ps-agent"><span class="ps-agent__av"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>Etho</p>
-              <p class="ps-msg ps-msg--1">Lola’s hip pain is increasing. Worth checking with a professional.</p>
+              <p class="ps-q">Lola’s hip pain is increasing, worth checking with professionals.</p>
               <p class="ps-dots"><i></i><i></i><i></i></p>
-              <div class="ps-msg ps-msg--2">
-                <p>Good options near you:</p>
-                <div class="ps-opt2 ps-opt2--top"><span class="ps-th"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Mobility assessment</p><p class="ps-sub">Dogue Wellness</p></div><span class="ps-book"><i class="ps-book__a">Book</i><i class="ps-book__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></i></span></div>
-                <div class="ps-opt2"><span class="ps-th"><img src="assets/images/scenes/massage.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Massage therapy</p><p class="ps-sub">Paws &amp; Restore · Fri</p></div></div>
-                <div class="ps-opt2"><span class="ps-th"><img src="assets/images/scenes/ramp.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Pet ramp</p><p class="ps-sub">For the car and sofa</p></div></div>
+              <div class="ps-ans">
+                <div class="ps-pcard">
+                  <div class="ps-pcard__top"><span class="ps-th"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Mobility assessment</p><p class="ps-sub">Dogue Wellness · Thu 4pm</p></div></div>
+                  <span class="ps-book"><i class="ps-book__a">Book</i><i class="ps-book__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Booked</i></span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Lola booked via Etho</p><p class="ps-sub">Mobility assessment</p></div></div>
+          <span class="ps-tile ps-tile--1"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI agents</span>
+          <span class="ps-tile ps-tile--2"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI search</span>
+          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">New booking</p><p class="ps-sub">via AI agent · $95</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
