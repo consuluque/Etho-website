@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The canonical, indexable pages of etho.pet. Add a page here when it
+     goes live, and update its lastmod when its content changes. The
+     archived pages (home-v1, home-v2, shop, terms) redirect to / and stay
+     out of this list. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://etho.pet/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://etho.pet/partners</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://etho.pet/privacy</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+</urlset>

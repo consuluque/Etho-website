@@ -49,6 +49,7 @@ body {
   /* The still frame is painted here rather than by the video's poster
      attribute, so the page looks right whether or not the video runs. */
   background-image: url('../assets/images/hero-poster.jpg');
+  background-image: image-set(url('../assets/images/hero-poster.webp') type('image/webp'), url('../assets/images/hero-poster.jpg') type('image/jpeg'));
   background-size: cover;
   background-position: 50% 40%;
   background-repeat: no-repeat;

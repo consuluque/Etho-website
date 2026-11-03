@@ -248,6 +248,30 @@ release that touches a file in `js/` or `css/`:
 sed -i '' 's/?v=[0-9]*/?v=20261101/g' *.html
 ```
 
+## Search and AI discoverability
+
+```
+robots.txt   — every crawler allowed except /api/; points at the sitemap
+sitemap.xml  — the canonical, indexable URLs (/, /partners, /privacy)
+llms.txt     — a plain summary of Etho for AI assistants (optional; no
+               guarantee any engine reads it)
+```
+
+- **New page?** Give it a `<link rel="canonical">` on `https://etho.pet/…`
+  (no `.html`, no `www`), its own title, description and Open Graph tags,
+  and add it to `sitemap.xml`. Update a page's `<lastmod>` when its content
+  changes.
+- **Structured data** (JSON-LD in each page's `<head>`) must match what the
+  page shows. The FAQPage on `partners.html` repeats the FAQ answers word
+  for word: change the two together. No invented ratings, prices or address.
+- **`*.vercel.app` hosts** get `X-Robots-Tag: noindex` (`vercel.json`), so
+  only etho.pet is indexed.
+- **Share images** are `assets/images/og-home.jpg` and `og-partners.jpg`
+  (1200×630).
+- **Caching** (`vercel.json`): fonts are cached for a year (rename a font
+  file to change it); images, videos, CSS and JS for a day, then
+  revalidated in the background. CSS and JS still need the `?v=` bump below.
+
 ## Type scale
 
 Every size of running text on the landing page comes from one of five
