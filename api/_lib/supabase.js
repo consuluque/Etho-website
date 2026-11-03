@@ -14,7 +14,26 @@ function configured() {
 // Insert the row, or merge it into the row that already has this email.
 // Only the columns present in `row` are written, so a later call with
 // more fields enriches the row and a call with fewer leaves them be.
+//
+// A column added after launch (utm_term) may not exist yet if its
+// migration has not been run. Then PostgREST refuses the whole row, so
+// the row is written again without the newer columns rather than lost.
+const NEWER_COLUMNS = ['utm_term'];
+
 async function upsertLead(row) {
+  try {
+    await postLead(row);
+  } catch (err) {
+    const missing = NEWER_COLUMNS.filter((c) => c in row && String(err.detail || '').includes(c));
+    if (!missing.length) throw err;
+    console.error('[supabase] column missing, run the migration; row saved without it', { columns: missing });
+    const fallback = Object.assign({}, row);
+    missing.forEach((c) => { delete fallback[c]; });
+    await postLead(fallback);
+  }
+}
+
+async function postLead(row) {
   const base = process.env.SUPABASE_URL.replace(/\/+$/, '');
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -45,6 +64,7 @@ function attributionColumns(attribution) {
     utmMedium: 'utm_medium',
     utmCampaign: 'utm_campaign',
     utmContent: 'utm_content',
+    utmTerm: 'utm_term',
     referrer: 'referrer',
     landingPage: 'landing_page',
   };

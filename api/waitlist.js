@@ -26,16 +26,24 @@ const supabase = require('./_lib/supabase.js');
 // The off-screen field in the markup. Humans never see it; bots fill it.
 const HONEYPOT_FIELD = 'hp_field';
 
-// The custom properties created in Loops, and the longest value each
-// may carry. A URL can be long; a campaign name cannot.
+// The attribution the form sends, and the longest value each may carry.
+// A URL can be long; a campaign name cannot. All of them are custom
+// properties in Loops except those in SUPABASE_ONLY, which go to the
+// lead row alone: Loops rejects a contact carrying a property it does
+// not have, so a new field must never put a signup at risk.
 const ATTRIBUTION_FIELDS = {
   utmSource: 200,
   utmMedium: 200,
   utmCampaign: 200,
   utmContent: 200,
+  utmTerm: 200,
   referrer: 500,
   landingPage: 500,
 };
+
+// utm_term carries the Meta ad set ({{adset.id}}); the growth reports
+// read it from Supabase, so Loops has no need for it.
+const SUPABASE_ONLY = new Set(['utmTerm']);
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -111,7 +119,7 @@ module.exports = async function handler(req, res) {
 
     await loops(apiKey, 'PUT', '/contacts/update', Object.assign(
       { email: email, source: 'website', userGroup: 'lead', subscribed: true },
-      attribution,
+      forLoops(attribution),
       { mailingLists: mailingLists }
     ));
 
@@ -128,6 +136,14 @@ module.exports = async function handler(req, res) {
     return reply(failure.status, { ok: false, message: failure.message });
   }
 };
+
+function forLoops(attribution) {
+  const out = {};
+  Object.keys(attribution).forEach((key) => {
+    if (!SUPABASE_ONLY.has(key)) out[key] = attribution[key];
+  });
+  return out;
+}
 
 function pickAttribution(body) {
   const out = {};

@@ -178,7 +178,7 @@ answered OK. It listens for that on the `etho:analytics` DOM event, so
 extension; to ask again, clear `etho:consent:marketing` in localStorage.
 
 `landing.js` records first-touch attribution — the `utm_source`,
-`utm_medium`, `utm_campaign` and `utm_content` parameters, the referring
+`utm_medium`, `utm_campaign`, `utm_content` and `utm_term` parameters, the referring
 site, and the page landed on — in `localStorage` under
 `etho:attribution`, and sends it with the email. The first visit is
 recorded whatever it carries. A record without UTMs is provisional and
@@ -209,7 +209,23 @@ redeploy after adding or changing one. Mailing list IDs are in Loops
 under Audience → Mailing lists (or from `GET /api/v1/lists`). The custom contact properties the function writes —
 `utmSource`, `utmMedium`, `utmCampaign`, `utmContent`, `referrer`,
 `landingPage` — have to exist in Loops first, or Loops rejects the
-request.
+request. `utm_term` is the exception: it goes to the `utm_term` column in
+Supabase only (`supabase/migrations/20261103_waitlist_leads_utm_term.sql`),
+never to Loops, so no Loops property is needed for it. Until that
+migration has run, the lead row is written without it rather than lost.
+
+### Meta ads URL parameters
+
+Every Meta ad should carry these URL parameters (Ads Manager → the ad →
+Tracking → URL parameters), so each signup records which campaign, ad
+set and ad it came from:
+
+```
+utm_source=facebook&utm_medium=paid_social&utm_campaign={{campaign.id}}&utm_term={{adset.id}}&utm_content={{ad.id}}
+```
+
+The paid growth reports in the app repo (`growth/` in `consuluque/Etho`)
+join these to Meta's spend.
 
 ### Local preview with the function
 

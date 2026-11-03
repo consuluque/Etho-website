@@ -110,6 +110,8 @@ function initSectionViews() {
    First-touch attribution
 
    Kept in localStorage until a form sends it: the utm_* parameters on
+   (source, medium, campaign, content and term; Meta ads put the ad set
+   in utm_term)
    the URL, the page that linked in, and the page that was landed on.
    The first visit is recorded whatever it carries, so an untagged
    arrival still has its referrer and landing page. A record without
@@ -119,7 +121,7 @@ function initSectionViews() {
    at submit time.
    --------------------------------------------------------------- */
 const ATTRIBUTION_STORAGE_KEY = 'etho:attribution';
-const UTM_FIELDS = ['utmSource', 'utmMedium', 'utmCampaign', 'utmContent'];
+const UTM_FIELDS = ['utmSource', 'utmMedium', 'utmCampaign', 'utmContent', 'utmTerm'];
 const ATTRIBUTION_FIELDS = UTM_FIELDS.concat(['referrer', 'landingPage']);
 
 function hasUtms(attribution) {
@@ -150,6 +152,7 @@ function currentAttribution() {
     utmMedium: pick('utm_medium'),
     utmCampaign: pick('utm_campaign'),
     utmContent: pick('utm_content'),
+    utmTerm: pick('utm_term'),
     referrer: referrer,
     landingPage: landingPage,
     capturedAt: new Date().toISOString(),
