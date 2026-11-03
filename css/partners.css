@@ -244,7 +244,7 @@
 
 .b2b-intro {
   width: 100%;
-  padding: clamp(80px, 10vw, 140px) clamp(20px, 8.4vw, 160px) clamp(32px, 4vw, 56px);
+  padding: clamp(120px, 18vw, 240px) clamp(20px, 8.4vw, 160px) clamp(96px, 14vw, 200px);
   text-align: center;
 }
 /* The three capabilities in the line, picked out in the brand's
