@@ -71,7 +71,7 @@
 .pscene > *:not(.ps-bg) { z-index: 1; }
 .ps-bg--web2 { object-position: 50% 40%; }
 .ps-bg--web3 { object-position: 50% 60%; }
-.ps-bg--web4 { object-position: 60% 40%; }
+.ps-bg--web6 { object-position: 50% 45%; }
 
 /* -- Glass -------------------------------------------------------- */
 
@@ -645,7 +645,7 @@
   transform: scale(1.06);
   transition: opacity 1s var(--ease-out), transform 6s linear;
 }
-.ph-bg { object-position: 50% 30%; }
+.ph-bg { object-position: 0% 50%; }
 .phero.s-in .ph-bg { opacity: 1; transform: none; }
 .phero::after {
   content: '';
