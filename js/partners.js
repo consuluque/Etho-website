@@ -29,8 +29,10 @@ function initScrollWords(el) {
     queued = false;
     const rect = el.getBoundingClientRect();
     const vh = window.innerHeight;
-    const start = vh * 0.82;
-    const end = vh * 0.38;
+    // A longer stretch than the homepage's: the line is short, so it
+    // starts lighting as soon as it enters and ends above the middle.
+    const start = vh * 0.92;
+    const end = vh * 0.3;
     const span = rect.height + start - end;
     const progress = span > 0 ? (start - rect.top) / span : 1;
     const count = Math.round(Math.max(0, Math.min(1, progress)) * spans.length);

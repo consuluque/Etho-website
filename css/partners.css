@@ -259,8 +259,9 @@
           box-decoration-break: clone;
 }
 .b2b-intro__line {
-  /* Set as the homepage's story line (.story__copy in home.css). */
-  width: min(100%, 65vw);
+  /* Set as the homepage's story line (.story__copy in home.css), but
+     narrower, so it runs to three lines and the reveal has room. */
+  width: min(100%, 24em);
   margin: 0 auto;
   font-family: var(--body-font);
   font-size: var(--type-lead-lg);
@@ -272,10 +273,13 @@
 }
 /* Lit word by word on scroll (partners.js), as on the homepage. */
 .b2b-intro__line .story__word {
-  color: rgba(50, 48, 49, 0.34);
+  color: rgba(50, 48, 49, 0.16);
   transition: color 260ms var(--ease);
 }
 .b2b-intro__line .story__word.is-lit { color: var(--ink); }
+/* Each yellow pill fills in as its first word lights. */
+.b2b-intro__line[data-scroll-words] mark { background: rgba(255, 246, 196, 0.35); transition: background 400ms var(--ease); }
+.b2b-intro__line[data-scroll-words] mark:has(.is-lit) { background: var(--accent2); }
 
 /* ---------------------------------------------------------------
    Value points: large blocks, text on one side and an animation on
