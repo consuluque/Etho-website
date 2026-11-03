@@ -291,7 +291,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(24px, 3vw, 40px);
-  padding: clamp(24px, 4vw, 56px) clamp(16px, 4vw, 64px) clamp(80px, 10vw, 140px);
+  padding: clamp(40px, 6vw, 96px) clamp(16px, 4vw, 64px) clamp(80px, 10vw, 140px);
 }
 /* After me&u: each value is a large white card that pins below the
    nav as it reaches the top, so the next one slides up over it.
