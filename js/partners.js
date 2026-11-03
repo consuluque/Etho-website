@@ -1,5 +1,5 @@
-/* partners.html only: the intro line, the hero's storefront scene, the
-   stacking value cards and their animations. */
+/* partners.html only: the intro line, the Typeform popup, the hero's
+   scene, the stacking value cards and their animations. */
 
 /* The intro line lights word by word as it scrolls up the screen, as
    the homepage's story paragraph does (home.js). Words inside the
@@ -29,8 +29,10 @@ function initScrollWords(el) {
     queued = false;
     const rect = el.getBoundingClientRect();
     const vh = window.innerHeight;
-    const start = vh * 0.82;
-    const end = vh * 0.38;
+    // A longer stretch than the homepage's: the line is short, so it
+    // starts lighting as soon as it enters and ends above the middle.
+    const start = vh * 0.92;
+    const end = vh * 0.3;
     const span = rect.height + start - end;
     const progress = span > 0 ? (start - rect.top) / span : 1;
     const count = Math.round(Math.max(0, Math.min(1, progress)) * spans.length);
@@ -48,6 +50,54 @@ function initScrollWords(el) {
   measure();
 }
 document.querySelectorAll('[data-scroll-words]').forEach(initScrollWords);
+
+/* "Grow with us" opens the partner Typeform in a popup over the page.
+   Typeform's embed script loads on the first click (nothing from them
+   loads before), and is warmed up on hover or touch. If it can't load,
+   or takes over 4s, the button falls back to its link: the form in a
+   new tab. */
+const TYPEFORM_ID = 'IHpQVqhu';
+let typeformReady = null;
+function loadTypeform() {
+  if (!typeformReady) {
+    typeformReady = new Promise((resolve, reject) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://embed.typeform.com/next/css/popup.css';
+      document.head.append(css);
+      const js = document.createElement('script');
+      js.src = 'https://embed.typeform.com/next/embed.js';
+      js.async = true;
+      js.onload = () => (window.tf && window.tf.createPopup ? resolve(window.tf) : reject());
+      js.onerror = reject;
+      document.head.append(js);
+    });
+    typeformReady.catch(() => { typeformReady = null; });
+  }
+  return typeformReady;
+}
+document.querySelectorAll('[data-typeform]').forEach((link) => {
+  const warm = () => { loadTypeform().catch(() => {}); };
+  link.addEventListener('pointerenter', warm, { once: true });
+  link.addEventListener('touchstart', warm, { once: true, passive: true });
+  link.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    let done = false;
+    const fallback = () => {
+      if (done) return;
+      done = true;
+      window.open(link.href, '_blank', 'noopener');
+    };
+    const timer = setTimeout(fallback, 4000);
+    loadTypeform().then((tf) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      tf.createPopup(TYPEFORM_ID, { size: 90 }).open();
+    }).catch(() => { clearTimeout(timer); fallback(); });
+  });
+});
 
 /* The value cards stack (partners.css): as the next card rises over a
    pinned one, the pinned one shrinks back and dims a touch. --cover
@@ -161,69 +211,66 @@ if (window.EthoScenes) {
     finalState({ on }) { on('app', 'sheet', 'store'); },
   });
 
+  // The hero. Today's book at Dogue Spa, live. Etho spots two open slots
+  // this afternoon and suggests a plan in the provider's own rules: the
+  // service, the dogs it suits (large, high energy), new customers only,
+  // when, and the offer. The provider adds Huskies and approves; back on
+  // today's book, the slots fill with two new customers.
   S.define('p-hero', {
-    loopAt: 15500,
-    script({ at, on, root }) {
-      const [price, disc] = root.querySelectorAll('.ph-page--offer [data-scene-count]');
+    loopAt: 14200,
+    script({ at, on }) {
       at(200, () => on('in'));
-      at(2300, () => on('t2'));
-      at(3700, () => on('t3'));
-      at(4400, () => on('bundle'));
-      at(6000, () => on('p2'));
-      at(6800, () => {
-        on('disc');
-        countUp(root, disc, 30, 1100, (n) => n + '%');
-        countUp(root, price, 30, 1100, (n) => '$' + (100 - n));
-      });
-      at(8000, () => on('days'));
-      at(8800, () => on('live'));
-      at(10200, () => on('p3'));
-      at(10800, () => on('q'));
-      at(11700, () => on('ans'));
-      at(12400, () => on('checks'));
-      at(14900, () => on('out'));
+      at(1500, () => on('gap'));
+      at(3300, () => on('p2'));
+      [3800, 4150, 4500, 4850, 5200].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
+      at(6500, () => on('edit'));
+      at(7700, () => on('ok'));
+      at(8900, () => on('p3'));
+      at(9600, () => on('m1'));
+      at(10300, () => on('m2'));
+      at(11000, () => on('done'));
+      at(13500, () => on('out'));
     },
-    finalState({ on, root }) {
-      on('in', 'p3', 'q', 'ans', 'checks');
-    },
+    finalState({ on }) { on('in', 'gap', 'p2', 'r1', 'r2', 'r3', 'r4', 'r5', 'edit', 'ok', 'p3', 'm1', 'm2', 'done'); },
   });
 
+  // Fill the gaps: a 45-minute cancellation becomes one discounted slot
+  // for a small, short-coated dog, live until 2pm, and it is booked.
   S.define('p-capacity', {
-    loopAt: 9600,
-    script({ at, on, root }) {
-      const num = root.querySelector('.ps-stat .ps-num');
+    loopAt: 10600,
+    script({ at, on }) {
       at(200, () => on('in'));
-      at(1700, () => on('live'));
-      at(3200, () => on('fill1'));
-      at(4300, () => on('fill2'));
-      at(5000, () => { on('stat'); countUp(root, num, 140, 1100, (n) => '+' + money(n)); });
-      at(8900, () => on('out'));
+      at(1300, () => on('cancel'));
+      at(2400, () => on('ctl'));
+      [3000, 3450, 3900, 4350, 4800].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
+      at(5800, () => on('live'));
+      at(7200, () => on('booked'));
+      at(9900, () => on('out'));
     },
-    finalState({ on, root }) {
-      on('in', 'live', 'fill1', 'fill2', 'stat');
-      root.querySelector('.ps-stat .ps-num').textContent = '+$140';
-    },
+    finalState({ on }) { on('in', 'cancel', 'ctl', 'r1', 'r2', 'r3', 'r4', 'r5', 'live', 'booked'); },
   });
 
   // 2 — Grow each booking. A daycare booking comes in; Etho suggests
   // add-ons, one is taken and the total climbs; the average booking
   // value rises, and boarding is booked alongside.
+  // Make every booking worth more: at checkout for a $220 puppy course,
+  // Etho suggests a $45 starter kit and an optional follow-up; the kit
+  // goes in and the total and the average transaction value count up.
   S.define('p-basket', {
     loopAt: 9600,
     script({ at, on, root }) {
-      const total = root.querySelector('.ps-total b');
+      const total = root.querySelector('.ps-cart__total b');
       const avg = root.querySelector('.ps-stat .ps-num');
       at(200, () => on('in'));
-      at(1400, () => on('sug'));
-      at(2900, () => { on('add1'); countUp(root, { set textContent(v) { total.textContent = v; } }, 15, 700, (n) => money(65 + n)); });
-      at(4100, () => { on('stat'); countUp(root, avg, 23, 1000, (n) => '+' + n + '%'); });
-      at(5400, () => on('cross'));
+      at(1500, () => on('sug'));
+      at(3300, () => { on('kit'); countUp(root, total, 45, 800, (n) => money(220 + n)); });
+      at(4600, () => { on('stat'); countUp(root, avg, 20, 1000, (n) => '+' + n + '%'); });
       at(8900, () => on('out'));
     },
     finalState({ on, root }) {
-      on('in', 'sug', 'add1', 'stat', 'cross');
-      root.querySelector('.ps-total b').textContent = '$80';
-      root.querySelector('.ps-stat .ps-num').textContent = '+23%';
+      on('in', 'sug', 'kit', 'stat');
+      root.querySelector('.ps-cart__total b').textContent = '$265';
+      root.querySelector('.ps-stat .ps-num').textContent = '+20%';
     },
   });
 
@@ -242,36 +289,37 @@ if (window.EthoScenes) {
       at(1100, () => on('q'));
       at(2100, () => on('think'));
       at(3300, () => on('ans'));
-      at(4300, () => on('tiles'));
       at(5600, () => on('booked'));
       at(6100, () => on('toast'));
       at(9300, () => on('out'));
     },
-    finalState({ on }) { on('in', 'q', 'ans', 'tiles', 'booked', 'toast'); },
+    finalState({ on }) { on('in', 'q', 'ans', 'booked', 'toast'); },
   });
 
   // 4 — Get loyal customers. A five-session pack paid upfront, four
   // sessions in; the month's prepaid revenue, repeat rate and rebookings
   // count up, and a rebooking arrives.
+  // More ways to say yes: Cooper's parent moves from a single day to the
+  // 8-day pass (free same-day pick-up), splits it into 4 payments, and
+  // the provider sees eight visits booked ahead.
   S.define('p-retention', {
-    loopAt: 9600,
+    loopAt: 9800,
     script({ at, on, root }) {
-      const nums = root.querySelectorAll('.ps-tl .ps-num');
+      const each = root.querySelector('.ps-cta [data-scene-count]');
+      const ahead = root.querySelector('.ps-stat [data-scene-count]');
       at(200, () => on('in'));
-      at(1000, () => on('paid'));
-      at(2300, () => on('brief'));
-      at(2700, () => {
-        countUp(root, nums[0], 4250, 1300, money);
-        countUp(root, nums[1], 68, 1300, (n) => n + '%');
-        countUp(root, nums[2], 12, 1300, String);
-      });
-      at(5200, () => on('toast'));
-      at(8900, () => on('out'));
+      at(1400, () => { on('o2'); each.textContent = '$234'; });
+      at(2300, () => { on('o3'); each.textContent = '$440'; });
+      at(3500, () => { on('split'); countUp(root, each, 330, 800, (n) => '$' + (440 - n)); });
+      at(4900, () => on('done'));
+      at(5600, () => { on('stat'); countUp(root, ahead, 8, 900, String); });
+      at(6400, () => on('toast'));
+      at(9100, () => on('out'));
     },
     finalState({ on, root }) {
-      on('in', 'paid', 'brief', 'toast');
-      const nums = root.querySelectorAll('.ps-tl .ps-num');
-      nums[0].textContent = '$4,250'; nums[1].textContent = '68%'; nums[2].textContent = '12';
+      on('in', 'o2', 'o3', 'split', 'done', 'stat', 'toast');
+      root.querySelector('.ps-cta [data-scene-count]').textContent = '$110';
+      root.querySelector('.ps-stat [data-scene-count]').textContent = '8';
     },
   });
 }

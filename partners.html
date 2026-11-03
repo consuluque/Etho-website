@@ -16,8 +16,8 @@
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/consent.css?v=20261026b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
-<link rel="stylesheet" href="css/partners.css?v=20261101i">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261101j">
+<link rel="stylesheet" href="css/partners.css?v=20261103c">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261103g">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -36,7 +36,7 @@
   <!-- 1 — Hero ---------------------------------------------------------- -->
   <!-- The pitch on the left; on the right, one storefront card telling
        Etho's story for providers (partners.js). The button opens the partner
-       intake form (Typeform). -->
+       intake form (Typeform) in a popup (partners.js). -->
   <section id="top" class="hero hero--b2b on-dark" data-section="partners_hero">
     <div class="b2b-hero__copy">
       <h1 class="hero-title">A smarter way to grow your pet business</h1>
@@ -44,52 +44,37 @@
       <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
       <p class="hero-sub b2b-hero__zero">Zero new software <span aria-hidden="true">·</span> Zero new process change <span aria-hidden="true">·</span> Zero marketing costs</p>
     </div>
-    <!-- One large glass storefront over a photo, telling three stories
-         in turn: the storefront (services, products, a bundle), offer
-         controls, and AI discoverability. A caption pill names each.
-         Run by scenes.js (p-hero in partners.js). -->
+    <!-- One glass card over a photo: today's book at Dogue Spa, live.
+         Etho spots two open slots this afternoon, suggests a plan in the
+         provider's own rules (service, the dogs it suits, new customers
+         only, when, the offer), the provider adds a breed and approves,
+         and the same afternoon fills with two new customers. Run by
+         scenes.js (p-hero in partners.js). -->
     <div class="b2b-panels" aria-hidden="true">
       <div class="pscene phero" data-scene="p-hero">
-        <img class="ph-bg ph-bg--1" src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
-        <img class="ph-bg ph-bg--2" src="assets/images/partners/stay.webp" alt="" loading="lazy" decoding="async">
-        <img class="ph-bg ph-bg--3" src="assets/images/partners/hydro.webp" alt="" loading="lazy" decoding="async">
+        <img class="ph-bg" src="assets/images/partners/web4b.webp" alt="" loading="lazy" decoding="async">
         <div class="ph-card">
-          <div class="ph-page ph-page--store">
-            <div class="ph-head"><span class="ph-logo"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-title">Dogue Spa</p><p class="ph-sub">★ 4.9 · Bondi</p></div></div>
-            <div class="ph-tabs"><span class="ph-tab ph-tab--1">Services</span><span class="ph-tab ph-tab--2">Products</span><span class="ph-tab ph-tab--3">Bundles</span><i class="ph-tabbar"></i></div>
-            <div class="ph-lists">
-              <div class="ph-list ph-list--1"><div class="ph-row"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Wash &amp; Dry</p><p class="ph-sub">60 min</p></div><b>$100</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Full groom</p><p class="ph-sub">2 hrs</p></div><b>$140</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Nail &amp; ear care</p><p class="ph-sub">20 min</p></div><b>$25</b></div></div>
-              <div class="ph-list ph-list--2"><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/brush.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Deshedding brush</p><p class="ph-sub">In stock</p></div><b>$39</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/shampoo.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Oat shampoo</p><p class="ph-sub">In stock</p></div><b>$28</b></div><div class="ph-row"><span class="ph-th"><img src="assets/images/scenes/ear.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Ear cleaner</p><p class="ph-sub">In stock</p></div><b>$24.50</b></div></div>
-              <div class="ph-list ph-list--3">
-                <div class="ph-bundle">
-                  <div class="ph-bundle__top"><p class="ph-name">Spa day</p><span class="ph-save">Save $25</span></div>
-                  <p class="ph-sub">Wash &amp; Dry + teeth cleaning + post-groom photo</p>
-                  <div class="ph-bundle__imgs"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><span class="ph-th"><img src="assets/images/scenes/dental.webp" alt="" loading="lazy" decoding="async"></span><span class="ph-th"><img src="assets/images/scenes/pet-portrait.webp" alt="" loading="lazy" decoding="async"></span></div>
-                  <div class="ph-bundle__foot"><p class="ph-price"><s>$160</s> $135</p><span class="ph-toggle ph-toggle--bundle"></span></div>
-                </div>
-              </div>
-            </div>
+          <div class="ph-page ph-page--day">
+            <div class="ph-dayhead"><p class="ph-title">Today</p><span class="ph-pulse"><i></i>Live</span></div>
+            <div class="ph-slot "><span class="ph-slot__t">9:00</span><p>Full groom</p><b>Max</b></div>
+            <div class="ph-slot "><span class="ph-slot__t">10:30</span><p>Wash &amp; Dry</p><b>Coco</b></div>
+            <div class="ph-slot "><span class="ph-slot__t">12:00</span><p>Nail care</p><b>Pip</b></div>
+            <div class="ph-slot ph-slot--open ph-slot--a"><span class="ph-slot__t">2:30</span><p><i class="ph-open">Open</i><i class="ph-who">Rocky · Kelpie <em>New</em></i></p><b></b></div>
+            <div class="ph-slot ph-slot--open ph-slot--b"><span class="ph-slot__t">4:00</span><p><i class="ph-open">Open</i><i class="ph-who">Juno · Husky <em>New</em></i></p><b></b></div>
+            <p class="ph-note"><span class="ph-note__a"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>2 open slots this afternoon</span><span class="ph-note__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>2 new customers today</span></p>
           </div>
-          <div class="ph-page ph-page--offer">
-            <p class="ph-kicker">Offer · Wash &amp; Dry</p>
-            <p class="ph-big"><s>$100</s> <span data-scene-count>$100</span></p>
-            <div class="ph-ctl"><p>Discount</p><b data-scene-count>0%</b></div>
-            <div class="ph-slider"><i></i><em></em></div>
-            <div class="ph-ctl"><p>When</p><b>Mornings</b></div>
-            <div class="ph-days"><span>Mon</span><span class="ph-day">Tue</span><span class="ph-day">Wed</span><span>Thu</span><span>Fri</span></div>
-            <div class="ph-live"><div><p class="ph-name">Offer live</p><p class="ph-sub ph-live__sub">Shown to pet parents nearby</p></div><span class="ph-toggle ph-toggle--live"></span></div>
-          </div>
-          <div class="ph-page ph-page--ai">
-            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Visible to AI agents</p>
-            <p class="ph-q">Groomer near Bondi with a free Tuesday morning?</p>
-            <div class="ph-answer">
-              <span class="ph-rec"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Recommended</span>
-              <div class="ph-row"><span class="ph-th"><img class="sx-groom" src="assets/images/scenes/groom.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ph-name">Dogue Spa</p><p class="ph-sub">Wash &amp; Dry · Tue 10:30</p></div><b>$70</b></div>
-            </div>
-            <ul class="ph-checks"><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Listed in AI search</li><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Bookable by agents</li><li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Offers kept up to date</li></ul>
+
+          <div class="ph-page ph-page--plan">
+            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested by Etho</p>
+            <p class="ph-title ph-plan__title">Fill this afternoon</p>
+            <div class="ph-rule ph-rule--1"><p class="ph-label">Service</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Full groom</span></div></div>
+            <div class="ph-rule ph-rule--2"><p class="ph-label">Dogs</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Large dogs</span><span class="ph-chip ph-chip--on">High energy</span><span class="ph-chip ph-chip--add">Husky</span></div></div>
+            <div class="ph-rule ph-rule--3"><p class="ph-label">Who</p><div class="ph-chips"><span class="ph-chip ph-chip--on">New customers</span></div></div>
+            <div class="ph-rule ph-rule--4"><p class="ph-label">When</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Today 2:30 &amp; 4:00</span></div></div>
+            <div class="ph-rule ph-rule--5"><p class="ph-label">Offer</p><div class="ph-chips"><span class="ph-chip ph-chip--on">20% off first visit</span></div></div>
+            <div class="ph-confirm"><span class="ph-confirm__a">Approve</span><span class="ph-confirm__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Live</span></div>
           </div>
         </div>
-        <p class="ph-caption"><span class="ph-cap ph-cap--1">Your storefront</span><span class="ph-cap ph-cap--2">Offer controls</span><span class="ph-cap ph-cap--3">AI discoverability</span></p>
         <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
       </div>
     </div>
@@ -107,58 +92,70 @@
   <section class="b2b-features" data-section="partners_features">
     <article class="b2b-feature" data-stack id="capacity">
       <div class="b2b-feature__text">
-        <h3>Fill quiet periods</h3>
+        <h3>Fill the gaps</h3>
         <p>More bookings at the right times.</p>
-        <p class="b2b-feature__desc">Turn unused capacity into revenue with flexible offers you control, shown to pet parents most likely to book.</p>
+        <p class="b2b-feature__desc">Turn unused capacity into revenue with targeted, time-limited offers that respect your operational constraints.</p>
       </div>
       <div class="b2b-feature__media" data-media="capacity">
+        <!-- A 45-minute cancellation, just long enough for a small dog.
+             The groomer opens that one slot at a discount, for small,
+             short-coated dogs, bookable until 2pm today; Etho shows it
+             only to eligible pet parents, and it is booked. -->
         <div class="pscene pscene--capacity" data-scene="p-capacity" aria-hidden="true">
-          <img class="ps-bg" src="assets/images/partners/groom.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-slots">
-            <p class="ps-cap">Tuesday · Morning</p>
-            <div class="ps-slot"><span>9:00</span><b class="ps-st">Booked</b></div>
-            <div class="ps-slot ps-slot--open ps-slot--1"><span>10:30</span><b class="ps-st"><i class="ps-open">Open</i><i class="ps-who"><em class="ps-av">C</em>Cooper</i></b></div>
-            <div class="ps-slot ps-slot--open ps-slot--2"><span>11:30</span><b class="ps-st"><i class="ps-open">Open</i><i class="ps-who"><em class="ps-av">L</em>Luna</i></b></div>
-            <div class="ps-slot"><span>1:00</span><b class="ps-st">Booked</b></div>
+          <img class="ps-bg ps-bg--web2" src="assets/images/partners/web2.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-glass ps-day">
+            <p class="ps-cap">Today</p>
+            <div class="ps-appt"><span>10:30</span><p>Full groom</p><b>Booked</b></div>
+            <div class="ps-appt ps-appt--gap">
+              <span>12:15</span>
+              <p class="ps-gap__name"><i class="ps-gap__was">Mini wash</i><i class="ps-gap__free">45 min free</i><i class="ps-gap__who"><em class="ps-av">B</em>Bella</i></p>
+              <b class="ps-gap__st"><i class="ps-gap__was">Booked</i><i class="ps-gap__x">Cancelled</i><i class="ps-gap__ok">Booked</i></b>
+            </div>
+            <div class="ps-appt"><span>1:00</span><p>Wash &amp; tidy</p><b>Booked</b></div>
           </div>
-          <div class="ps-glass ps-offer">
-            <div class="ps-offer__top"><div><p class="ps-cap">Off-peak offer</p><p class="ps-h">30% off quiet mornings</p></div><span class="ps-toggle"></span></div>
-            <p class="ps-sub"><span class="ps-sub__off">Paused</span><span class="ps-sub__on"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Live · shown to 240 pet parents nearby</span></p>
+          <div class="ps-glass ps-ctl">
+            <p class="ps-cap">Open this slot</p>
+            <p class="ps-h">12:15 to 1:00 today</p>
+            <div class="ps-rules">
+              <div class="ps-rule ps-rule--1"><span>Size</span><b>Small · short coat</b></div>
+              <div class="ps-rule ps-rule--2"><span>Duration</span><b>45 min</b></div>
+              <div class="ps-rule ps-rule--3"><span>Bookable until</span><b>2pm today</b></div>
+              <div class="ps-rule ps-rule--4"><span>Bookings</span><b>1</b></div>
+              <div class="ps-rule ps-rule--5"><span>Discount</span><b class="ps-rule__y">25% off</b></div>
+            </div>
+            <div class="ps-live"><div><p class="ps-h">Offer live</p><p class="ps-sub">Shown to eligible pet parents</p></div><span class="ps-toggle"></span></div>
           </div>
-          <div class="ps-glass ps-stat">
-            <p class="ps-cap">Quiet morning filled</p>
-            <p class="ps-num" data-scene-count>$0</p>
-          </div>
+          <div class="ps-glass ps-toast ps-toast--gap"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Bella booked 12:15</p><p class="ps-sub">Jack Russell · Mini wash · $45</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
     </article>
     <article class="b2b-feature b2b-feature--flip" data-stack id="basket">
       <div class="b2b-feature__text">
-        <h3>Grow each booking</h3>
+        <h3>Make every booking worth more</h3>
         <p>A little extra goes a long way.</p>
-        <p class="b2b-feature__desc">Increase booking value with personalised add-ons and complementary services recommended at the right moment.</p>
+        <p class="b2b-feature__desc">Increase transaction value with relevant add&#8209;ons, complementary services and products.</p>
       </div>
       <div class="b2b-feature__media" data-media="basket">
+        <!-- A puppy school booking becomes a starter package. At checkout
+             for a $220 course, Etho suggests a $45 starter kit (treats,
+             a clicker, enrichment toys) at a bundle price, and an optional
+             follow-up session; the kit is added and the total grows. -->
         <div class="pscene pscene--basket" data-scene="p-basket" aria-hidden="true">
-          <img class="ps-bg ps-bg--daycare" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-up">
-            <p class="ps-cap">New booking · Cooper</p>
-            <div class="ps-line"><span class="ps-th"><img class="ps-th--daycare" src="assets/images/scenes/dog-training.webp" alt="" loading="lazy" decoding="async"></span><p>Full-day daycare</p><b>$65</b></div>
+          <img class="ps-bg ps-bg--web3" src="assets/images/partners/web3.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-glass ps-cart">
+            <p class="ps-cap">Milo’s booking</p>
+            <div class="ps-item ps-item--on"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Puppy school</p><p class="ps-item__sub">6 weeks</p></div><b>$220</b></div>
             <div class="ps-sugg">
-              <p class="ps-cap ps-cap--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested for Cooper</p>
-              <div class="ps-line ps-add ps-add--1"><p>Enrichment play</p><b>+$15</b><span class="ps-chip"><i class="ps-chip__a">Add</i><i class="ps-chip__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Added</i></span></div>
-              <div class="ps-line ps-add ps-add--2"><p>One-on-one training</p><b>+$25</b><span class="ps-chip"><i class="ps-chip__a">Add</i></span></div>
+              <p class="ps-sugg__cap"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested for Milo</p>
+              <div class="ps-item ps-item--kit"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Starter kit</p><p class="ps-item__sub">Treats, clicker, toys</p></div><b><s>$62</s> $45</b></div>
+              <div class="ps-item ps-item--follow"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Follow-up session</p><p class="ps-item__sub">Optional</p></div><b>$60</b></div>
             </div>
-            <div class="ps-total"><p>Booking total</p><b data-scene-count>$65</b></div>
+            <div class="ps-cart__total"><p>Total</p><b data-scene-count>$220</b></div>
           </div>
           <div class="ps-glass ps-stat">
-            <p class="ps-cap">Avg. booking value</p>
+            <p class="ps-cap">Avg. transaction value</p>
             <p class="ps-num" data-scene-count>+0%</p>
-          </div>
-          <div class="ps-glass ps-cross">
-            <span class="ps-th"><img class="ps-th--bed" src="assets/images/scenes/hotel-bed.webp" alt="" loading="lazy" decoding="async"></span>
-            <div><p class="ps-cap">Also booked</p><p class="ps-h">Christmas boarding</p><p class="ps-sub">3 nights · $255</p></div>
           </div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
@@ -176,21 +173,17 @@
           <div class="ps-code"><p class="ps-code__file">dogue-wellness.json</p><p><span class="ps-k" data-type="{"></span></p><p><span class="ps-k" data-type="  &quot;@type&quot;: "></span><span class="ps-v" data-type="&quot;Service&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;name&quot;: "></span><span class="ps-v" data-type="&quot;Mobility assessment&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;provider&quot;: "></span><span class="ps-v" data-type="&quot;Dogue Wellness&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;suitableFor&quot;: "></span><span class="ps-v" data-type="&quot;senior dogs&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;price&quot;: "></span><span class="ps-v" data-type="&quot;95 AUD&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;available&quot;: "></span><span class="ps-v" data-type="&quot;Thu 4:00pm&quot;,"></span></p><p><span class="ps-k" data-type="  &quot;bookable&quot;: "></span><span class="ps-v" data-type="true"></span></p><p><span class="ps-k" data-type="}"></span></p></div>
           <div class="ps-phone">
             <div class="ps-screen">
-              <p class="ps-q">Best mobility help for my senior greyhound near Bondi?</p>
+              <p class="ps-agent"><span class="ps-agent__av"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg></span>Etho</p>
+              <p class="ps-q">Lola’s hip pain is increasing, worth checking with professionals.</p>
               <p class="ps-dots"><i></i><i></i><i></i></p>
               <div class="ps-ans">
-                <p class="ps-ans__lead"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>A mobility assessment is a good first step. Nearby:</p>
                 <div class="ps-pcard">
-                  <div class="ps-pcard__top"><span class="ps-th"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Dogue Wellness</p><p class="ps-sub">★ 4.9 · 1.2 km</p></div></div>
-                  <p class="ps-pcard__svc">Mobility assessment · $95</p>
-                  <p class="ps-sub">Next: Thu 4:00pm</p>
+                  <div class="ps-pcard__top"><span class="ps-th"><img class="sx-focus-hydro" src="assets/images/scenes/hydro.webp" alt="" loading="lazy" decoding="async"></span><div><p class="ps-h">Mobility assessment</p><p class="ps-sub">Dogue Wellness · Thu 4pm</p></div></div>
                   <span class="ps-book"><i class="ps-book__a">Book</i><i class="ps-book__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Booked</i></span>
                 </div>
               </div>
             </div>
           </div>
-          <span class="ps-tile ps-tile--1"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI agents</span>
-          <span class="ps-tile ps-tile--2"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>AI search</span>
           <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">New booking</p><p class="ps-sub">via AI agent · $95</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
@@ -199,28 +192,30 @@
     <article class="b2b-feature b2b-feature--flip" data-stack id="retention">
       <div class="b2b-feature__text">
         <h3>Get loyal customers</h3>
-        <p>Get paid earlier. Keep them coming back.</p>
+        <p>More ways to say yes.</p>
         <p class="b2b-feature__desc">Offer personalised payment packages, encourage repeat visits and follow-up services.</p>
       </div>
       <div class="b2b-feature__media" data-media="retention">
+        <!-- More ways to say yes: Cooper's parent picks how to pay for
+             daycare. The 8-day pass comes with free same-day pick-up;
+             they choose it, split it into 4 payments, and the provider
+             sees eight visits booked ahead. -->
         <div class="pscene pscene--retention" data-scene="p-retention" aria-hidden="true">
-          <img class="ps-bg ps-bg--puppy" src="assets/images/scenes/trained-puppy.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-pack">
-            <p class="ps-cap">Puppy School · 5-pack</p>
-            <p class="ps-big">$250</p>
-            <span class="ps-paid"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Paid upfront</span>
-            <div class="ps-dots5"><i></i><i></i><i></i><i></i><i></i></div>
-            <p class="ps-sub">4 of 5 sessions done</p>
+          <img class="ps-bg ps-bg--web6" src="assets/images/partners/web6.webp" alt="" loading="lazy" decoding="async">
+          <div class="ps-glass ps-pay">
+            <p class="ps-cap">Daycare for Cooper</p>
+            <p class="ps-h ps-pay__title">Make Wednesdays Cooper’s day</p>
+            <div class="ps-opt ps-opt--1"><span class="ps-radio"></span><div><p>Single day</p></div><b>$65</b></div>
+            <div class="ps-opt ps-opt--2"><span class="ps-radio"></span><div><p>4-visit pass</p><p class="ps-item__sub">Save 10%</p></div><b>$234</b></div>
+            <div class="ps-opt ps-opt--3"><span class="ps-radio"></span><div><p>8-day pass <em class="ps-tag ps-tag--y">Free pick-up</em></p><p class="ps-item__sub">Same-day pick-up · Save 15%</p></div><b>$440</b></div>
+            <div class="ps-seg"><span class="ps-seg__a">Pay now</span><span class="ps-seg__b">Pay in 4</span><i></i></div>
+            <div class="ps-cta"><span class="ps-cta__a">Pay <b data-scene-count>$65</b><em class="ps-cta__x">&nbsp;× 4</em></span><span class="ps-cta__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Pass active</span></div>
           </div>
-          <div class="ps-glass ps-brief">
-            <p class="ps-h">This month</p>
-            <div class="ps-tiles">
-              <div class="ps-tl"><p class="ps-cap">Prepaid revenue</p><p class="ps-num" data-scene-count>$0</p></div>
-              <div class="ps-tl"><p class="ps-cap">Repeat customers</p><p class="ps-num" data-scene-count>0%</p></div>
-              <div class="ps-tl"><p class="ps-cap">Rebooked</p><p class="ps-num" data-scene-count>0</p></div>
-            </div>
+          <div class="ps-glass ps-stat ps-stat--ret">
+            <p class="ps-cap">Booked ahead</p>
+            <p class="ps-num"><span data-scene-count>0</span> visits</p>
           </div>
-          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Cooper rebooked</p><p class="ps-sub">Puppy masterclass · $180</p></div></div>
+          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Cooper’s pass</p><p class="ps-sub">Wed 8am · pick-up 7:30</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
@@ -236,11 +231,11 @@
   <section class="b2b-demo" id="demo" data-section="partners_demo">
     <div class="b2b-demo__text">
       <h2 class="b2b-section__title">How it works</h2>
-      <p class="b2b-demo__sub">Pet parents find your offers, then everything you do, in one place.</p>
+      <p class="b2b-demo__sub">Turn first impressions into lasting relationships.</p>
       <ol class="b2b-demo__steps">
-        <li data-demo-step="1">Your offer appears on their home</li>
-        <li data-demo-step="2">They open your storefront</li>
-        <li data-demo-step="3">Offers this week, services, bundles, products and your team</li>
+        <li data-demo-step="1">Get discovered through targeted offers.</li>
+        <li data-demo-step="2">Turn interest into storefront visits.</li>
+        <li data-demo-step="3">Drive more bookings with services, bundles and add-ons.</li>
       </ol>
     </div>
     <div class="b2b-demo__phone">
@@ -401,6 +396,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261002"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261101i"></script>
+<script src="js/partners.js?v=20261103a"></script>
 </body>
 </html>
