@@ -455,7 +455,7 @@
 .b2b-faq__icon::after { transform: rotate(90deg); }
 .b2b-faq__item[open] .b2b-faq__icon::after { transform: rotate(0); }
 .b2b-faq__item p {
-  max-width: 62ch;
+  max-width: 92ch;
   margin: -6px 0 0;
   padding: 0 56px 26px 0;
   font-family: var(--body-font);
