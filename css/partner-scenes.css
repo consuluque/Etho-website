@@ -645,7 +645,7 @@
   transform: scale(1.06);
   transition: opacity 1s var(--ease-out), transform 6s linear;
 }
-.ph-bg { object-position: 0% 50%; }
+.ph-bg { object-position: 20% 50%; }
 .phero.s-in .ph-bg { opacity: 1; transform: none; }
 .phero::after {
   content: '';
