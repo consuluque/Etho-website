@@ -268,6 +268,9 @@ llms.txt     — a plain summary of Etho for AI assistants (optional; no
   only etho.pet is indexed.
 - **Share images** are `assets/images/og-home.jpg` and `og-partners.jpg`
   (1200×630).
+- **Fonts** are all self-hosted in `assets/fonts/` (no Google Fonts
+  request): Soyuz Grotesk, and Manrope as the variable font Google serves,
+  declared at the top of `css/styles.css` and `css/coming-soon.css`.
 - **Caching** (`vercel.json`): fonts are cached for a year (rename a font
   file to change it); images, videos, CSS and JS for a day, then
   revalidated in the background. CSS and JS still need the `?v=` bump below.
