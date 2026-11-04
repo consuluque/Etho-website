@@ -4,14 +4,95 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Etho — Give them more of the good life</title>
-<meta name="description" content="Personalised wellbeing for your dog, with better ways to care for them.">
+<meta name="description" content="Personalised wellbeing for your dog. Discover grooming, training, daycare and dog-friendly experiences picked for your dog, with exclusive benefits. Join the Etho waitlist.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://etho.pet/">
+<meta name="theme-color" content="#323031">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Etho">
+<meta property="og:locale" content="en_AU">
+<meta property="og:url" content="https://etho.pet/">
+<meta property="og:title" content="Etho — Give them more of the good life">
+<meta property="og:description" content="Personalised wellbeing for your dog. Discover care, experiences and exclusive benefits picked for your dog.">
+<meta property="og:image" content="https://etho.pet/assets/images/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Etho wordmark over a grey dog in warm daylight">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Etho — Give them more of the good life">
+<meta name="twitter:description" content="Personalised wellbeing for your dog. Discover care, experiences and exclusive benefits picked for your dog.">
+<meta name="twitter:image" content="https://etho.pet/assets/images/og-home.jpg">
+<!-- Structured data: who Etho is, for search engines and AI assistants.
+     Keep it to what the site says; no ratings, prices or street address. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://etho.pet/#organization",
+      "name": "Etho",
+      "legalName": "Etho Pty Ltd",
+      "url": "https://etho.pet/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://etho.pet/assets/images/etho%20logo%20dark.png",
+        "width": 276,
+        "height": 76
+      },
+      "email": "maria@etho.pet",
+      "description": "Etho is a pet services marketplace being built in Sydney, Australia. It helps dog owners discover personalised care, services, experiences and exclusive benefits, and helps pet service providers such as groomers, dog daycares, trainers and wellness therapists attract customers, fill unused capacity and become discoverable and bookable by AI agents.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sydney",
+        "addressRegion": "NSW",
+        "addressCountry": "AU"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Sydney",
+        "containedInPlace": { "@type": "Country", "name": "Australia" }
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "maria@etho.pet",
+        "areaServed": "AU",
+        "availableLanguage": "en"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/etho.pet/",
+        "https://www.instagram.com/etho.pet",
+        "https://www.facebook.com/profile.php?id=61593629438506"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://etho.pet/#website",
+      "url": "https://etho.pet/",
+      "name": "Etho",
+      "inLanguage": "en-AU",
+      "publisher": { "@id": "https://etho.pet/#organization" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://etho.pet/#webpage",
+      "url": "https://etho.pet/",
+      "name": "Etho — Give them more of the good life",
+      "isPartOf": { "@id": "https://etho.pet/#website" },
+      "about": { "@id": "https://etho.pet/#organization" },
+      "primaryImageOfPage": "https://etho.pet/assets/images/og-home.jpg",
+      "inLanguage": "en-AU"
+    }
+  ]
+}
+</script>
+<link rel="preload" href="assets/fonts/SoyuzGrotesk-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" type="image/png" sizes="64x64" href="assets/images/favicon-64.png?v=3">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png?v=3">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=3">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20261029">
+<link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=20261104">
 <link rel="stylesheet" href="css/landing.css?v=20261103">
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/scenes.css?v=20261030h">
@@ -31,7 +112,7 @@
 
   <!-- 1 — Hero ---------------------------------------------------------- -->
   <section id="top" class="hero hero--v3 on-dark" data-section="hero">
-    <video class="hero__media" src="assets/videos/grey-dog.mp4"
+    <video class="hero__media" src="assets/videos/grey-dog.mp4?v=2"
            autoplay muted loop playsinline preload="auto"
            aria-label="Grey dog moving in warm daylight"></video>
     <div class="hero-scrim"></div>
@@ -330,7 +411,7 @@
           </div>
           <div class="showcase__slide" data-showcase-slide="3" data-showcase-chapter="2">
             <img class="showcase__still" src="assets/images/Web_Image_3.webp"
-                 alt="" width="941" height="1672" loading="eager" decoding="async">
+                 alt="" width="941" height="1672" loading="lazy" decoding="async">
             <!-- Chapter 3: a weekend away for Bobbi's birthday. A
                  notification drops in over the lock screen; tapping it
                  opens Etho on three dog-friendly stays. The cursor opens

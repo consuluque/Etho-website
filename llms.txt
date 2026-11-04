@@ -1,0 +1,24 @@
+# Etho
+
+> Etho (etho.pet) is a pet services marketplace being built in Sydney, Australia, by Etho Pty Ltd. It helps dog owners discover personalised care, services, experiences and exclusive benefits for their dog, and helps pet service providers attract new customers, fill unused capacity and become discoverable and bookable by AI agents.
+
+Etho is pre-launch. What exists today, and what is still being built:
+
+- Available now: a waitlist for dog owners at https://etho.pet, and a founding partner program for pet service providers at https://etho.pet/partners.
+- Being built: the Etho app for dog owners, with recommendations personalised to each dog (for example grooming, training, daycare, wellness and dog-friendly stays and experiences) and member-only benefits from partner businesses.
+- Being built: booking and payment integrations for partners, and making partners' services, availability and offers accessible to AI agents (agentic commerce), so customers using AI assistants can discover and book them.
+
+## For dog owners
+
+- [Etho home page](https://etho.pet/): what Etho is for dog owners, and the waitlist.
+
+## For pet service providers
+
+- [Etho for partners](https://etho.pet/partners): how Etho helps groomers, day care and boarding, trainers, vets, wellness therapies and stays fill quiet periods, increase transaction value and build customer relationships, with an FAQ on cost, control, booking systems and agentic commerce. Joining as a founding partner is free; partners pay a commission on completed bookings Etho brings them.
+
+## Company
+
+- [Privacy Policy](https://etho.pet/privacy)
+- Contact: maria@etho.pet
+- LinkedIn: https://www.linkedin.com/company/etho.pet/
+- Instagram: https://www.instagram.com/etho.pet

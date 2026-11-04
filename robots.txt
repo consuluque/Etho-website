@@ -1,0 +1,21 @@
+# robots.txt for https://etho.pet
+#
+# Every crawler may read the public site. This keeps the permissions the
+# site had before this file existed (no robots.txt = everything allowed),
+# including for search crawlers (Googlebot, Bingbot, OAI-SearchBot,
+# ChatGPT-User, PerplexityBot, Applebot, DuckDuckBot) and for AI training
+# crawlers (GPTBot, Google-Extended, ClaudeBot, CCBot, Applebot-Extended).
+#
+# To opt out of AI *training* while staying visible in AI *search*, add a
+# group per training crawler, e.g.
+#   User-agent: GPTBot
+#   Disallow: /
+# Do not block OAI-SearchBot, PerplexityBot, Googlebot or Bingbot: they are
+# what puts Etho in ChatGPT search, Perplexity, Google and Copilot answers.
+
+User-agent: *
+Allow: /
+# The serverless functions behind the forms: POST-only, nothing to index.
+Disallow: /api/
+
+Sitemap: https://etho.pet/sitemap.xml
