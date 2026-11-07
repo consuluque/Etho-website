@@ -51,7 +51,7 @@ function initScrollWords(el) {
 }
 document.querySelectorAll('[data-scroll-words]').forEach(initScrollWords);
 
-/* "Grow with us" opens the partner Typeform in a popup over the page.
+/* The partner CTAs ("Learn more", "Grow with us") open the partner Typeform in a popup over the page.
    Typeform's embed script loads on the first click (nothing from them
    loads before), and is warmed up on hover or touch. If it can't load,
    or takes over 4s, the button falls back to its link: the form in a

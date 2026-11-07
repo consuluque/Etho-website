@@ -87,22 +87,6 @@
   letter-spacing: -0.035em;
   max-width: 13ch;
 }
-/* The three promises, under the button: the subtitle's light weight
-   and colour, a step smaller, on one line, dots between. */
-.hero--b2b .hero-sub.b2b-hero__zero {
-  margin-top: calc(clamp(20px, 2.6vw, 30px) * -0.4);
-  max-width: none;
-  font-size: clamp(12px, 1.05vw, 14px);
-  white-space: nowrap;
-}
-.b2b-hero__zero span { margin: 0 0.35em; }
-/* One line on a phone too, at 11px; only the narrowest let it wrap. */
-@media (max-width: 600px) {
-  .hero--b2b .hero-sub.b2b-hero__zero { font-size: 11px; }
-}
-@media (max-width: 380px) {
-  .hero--b2b .hero-sub.b2b-hero__zero { white-space: normal; }
-}
 .hero--b2b .hero-sub {
   font-size: clamp(15px, 1.4vw, 18px);
   font-weight: 300;
@@ -538,7 +522,72 @@
 }
 .sticky-cta--b2b .b2b-cta {
   width: min(340px, 100%);
-  box-shadow: 0 14px 40px rgba(14, 15, 12, 0.18);
+  /* Frosted glass, as the cookie banner: it floats over dark and cream
+     sections alike, so a pale tint keeps the ink label readable. */
+  background: rgba(247, 245, 240, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+          backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 14px 40px rgba(14, 15, 12, 0.18);
+}
+
+/* "Grow with us" in the footer: clear glass on the dark block, light label. */
+.b2b-foot .b2b-cta {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+          backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 10px 30px rgba(0, 0, 0, 0.25);
+  color: #F7F5F0;
+  transition: background 200ms var(--ease);
+}
+.b2b-foot .b2b-cta:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* Without blur the pinned button's tint would let the page read through. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .sticky-cta--b2b .b2b-cta { background: #F7F5F0; }
+}
+
+/* ---------------------------------------------------------------
+   Reach: a centred title and line, before How it works
+   --------------------------------------------------------------- */
+
+.b2b-reach {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Same side padding as .b2b-intro, so the line wraps to its width on phones too. */
+  padding: clamp(80px, 10vw, 140px) clamp(20px, 8.4vw, 160px) 0;
+  text-align: center;
+}
+/* Always one line: the full 24px where it fits, scaled down with the
+   screen below that (the line runs about 22.2em wide; the side
+   padding takes 16.8vw). */
+.b2b-reach .b2b-section__title {
+  margin: 0 auto;
+  white-space: nowrap;
+  font-size: min(24px, 3.6vw);
+}
+/* On phones it wraps to two even lines at full size instead. */
+@media (max-width: 600px) {
+  .b2b-reach .b2b-section__title {
+    white-space: normal;
+    font-size: min(24px, 6.6vw);
+    text-wrap: balance;
+  }
+}
+.b2b-reach__sub {
+  margin: 18px auto 0;
+  /* As wide as the positioning line further down (.b2b-intro__line):
+     the same 624px box, and a touch of its tight tracking so the
+     longest line runs to about the same 610px. */
+  max-width: 624px;
+  letter-spacing: -0.01em;
+  font-family: var(--body-font);
+  font-size: var(--type-lead);
+  font-weight: var(--body-weight);
+  line-height: 1.4;
+  color: var(--muted);
 }
 
 /* ---------------------------------------------------------------
