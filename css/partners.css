@@ -556,21 +556,25 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: clamp(80px, 10vw, 140px) clamp(20px, 6vw, 80px) 0;
+  /* Same side padding as .b2b-intro, so the line wraps to its width on phones too. */
+  padding: clamp(80px, 10vw, 140px) clamp(20px, 8.4vw, 160px) 0;
   text-align: center;
 }
 /* Always one line: the full 24px where it fits, scaled down with the
-   screen below that (the line runs about 22.2em wide). */
+   screen below that (the line runs about 22.2em wide; the side
+   padding takes 16.8vw). */
 .b2b-reach .b2b-section__title {
   margin: 0 auto;
   white-space: nowrap;
-  font-size: min(24px, 3.9vw);
+  font-size: min(24px, 3.6vw);
 }
 .b2b-reach__sub {
   margin: 18px auto 0;
-  /* As wide as the positioning line further down (.b2b-intro__line:
-     24em at --type-lead-lg, 624px). */
+  /* As wide as the positioning line further down (.b2b-intro__line):
+     the same 624px box, and a touch of its tight tracking so the
+     longest line runs to about the same 610px. */
   max-width: 624px;
+  letter-spacing: -0.01em;
   font-family: var(--body-font);
   font-size: var(--type-lead);
   font-weight: var(--body-weight);
