@@ -26,6 +26,14 @@
   line-height: 1.5;
 }
 .consent[hidden] { display: none; }
+/* The pinned call-to-action bars (homepage and partners) sit in the same
+   corner; seen through the glass they would read as ghost text, so they
+   wait until the banner is answered. */
+body:has(> .consent:not([hidden])) .sticky-cta {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 /* Without blur the tint alone would let the page read through. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .consent { background: #F7F5F0; }
