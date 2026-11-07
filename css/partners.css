@@ -568,7 +568,9 @@
 }
 .b2b-reach__sub {
   margin: 18px auto 0;
-  max-width: 64ch;
+  /* As wide as the positioning line further down (.b2b-intro__line:
+     24em at --type-lead-lg, 624px). */
+  max-width: 624px;
   font-family: var(--body-font);
   font-size: var(--type-lead);
   font-weight: var(--body-weight);
