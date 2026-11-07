@@ -87,22 +87,6 @@
   letter-spacing: -0.035em;
   max-width: 13ch;
 }
-/* The three promises, under the button: the subtitle's light weight
-   and colour, a step smaller, on one line, dots between. */
-.hero--b2b .hero-sub.b2b-hero__zero {
-  margin-top: calc(clamp(20px, 2.6vw, 30px) * -0.4);
-  max-width: none;
-  font-size: clamp(12px, 1.05vw, 14px);
-  white-space: nowrap;
-}
-.b2b-hero__zero span { margin: 0 0.35em; }
-/* One line on a phone too, at 11px; only the narrowest let it wrap. */
-@media (max-width: 600px) {
-  .hero--b2b .hero-sub.b2b-hero__zero { font-size: 11px; }
-}
-@media (max-width: 380px) {
-  .hero--b2b .hero-sub.b2b-hero__zero { white-space: normal; }
-}
 .hero--b2b .hero-sub {
   font-size: clamp(15px, 1.4vw, 18px);
   font-weight: 300;
@@ -539,6 +523,28 @@
 .sticky-cta--b2b .b2b-cta {
   width: min(340px, 100%);
   box-shadow: 0 14px 40px rgba(14, 15, 12, 0.18);
+}
+
+/* ---------------------------------------------------------------
+   Reach: a centred title and line, before How it works
+   --------------------------------------------------------------- */
+
+.b2b-reach {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(80px, 10vw, 140px) clamp(20px, 6vw, 80px) 0;
+  text-align: center;
+}
+.b2b-reach .b2b-section__title { margin: 0 auto; max-width: 18ch; }
+.b2b-reach__sub {
+  margin: 18px auto 0;
+  max-width: 46ch;
+  font-family: var(--body-font);
+  font-size: var(--type-lead);
+  font-weight: var(--body-weight);
+  line-height: 1.4;
+  color: var(--muted);
 }
 
 /* ---------------------------------------------------------------
