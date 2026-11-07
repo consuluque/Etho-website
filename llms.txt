@@ -14,7 +14,7 @@ Etho is pre-launch. What exists today, and what is still being built:
 
 ## For pet service providers
 
-- [Etho for partners](https://etho.pet/partners): how Etho helps groomers, day care and boarding, trainers, vets, wellness therapies and stays fill quiet periods, increase transaction value and build customer relationships, with an FAQ on cost, control, booking systems and agentic commerce. Joining as a founding partner is free; partners pay a commission on completed bookings Etho brings them.
+- [Etho for partners](https://etho.pet/partners): how Etho helps groomers, day care and boarding, trainers, vets, wellness therapies and stays fill quiet periods, increase transaction value and build customer relationships, with an FAQ on control, booking systems and agentic commerce.
 
 ## Company
 
