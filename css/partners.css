@@ -568,6 +568,14 @@
   white-space: nowrap;
   font-size: min(24px, 3.6vw);
 }
+/* On phones it wraps to two even lines at full size instead. */
+@media (max-width: 600px) {
+  .b2b-reach .b2b-section__title {
+    white-space: normal;
+    font-size: min(24px, 6.6vw);
+    text-wrap: balance;
+  }
+}
 .b2b-reach__sub {
   margin: 18px auto 0;
   /* As wide as the positioning line further down (.b2b-intro__line):
