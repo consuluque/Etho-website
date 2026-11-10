@@ -26,6 +26,11 @@ const supabase = require('./_lib/supabase.js');
 // The off-screen field in the markup. Humans never see it; bots fill it.
 const HONEYPOT_FIELD = 'hp_field';
 
+// Every form on the site names itself (data-form-name, sent by
+// landing.js, and a hidden "form" input for when scripting is off). A
+// request naming none of them did not come from one of our forms.
+const KNOWN_FORMS = new Set(['hero', 'sticky', 'holding', 'home_v2', 'waitlist']);
+
 // The attribution the form sends, and the longest value each may carry.
 // A URL can be long; a campaign name cannot. All of them are custom
 // properties in Loops except those in SUPABASE_ONLY, which go to the
@@ -88,6 +93,16 @@ module.exports = async function handler(req, res) {
     return reply(200, { ok: true });
   }
 
+  // Scripts that post straight to this function, skipping the page, never
+  // see the honeypot. They also send no form name and no same-site
+  // Origin or Referer, which every browser submitting our forms does.
+  // Same answer as the honeypot: looks like success, nothing is stored.
+  const botReason = notFromOurForm(req, body);
+  if (botReason) {
+    console.info('[waitlist] dropped, not from a site form', { reason: botReason, form: cleanString(body.form, 40) });
+    return reply(200, { ok: true });
+  }
+
   const apiKey = process.env.LOOPS_API_KEY;
   const lists = [process.env.LOOPS_LIST_FRIENDS, process.env.LOOPS_LIST_DEALS].filter(Boolean);
   if (!apiKey || lists.length !== 2) {
@@ -136,6 +151,25 @@ module.exports = async function handler(req, res) {
     return reply(failure.status, { ok: false, message: failure.message });
   }
 };
+
+// Why a request did not come from one of the site's forms, or null if it
+// did. Same site means the Origin (or, failing that, the Referer) names
+// the host this function is served on, so previews work too.
+function notFromOurForm(req, body) {
+  if (!KNOWN_FORMS.has(cleanString(body.form, 40))) return 'unknown form';
+
+  const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase();
+  const origin = String(req.headers.origin || '');
+  const source = origin && origin !== 'null' ? origin : String(req.headers.referer || '');
+  if (!source) return 'no origin';
+  let sourceHost;
+  try {
+    sourceHost = new URL(source).host.toLowerCase();
+  } catch (_) {
+    return 'bad origin';
+  }
+  return host && sourceHost === host ? null : 'other site';
+}
 
 function forLoops(attribution) {
   const out = {};

@@ -31,6 +31,7 @@
       <div id="early-access" class="access-slot">
         <form class="waitlist-form access-form" data-form-name="home_v2"
               action="/api/waitlist" method="POST">
+          <input type="hidden" name="form" value="home_v2">
           <label class="u-visually-hidden" for="access-email">Email address</label>
           <input id="access-email" type="email" name="email" class="waitlist-input"
                  placeholder="goodhuman@mail.com" autocomplete="email" required>
