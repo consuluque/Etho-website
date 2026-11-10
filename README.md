@@ -15,6 +15,7 @@ see "Putting the site back" below.
 ```
 index.html     — the landing page
 privacy.html   — the privacy policy, served at /privacy (a rewrite in vercel.json)
+terms.html     — the terms of service, served at /terms (likewise)
 404.html       — the old holding page, so unknown URLs still read as Etho
 api/waitlist.js — the serverless function behind every waitlist form
 api/profile.js  — the function behind the dog profile modal
@@ -24,7 +25,7 @@ api/_lib/       — what the two functions share (not deployed as a function)
 supabase/       — the migration for the waitlist_leads table
 .vercelignore  — keeps this README and supabase/ out of the deployment
 vercel.json    — the redirects that point the archived pages at /, and
-                 the /privacy rewrite
+                 the /privacy and /terms rewrites
 css/home.css   — what is specific to index.html; sits on the two below
 css/styles.css — shared tokens, hero, nav, waitlist glass, legal pages
 css/landing.css — the access form, the pinned bar, the home-v2 sections
@@ -37,7 +38,6 @@ home-v2.html   — the landing page that was live before the hero-only cut
 home-v1.html   — the original home page, before that
 partners.html  — providers and brands page
 shop.html      — shop page ("coming soon")
-terms.html
 js/main.js       — hero video, reveal-on-scroll, fixed nav
 js/landing.js    — waitlist forms, attribution, logo marquee, sticky CTA, analytics
 js/profile.js    — the dog profile modal; js/breeds.js is its breed list
@@ -160,7 +160,7 @@ group by 1 order by 2 desc;
 ### Meta Pixel
 
 `js/meta-pixel.js` runs the Meta Pixel (ID `1125074893823259`) on
-`index.html`, `privacy.html` and `404.html`, the pages a visitor can reach. It is
+`index.html`, `partners.html`, `privacy.html`, `terms.html` and `404.html`, the pages a visitor can reach. It is
 opt-in: the script shows a cookie banner and fetches nothing from Meta
 until the visitor chooses Allow. The answer is kept in `localStorage`
 under `etho:consent:marketing`; a browser sending Global Privacy Control
@@ -252,7 +252,7 @@ sed -i '' 's/?v=[0-9]*/?v=20261101/g' *.html
 
 ```
 robots.txt   — every crawler allowed except /api/; points at the sitemap
-sitemap.xml  — the canonical, indexable URLs (/, /partners, /privacy)
+sitemap.xml  — the canonical, indexable URLs (/, /partners, /privacy, /terms)
 llms.txt     — a plain summary of Etho for AI assistants (optional; no
                guarantee any engine reads it)
 ```

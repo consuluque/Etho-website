@@ -19,6 +19,7 @@ Etho is pre-launch. What exists today, and what is still being built:
 ## Company
 
 - [Privacy Policy](https://etho.pet/privacy)
+- [Terms of Service](https://etho.pet/terms)
 - Contact: maria@etho.pet
 - LinkedIn: https://www.linkedin.com/company/etho.pet/
 - Instagram: https://www.instagram.com/etho.pet

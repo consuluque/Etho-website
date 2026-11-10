@@ -13,8 +13,9 @@
    waitlist_signup_success, which fires only after /api/waitlist has
    answered OK, never on the submit itself.
 
-   Loaded by every page a visitor can reach (index.html, privacy.html,
-   and 404.html, which Vercel serves for every unknown URL), before
+   Loaded by every page a visitor can reach (index.html, partners.html,
+   privacy.html, terms.html, and 404.html, which Vercel serves for every
+   unknown URL), before
    landing.js where a page has it. Any
    element with data-consent-settings reopens the banner. */
 (function () {
