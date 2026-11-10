@@ -60,6 +60,13 @@ What the function does with a submission:
 - Validates the email; drops any request whose honeypot field
   (`hp_field`, kept off-screen by CSS) has a value, while still answering
   as if it worked.
+- Drops, the same quiet way, any request that did not come from one of
+  the site's forms: it must name a known form (`form`, sent by
+  `landing.js` and by a hidden input for no-JS posts) and carry an
+  `Origin` (or `Referer`) from the host the function is served on.
+  Scripts that post straight to the function, skipping the page, fail
+  both. Logged as `[waitlist] dropped, not from a site form`. A new form
+  needs its name added to `KNOWN_FORMS` in `api/waitlist.js`.
 - Looks the email up in Loops. A **new** contact is created with
   `source: website`, `userGroup: lead`, the attribution properties below,
   and a subscription to both mailing lists. An **existing** contact is

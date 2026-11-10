@@ -128,6 +128,7 @@
       <div id="early-access" class="access-slot">
         <form class="waitlist-form access-form" data-form-name="hero"
               action="/api/waitlist" method="POST">
+          <input type="hidden" name="form" value="hero">
           <label class="u-visually-hidden" for="access-email">Email address</label>
           <input id="access-email" type="email" name="email" class="waitlist-input"
                  placeholder="you@email.com" autocomplete="email" required>
@@ -532,6 +533,7 @@
   <div class="access-slot sticky-cta__slot">
     <form class="waitlist-form access-form" data-form-name="sticky"
           action="/api/waitlist" method="POST">
+      <input type="hidden" name="form" value="sticky">
       <label class="u-visually-hidden" for="sticky-email">Email address</label>
       <input id="sticky-email" type="email" name="email" class="waitlist-input"
              placeholder="you@email.com" autocomplete="email" required>

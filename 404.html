@@ -31,6 +31,7 @@
   <div class="cs__slot">
     <form class="cs__form access-form" data-form-name="holding"
           action="/api/waitlist" method="POST">
+      <input type="hidden" name="form" value="holding">
       <label class="cs__label" for="waitlist-email">Email address</label>
       <input id="waitlist-email" type="email" name="email" class="cs__input"
              placeholder="you@email.com" autocomplete="email" required>
