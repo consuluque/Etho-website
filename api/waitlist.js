@@ -35,10 +35,11 @@ const HONEYPOT_FIELD = 'hp_field';
 const KNOWN_FORMS = new Set(['hero', 'sticky', 'holding', 'home_v2', 'waitlist']);
 
 // At most this many signups per connection (IP address) per hour. Room
-// for a couple adding both emails ("Add another email?"); far below
+// for a family adding several emails ("Add another email?") or people
+// sharing one address (a mobile network, an office); far below
 // what a script sends. Counted in
 // Supabase (waitlist_attempts), keyed by a hash of the IP, never the IP.
-const RATE_LIMIT = { max: 3, windowMs: 60 * 60 * 1000 };
+const RATE_LIMIT = { max: 10, windowMs: 60 * 60 * 1000 };
 const RATE_LIMITED_MESSAGE = 'Too many sign-ups from your connection. Please try again later.';
 
 // The attribution the form sends, and the longest value each may carry.
