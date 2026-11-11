@@ -216,7 +216,7 @@ function attributionForSubmit() {
    With TURNSTILE_SITE_KEY empty, or on any other host (Vercel
    previews), none of this runs.
    --------------------------------------------------------------- */
-const TURNSTILE_SITE_KEY = '';
+const TURNSTILE_SITE_KEY = '0x4AAAAAAF8hzOJIo-QvtHCv'; // public; the secret is only in Vercel
 const TURNSTILE_HOSTS = ['etho.pet', 'www.etho.pet'];
 const TURNSTILE_ACTION = 'waitlist'; // checked by api/waitlist.js
 const TURNSTILE_WAIT_MS = 8000;
