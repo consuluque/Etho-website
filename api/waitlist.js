@@ -14,10 +14,10 @@
    Honeypot filled:  dropped, but answered as if it worked.
    Too many signups: from one connection in an hour, refused with 429
                      and a message saying to try again later.
-   Turnstile:        with TURNSTILE_SECRET_KEY set, a post from the page
-                     script must carry a Cloudflare Turnstile token that
-                     Cloudflare confirms. No-JS form posts cannot run
-                     Turnstile, so they are let through without one.
+   Turnstile:        with TURNSTILE_SECRET_KEY set, every signup must
+                     carry a Cloudflare Turnstile token that Cloudflare
+                     confirms. A no-JS form post cannot get one, so it is
+                     dropped like any other post without a token.
 
    Dependency-free: Node's global fetch, nothing installed. */
 
@@ -127,12 +127,13 @@ module.exports = async function handler(req, res) {
     return reply(200, { ok: true });
   }
 
-  const turnstile = await checkTurnstile(req, body, isNativeForm);
+  const turnstile = await checkTurnstile(req, body);
   if (turnstile === 'missing') {
-    // Our script always sends a token when Turnstile is on (and falls
-    // back to a plain form post when it cannot get one), so a script
-    // post without one is a bot: the same quiet answer as above.
-    console.info('[waitlist] dropped, no turnstile token', { form: cleanString(body.form, 40) });
+    // Our script always sends a token when Turnstile is on, and no-JS
+    // posts are no longer accepted (since 11 Nov a script has been
+    // posting plain form data to get round Turnstile), so a post
+    // without one is a bot: the same quiet answer as above.
+    console.info('[waitlist] dropped, no turnstile token', { form: cleanString(body.form, 40), noJs: isNativeForm });
     return reply(200, { ok: true });
   }
   if (turnstile === 'failed') {
@@ -220,23 +221,16 @@ function notFromOurForm(req, body, isNativeForm) {
 }
 
 // The Turnstile verdict: 'off' (no secret key set yet), 'passed',
-// 'no-js' (a native form post without a token, let through), 'missing'
-// (a script post without a token), 'failed' (Cloudflare said no) or
+// 'missing' (no token), 'failed' (Cloudflare said no) or
 // 'skipped' (Cloudflare could not be asked). Like the rate limit, it
 // fails open: an outage at Cloudflare must never block people.
-async function checkTurnstile(req, body, isNativeForm) {
+async function checkTurnstile(req, body) {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) return 'off';
 
   const token = cleanString(body.turnstileToken || body['cf-turnstile-response'], 2048);
   const form = cleanString(body.form, 40);
-  if (!token) {
-    if (isNativeForm) {
-      console.info('[waitlist] no-JS signup, no turnstile token', { form: form });
-      return 'no-js';
-    }
-    return 'missing';
-  }
+  if (!token) return 'missing';
 
   const params = new URLSearchParams({ secret: secret, response: token });
   const ip = clientIp(req);

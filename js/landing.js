@@ -211,9 +211,10 @@ function attributionForSubmit() {
    so a new one is fetched after every sign-up; an expired one refreshes
    by itself. The function checks the token with Cloudflare.
 
-   If Turnstile cannot give a token (blocked, offline, slow), the form
-   falls back to its plain no-JS post, so nobody is ever turned away.
-   With TURNSTILE_SITE_KEY empty, or on any other host (Vercel
+   The function refuses any sign-up without a token, so if Turnstile
+   cannot give one (blocked, offline, slow) the form says "please try
+   again" and asks Turnstile again: reloading its script if it never
+   arrived, or resetting the widget if it errored. With TURNSTILE_SITE_KEY empty, or on any other host (Vercel
    previews), none of this runs.
    --------------------------------------------------------------- */
 const TURNSTILE_SITE_KEY = '0x4AAAAAAF8hzOJIo-QvtHCv'; // public; the secret is only in Vercel
@@ -221,7 +222,7 @@ const TURNSTILE_HOSTS = ['etho.pet', 'www.etho.pet'];
 const TURNSTILE_ACTION = 'waitlist'; // checked by api/waitlist.js
 const TURNSTILE_WAIT_MS = 8000;
 
-const turnstileState = { widgetId: null, token: '', failed: false, waiting: [] };
+const turnstileState = { widgetId: null, token: '', failed: false, loading: false, waiting: [] };
 
 function turnstileEnabled() {
   return Boolean(TURNSTILE_SITE_KEY) && TURNSTILE_HOSTS.includes(window.location.hostname);
@@ -243,6 +244,7 @@ function initTurnstile() {
   if (!turnstileEnabled() || !document.querySelector('.access-form')) return;
 
   window.ethoTurnstileLoaded = () => {
+    turnstileState.loading = false;
     try {
       const box = document.createElement('div');
       box.className = 'turnstile-box';
@@ -260,10 +262,15 @@ function initTurnstile() {
     }
   };
 
+  loadTurnstileScript();
+}
+
+function loadTurnstileScript() {
+  turnstileState.loading = true;
   const script = document.createElement('script');
   script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=ethoTurnstileLoaded';
   script.async = true;
-  script.onerror = turnstileFail;
+  script.onerror = () => { turnstileState.loading = false; script.remove(); turnstileFail(); };
   document.head.appendChild(script);
 }
 
@@ -292,19 +299,14 @@ function turnstileRefresh() {
   try { window.turnstile.reset(turnstileState.widgetId); } catch (_) { turnstileFail(); }
 }
 
-// The plain no-JS post, with the attribution added as hidden fields so
-// the lead still says where it came from. The function sends the browser
-// back to /?joined=1, which shows the usual message.
-function submitNatively(form, attribution) {
-  Object.keys(attribution).forEach((key) => {
-    if (form.elements[key]) return;
-    const field = document.createElement('input');
-    field.type = 'hidden';
-    field.name = key;
-    field.value = attribution[key];
-    form.appendChild(field);
-  });
-  HTMLFormElement.prototype.submit.call(form);
+// No token came: try again from scratch, so the next click has one.
+function turnstileRetry() {
+  turnstileState.failed = false;
+  if (turnstileState.widgetId !== null && window.turnstile) {
+    turnstileRefresh();
+  } else if (!window.turnstile && !turnstileState.loading) {
+    loadTurnstileScript();
+  }
 }
 
 const DONE_MESSAGE = "You're in! Add another email?";
@@ -357,10 +359,9 @@ function initAccessForm(form) {
     submitBtn.textContent = 'Sending…';
     setStatus(status, '', null);
 
-    const attribution = attributionForSubmit();
     const payload = Object.assign(
       Object.fromEntries(new FormData(form)),
-      attribution,
+      attributionForSubmit(),
       { form: name }
     );
     payload.email = String(payload.email || '').trim();
@@ -368,10 +369,13 @@ function initAccessForm(form) {
     if (turnstileEnabled()) {
       payload.turnstileToken = await turnstileToken();
       if (!payload.turnstileToken) {
-        // No token to be had: send it the no-JS way instead, which the
-        // function accepts without one, rather than lose the lead.
-        track('waitlist_signup_fallback', { form: name });
-        submitNatively(form, attribution);
+        // Without a token the function would drop the sign-up, so say so
+        // here and let the person try again; the email stays in the field.
+        setStatus(status, ERROR_MESSAGE, 'error');
+        track('waitlist_signup_error', { form: name, reason: 'turnstile' });
+        turnstileRetry();
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
         return;
       }
     }
