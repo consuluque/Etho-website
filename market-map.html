@@ -16,132 +16,170 @@
 
   :root {
     --ink: #1F2230;
-    --muted: rgba(31, 34, 48, 0.62);
-    --axis: #1F2230;
-    --navy: #232A55;          /* cluster titles, as in the sketch */
-    --lavender: #EEE6F8;      /* marketplaces */
-    --sky: #E4EEFC;           /* booking software */
-    --mint: #E8F3E2;          /* multi-service platforms */
-    --highlight: #FFF0A3;     /* the yellow marker on the "high" ends */
-    --card: #FFFFFF;
+    --muted: rgba(31, 34, 48, 0.55);
+    --faint: rgba(31, 34, 48, 0.42);
+    --axis: rgba(31, 34, 48, 0.75);
+    --navy: #232A55;
+    --lavender: #EEE6F8;   /* marketplaces */
+    --sky: #E4EEFC;        /* booking software */
+    --mint: #E6F2DF;       /* multi-service platforms */
+    --highlight: #FFF0A3;  /* the "high" end of each axis */
   }
 
   * { box-sizing: border-box; }
   body {
     margin: 0;
+    padding: 48px 16px;
     background: #FFFFFF;
     color: var(--ink);
     font-family: 'Manrope', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    padding: 48px 16px;
   }
 
-  /* The map keeps the sketch's proportions and scales as one piece:
-     every size inside is in cqw, so text and dots grow with the card. */
-  .mm-wrap { max-width: 1232px; margin: 0 auto; overflow-x: auto; }
+  /* One fixed-proportion canvas; every size inside is in cqw so the
+     whole map scales as a unit and spacing never drifts. */
+  .mm-wrap { max-width: 1200px; margin: 0 auto; overflow-x: auto; }
   .mm {
-    position: relative;
-    min-width: 720px;
-    aspect-ratio: 1232 / 800;
+    min-width: 760px;
     container-type: inline-size;
-    background: var(--card);
+  }
+  .mm__grid { padding: 3cqw; }
+  .mm__grid {
+    display: grid;
+    grid-template-columns: 15cqw 1fr;
+    grid-template-rows: 50cqw auto;
+    column-gap: 2.4cqw;
+    row-gap: 1.8cqw;
   }
 
-  /* Axes: hairlines with small chevron heads */
-  .mm__axis { position: absolute; background: var(--axis); }
-  .mm__axis--y { left: 16.6%; top: 8%; bottom: 24%; width: 1.5px; }
-  .mm__axis--x { left: 16.6%; right: 7.5%; bottom: 24%; height: 1.5px; }
-  .mm__axis::after {
-    content: ""; position: absolute;
-    width: 0.9cqw; height: 0.9cqw;
-    border: solid var(--axis); border-width: 1.5px 1.5px 0 0;
+  /* Axis labels ------------------------------------------------------ */
+  .mm__y {
+    grid-column: 1; grid-row: 1;
+    display: flex; flex-direction: column; justify-content: space-between;
   }
-  .mm__axis--y::after { top: 0; left: 50%; transform: translate(-50%, 15%) rotate(-45deg); }
-  .mm__axis--x::after { right: 0; top: 50%; transform: translate(-15%, -50%) rotate(45deg); }
-
-  /* Axis labels */
+  .mm__x {
+    grid-column: 2; grid-row: 2;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
   .mm__label {
-    position: absolute; margin: 0;
-    font-size: 1.55cqw; line-height: 1.3; font-weight: 500;
-    color: var(--muted); letter-spacing: -0.005em;
+    margin: 0;
+    font-size: 1.3cqw; line-height: 1.4; font-weight: 500;
+    color: var(--muted);
   }
   .mm__label--hi {
     color: var(--ink); font-weight: 700;
     background: var(--highlight);
-    padding: 0.7cqw 1.1cqw; border-radius: 1cqw;
+    padding: 0.9cqw 1.2cqw;
+    border-radius: 0.9cqw;
   }
-  .mm__label--y-hi { left: 2.6%; top: 8%; width: 12.4%; }
-  .mm__label--y-lo { left: 3.6%; top: 56%; width: 11.5%; }
-  .mm__label--x-lo { left: 18%; top: 79.5%; }
-  .mm__label--x-hi { right: 6%; top: 79.5%; width: 14.5%; text-align: left; }
+  .mm__y .mm__label { max-width: 14cqw; }
+  .mm__y .mm__label:not(.mm__label--hi) { padding: 0 1.2cqw; }
+  .mm__x .mm__label:not(.mm__label--hi) { padding-top: 0.9cqw; }
+  .mm__x .mm__label--hi { max-width: 16cqw; }
 
-  /* Clusters: soft organic fields, no outline */
-  .mm__blob { position: absolute; }
-  .mm__blob--market  { left: 20.3%; top: 7.5%;  width: 45%;   height: 37%;  background: var(--lavender);
-                       border-radius: 46% 54% 44% 56% / 52% 48% 52% 48%; }
-  .mm__blob--booking { left: 17.7%; top: 47%;   width: 43%;   height: 27.5%; background: var(--sky);
-                       border-radius: 42% 58% 50% 50% / 50% 46% 54% 50%; }
-  .mm__blob--multi   { left: 61.9%; top: 35.6%; width: 29.2%; height: 27.5%; background: var(--mint);
-                       border-radius: 50% 50% 48% 52% / 54% 50% 50% 46%; }
+  /* Plot ------------------------------------------------------------- */
+  .mm__plot {
+    grid-column: 2; grid-row: 1;
+    position: relative;
+    border-left: 1.5px solid var(--axis);
+    border-bottom: 1.5px solid var(--axis);
+  }
+  /* chevron arrowheads at the open ends of both axes */
+  .mm__plot::before, .mm__plot::after {
+    content: ""; position: absolute;
+    width: 0.8cqw; height: 0.8cqw;
+    border: solid var(--axis); border-width: 1.5px 1.5px 0 0;
+  }
+  .mm__plot::before { top: 0; left: 0; transform: translate(calc(-50% - 0.75px), 10%) rotate(-45deg); }
+  .mm__plot::after  { bottom: 0; right: 0; transform: translate(-10%, calc(50% + 0.75px)) rotate(45deg); }
+
+  .mm__logo { position: absolute; top: 2.4cqw; right: 3cqw; height: 2.6cqw; }
+
+  /* Clusters: soft rounded fields; content flows inside, so names can
+     never sit outside their shade. */
+  .mm__cluster {
+    position: absolute;
+    padding: 2.6cqw 3cqw;
+    border-radius: 3.2cqw;
+  }
+  .mm__cluster--market  { left: 4cqw;  top: 2.4cqw;  width: 44cqw; background: var(--lavender); }
+  .mm__cluster--booking { left: 2cqw;  bottom: 2.4cqw; width: 42cqw; background: var(--sky); }
+  .mm__cluster--multi   { right: 4cqw; top: 19cqw;  width: 24cqw; background: var(--mint); }
 
   .mm__group {
-    position: absolute; margin: 0;
-    font-size: 1.05cqw; line-height: 1.45; font-weight: 700;
+    margin: 0 0 2cqw;
+    font-size: 0.95cqw; line-height: 1.5; font-weight: 700;
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy);
   }
-  .mm__group span { display: block; font-weight: 500; opacity: 0.6; letter-spacing: 0.1em; }
+  .mm__group span { display: block; font-weight: 600; color: var(--faint); letter-spacing: 0.12em; }
 
-  /* Companies */
+  .mm__list {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, max-content);
+    column-gap: 4.5cqw; row-gap: 1.3cqw;
+  }
+  .mm__cluster--multi .mm__list { grid-template-columns: max-content; }
+
   .mm__co {
-    position: absolute; margin: 0;
-    display: flex; align-items: center; gap: 0.75cqw;
-    font-size: 1.6cqw; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap;
-    transform: translateY(-50%);
+    display: flex; align-items: center; gap: 0.8cqw;
+    font-size: 1.45cqw; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap;
   }
   .mm__co::before {
     content: ""; flex: none;
-    width: 0.62cqw; height: 0.62cqw; border-radius: 50%; background: var(--ink);
+    width: 0.55cqw; height: 0.55cqw; border-radius: 50%; background: var(--ink);
   }
-  .mm__co small { font-size: 0.82em; font-weight: 500; color: var(--muted); }
-
-  .mm__logo { position: absolute; right: 16%; top: 10%; height: 3.1cqw; }
+  .mm__co small { font-size: 0.78em; font-weight: 500; color: var(--faint); letter-spacing: 0.02em; }
 </style>
 </head>
 <body>
 
 <figure class="mm-wrap" style="margin:0 auto">
-  <div class="mm" role="img" aria-label="Market map. Vertical axis runs from an existing customer base with basic pet profiles up to a shared customer network with rich pet profiles. Horizontal axis runs from passive scheduling to proactive capacity optimisation. Marketplaces (consumer-led), top left: Tuft (UK), HugWag (JP), Groomit (US), TrimTrim (JP). Booking software (merchant-led), bottom left: Gingr (US), MoeGo (US), Petboost (AU), Square (US). Multi-service platforms, right: Fresha (Global), Vetted (IN).">
+  <div class="mm" role="img" aria-label="Market map. Vertical axis: from an existing customer base with basic pet profiles, up to a shared customer network with rich pet profiles. Horizontal axis: from passive scheduling to proactive capacity optimisation. Marketplaces (consumer-led), top left: Tuft (UK), HugWag (JP), Groomit (US), TrimTrim (JP). Booking software (merchant-led), bottom left: Gingr (US), MoeGo (US), Petboost (AU), Square (US). Multi-service platforms, right: Fresha (Global), Vetted (IN).">
+    <div class="mm__grid">
 
-    <div class="mm__blob mm__blob--market"></div>
-    <div class="mm__blob mm__blob--booking"></div>
-    <div class="mm__blob mm__blob--multi"></div>
+      <div class="mm__y">
+        <p class="mm__label mm__label--hi">Shared customer network with rich pet profiles</p>
+        <p class="mm__label">Existing customer base and basic pet profiles</p>
+      </div>
 
-    <div class="mm__axis mm__axis--y"></div>
-    <div class="mm__axis mm__axis--x"></div>
+      <div class="mm__plot">
+        <img class="mm__logo" src="assets/images/etho%20logo%20dark.png" alt="Etho">
 
-    <p class="mm__label mm__label--hi mm__label--y-hi">Shared customer network with rich pet profiles</p>
-    <p class="mm__label mm__label--y-lo">Existing customer base and basic pet profiles</p>
-    <p class="mm__label mm__label--x-lo">Passive scheduling</p>
-    <p class="mm__label mm__label--hi mm__label--x-hi">Proactive capacity optimisation</p>
+        <section class="mm__cluster mm__cluster--market">
+          <p class="mm__group">Marketplaces<span>Consumer-led</span></p>
+          <ul class="mm__list">
+            <li class="mm__co">Tuft <small>UK</small></li>
+            <li class="mm__co">HugWag <small>JP</small></li>
+            <li class="mm__co">Groomit <small>US</small></li>
+            <li class="mm__co">TrimTrim <small>JP</small></li>
+          </ul>
+        </section>
 
-    <p class="mm__group" style="left:30.3%; top:11.5%">Marketplaces<span>Consumer-led</span></p>
-    <p class="mm__group" style="left:22.3%; top:50%">Booking software<span>Merchant-led</span></p>
-    <p class="mm__group" style="left:68.2%; top:39%">Multi-service<br>platforms</p>
+        <section class="mm__cluster mm__cluster--booking">
+          <p class="mm__group">Booking software<span>Merchant-led</span></p>
+          <ul class="mm__list">
+            <li class="mm__co">Gingr <small>US</small></li>
+            <li class="mm__co">MoeGo <small>US</small></li>
+            <li class="mm__co">Petboost <small>AU</small></li>
+            <li class="mm__co">Square <small>US</small></li>
+          </ul>
+        </section>
 
-    <p class="mm__co" style="left:29.6%; top:24.8%">Tuft <small>UK</small></p>
-    <p class="mm__co" style="left:49.6%; top:21.6%">HugWag <small>JP</small></p>
-    <p class="mm__co" style="left:34.5%; top:31.4%">Groomit <small>US</small></p>
-    <p class="mm__co" style="left:33.7%; top:37.9%">TrimTrim <small>JP</small></p>
+        <section class="mm__cluster mm__cluster--multi">
+          <p class="mm__group">Multi-service<span>Platforms</span></p>
+          <ul class="mm__list">
+            <li class="mm__co">Fresha <small>Global</small></li>
+            <li class="mm__co">Vetted <small>IN</small></li>
+          </ul>
+        </section>
+      </div>
 
-    <p class="mm__co" style="left:27%;   top:59.4%">Gingr <small>US</small></p>
-    <p class="mm__co" style="left:47.5%; top:57.1%">MoeGo <small>US</small></p>
-    <p class="mm__co" style="left:34.7%; top:63.5%">Petboost <small>AU</small></p>
-    <p class="mm__co" style="left:23.4%; top:67.5%">Square <small>US</small></p>
+      <div class="mm__x">
+        <p class="mm__label">Passive scheduling</p>
+        <p class="mm__label mm__label--hi">Proactive capacity optimisation</p>
+      </div>
 
-    <p class="mm__co" style="left:69.8%; top:49.4%">Fresha <small>Global</small></p>
-    <p class="mm__co" style="left:69.6%; top:56.3%">Vetted <small>IN</small></p>
-
-    <img class="mm__logo" src="assets/images/etho%20logo%20dark.png" alt="Etho">
+    </div>
   </div>
 </figure>
 
