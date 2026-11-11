@@ -272,7 +272,7 @@ function initAccessForm(form) {
       if (!res.ok) {
         const failed = await res.json().catch(() => ({}));
         const err = new Error('Request failed with ' + res.status);
-        // The rate limit says when to try again; show its words.
+        // The rate limit has its own message; show its words.
         if (res.status === 429 && failed.message) err.userMessage = failed.message;
         throw err;
       }

@@ -69,7 +69,7 @@ What the function does with a submission:
   needs its name added to `KNOWN_FORMS` in `api/waitlist.js`.
 - Limits each connection (IP address) to 3 signups an hour
   (`RATE_LIMIT` in `api/waitlist.js`). Past that it answers 429 with a
-  "try again in an hour" message, which the form shows. Attempts are
+  "try again later" message, which the form shows. Attempts are
   counted in the `waitlist_attempts` table, keyed by a hash of the IP,
   never the IP itself; create it with
   `supabase/migrations/20261111_waitlist_attempts.sql`. Until that table
