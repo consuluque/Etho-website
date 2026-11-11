@@ -98,4 +98,51 @@ async function insertEvent(row) {
   }
 }
 
-module.exports = { configured, upsertLead, insertEvent, attributionColumns };
+// Sign-up attempts per connection, for the waitlist's rate limit.
+// Schema: supabase/migrations/20261111_waitlist_attempts.sql
+const ATTEMPTS_TABLE = 'waitlist_attempts';
+
+// How many attempts this connection made since `sinceIso`.
+async function countAttempts(ipHash, sinceIso) {
+  const base = process.env.SUPABASE_URL.replace(/\/+$/, '');
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const query = 'select=id&ip_hash=eq.' + encodeURIComponent(ipHash) +
+    '&created_at=gte.' + encodeURIComponent(sinceIso);
+  const res = await fetch(base + '/rest/v1/' + ATTEMPTS_TABLE + '?' + query, {
+    method: 'HEAD',
+    headers: { apikey: key, Authorization: 'Bearer ' + key, Prefer: 'count=exact' },
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
+  if (!res.ok) {
+    const err = new Error('Supabase count returned ' + res.status);
+    err.status = res.status;
+    throw err;
+  }
+  // Content-Range: 0-4/5, or */0 when there are none.
+  const total = Number(String(res.headers.get('content-range') || '').split('/')[1]);
+  if (!Number.isFinite(total)) throw new Error('Supabase count had no total');
+  return total;
+}
+
+async function recordAttempt(ipHash) {
+  const base = process.env.SUPABASE_URL.replace(/\/+$/, '');
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const res = await fetch(base + '/rest/v1/' + ATTEMPTS_TABLE, {
+    method: 'POST',
+    headers: {
+      apikey: key,
+      Authorization: 'Bearer ' + key,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify({ ip_hash: ipHash }),
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
+  if (!res.ok) {
+    const err = new Error('Supabase insert returned ' + res.status);
+    err.status = res.status;
+    throw err;
+  }
+}
+
+module.exports = { configured, upsertLead, insertEvent, attributionColumns, countAttempts, recordAttempt };
