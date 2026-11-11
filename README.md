@@ -83,14 +83,16 @@ What the function does with a submission:
   `landing.js` loads Turnstile on any page with a waitlist form, keeps an
   invisible token ready (nobody sees or clicks anything) and sends it as
   `turnstileToken`; the function asks Cloudflare's `siteverify` whether it
-  is genuine. A script post without a token is dropped the quiet way
-  (`[waitlist] dropped, no turnstile token`); a token Cloudflare rejects
-  gets a 403 "please try again" (`[waitlist] turnstile failed`), and the
-  next click fetches a new one. No-JS posts cannot carry a token and are
-  let through (`[waitlist] no-JS signup, no turnstile token`); if
-  Turnstile cannot give the page a token (blocked, offline), `landing.js`
-  falls back to that same plain post, with the attribution as hidden
-  fields, and reports `waitlist_signup_fallback`. If Cloudflare cannot be
+  is genuine. Any post without a token, including a no-JS form post, is
+  dropped the quiet way (`[waitlist] dropped, no turnstile token`, with
+  `noJs: true` for a form post): since 11 Nov a script had been using the
+  no-JS route to get round Turnstile, so with the secret set, joining
+  needs JavaScript (the forms say so in a `<noscript>` line). A token
+  Cloudflare rejects gets a 403 "please try again"
+  (`[waitlist] turnstile failed`). If Turnstile cannot give the page a
+  token (blocked, offline), the form says "please try again" and asks
+  Turnstile again, reporting `waitlist_signup_error` with
+  `reason: turnstile`. If Cloudflare cannot be
   reached the check is skipped (`[waitlist] turnstile check skipped`).
   The public site key is `TURNSTILE_SITE_KEY` in `landing.js`; Turnstile
   only runs on the hosts in `TURNSTILE_HOSTS`, so Vercel previews skip it
