@@ -77,6 +77,25 @@ What the function does with a submission:
   `supabase/migrations/20261111_waitlist_attempts.sql`. Until that table
   exists, or if Supabase errors, the limit is skipped and signups go
   through (logged as `[waitlist] rate limit skipped`).
+- Checks a [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/)
+  token, once `TURNSTILE_SECRET_KEY` is set (free plan, widget "Etho
+  waitlist", hostname `etho.pet`, mode Invisible, pre-clearance off).
+  `landing.js` loads Turnstile on any page with a waitlist form, keeps an
+  invisible token ready (nobody sees or clicks anything) and sends it as
+  `turnstileToken`; the function asks Cloudflare's `siteverify` whether it
+  is genuine. A script post without a token is dropped the quiet way
+  (`[waitlist] dropped, no turnstile token`); a token Cloudflare rejects
+  gets a 403 "please try again" (`[waitlist] turnstile failed`), and the
+  next click fetches a new one. No-JS posts cannot carry a token and are
+  let through (`[waitlist] no-JS signup, no turnstile token`); if
+  Turnstile cannot give the page a token (blocked, offline), `landing.js`
+  falls back to that same plain post, with the attribution as hidden
+  fields, and reports `waitlist_signup_fallback`. If Cloudflare cannot be
+  reached the check is skipped (`[waitlist] turnstile check skipped`).
+  The public site key is `TURNSTILE_SITE_KEY` in `landing.js`; Turnstile
+  only runs on the hosts in `TURNSTILE_HOSTS`, so Vercel previews skip it
+  (set the secret for Production only). With either key empty, nothing
+  changes.
 - Looks the email up in Loops. A **new** contact is created with
   `source: website`, `userGroup: lead`, the attribution properties below,
   and a subscription to both mailing lists. An **existing** contact is
@@ -219,6 +238,9 @@ LOOPS_SYNC_SECRET          — any long random string: the site's secret. The
                              Supabase webhook sends it in x-etho-webhook-secret,
                              and the signup signs each email with it so only
                              that browser can save a profile for the email
+TURNSTILE_SECRET_KEY       — the secret key of the "Etho waitlist" Turnstile
+                             widget (Cloudflare → Turnstile). Production only.
+                             Until it is set, sign-ups are not checked
 ```
 
 A variable takes effect on the next build, not when it is saved, so

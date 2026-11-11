@@ -14,6 +14,10 @@
    Honeypot filled:  dropped, but answered as if it worked.
    Too many signups: from one connection in an hour, refused with 429
                      and a message saying to try again later.
+   Turnstile:        with TURNSTILE_SECRET_KEY set, a post from the page
+                     script must carry a Cloudflare Turnstile token that
+                     Cloudflare confirms. No-JS form posts cannot run
+                     Turnstile, so they are let through without one.
 
    Dependency-free: Node's global fetch, nothing installed. */
 
@@ -41,6 +45,15 @@ const KNOWN_FORMS = new Set(['hero', 'sticky', 'holding', 'home_v2', 'waitlist']
 // Supabase (waitlist_attempts), keyed by a hash of the IP, never the IP.
 const RATE_LIMIT = { max: 10, windowMs: 60 * 60 * 1000 };
 const RATE_LIMITED_MESSAGE = 'Too many sign-ups from your connection. Please try again later.';
+
+// Cloudflare Turnstile: landing.js gets an invisible token in the
+// browser and sends it as turnstileToken; this asks Cloudflare whether
+// it is genuine. A token is single-use and lasts five minutes, and only
+// a real browser on etho.pet can get one, so a script cannot copy it.
+const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+const TURNSTILE_ACTION = 'waitlist'; // matches the action in landing.js
+const TURNSTILE_TIMEOUT_MS = 5000;
+const TURNSTILE_FAILED_MESSAGE = "We couldn't confirm the sign-up. Please try again.";
 
 // The attribution the form sends, and the longest value each may carry.
 // A URL can be long; a campaign name cannot. All of them are custom
@@ -112,6 +125,20 @@ module.exports = async function handler(req, res) {
   if (botReason) {
     console.info('[waitlist] dropped, not from a site form', { reason: botReason, form: cleanString(body.form, 40) });
     return reply(200, { ok: true });
+  }
+
+  const turnstile = await checkTurnstile(req, body, isNativeForm);
+  if (turnstile === 'missing') {
+    // Our script always sends a token when Turnstile is on (and falls
+    // back to a plain form post when it cannot get one), so a script
+    // post without one is a bot: the same quiet answer as above.
+    console.info('[waitlist] dropped, no turnstile token', { form: cleanString(body.form, 40) });
+    return reply(200, { ok: true });
+  }
+  if (turnstile === 'failed') {
+    // Could be a forged token, or a real person whose token expired:
+    // say so, and the next click gets a fresh one.
+    return reply(403, { ok: false, message: TURNSTILE_FAILED_MESSAGE });
   }
 
   if (await overRateLimit(req, cleanString(body.form, 40))) {
@@ -190,6 +217,56 @@ function notFromOurForm(req, body, isNativeForm) {
     return 'bad origin';
   }
   return host && sourceHost === host ? null : 'other site';
+}
+
+// The Turnstile verdict: 'off' (no secret key set yet), 'passed',
+// 'no-js' (a native form post without a token, let through), 'missing'
+// (a script post without a token), 'failed' (Cloudflare said no) or
+// 'skipped' (Cloudflare could not be asked). Like the rate limit, it
+// fails open: an outage at Cloudflare must never block people.
+async function checkTurnstile(req, body, isNativeForm) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return 'off';
+
+  const token = cleanString(body.turnstileToken || body['cf-turnstile-response'], 2048);
+  const form = cleanString(body.form, 40);
+  if (!token) {
+    if (isNativeForm) {
+      console.info('[waitlist] no-JS signup, no turnstile token', { form: form });
+      return 'no-js';
+    }
+    return 'missing';
+  }
+
+  const params = new URLSearchParams({ secret: secret, response: token });
+  const ip = clientIp(req);
+  if (ip) params.set('remoteip', ip);
+
+  let result;
+  try {
+    const res = await fetch(TURNSTILE_VERIFY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+      signal: AbortSignal.timeout(TURNSTILE_TIMEOUT_MS),
+    });
+    if (!res.ok) throw new Error('siteverify returned ' + res.status);
+    result = await res.json();
+  } catch (err) {
+    console.error('[waitlist] turnstile check skipped', { form: form, error: String(err && err.message) });
+    return 'skipped';
+  }
+
+  if (result && result.success === true && (!result.action || result.action === TURNSTILE_ACTION)) {
+    return 'passed';
+  }
+  console.info('[waitlist] turnstile failed', {
+    form: form,
+    codes: result && result['error-codes'],
+    action: result && result.action,
+    hostname: result && result.hostname,
+  });
+  return 'failed';
 }
 
 // True when this connection has used up its signups for the hour;
