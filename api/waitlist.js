@@ -108,7 +108,7 @@ module.exports = async function handler(req, res) {
   // see the honeypot. They also send no form name and no same-site
   // Origin or Referer, which every browser submitting our forms does.
   // Same answer as the honeypot: looks like success, nothing is stored.
-  const botReason = notFromOurForm(req, body);
+  const botReason = notFromOurForm(req, body, isNativeForm);
   if (botReason) {
     console.info('[waitlist] dropped, not from a site form', { reason: botReason, form: cleanString(body.form, 40) });
     return reply(200, { ok: true });
@@ -170,8 +170,14 @@ module.exports = async function handler(req, res) {
 // Why a request did not come from one of the site's forms, or null if it
 // did. Same site means the Origin (or, failing that, the Referer) names
 // the host this function is served on, so previews work too.
-function notFromOurForm(req, body) {
+function notFromOurForm(req, body, isNativeForm) {
   if (!KNOWN_FORMS.has(cleanString(body.form, 40))) return 'unknown form';
+  // landing.js always sends the page the visit landed on (at least "/"),
+  // so a JSON post without one was not sent by the page. A no-JS form
+  // post has no script to add it, so it is let through on the other
+  // checks. Since 11 Nov a script has been posting JSON with a real
+  // form name and Origin but no landing page.
+  if (!isNativeForm && !cleanString(body.landingPage, 500)) return 'no landing page';
 
   const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase();
   const origin = String(req.headers.origin || '');
