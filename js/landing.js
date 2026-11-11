@@ -269,7 +269,13 @@ function initAccessForm(form) {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error('Request failed with ' + res.status);
+      if (!res.ok) {
+        const failed = await res.json().catch(() => ({}));
+        const err = new Error('Request failed with ' + res.status);
+        // The rate limit says when to try again; show its words.
+        if (res.status === 429 && failed.message) err.userMessage = failed.message;
+        throw err;
+      }
       const data = await res.json().catch(() => ({}));
 
       form.reset();
@@ -279,7 +285,7 @@ function initAccessForm(form) {
       document.dispatchEvent(new CustomEvent('etho:signup-confirmed', { detail: { email: payload.email, token: data.token || null } }));
     } catch (err) {
       document.dispatchEvent(new CustomEvent('etho:signup-failed', { detail: { email: payload.email } }));
-      setStatus(status, ERROR_MESSAGE, 'error');
+      setStatus(status, (err && err.userMessage) || ERROR_MESSAGE, 'error');
       track('waitlist_signup_error', { form: name });
     } finally {
       submitBtn.disabled = false;

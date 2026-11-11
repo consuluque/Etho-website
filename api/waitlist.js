@@ -12,6 +12,8 @@
                      that is already set, so the request is a no-op that
                      still reads as success to the person submitting.
    Honeypot filled:  dropped, but answered as if it worked.
+   Too many signups: from one connection in an hour, refused with 429
+                     and a message saying to try again later.
 
    Dependency-free: Node's global fetch, nothing installed. */
 
@@ -21,6 +23,7 @@ const {
   MAX_BODY_BYTES, FRIENDLY_ERROR, loops, loopsFailure, readBody,
   normaliseEmail, cleanString, maskEmail, signEmail, sendJson, redirect,
 } = require('./_lib/loops.js');
+const { createHmac } = require('crypto');
 const supabase = require('./_lib/supabase.js');
 
 // The off-screen field in the markup. Humans never see it; bots fill it.
@@ -30,6 +33,13 @@ const HONEYPOT_FIELD = 'hp_field';
 // landing.js, and a hidden "form" input for when scripting is off). A
 // request naming none of them did not come from one of our forms.
 const KNOWN_FORMS = new Set(['hero', 'sticky', 'holding', 'home_v2', 'waitlist']);
+
+// At most this many signups per connection (IP address) per hour. Room
+// for a family adding several emails ("Add another email?") or a shared
+// office connection; far below what a script sends. Counted in
+// Supabase (waitlist_attempts), keyed by a hash of the IP, never the IP.
+const RATE_LIMIT = { max: 10, windowMs: 60 * 60 * 1000 };
+const RATE_LIMITED_MESSAGE = 'Too many sign-ups from your connection. Please try again in an hour.';
 
 // The attribution the form sends, and the longest value each may carry.
 // A URL can be long; a campaign name cannot. All of them are custom
@@ -103,6 +113,10 @@ module.exports = async function handler(req, res) {
     return reply(200, { ok: true });
   }
 
+  if (await overRateLimit(req, cleanString(body.form, 40))) {
+    return reply(429, { ok: false, message: RATE_LIMITED_MESSAGE });
+  }
+
   const apiKey = process.env.LOOPS_API_KEY;
   const lists = [process.env.LOOPS_LIST_FRIENDS, process.env.LOOPS_LIST_DEALS].filter(Boolean);
   if (!apiKey || lists.length !== 2) {
@@ -169,6 +183,38 @@ function notFromOurForm(req, body) {
     return 'bad origin';
   }
   return host && sourceHost === host ? null : 'other site';
+}
+
+// True when this connection has used up its signups for the hour;
+// otherwise records this attempt and returns false. Fails open: with
+// Supabase unconfigured, the table not created yet, or any error, the
+// signup goes ahead, because a broken limit must never block people.
+async function overRateLimit(req, form) {
+  const key = process.env.LOOPS_SYNC_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const ip = clientIp(req);
+  if (!supabase.configured() || !key || !ip) return false;
+
+  const ipHash = createHmac('sha256', key).update(ip).digest('base64url');
+  try {
+    const since = new Date(Date.now() - RATE_LIMIT.windowMs).toISOString();
+    const count = await supabase.countAttempts(ipHash, since);
+    if (count >= RATE_LIMIT.max) {
+      console.info('[waitlist] rate limited', { count: count, form: form });
+      return true;
+    }
+    await supabase.recordAttempt(ipHash);
+  } catch (err) {
+    console.error('[waitlist] rate limit skipped', { status: err && err.status, error: String(err && err.message) });
+  }
+  return false;
+}
+
+// Vercel puts the visitor's address in x-real-ip, and first in
+// x-forwarded-for.
+function clientIp(req) {
+  const real = String(req.headers['x-real-ip'] || '').trim();
+  if (real) return real;
+  return String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
 }
 
 function forLoops(attribution) {

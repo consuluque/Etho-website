@@ -67,6 +67,14 @@ What the function does with a submission:
   Scripts that post straight to the function, skipping the page, fail
   both. Logged as `[waitlist] dropped, not from a site form`. A new form
   needs its name added to `KNOWN_FORMS` in `api/waitlist.js`.
+- Limits each connection (IP address) to 10 signups an hour
+  (`RATE_LIMIT` in `api/waitlist.js`). Past that it answers 429 with a
+  "try again in an hour" message, which the form shows. Attempts are
+  counted in the `waitlist_attempts` table, keyed by a hash of the IP,
+  never the IP itself; create it with
+  `supabase/migrations/20261111_waitlist_attempts.sql`. Until that table
+  exists, or if Supabase errors, the limit is skipped and signups go
+  through (logged as `[waitlist] rate limit skipped`).
 - Looks the email up in Loops. A **new** contact is created with
   `source: website`, `userGroup: lead`, the attribution properties below,
   and a subscription to both mailing lists. An **existing** contact is
