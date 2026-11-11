@@ -201,6 +201,112 @@ function attributionForSubmit() {
    form stays on the page afterwards, cleared, so another address can
    go in.
    --------------------------------------------------------------- */
+/* ---------------------------------------------------------------
+   Cloudflare Turnstile (invisible)
+
+   Proves to /api/waitlist that a sign-up came from a real browser on
+   etho.pet. The widget is in Invisible mode, so nobody sees or clicks
+   anything: it runs once the page loads and keeps a token ready, and
+   each sign-up sends the token as turnstileToken. Tokens are single-use,
+   so a new one is fetched after every sign-up; an expired one refreshes
+   by itself. The function checks the token with Cloudflare.
+
+   If Turnstile cannot give a token (blocked, offline, slow), the form
+   falls back to its plain no-JS post, so nobody is ever turned away.
+   With TURNSTILE_SITE_KEY empty, or on any other host (Vercel
+   previews), none of this runs.
+   --------------------------------------------------------------- */
+const TURNSTILE_SITE_KEY = '0x4AAAAAAF8hzOJIo-QvtHCv'; // public; the secret is only in Vercel
+const TURNSTILE_HOSTS = ['etho.pet', 'www.etho.pet'];
+const TURNSTILE_ACTION = 'waitlist'; // checked by api/waitlist.js
+const TURNSTILE_WAIT_MS = 8000;
+
+const turnstileState = { widgetId: null, token: '', failed: false, waiting: [] };
+
+function turnstileEnabled() {
+  return Boolean(TURNSTILE_SITE_KEY) && TURNSTILE_HOSTS.includes(window.location.hostname);
+}
+
+function turnstileSettle(token) {
+  turnstileState.token = token || '';
+  const waiting = turnstileState.waiting;
+  turnstileState.waiting = [];
+  waiting.forEach((resolve) => resolve(turnstileState.token));
+}
+
+function turnstileFail() {
+  turnstileState.failed = true;
+  turnstileSettle('');
+}
+
+function initTurnstile() {
+  if (!turnstileEnabled() || !document.querySelector('.access-form')) return;
+
+  window.ethoTurnstileLoaded = () => {
+    try {
+      const box = document.createElement('div');
+      box.className = 'turnstile-box';
+      document.body.appendChild(box);
+      turnstileState.widgetId = window.turnstile.render(box, {
+        sitekey: TURNSTILE_SITE_KEY,
+        action: TURNSTILE_ACTION,
+        'refresh-expired': 'auto',
+        callback: (token) => { turnstileState.failed = false; turnstileSettle(token); },
+        'expired-callback': () => { turnstileState.token = ''; },
+        'error-callback': () => { turnstileFail(); return true; },
+      });
+    } catch (_) {
+      turnstileFail();
+    }
+  };
+
+  const script = document.createElement('script');
+  script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=ethoTurnstileLoaded';
+  script.async = true;
+  script.onerror = turnstileFail;
+  document.head.appendChild(script);
+}
+
+// A fresh token, waiting up to TURNSTILE_WAIT_MS for one; '' if none.
+function turnstileToken() {
+  if (turnstileState.token) {
+    const token = turnstileState.token;
+    turnstileState.token = '';
+    return Promise.resolve(token);
+  }
+  if (turnstileState.failed) return Promise.resolve('');
+  return new Promise((resolve) => {
+    const done = (token) => { clearTimeout(timer); turnstileState.token = ''; resolve(token); };
+    const timer = setTimeout(() => {
+      turnstileState.waiting = turnstileState.waiting.filter((fn) => fn !== done);
+      resolve('');
+    }, TURNSTILE_WAIT_MS);
+    turnstileState.waiting.push(done);
+  });
+}
+
+// Tokens are single-use: ask for the next one straight after a sign-up.
+function turnstileRefresh() {
+  if (turnstileState.widgetId === null || !window.turnstile) return;
+  turnstileState.token = '';
+  try { window.turnstile.reset(turnstileState.widgetId); } catch (_) { turnstileFail(); }
+}
+
+// The plain no-JS post, with the attribution added as hidden fields so
+// the lead still says where it came from. The function sends the browser
+// back to /?joined=1, which shows the usual message.
+function submitNatively(form, attribution) {
+  Object.keys(attribution).forEach((key) => {
+    if (form.elements[key]) return;
+    const field = document.createElement('input');
+    field.type = 'hidden';
+    field.name = key;
+    field.value = attribution[key];
+    form.appendChild(field);
+  });
+  HTMLFormElement.prototype.submit.call(form);
+}
+
 const DONE_MESSAGE = "You're in! Add another email?";
 const ERROR_MESSAGE = 'Something went wrong — please try again.';
 
@@ -251,12 +357,24 @@ function initAccessForm(form) {
     submitBtn.textContent = 'Sending…';
     setStatus(status, '', null);
 
+    const attribution = attributionForSubmit();
     const payload = Object.assign(
       Object.fromEntries(new FormData(form)),
-      attributionForSubmit(),
+      attribution,
       { form: name }
     );
     payload.email = String(payload.email || '').trim();
+
+    if (turnstileEnabled()) {
+      payload.turnstileToken = await turnstileToken();
+      if (!payload.turnstileToken) {
+        // No token to be had: send it the no-JS way instead, which the
+        // function accepts without one, rather than lose the lead.
+        track('waitlist_signup_fallback', { form: name });
+        submitNatively(form, attribution);
+        return;
+      }
+    }
 
     // profile.js opens the dog profile modal on this, straight away,
     // while the signup goes through behind it. A failed signup closes
@@ -272,8 +390,9 @@ function initAccessForm(form) {
       if (!res.ok) {
         const failed = await res.json().catch(() => ({}));
         const err = new Error('Request failed with ' + res.status);
-        // The rate limit has its own message; show its words.
-        if (res.status === 429 && failed.message) err.userMessage = failed.message;
+        // The rate limit and the Turnstile check have their own
+        // messages; show their words.
+        if ((res.status === 429 || res.status === 403) && failed.message) err.userMessage = failed.message;
         throw err;
       }
       const data = await res.json().catch(() => ({}));
@@ -288,6 +407,7 @@ function initAccessForm(form) {
       setStatus(status, (err && err.userMessage) || ERROR_MESSAGE, 'error');
       track('waitlist_signup_error', { form: name });
     } finally {
+      turnstileRefresh();
       submitBtn.disabled = false;
       submitBtn.textContent = submitLabel;
     }
@@ -364,6 +484,7 @@ function initStickyCta(bar) {
 }
 
 captureAttribution();
+initTurnstile();
 trackPageView();
 initScrollDepth();
 initSectionViews();
