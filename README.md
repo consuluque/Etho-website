@@ -66,7 +66,9 @@ What the function does with a submission:
   `Origin` (or `Referer`) from the host the function is served on.
   Scripts that post straight to the function, skipping the page, fail
   both. Logged as `[waitlist] dropped, not from a site form`. A new form
-  needs its name added to `KNOWN_FORMS` in `api/waitlist.js`.
+  needs its name added to `KNOWN_FORMS` in `api/waitlist.js`. A post sent
+  by the page script (JSON) must also carry `landingPage`, which
+  `landing.js` always adds; no-JS form posts are exempt.
 - Limits each connection (IP address) to 10 signups an hour
   (`RATE_LIMIT` in `api/waitlist.js`). Past that it answers 429 with a
   "try again later" message, which the form shows. Attempts are
