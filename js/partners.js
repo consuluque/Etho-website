@@ -212,7 +212,7 @@ if (window.EthoScenes) {
   });
 
   // The hero: how Etho fills an open appointment, in four steps.
-  // 1, Urbanimals' Tuesday: the 10:30 slot opens and its rules come in.
+  // 1, Groomie Spa's Tuesday: the 10:30 slot opens and its rules come in.
   // 2, Etho searches the business's customers and its own network and
   // ranks three dogs; Louie, a customer, is picked. 3, Sarah gets a text
   // with a free dental treat and replies YES. 4, booked and filled; what
