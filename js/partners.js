@@ -249,12 +249,9 @@ if (window.EthoScenes) {
     finalState({ on }) { on('in', 'cancel', 'ctl', 'r1', 'r2', 'r3', 'r4', 'r5', 'live', 'booked'); },
   });
 
-  // 2 — Grow each booking. A daycare booking comes in; Etho suggests
-  // add-ons, one is taken and the total climbs; the average booking
-  // value rises, and boarding is booked alongside.
-  // Make every booking worth more: at checkout for a $220 puppy course,
-  // Etho suggests a $45 starter kit and an optional follow-up; the kit
-  // goes in and the total and the average transaction value count up.
+  // Make every booking worth more: at checkout for an $85 full groom,
+  // Etho suggests a $35 coat care kit and an optional teeth clean; the
+  // kit goes in and the total and the average transaction value count up.
   S.define('p-basket', {
     loopAt: 9600,
     script({ at, on, root }) {
@@ -262,13 +259,13 @@ if (window.EthoScenes) {
       const avg = root.querySelector('.ps-stat .ps-num');
       at(200, () => on('in'));
       at(1500, () => on('sug'));
-      at(3300, () => { on('kit'); countUp(root, total, 45, 800, (n) => money(220 + n)); });
+      at(3300, () => { on('kit'); countUp(root, total, 35, 800, (n) => money(85 + n)); });
       at(4600, () => { on('stat'); countUp(root, avg, 20, 1000, (n) => '+' + n + '%'); });
       at(8900, () => on('out'));
     },
     finalState({ on, root }) {
       on('in', 'sug', 'kit', 'stat');
-      root.querySelector('.ps-cart__total b').textContent = '$265';
+      root.querySelector('.ps-cart__total b').textContent = '$120';
       root.querySelector('.ps-stat .ps-num').textContent = '+20%';
     },
   });

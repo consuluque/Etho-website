@@ -279,9 +279,9 @@
 .pscene--capacity.s-booked .ps-toast--gap { opacity: 1; transform: none; }
 
 /* -- 2. Make every booking worth more -----------------------------
-   A checkout on glass over the photo: the puppy course, then
-   Etho's suggestions for Milo. The starter kit (a bundle price) ticks
-   on and the total counts up; the follow-up stays optional. States:
+   A checkout on glass over the photo: Milo's full groom, then
+   Etho's suggestions for him. The coat care kit (a bundle price) ticks
+   on and the total counts up; the teeth clean stays optional. States:
    s-in, s-sug, s-kit, s-stat. */
 
 .ps-cart { left: 1.8em; top: 2em; width: 19.5em; padding: 1.3em 1.4em 1.2em; }
