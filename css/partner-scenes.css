@@ -150,13 +150,53 @@
 .ps-toast__ico svg { width: 1.2em; height: 1.2em; stroke-width: 2.8; }
 
 /* -- 1. Fill the gaps ---------------------------------------------
-   Today's book: the 12:15 is cancelled and shows "45 min free". The
-   slot's controls come in one at a time, the offer goes live, and
-   Bella books it. States: s-in, s-cancel, s-ctl, s-r1..s-r5, s-live,
-   s-booked. */
+   One card, three steps (a bar for each). Today's book: the 12:15 is
+   cancelled and shows "45 min free" (s-cancel). The card turns to the
+   slot's controls (s-ctl): the rules come in (s-r1..s-r5) and the offer
+   goes live (s-live). Back on today's book (s-back), Bella books it
+   (s-booked). */
 
-.ps-day { left: 1.8em; top: 2em; width: 17.5em; }
-.ps-day .ps-cap { margin-bottom: 0.5em; }
+.ps-flow { left: 50%; top: 50%; width: 21em; height: 21.5em; padding: 0; overflow: hidden; transform: translate(-50%, calc(-50% + 1.2em)) scale(0.98); }
+.pscene--capacity.s-in .ps-flow { opacity: 1; transform: translate(-50%, -50%); }
+.ps-steps { position: absolute; left: 1.1em; right: 1.1em; top: 1em; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35em; }
+.ps-steps i { height: 0.2em; border-radius: 1em; background: rgba(255, 255, 255, 0.16); overflow: hidden; }
+.ps-steps i::after { content: ''; display: block; height: 100%; background: var(--ps-y); transform: scaleX(0); transform-origin: left; transition: transform 600ms var(--ease-out); }
+.s-in .ps-steps i:nth-child(1)::after,
+.s-ctl .ps-steps i:nth-child(2)::after,
+.s-back .ps-steps i:nth-child(3)::after { transform: none; }
+.ps-pg {
+  position: absolute;
+  left: 1.1em;
+  right: 1.1em;
+  top: 2em;
+  bottom: 1em;
+  opacity: 0;
+  transform: translateX(2em);
+  transition: opacity 450ms var(--ease-out), transform 650ms var(--ease-out);
+}
+.s-in .ps-pg--day,
+.s-ctl .ps-pg--ctl { opacity: 1; transform: none; }
+.s-ctl .ps-pg--day,
+.s-back .ps-pg--ctl { opacity: 0; transform: translateX(-2em); }
+.s-back .ps-pg--day { opacity: 1; transform: none; }
+.ps-flow__t { display: grid; margin: 0.2em 0 0.7em !important; font-size: 1.15em; }
+.ps-flow__t > span { grid-area: 1 / 1; transition: opacity 400ms var(--ease-out); }
+.ps-flow__b { opacity: 0; }
+.s-booked .ps-flow__a { opacity: 0; }
+.s-booked .ps-flow__b { opacity: 1; }
+.ps-result {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  margin-top: 0.9em;
+  padding: 0.7em 0.8em;
+  border-radius: 1em;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(0.6em);
+  transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.s-booked .ps-result { opacity: 1; transform: none; }
 .ps-appt {
   display: flex;
   align-items: center;
@@ -208,9 +248,7 @@
 .s-booked .ps-gap__who,
 .s-booked .ps-gap__ok { opacity: 1; transform: none; }
 
-.ps-ctl { right: 1.8em; top: 2em; width: 19em; }
-.ps-ctl > .ps-h { margin-top: 0.2em; font-size: 1.15em; }
-.ps-rules { margin-top: 0.7em; }
+.ps-rules { margin-top: 0; }
 .ps-rule {
   display: flex;
   justify-content: space-between;
@@ -272,11 +310,6 @@
 .ps-live .ps-sub { transition: color 400ms var(--ease-out); }
 .s-live .ps-live .ps-sub { color: var(--ps-y); }
 
-.ps-toast--gap { left: 1.8em; bottom: 2em; width: 17.5em; }
-
-.pscene--capacity.s-in .ps-day { opacity: 1; transform: none; }
-.pscene--capacity.s-ctl .ps-ctl { opacity: 1; transform: none; }
-.pscene--capacity.s-booked .ps-toast--gap { opacity: 1; transform: none; }
 
 /* -- 2. Make every booking worth more -----------------------------
    A checkout on glass over the photo: Milo's full groom, then
@@ -603,9 +636,7 @@
 
 @media (max-width: 900px) {
   .ps-stat { right: 1.2em; top: auto; bottom: 12.2em; }
-  .ps-day { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
-  .ps-ctl { left: 1.2em; right: 1.2em; top: auto; bottom: 1.2em; width: auto; }
-  .ps-toast--gap { left: 1.2em; right: 1.2em; bottom: 1.2em; width: auto; }
+  .ps-flow { width: calc(100% - 2.4em); }
   .ps-cart { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
   .pscene--basket .ps-stat { left: 1.2em; right: auto; bottom: 1.2em; min-width: 11em; }
   .ps-code { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; height: auto; padding: 1em 1.1em; font-size: 0.68em; line-height: 1.55; }

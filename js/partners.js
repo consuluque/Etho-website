@@ -243,20 +243,22 @@ if (window.EthoScenes) {
     },
   });
 
-  // Fill the gaps: a 45-minute cancellation becomes one slot with a free post-groom portrait
-  // for a small, short-coated dog, live until 2pm, and it is booked.
+  // Fill the gaps, in one card: the 12:15 is cancelled; the groomer
+  // opens the slot to small, short-coated dogs with a free post-groom
+  // portrait and turns it live; back on today's book, Bella takes it.
   S.define('p-capacity', {
-    loopAt: 10600,
+    loopAt: 11200,
     script({ at, on }) {
       at(200, () => on('in'));
       at(1300, () => on('cancel'));
-      at(2400, () => on('ctl'));
-      [3000, 3450, 3900, 4350, 4800].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
-      at(5800, () => on('live'));
-      at(7200, () => on('booked'));
-      at(9900, () => on('out'));
+      at(2700, () => on('ctl'));
+      [3200, 3550, 3900, 4250, 4600].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
+      at(5500, () => on('live'));
+      at(6800, () => on('back'));
+      at(7600, () => on('booked'));
+      at(10500, () => on('out'));
     },
-    finalState({ on }) { on('in', 'cancel', 'ctl', 'r1', 'r2', 'r3', 'r4', 'r5', 'live', 'booked'); },
+    finalState({ on }) { on('in', 'cancel', 'ctl', 'r1', 'r2', 'r3', 'r4', 'r5', 'live', 'back', 'booked'); },
   });
 
   // Make every booking worth more: at checkout for an $85 full groom,

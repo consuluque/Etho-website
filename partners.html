@@ -208,38 +208,43 @@
       <div class="b2b-feature__text">
         <h3>Fill the gaps</h3>
         <p>More bookings at the right times.</p>
-        <p class="b2b-feature__desc">Turn unused capacity into revenue by intelligently matching available appointments with suitable dogs.</p>
+        <p class="b2b-feature__desc">Fill your calendar with the right customers, matched to your availability and business requirements.</p>
       </div>
       <div class="b2b-feature__media" data-media="capacity">
-        <!-- A 45-minute cancellation, just long enough for a small dog.
-             The groomer opens that one slot with a free post-groom portrait, for small,
-             short-coated dogs, bookable until 2pm today; Etho shows it
-             only to eligible pet parents, and it is booked. -->
+        <!-- One card, three steps, a bar along the top for each. 1, a
+             12:15 mini wash is cancelled: 45 minutes free. 2, the groomer
+             opens that slot for small, short-coated dogs, bookable until
+             2pm, with a free post-groom portrait, and turns it live for
+             eligible pet parents. 3, back on today's book, Bella takes it. -->
         <div class="pscene pscene--capacity" data-scene="p-capacity" aria-hidden="true">
           <img class="ps-bg ps-bg--web2" src="assets/images/partners/web2.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-day">
-            <p class="ps-cap">Today</p>
-            <div class="ps-appt"><span>10:30</span><p>Full groom</p><b>Booked</b></div>
-            <div class="ps-appt ps-appt--gap">
-              <span>12:15</span>
-              <p class="ps-gap__name"><i class="ps-gap__was">Mini wash</i><i class="ps-gap__free">45 min free</i><i class="ps-gap__who"><em class="ps-av">B</em>Bella</i></p>
-              <b class="ps-gap__st"><i class="ps-gap__was">Booked</i><i class="ps-gap__x">Cancelled</i><i class="ps-gap__ok">Booked</i></b>
+          <div class="ps-glass ps-flow">
+            <div class="ps-steps"><i></i><i></i><i></i></div>
+            <div class="ps-pg ps-pg--day">
+              <p class="ps-cap">Today</p>
+              <p class="ps-h ps-flow__t"><span class="ps-flow__a">A cancellation at 12:15</span><span class="ps-flow__b">Filled by a new customer</span></p>
+              <div class="ps-appt"><span>10:30</span><p>Full groom</p><b>Booked</b></div>
+              <div class="ps-appt ps-appt--gap">
+                <span>12:15</span>
+                <p class="ps-gap__name"><i class="ps-gap__was">Mini wash</i><i class="ps-gap__free">45 min free</i><i class="ps-gap__who"><em class="ps-av">B</em>Bella</i></p>
+                <b class="ps-gap__st"><i class="ps-gap__was">Booked</i><i class="ps-gap__x">Cancelled</i><i class="ps-gap__ok">Booked</i></b>
+              </div>
+              <div class="ps-appt"><span>1:00</span><p>Wash &amp; tidy</p><b>Booked</b></div>
+              <div class="ps-result"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Bella booked 12:15</p><p class="ps-sub">Jack Russell · Mini wash · $45</p></div></div>
             </div>
-            <div class="ps-appt"><span>1:00</span><p>Wash &amp; tidy</p><b>Booked</b></div>
-          </div>
-          <div class="ps-glass ps-ctl">
-            <p class="ps-cap">Open this slot</p>
-            <p class="ps-h">12:15 to 1:00 today</p>
-            <div class="ps-rules">
-              <div class="ps-rule ps-rule--1"><span>Size</span><b>Small · short coat</b></div>
-              <div class="ps-rule ps-rule--2"><span>Duration</span><b>45 min</b></div>
-              <div class="ps-rule ps-rule--3"><span>Bookable until</span><b>2pm today</b></div>
-              <div class="ps-rule ps-rule--4"><span>Bookings</span><b>1</b></div>
-              <div class="ps-rule ps-rule--5"><span>Extra</span><b class="ps-rule__y">Free post-groom portrait</b></div>
+            <div class="ps-pg ps-pg--ctl">
+              <p class="ps-cap">Open this slot</p>
+              <p class="ps-h ps-flow__t">12:15 to 1:00 today</p>
+              <div class="ps-rules">
+                <div class="ps-rule ps-rule--1"><span>Size</span><b>Small · short coat</b></div>
+                <div class="ps-rule ps-rule--2"><span>Duration</span><b>45 min</b></div>
+                <div class="ps-rule ps-rule--3"><span>Bookable until</span><b>2pm today</b></div>
+                <div class="ps-rule ps-rule--4"><span>Bookings</span><b>1</b></div>
+                <div class="ps-rule ps-rule--5"><span>Extra</span><b class="ps-rule__y">Free post-groom portrait</b></div>
+              </div>
+              <div class="ps-live"><div><p class="ps-h">Offer live</p><p class="ps-sub">Shown to eligible pet parents</p></div><span class="ps-toggle"></span></div>
             </div>
-            <div class="ps-live"><div><p class="ps-h">Offer live</p><p class="ps-sub">Shown to eligible pet parents</p></div><span class="ps-toggle"></span></div>
           </div>
-          <div class="ps-glass ps-toast ps-toast--gap"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Bella booked 12:15</p><p class="ps-sub">Jack Russell · Mini wash · $45</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
