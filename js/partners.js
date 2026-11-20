@@ -213,28 +213,27 @@ if (window.EthoScenes) {
 
   // The hero. Today's book at Dogue Spa, live. Etho spots two open slots
   // this afternoon and suggests a plan in the provider's own rules: the
-  // service, the dogs it suits (large, high energy), new customers only,
-  // when, and the offer. The provider adds Huskies and approves; back on
-  // today's book, the slots fill with two new customers.
+  // service, the dogs it suits, when, and the offer. The provider
+  // approves; back on today's book, Etho searches for customers and the
+  // slots fill with two new ones.
   S.define('p-hero', {
     loopAt: 14200,
     script({ at, on }) {
       at(200, () => on('in'));
       at(1500, () => on('gap'));
       at(3300, () => on('p2'));
-      [3800, 4150, 4500, 4850, 5200].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
-      at(6500, () => on('edit'));
-      at(7700, () => on('ok'));
-      at(8900, () => on('p3'));
-      at(9600, () => on('m1'));
-      at(10300, () => on('m2'));
-      at(11000, () => on('done'));
+      [3800, 4150, 4500, 4850].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
+      at(6300, () => on('ok'));
+      at(7400, () => on('p3'));
+      at(9400, () => on('m1'));
+      at(10100, () => on('m2'));
+      at(10800, () => on('done'));
       at(13500, () => on('out'));
     },
-    finalState({ on }) { on('in', 'gap', 'p2', 'r1', 'r2', 'r3', 'r4', 'r5', 'edit', 'ok', 'p3', 'm1', 'm2', 'done'); },
+    finalState({ on }) { on('in', 'gap', 'p2', 'r1', 'r2', 'r3', 'r4', 'ok', 'p3', 'm1', 'm2', 'done'); },
   });
 
-  // Fill the gaps: a 45-minute cancellation becomes one discounted slot
+  // Fill the gaps: a 45-minute cancellation becomes one slot with a free post-groom portrait
   // for a small, short-coated dog, live until 2pm, and it is booked.
   S.define('p-capacity', {
     loopAt: 10600,

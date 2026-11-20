@@ -623,7 +623,7 @@
 /* ---------------------------------------------------------------
    The hero: one glass card over a photo (p-hero). Today's book, live;
    Etho spots the open slots (s-gap); its plan in the provider's rules
-   (s-p2, s-r1..s-r5, s-edit, s-ok); back to today as the slots fill
+   (s-p2, s-r1..s-r4, s-ok); back to today, searching, as the slots fill
    with new customers (s-p3, s-m1, s-m2, s-done).
    --------------------------------------------------------------- */
 
@@ -780,8 +780,14 @@
 }
 .ph-note svg { width: 1.1em; height: 1.1em; fill: currentColor; stroke: none; }
 .ph-note__b svg { fill: none; stroke: currentColor; stroke-width: 2.6; }
+.ph-note__s { color: rgba(255, 255, 255, 0.85) !important; }
+.ph-note__s svg { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; animation: ph-spin 900ms linear infinite; }
+@keyframes ph-spin { to { transform: rotate(360deg); } }
+/* One line at a time: open slots, then searching, then filled. */
 .phero.s-gap .ph-note__a { opacity: 1; transform: none; }
-.phero.s-done .ph-note__a { opacity: 0; transform: translateY(-0.4em); }
+.phero.s-p3 .ph-note__a,
+.phero.s-done .ph-note__s { opacity: 0; transform: translateY(-0.4em); }
+.phero.s-p3 .ph-note__s { opacity: 1; transform: none; }
 .phero.s-done .ph-note__b { opacity: 1; transform: none; }
 
 /* -- The plan, in the provider's rules ----------------------------- */
@@ -810,17 +816,10 @@
   transition: background 350ms var(--ease-out), color 350ms var(--ease-out), border-color 350ms var(--ease-out), transform 200ms var(--ease-out);
 }
 .ph-chip--on { background: rgba(255, 255, 255, 0.92); border-color: transparent; color: #000; }
-.ph-chip--add { border-style: dashed; }
-.ph-chip--add::before { content: '+ '; }
-/* The provider's edit: adds a breed. */
-.phero.s-edit .ph-chip--add { background: #FFF6C4; border: 1px solid transparent; color: #000; transform: scale(1.06); }
-.phero.s-edit .ph-chip--add::before { content: ''; }
-.phero.s-ok .ph-chip--add { transform: none; }
 .phero.s-r1 .ph-rule--1,
 .phero.s-r2 .ph-rule--2,
 .phero.s-r3 .ph-rule--3,
-.phero.s-r4 .ph-rule--4,
-.phero.s-r5 .ph-rule--5 { opacity: 1; transform: none; }
+.phero.s-r4 .ph-rule--4 { opacity: 1; transform: none; }
 
 .ph-confirm {
   position: absolute;
@@ -841,7 +840,7 @@
 .ph-confirm span { grid-area: 1 / 1; display: flex; align-items: center; gap: 0.3em; transition: opacity 300ms var(--ease-out); }
 .ph-confirm svg { width: 1.2em; height: 1.2em; fill: none; stroke: currentColor; stroke-width: 3; }
 .ph-confirm__b { opacity: 0; }
-.phero.s-r5 .ph-confirm { opacity: 1; transition-delay: 300ms; }
+.phero.s-r4 .ph-confirm { opacity: 1; transition-delay: 300ms; }
 .phero.s-ok .ph-confirm { background: #FFF6C4; transform: scale(0.97); transition-delay: 0ms; }
 .phero.s-ok .ph-confirm__a { opacity: 0; }
 .phero.s-ok .ph-confirm__b { opacity: 1; }
