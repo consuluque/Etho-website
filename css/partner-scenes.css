@@ -483,12 +483,12 @@
 .pscene--ai.s-ans .ps-ans { opacity: 1; transform: none; }
 .pscene--ai.s-toast .ps-toast { opacity: 1; transform: none; }
 
-/* -- 4. More ways to say yes ---------------------------------------
-   Cooper's parent picks how to pay for daycare: a single day, a
-   4-visit pass, or an 8-day pass with free same-day pick-up. The pick
-   moves to the 8-day pass, payment splits into 4, the pass goes
-   active, and the provider sees the visits booked ahead. States:
-   s-in, s-o2, s-o3, s-split, s-done, s-stat, s-toast. */
+/* -- 4. Get loyal customers ----------------------------------------
+   Etho sees Cooper is due for a groom and offers three open
+   appointments; the pick moves to Saturday with his usual groomer,
+   it is set to repeat every 6 weeks (s-split), booked (s-done), and
+   the provider sees the grooms booked ahead. States: s-in, s-o2,
+   s-o3, s-split, s-done, s-stat, s-toast. */
 
 .ps-tag {
   display: inline-block;

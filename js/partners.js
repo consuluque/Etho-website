@@ -292,21 +292,19 @@ if (window.EthoScenes) {
     finalState({ on }) { on('in', 'q', 'ans', 'booked', 'toast'); },
   });
 
-  // 4 — Get loyal customers. A five-session pack paid upfront, four
-  // sessions in; the month's prepaid revenue, repeat rate and rebookings
-  // count up, and a rebooking arrives.
-  // More ways to say yes: Cooper's parent moves from a single day to the
-  // 8-day pass (free same-day pick-up), splits it into 4 payments, and
-  // the provider sees eight visits booked ahead.
+  // 4 — Get loyal customers. Etho sees Cooper is due for a groom and
+  // offers open appointments that suit him; the pick moves to Saturday
+  // with his usual groomer, set to repeat every 6 weeks, and is booked;
+  // the provider sees eight grooms booked ahead.
   S.define('p-retention', {
     loopAt: 9800,
     script({ at, on, root }) {
-      const each = root.querySelector('.ps-cta [data-scene-count]');
+      const slot = root.querySelector('.ps-cta b');
       const ahead = root.querySelector('.ps-stat [data-scene-count]');
-      at(200, () => on('in'));
-      at(1400, () => { on('o2'); each.textContent = '$234'; });
-      at(2300, () => { on('o3'); each.textContent = '$440'; });
-      at(3500, () => { on('split'); countUp(root, each, 330, 800, (n) => '$' + (440 - n)); });
+      at(200, () => { on('in'); slot.textContent = 'Tue 2:00pm'; });
+      at(1400, () => { on('o2'); slot.textContent = 'Thu 10:00am'; });
+      at(2300, () => { on('o3'); slot.textContent = 'Sat 9:30am'; });
+      at(3500, () => on('split'));
       at(4900, () => on('done'));
       at(5600, () => { on('stat'); countUp(root, ahead, 8, 900, String); });
       at(6400, () => on('toast'));
@@ -314,7 +312,7 @@ if (window.EthoScenes) {
     },
     finalState({ on, root }) {
       on('in', 'o2', 'o3', 'split', 'done', 'stat', 'toast');
-      root.querySelector('.ps-cta [data-scene-count]').textContent = '$110';
+      root.querySelector('.ps-cta b').textContent = 'Sat 9:30am';
       root.querySelector('.ps-stat [data-scene-count]').textContent = '8';
     },
   });
