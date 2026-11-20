@@ -172,13 +172,14 @@
   bottom: 1em;
   opacity: 0;
   transform: translateX(2em);
-  transition: opacity 450ms var(--ease-out), transform 650ms var(--ease-out);
+  /* Out quickly; the next page waits for it, so the two never overlap. */
+  transition: opacity 220ms ease-in, transform 400ms ease-in;
 }
 .s-in .ps-pg--day,
-.s-ctl .ps-pg--ctl { opacity: 1; transform: none; }
+.s-ctl .ps-pg--ctl { opacity: 1; transform: none; transition: opacity 400ms var(--ease-out) 260ms, transform 650ms var(--ease-out) 260ms; }
 .s-ctl .ps-pg--day,
-.s-back .ps-pg--ctl { opacity: 0; transform: translateX(-2em); }
-.s-back .ps-pg--day { opacity: 1; transform: none; }
+.s-back .ps-pg--ctl { opacity: 0; transform: translateX(-2em); transition: opacity 220ms ease-in, transform 400ms ease-in; }
+.s-back .ps-pg--day { opacity: 1; transform: none; transition: opacity 400ms var(--ease-out) 260ms, transform 650ms var(--ease-out) 260ms; }
 .ps-flow__t { display: grid; margin: 0.2em 0 0.7em !important; font-size: 1.15em; }
 .ps-flow__t > span { grid-area: 1 / 1; transition: opacity 400ms var(--ease-out); }
 .ps-flow__b { opacity: 0; }
@@ -733,15 +734,16 @@
   bottom: 1.4em;
   opacity: 0;
   transform: translateX(2em);
-  transition: opacity 450ms var(--ease-out), transform 650ms var(--ease-out);
+  /* Out quickly; the next page waits for it, so the two never overlap. */
+  transition: opacity 220ms ease-in, transform 400ms ease-in;
 }
 .phero.s-in .ph-page--1,
 .phero.s-p2 .ph-page--2,
 .phero.s-p3 .ph-page--3,
-.phero.s-p4 .ph-page--4 { opacity: 1; transform: none; }
+.phero.s-p4 .ph-page--4 { opacity: 1; transform: none; transition: opacity 400ms var(--ease-out) 260ms, transform 650ms var(--ease-out) 260ms; }
 .phero.s-p2 .ph-page--1,
 .phero.s-p3 .ph-page--2,
-.phero.s-p4 .ph-page--3 { opacity: 0; transform: translateX(-2em); }
+.phero.s-p4 .ph-page--3 { opacity: 0; transform: translateX(-2em); transition: opacity 220ms ease-in, transform 400ms ease-in; }
 
 .ph-step { display: flex; align-items: center; gap: 0.55em; margin-bottom: 0.9em !important; font-size: 1.05em; font-weight: 600; letter-spacing: -0.01em; }
 .ph-step b { display: grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--ph-y); color: #000; font-size: 0.75em; font-weight: 700; }
