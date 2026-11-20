@@ -136,34 +136,62 @@
       <p class="hero-sub">Etho connects your available appointments with suitable dogs. Fill quiet periods, attract new customers and increase every booking’s value.</p>
       <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Learn more</a>
     </div>
-    <!-- One glass card over a photo: today's book at Dogue Spa, live.
-         Etho spots two open slots this afternoon and suggests a plan in
-         the provider's own rules (service, the dogs it suits, when, the
-         offer); the provider approves, Etho searches for customers, and
-         the same afternoon fills with two new customers. Run by
+    <!-- One glass card over a photo, telling how Etho fills an open
+         appointment in four steps, a bar along the top for each:
+         1, it knows the business: Tuesday at Urbanimals, a 60-minute
+         10:30 slot and its rules (small, calm dogs, no large breeds);
+         2, it searches the business's own customers and Etho's network
+         and ranks the dogs that fit (Louie, a customer, first);
+         3, it texts Sarah an offer for Louie (a free dental treat) and
+         she replies YES; 4, the slot is booked and filled, Etho notes
+         what it learned, and the slot's revenue shows. Run by
          scenes.js (p-hero in partners.js). -->
     <div class="b2b-panels" aria-hidden="true">
       <div class="pscene phero" data-scene="p-hero">
         <img class="ph-bg" src="assets/images/partners/web4b.webp" alt="" loading="lazy" decoding="async">
         <div class="ph-card">
-          <div class="ph-page ph-page--day">
-            <div class="ph-dayhead"><p class="ph-title">Today</p><span class="ph-pulse"><i></i>Live</span></div>
-            <div class="ph-slot "><span class="ph-slot__t">9:00</span><p>Full groom</p><b>Max</b></div>
-            <div class="ph-slot "><span class="ph-slot__t">10:30</span><p>Wash &amp; Dry</p><b>Coco</b></div>
-            <div class="ph-slot "><span class="ph-slot__t">12:00</span><p>Nail care</p><b>Pip</b></div>
-            <div class="ph-slot ph-slot--open ph-slot--a"><span class="ph-slot__t">2:30</span><p><i class="ph-open">Open</i><i class="ph-who">Rocky · Kelpie <em>New</em></i></p><b></b></div>
-            <div class="ph-slot ph-slot--open ph-slot--b"><span class="ph-slot__t">4:00</span><p><i class="ph-open">Open</i><i class="ph-who">Juno · Husky <em>New</em></i></p><b></b></div>
-            <p class="ph-note"><span class="ph-note__a"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>2 open slots this afternoon</span><span class="ph-note__s"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/></svg>Searching customers…</span><span class="ph-note__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>2 new customers today</span></p>
+          <div class="ph-steps"><i class="ph-bar ph-bar--1"></i><i class="ph-bar ph-bar--2"></i><i class="ph-bar ph-bar--3"></i><i class="ph-bar ph-bar--4"></i></div>
+
+          <div class="ph-page ph-page--1">
+            <p class="ph-step"><b>1</b>Understand the business</p>
+            <div class="ph-head"><p class="ph-kicker">Urbanimals · Tue 18 Nov</p><span class="ph-pill">Jess</span></div>
+            <div class="ph-slot"><span class="ph-slot__t">9:00</span><div><p>Full groom</p><p class="ph-sub">Max · Labrador</p></div><b>Booked</b></div>
+            <div class="ph-gap">
+              <div class="ph-gap__top"><span class="ph-slot__t">10:30</span><div><p>Available</p><p class="ph-sub ph-sub--y">60 min open</p></div><span class="ph-pill ph-pill--y">Open slot</span></div>
+              <div class="ph-chips"><span class="ph-chip ph-chip--1">Small dog</span><span class="ph-chip ph-chip--2">Up to 60 min</span><span class="ph-chip ph-chip--3">Calm temperament</span><span class="ph-chip ph-chip--4">No large breeds</span></div>
+            </div>
+            <div class="ph-slot"><span class="ph-slot__t">11:30</span><div><p>Wash &amp; tidy</p><p class="ph-sub">Bella · Golden retriever</p></div><b>Booked</b></div>
           </div>
 
-          <div class="ph-page ph-page--plan">
-            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested by Etho</p>
-            <p class="ph-title ph-plan__title">Fill this afternoon</p>
-            <div class="ph-rule ph-rule--1"><p class="ph-label">Service</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Full groom</span></div></div>
-            <div class="ph-rule ph-rule--2"><p class="ph-label">Dogs</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Large dogs</span></div></div>
-            <div class="ph-rule ph-rule--3"><p class="ph-label">When</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Today 2:30 &amp; 4:00</span></div></div>
-            <div class="ph-rule ph-rule--4"><p class="ph-label">Offer</p><div class="ph-chips"><span class="ph-chip ph-chip--on">20% off first visit</span></div></div>
-            <div class="ph-confirm"><span class="ph-confirm__a">Approve</span><span class="ph-confirm__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Live</span></div>
+          <div class="ph-page ph-page--2">
+            <p class="ph-step"><b>2</b>Find the right match</p>
+            <div class="ph-head"><p class="ph-kicker">Best matches · Tue 10:30</p><span class="ph-pill ph-found"><span class="ph-found__a"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/></svg>Searching</span><span class="ph-found__b">3 found</span></span></div>
+            <p class="ph-where">Your customers and Etho’s network</p>
+            <div class="ph-match ph-match--1 ph-match--top">
+              <div class="ph-match__row"><span class="ph-av">L</span><div><p>Louie</p><p class="ph-sub">Cavoodle · Sarah</p></div><span class="ph-src">Your customer</span><span class="ph-pct ph-pct--top">96%</span></div>
+              <div class="ph-chips ph-chips--why"><span class="ph-chip">Due in 8 days</span><span class="ph-chip">Home on Tuesdays</span><span class="ph-chip">Small · calm</span></div>
+            </div>
+            <div class="ph-match ph-match--2"><div class="ph-match__row"><span class="ph-av">R</span><div><p>Ruby</p><p class="ph-sub">Cocker spaniel · Tom</p></div><span class="ph-src">Etho network</span><span class="ph-pct">88%</span></div></div>
+            <div class="ph-match ph-match--3"><div class="ph-match__row"><span class="ph-av">P</span><div><p>Pepper</p><p class="ph-sub">Mini dachshund · Ana</p></div><span class="ph-src">Etho network</span><span class="ph-pct">81%</span></div></div>
+          </div>
+
+          <div class="ph-page ph-page--3">
+            <p class="ph-step"><b>3</b>Send a personalised offer</p>
+            <div class="ph-sms">
+              <p class="ph-sms__from"><span class="ph-av ph-av--biz">U</span>Urbanimals<em>Text message · now</em></p>
+              <p class="ph-bub ph-bub--in">Hi Sarah, Louie’s groom is due next week. We have Tuesday 10:30 free, and Louie gets a <mark>free dental treat</mark>. Reply YES to book or NO to skip.</p>
+              <p class="ph-bub ph-bub--out"><span class="ph-dots"><i></i><i></i><i></i></span><span class="ph-bub__t" data-type="YES"></span></p>
+              <p class="ph-sms__st">Delivered</p>
+            </div>
+          </div>
+
+          <div class="ph-page ph-page--4">
+            <p class="ph-step"><b>4</b>Book, confirm and learn</p>
+            <div class="ph-done"><span class="ph-tick"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ph-title">Louie is booked</p><p class="ph-sub">Confirmed · added to Jess’s calendar</p></div></div>
+            <div class="ph-filled"><span class="ph-slot__t">10:30</span><div><p>Wash &amp; Dry + dental treat</p><p class="ph-sub">Louie · Cavoodle</p></div><span class="ph-pill ph-pill--w">Filled</span></div>
+            <p class="ph-kicker ph-learn"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Etho learned</p>
+            <div class="ph-chips ph-chips--learn"><span class="ph-chip ph-chip--1">Sarah prefers Tue mornings</span><span class="ph-chip ph-chip--2">Says yes to extras</span><span class="ph-chip ph-chip--3">Next groom in ~6 weeks</span></div>
+            <div class="ph-rev"><p>Revenue from an empty slot</p><b>+<span data-scene-count>$0</span></b></div>
           </div>
         </div>
         <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>

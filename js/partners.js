@@ -211,26 +211,36 @@ if (window.EthoScenes) {
     finalState({ on }) { on('app', 'sheet', 'store'); },
   });
 
-  // The hero. Today's book at Dogue Spa, live. Etho spots two open slots
-  // this afternoon and suggests a plan in the provider's own rules: the
-  // service, the dogs it suits, when, and the offer. The provider
-  // approves; back on today's book, Etho searches for customers and the
-  // slots fill with two new ones.
+  // The hero: how Etho fills an open appointment, in four steps.
+  // 1, Urbanimals' Tuesday: the 10:30 slot opens and its rules come in.
+  // 2, Etho searches the business's customers and its own network and
+  // ranks three dogs; Louie, a customer, is picked. 3, Sarah gets a text
+  // with a free dental treat and replies YES. 4, booked and filled; what
+  // Etho learned, and the revenue from the empty slot.
   S.define('p-hero', {
-    loopAt: 14200,
-    script({ at, on }) {
+    loopAt: 17000,
+    script({ at, on, root, type }) {
+      const rev = root.querySelector('.ph-rev [data-scene-count]');
       at(200, () => on('in'));
-      at(1500, () => on('gap'));
-      at(3300, () => on('p2'));
-      [3800, 4150, 4500, 4850].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
-      at(6300, () => on('ok'));
-      at(7400, () => on('p3'));
-      at(9400, () => on('m1'));
-      at(10100, () => on('m2'));
-      at(10800, () => on('done'));
-      at(13500, () => on('out'));
+      at(1000, () => on('gap'));
+      [1500, 1800, 2100, 2400].forEach((ms, i) => at(ms, () => on('c' + (i + 1))));
+      at(4000, () => on('p2'));
+      [5400, 5800, 6200].forEach((ms, i) => at(ms, () => on('m' + (i + 1))));
+      at(7000, () => on('pick'));
+      at(8800, () => on('p3'));
+      at(9300, () => on('sms'));
+      at(11000, () => on('typ'));
+      at(11900, () => { on('yes'); type(root.querySelector('.ph-bub__t'), 90); });
+      at(13000, () => on('p4'));
+      [13700, 14000, 14300].forEach((ms, i) => at(ms, () => on('l' + (i + 1))));
+      at(14500, () => countUp(root, rev, 90, 900, (n) => '$' + n));
+      at(16300, () => on('out'));
     },
-    finalState({ on }) { on('in', 'gap', 'p2', 'r1', 'r2', 'r3', 'r4', 'ok', 'p3', 'm1', 'm2', 'done'); },
+    finalState({ on, root }) {
+      on('in', 'gap', 'c1', 'c2', 'c3', 'c4', 'p2', 'm1', 'm2', 'm3', 'pick', 'p3', 'sms', 'typ', 'yes', 'p4', 'l1', 'l2', 'l3');
+      root.querySelector('.ph-bub__t').textContent = 'YES';
+      root.querySelector('.ph-rev [data-scene-count]').textContent = '$90';
+    },
   });
 
   // Fill the gaps: a 45-minute cancellation becomes one slot with a free post-groom portrait
