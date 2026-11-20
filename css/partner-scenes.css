@@ -150,13 +150,54 @@
 .ps-toast__ico svg { width: 1.2em; height: 1.2em; stroke-width: 2.8; }
 
 /* -- 1. Fill the gaps ---------------------------------------------
-   Today's book: the 12:15 is cancelled and shows "45 min free". The
-   slot's controls come in one at a time, the offer goes live, and
-   Bella books it. States: s-in, s-cancel, s-ctl, s-r1..s-r5, s-live,
-   s-booked. */
+   One card, three steps (a bar for each). Today's book: the 12:15 is
+   cancelled and shows "45 min free" (s-cancel). The card turns to the
+   slot's controls (s-ctl): the rules come in (s-r1..s-r5) and the offer
+   goes live (s-live). Back on today's book (s-back), Bella books it
+   (s-booked). */
 
-.ps-day { left: 1.8em; top: 2em; width: 17.5em; }
-.ps-day .ps-cap { margin-bottom: 0.5em; }
+.ps-flow { left: 50%; top: 50%; width: 21em; height: 21.5em; padding: 0; overflow: hidden; transform: translate(-50%, calc(-50% + 1.2em)) scale(0.98); }
+.pscene--capacity.s-in .ps-flow { opacity: 1; transform: translate(-50%, -50%); }
+.ps-steps { position: absolute; left: 1.1em; right: 1.1em; top: 1em; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35em; }
+.ps-steps i { height: 0.2em; border-radius: 1em; background: rgba(255, 255, 255, 0.16); overflow: hidden; }
+.ps-steps i::after { content: ''; display: block; height: 100%; background: var(--ps-y); transform: scaleX(0); transform-origin: left; transition: transform 600ms var(--ease-out); }
+.s-in .ps-steps i:nth-child(1)::after,
+.s-ctl .ps-steps i:nth-child(2)::after,
+.s-back .ps-steps i:nth-child(3)::after { transform: none; }
+.ps-pg {
+  position: absolute;
+  left: 1.1em;
+  right: 1.1em;
+  top: 2em;
+  bottom: 1em;
+  opacity: 0;
+  transform: translateX(2em);
+  /* Out quickly; the next page waits for it, so the two never overlap. */
+  transition: opacity 220ms ease-in, transform 400ms ease-in;
+}
+.s-in .ps-pg--day,
+.s-ctl .ps-pg--ctl { opacity: 1; transform: none; transition: opacity 400ms var(--ease-out) 260ms, transform 650ms var(--ease-out) 260ms; }
+.s-ctl .ps-pg--day,
+.s-back .ps-pg--ctl { opacity: 0; transform: translateX(-2em); transition: opacity 220ms ease-in, transform 400ms ease-in; }
+.s-back .ps-pg--day { opacity: 1; transform: none; transition: opacity 400ms var(--ease-out) 260ms, transform 650ms var(--ease-out) 260ms; }
+.ps-flow__t { display: grid; margin: 0.2em 0 0.7em !important; font-size: 1.15em; }
+.ps-flow__t > span { grid-area: 1 / 1; transition: opacity 400ms var(--ease-out); }
+.ps-flow__b { opacity: 0; }
+.s-booked .ps-flow__a { opacity: 0; }
+.s-booked .ps-flow__b { opacity: 1; }
+.ps-result {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  margin-top: 0.9em;
+  padding: 0.7em 0.8em;
+  border-radius: 1em;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(0.6em);
+  transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.s-booked .ps-result { opacity: 1; transform: none; }
 .ps-appt {
   display: flex;
   align-items: center;
@@ -208,9 +249,7 @@
 .s-booked .ps-gap__who,
 .s-booked .ps-gap__ok { opacity: 1; transform: none; }
 
-.ps-ctl { right: 1.8em; top: 2em; width: 19em; }
-.ps-ctl > .ps-h { margin-top: 0.2em; font-size: 1.15em; }
-.ps-rules { margin-top: 0.7em; }
+.ps-rules { margin-top: 0; }
 .ps-rule {
   display: flex;
   justify-content: space-between;
@@ -272,16 +311,11 @@
 .ps-live .ps-sub { transition: color 400ms var(--ease-out); }
 .s-live .ps-live .ps-sub { color: var(--ps-y); }
 
-.ps-toast--gap { left: 1.8em; bottom: 2em; width: 17.5em; }
-
-.pscene--capacity.s-in .ps-day { opacity: 1; transform: none; }
-.pscene--capacity.s-ctl .ps-ctl { opacity: 1; transform: none; }
-.pscene--capacity.s-booked .ps-toast--gap { opacity: 1; transform: none; }
 
 /* -- 2. Make every booking worth more -----------------------------
-   A checkout on glass over the photo: the puppy course, then
-   Etho's suggestions for Milo. The starter kit (a bundle price) ticks
-   on and the total counts up; the follow-up stays optional. States:
+   A checkout on glass over the photo: Milo's full groom, then
+   Etho's suggestions for him. The coat care kit (a bundle price) ticks
+   on and the total counts up; the teeth clean stays optional. States:
    s-in, s-sug, s-kit, s-stat. */
 
 .ps-cart { left: 1.8em; top: 2em; width: 19.5em; padding: 1.3em 1.4em 1.2em; }
@@ -483,12 +517,12 @@
 .pscene--ai.s-ans .ps-ans { opacity: 1; transform: none; }
 .pscene--ai.s-toast .ps-toast { opacity: 1; transform: none; }
 
-/* -- 4. More ways to say yes ---------------------------------------
-   Cooper's parent picks how to pay for daycare: a single day, a
-   4-visit pass, or an 8-day pass with free same-day pick-up. The pick
-   moves to the 8-day pass, payment splits into 4, the pass goes
-   active, and the provider sees the visits booked ahead. States:
-   s-in, s-o2, s-o3, s-split, s-done, s-stat, s-toast. */
+/* -- 4. Get loyal customers ----------------------------------------
+   Etho sees Cooper is due for a groom and offers three open
+   appointments; the pick moves to Saturday with his usual groomer,
+   it is set to repeat every 6 weeks (s-split), booked (s-done), and
+   the provider sees the grooms booked ahead. States: s-in, s-o2,
+   s-o3, s-split, s-done, s-stat, s-toast. */
 
 .ps-tag {
   display: inline-block;
@@ -603,9 +637,7 @@
 
 @media (max-width: 900px) {
   .ps-stat { right: 1.2em; top: auto; bottom: 12.2em; }
-  .ps-day { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
-  .ps-ctl { left: 1.2em; right: 1.2em; top: auto; bottom: 1.2em; width: auto; }
-  .ps-toast--gap { left: 1.2em; right: 1.2em; bottom: 1.2em; width: auto; }
+  .ps-flow { width: calc(100% - 2.4em); }
   .ps-cart { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; }
   .pscene--basket .ps-stat { left: 1.2em; right: auto; bottom: 1.2em; min-width: 11em; }
   .ps-code { left: 1.2em; right: 1.2em; top: 1.2em; width: auto; height: auto; padding: 1em 1.1em; font-size: 0.68em; line-height: 1.55; }
@@ -621,19 +653,21 @@
 }
 
 /* ---------------------------------------------------------------
-   The hero: one glass card over a photo (p-hero). Today's book, live;
-   Etho spots the open slots (s-gap); its plan in the provider's rules
-   (s-p2, s-r1..s-r5, s-edit, s-ok); back to today as the slots fill
-   with new customers (s-p3, s-m1, s-m2, s-done).
+   The hero (p-hero): one glass card over a photo, four steps, a bar
+   along the top for each. Pages: s-in shows 1, then s-p2, s-p3, s-p4.
+   1: the open slot lights (s-gap) and its rules come in (s-c1..s-c4).
+   2: searching, then three matches (s-m1..s-m3), Louie picked (s-pick).
+   3: the text arrives (s-sms), Sarah types (s-typ) and replies (s-yes).
+   4: booked and filled; what Etho learned (s-l1..s-l3), the revenue.
    --------------------------------------------------------------- */
 
 .b2b-panels { container-type: inline-size; }
 .phero {
+  --ph-y: #FFF6C4;
+  --ph-w2: rgba(255, 255, 255, 0.66);
+  --ph-line: rgba(255, 255, 255, 0.1);
   font-size: 2.3cqw;
   background: #0E0F0C;
-}
-@media (max-width: 900px) {
-  .phero { font-size: 3cqw; }
 }
 .ph-bg {
   position: absolute;
@@ -641,14 +675,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 20% 50%;
   opacity: 0;
   /* Zoomed in on the dogs, so they read around the card. */
   transform: scale(1.5);
   transform-origin: 38% 55%;
-  transition: opacity 1s var(--ease-out), transform 6s linear;
+  transition: opacity 1s var(--ease-out), transform 14s linear;
 }
-.ph-bg { object-position: 20% 50%; }
-.phero.s-in .ph-bg { opacity: 1; transform: scale(1.42); }
+.phero.s-in .ph-bg { opacity: 1; transform: scale(1.38); }
 .phero::after {
   content: '';
   position: absolute;
@@ -661,12 +695,11 @@
   position: absolute;
   z-index: 1;
   left: 50%;
-  top: 46%;
+  top: 50%;
   width: min(29em, calc(100% - 2.4em));
-  height: 23.5em;
-  padding: 1.4em;
+  height: 24em;
   border-radius: 1.8em;
-  background: rgba(28, 28, 26, 0.46);
+  background: rgba(28, 28, 26, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(26px) saturate(150%);
   -webkit-backdrop-filter: blur(26px) saturate(150%);
@@ -678,177 +711,179 @@
 }
 .phero.s-in .ph-card { opacity: 1; transform: translate(-50%, -50%); }
 .phero.s-out .ph-card { opacity: 0; transition-duration: 500ms; }
+@media (max-width: 900px) {
+  .phero { font-size: 3.4cqw; }
+  .ph-card { width: calc(100% - 1.6em); }
+}
 
+/* The four step bars. */
+.ph-steps { position: absolute; left: 1.4em; right: 1.4em; top: 1.2em; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35em; }
+.ph-bar { height: 0.2em; border-radius: 1em; background: rgba(255, 255, 255, 0.16); overflow: hidden; }
+.ph-bar::after { content: ''; display: block; height: 100%; background: var(--ph-y); transform: scaleX(0); transform-origin: left; transition: transform 600ms var(--ease-out); }
+.phero.s-in .ph-bar--1::after,
+.phero.s-p2 .ph-bar--2::after,
+.phero.s-p3 .ph-bar--3::after,
+.phero.s-p4 .ph-bar--4::after { transform: none; }
+
+/* Pages: one at a time, the next sliding in as the last slides out. */
 .ph-page {
   position: absolute;
-  inset: 1.4em;
+  left: 1.4em;
+  right: 1.4em;
+  top: 2.2em;
+  bottom: 1.4em;
   opacity: 0;
   transform: translateX(2em);
-  transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out);
+  /* Out quickly; the next page waits for it, so the two never overlap. */
+  transition: opacity 220ms ease-in, transform 400ms ease-in;
 }
-.phero.s-in .ph-page--day { opacity: 1; transform: none; }
-.phero.s-p2 .ph-page--day { opacity: 0; transform: translateX(-2em); }
-.phero.s-p2 .ph-page--plan { opacity: 1; transform: none; }
-.phero.s-p2.s-p3 .ph-page--plan { opacity: 0; transform: translateX(-2em); }
-.phero.s-p2.s-p3 .ph-page--day { opacity: 1; transform: none; }
+.phero.s-in .ph-page--1,
+.phero.s-p2 .ph-page--2,
+.phero.s-p3 .ph-page--3,
+.phero.s-p4 .ph-page--4 { opacity: 1; transform: none; transition: opacity 400ms var(--ease-out) 260ms, transform 650ms var(--ease-out) 260ms; }
+.phero.s-p2 .ph-page--1,
+.phero.s-p3 .ph-page--2,
+.phero.s-p4 .ph-page--3 { opacity: 0; transform: translateX(-2em); transition: opacity 220ms ease-in, transform 400ms ease-in; }
 
-.ph-title { font-size: 1.15em; font-weight: 600; letter-spacing: -0.01em; }
-.ph-name { font-size: 0.95em; font-weight: 600; }
-.ph-sub { margin-top: 0.15em !important; font-size: 0.78em; color: rgba(255, 255, 255, 0.66); }
-.ph-th { flex: none; width: 2.8em; height: 2.8em; border-radius: 0.75em; overflow: hidden; }
-.ph-th img,
-.ph-logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.ph-th img.sx-groom,
-.ph-logo img.sx-groom { object-position: 29% 58%; transform: scale(1.6); transform-origin: 30% 57%; }
-
-/* -- Today's book ------------------------------------------------- */
-
+.ph-step { display: flex; align-items: center; gap: 0.55em; margin-bottom: 0.9em !important; font-size: 1.05em; font-weight: 600; letter-spacing: -0.01em; }
+.ph-step b { display: grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--ph-y); color: #000; font-size: 0.75em; font-weight: 700; }
+.ph-title { font-size: 1.05em; font-weight: 600; letter-spacing: -0.01em; }
+.ph-sub { margin-top: 0.1em !important; font-size: 0.8em; color: var(--ph-w2); }
+.ph-sub--y { color: var(--ph-y); }
 .ph-kicker {
   display: flex;
   align-items: center;
   gap: 0.4em;
-  font-size: 0.72em;
+  font-size: 0.7em;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.66);
+  color: var(--ph-w2);
 }
 .ph-kicker svg { width: 1.15em; height: 1.15em; fill: currentColor; }
-.ph-kicker--y { color: #FFF6C4; }
-
-.ph-dayhead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6em; }
-.ph-pulse { display: flex; align-items: center; gap: 0.4em; font-size: 0.75em; font-weight: 600; color: rgba(255, 255, 255, 0.75); }
-.ph-pulse i { position: relative; width: 0.55em; height: 0.55em; border-radius: 50%; background: #9BE29B; }
-.ph-pulse i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #9BE29B; animation: ph-ping 1.8s ease-out infinite; }
-@keyframes ph-ping { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2.6); opacity: 0; } }
-
-.ph-slot {
-  display: flex;
-  align-items: center;
-  gap: 0.9em;
-  height: 2.75em;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.92em;
-}
-.ph-slot__t { flex: none; width: 2.8em; font-weight: 600; font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.66); }
-.ph-slot > p { flex: 1; position: relative; height: 1.9em; }
-.ph-slot > b { flex: none; font-weight: 500; color: rgba(255, 255, 255, 0.66); }
-.ph-slot:not(.ph-slot--open) > p { line-height: 1.9em; }
-.ph-open,
-.ph-who {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  height: 1.9em;
-  white-space: nowrap;
-  transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out), background 400ms var(--ease-out), border-color 400ms var(--ease-out), color 400ms var(--ease-out);
-}
-.ph-open {
-  padding: 0 0.8em;
-  border-radius: 2em;
-  border: 1px dashed rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.55);
-  font-weight: 500;
-}
-.phero.s-gap .ph-open { border-color: rgba(255, 246, 196, 0.8); color: #FFF6C4; background: rgba(255, 246, 196, 0.1); }
-.ph-who { gap: 0.5em; padding: 0 0.8em; border-radius: 2em; background: #FFF6C4; color: #000; font-weight: 600; opacity: 0; transform: translateY(0.4em); }
-.ph-who em { padding: 0.05em 0.45em; border-radius: 2em; background: rgba(0, 0, 0, 0.1); font-size: 0.78em; }
-.phero.s-m1 .ph-slot--a .ph-open,
-.phero.s-m2 .ph-slot--b .ph-open { opacity: 0; transform: translateY(-0.4em); }
-.phero.s-m1 .ph-slot--a .ph-who,
-.phero.s-m2 .ph-slot--b .ph-who { opacity: 1; transform: none; }
-
-.ph-note {
-  position: relative;
-  height: 1.4em;
-  margin-top: 0.9em !important;
-  font-size: 0.85em;
-  font-weight: 500;
-}
-.ph-note span {
-  position: absolute;
-  left: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.4em;
-  color: #FFF6C4;
-  opacity: 0;
-  transform: translateY(0.4em);
-  transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out);
-}
-.ph-note svg { width: 1.1em; height: 1.1em; fill: currentColor; stroke: none; }
-.ph-note__b svg { fill: none; stroke: currentColor; stroke-width: 2.6; }
-.phero.s-gap .ph-note__a { opacity: 1; transform: none; }
-.phero.s-done .ph-note__a { opacity: 0; transform: translateY(-0.4em); }
-.phero.s-done .ph-note__b { opacity: 1; transform: none; }
-
-/* -- The plan, in the provider's rules ----------------------------- */
-
-.ph-plan__title { margin-top: 0.25em !important; margin-bottom: 0.5em !important; }
-.ph-rule {
-  display: flex;
-  align-items: center;
-  gap: 0.8em;
-  min-height: 2.6em;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transform: translateX(0.8em);
-  transition: opacity 400ms var(--ease-out), transform 600ms var(--ease-out);
-}
-.ph-label { flex: none; width: 4.4em; font-size: 0.8em; color: rgba(255, 255, 255, 0.6); }
+.ph-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5em; border-bottom: 1px solid var(--ph-line); }
+.ph-pill { display: inline-flex; align-items: center; gap: 0.35em; padding: 0.25em 0.75em; border-radius: 2em; background: rgba(255, 255, 255, 0.12); font-size: 0.75em; font-weight: 600; white-space: nowrap; }
+.ph-pill--y { background: var(--ph-y); color: #000; }
+.ph-pill--w { background: #FFFFFF; color: #000; }
 .ph-chips { display: flex; flex-wrap: wrap; gap: 0.35em; }
 .ph-chip {
-  padding: 0.3em 0.75em;
+  padding: 0.3em 0.7em;
   border-radius: 2em;
   border: 1px solid rgba(255, 255, 255, 0.22);
-  font-size: 0.8em;
-  font-weight: 600;
+  font-size: 0.74em;
+  font-weight: 500;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.6);
-  transition: background 350ms var(--ease-out), color 350ms var(--ease-out), border-color 350ms var(--ease-out), transform 200ms var(--ease-out);
+  transition: opacity 400ms var(--ease-out), transform 500ms var(--ease-out);
 }
-.ph-chip--on { background: rgba(255, 255, 255, 0.92); border-color: transparent; color: #000; }
-.ph-chip--add { border-style: dashed; }
-.ph-chip--add::before { content: '+ '; }
-/* The provider's edit: adds a breed. */
-.phero.s-edit .ph-chip--add { background: #FFF6C4; border: 1px solid transparent; color: #000; transform: scale(1.06); }
-.phero.s-edit .ph-chip--add::before { content: ''; }
-.phero.s-ok .ph-chip--add { transform: none; }
-.phero.s-r1 .ph-rule--1,
-.phero.s-r2 .ph-rule--2,
-.phero.s-r3 .ph-rule--3,
-.phero.s-r4 .ph-rule--4,
-.phero.s-r5 .ph-rule--5 { opacity: 1; transform: none; }
+.ph-slot__t { flex: none; width: 3em; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-.ph-confirm {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: grid;
-  place-items: center;
-  height: 2.7em;
-  border-radius: 1.4em;
-  background: #FFFFFF;
-  color: #000;
-  font-size: 0.9em;
-  font-weight: 700;
+/* -- 1. The business's day and the open slot's rules --------------- */
+
+.ph-slot { display: flex; align-items: center; gap: 0.8em; padding: 0.6em 0; font-size: 0.92em; }
+.ph-slot > div { flex: 1; min-width: 0; }
+.ph-slot > b { font-size: 0.85em; font-weight: 500; color: var(--ph-w2); }
+.ph-gap {
+  margin: 0.2em -0.6em;
+  padding: 0.7em 0.6em;
+  border-radius: 1em;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  font-size: 0.92em;
+  transition: background 500ms var(--ease-out), border-color 500ms var(--ease-out);
+}
+.ph-gap__top { display: flex; align-items: center; gap: 0.8em; }
+.ph-gap__top > div { flex: 1; }
+.ph-gap__top .ph-pill { opacity: 0; transition: opacity 400ms var(--ease-out); }
+.ph-gap .ph-chips { margin: 0.6em 0 0 3.8em; }
+.ph-gap .ph-chip { opacity: 0; transform: translateY(0.4em); }
+.phero.s-gap .ph-gap { background: rgba(255, 246, 196, 0.1); border-color: rgba(255, 246, 196, 0.6); }
+.phero.s-gap .ph-gap__top .ph-pill,
+.phero.s-c1 .ph-gap .ph-chip--1,
+.phero.s-c2 .ph-gap .ph-chip--2,
+.phero.s-c3 .ph-gap .ph-chip--3,
+.phero.s-c4 .ph-gap .ph-chip--4 { opacity: 1; transform: none; }
+
+/* -- 2. Matches ---------------------------------------------------- */
+
+.ph-found { display: inline-grid; }
+.ph-found > span { grid-area: 1 / 1; display: flex; align-items: center; gap: 0.35em; transition: opacity 300ms var(--ease-out); }
+.ph-found svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; animation: ph-spin 900ms linear infinite; }
+@keyframes ph-spin { to { transform: rotate(360deg); } }
+.ph-found__b { opacity: 0; }
+.phero.s-m3 .ph-found__a { opacity: 0; }
+.phero.s-m3 .ph-found__b { opacity: 1; }
+.ph-where { margin: 0.5em 0 0.4em !important; font-size: 0.75em; color: var(--ph-w2); }
+.ph-match {
+  margin-top: 0.4em;
+  padding: 0.55em 0.7em;
+  border-radius: 1em;
+  border: 1px solid transparent;
   opacity: 0;
-  transition: opacity 400ms var(--ease-out), background 350ms var(--ease-out), transform 160ms var(--ease-out);
+  transform: translateY(0.6em);
+  transition: opacity 400ms var(--ease-out), transform 550ms var(--ease-out), background 400ms var(--ease-out), border-color 400ms var(--ease-out);
 }
-.ph-confirm span { grid-area: 1 / 1; display: flex; align-items: center; gap: 0.3em; transition: opacity 300ms var(--ease-out); }
-.ph-confirm svg { width: 1.2em; height: 1.2em; fill: none; stroke: currentColor; stroke-width: 3; }
-.ph-confirm__b { opacity: 0; }
-.phero.s-r5 .ph-confirm { opacity: 1; transition-delay: 300ms; }
-.phero.s-ok .ph-confirm { background: #FFF6C4; transform: scale(0.97); transition-delay: 0ms; }
-.phero.s-ok .ph-confirm__a { opacity: 0; }
-.phero.s-ok .ph-confirm__b { opacity: 1; }
+.ph-match__row { display: flex; align-items: center; gap: 0.7em; font-size: 0.9em; }
+.ph-match__row > div { flex: 1; min-width: 0; }
+.ph-match__row p:first-child { font-weight: 600; }
+.ph-av { flex: none; display: grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; background: rgba(255, 255, 255, 0.16); font-size: 0.85em; font-weight: 700; }
+.ph-src { font-size: 0.72em; color: var(--ph-w2); white-space: nowrap; }
+.ph-pct { width: 3.2em; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ph-w2); }
+.ph-chips--why { margin: 0.5em 0 0 2.6em; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 500ms var(--ease-out), opacity 400ms var(--ease-out); }
+.phero.s-m1 .ph-match--1,
+.phero.s-m2 .ph-match--2,
+.phero.s-m3 .ph-match--3 { opacity: 1; transform: none; }
+.phero.s-pick .ph-match--top { background: rgba(255, 246, 196, 0.1); border-color: rgba(255, 246, 196, 0.6); }
+.phero.s-pick .ph-pct--top { color: var(--ph-y); }
+.phero.s-pick .ph-chips--why { max-height: 4em; opacity: 1; }
+.phero.s-pick .ph-match--2,
+.phero.s-pick .ph-match--3 { opacity: 0.5; }
 
-@media (max-width: 900px) {
-  .ph-card { height: 25em; top: 50%; }
+/* -- 3. The text to Sarah ------------------------------------------ */
+
+.ph-sms { display: flex; flex-direction: column; }
+.ph-sms__from { display: flex; align-items: center; gap: 0.6em; font-size: 0.9em; font-weight: 600; }
+.ph-sms__from em { margin-left: auto; font-size: 0.8em; font-style: normal; font-weight: 500; color: var(--ph-w2); }
+.ph-av--biz { background: #FFFFFF; color: #000; }
+.ph-bub {
+  max-width: 82%;
+  margin-top: 0.8em !important;
+  padding: 0.65em 0.9em;
+  border-radius: 1.2em;
+  font-size: 0.9em;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(0.6em) scale(0.97);
+  transition: opacity 400ms var(--ease-out), transform 550ms var(--ease-out);
 }
+.ph-bub--in { align-self: flex-start; border-bottom-left-radius: 0.35em; background: rgba(255, 255, 255, 0.14); transform-origin: bottom left; }
+.ph-bub mark { background: none; color: var(--ph-y); font-weight: 600; }
+.ph-bub--out { align-self: flex-end; display: grid; min-width: 3.4em; border-bottom-right-radius: 0.35em; background: var(--ph-y); color: #000; font-weight: 600; text-align: center; transform-origin: bottom right; }
+.ph-bub--out > span { grid-area: 1 / 1; min-height: 1.4em; }
+.ph-dots { display: flex; justify-content: center; align-items: center; gap: 0.25em; transition: opacity 200ms; }
+.ph-dots i { width: 0.35em; height: 0.35em; border-radius: 50%; background: rgba(0, 0, 0, 0.45); animation: ph-dot 1s infinite; }
+.ph-dots i:nth-child(2) { animation-delay: 150ms; }
+.ph-dots i:nth-child(3) { animation-delay: 300ms; }
+@keyframes ph-dot { 0%, 60%, 100% { transform: none; opacity: 0.5; } 30% { transform: translateY(-0.2em); opacity: 1; } }
+.ph-sms__st { align-self: flex-end; margin-top: 0.3em !important; font-size: 0.7em; color: var(--ph-w2); opacity: 0; transition: opacity 400ms var(--ease-out); }
+.phero.s-sms .ph-bub--in,
+.phero.s-typ .ph-bub--out { opacity: 1; transform: none; }
+.phero.s-yes .ph-dots { opacity: 0; }
+.phero.s-yes .ph-sms__st { opacity: 1; }
+
+/* -- 4. Booked, filled, learned ------------------------------------- */
+
+.ph-done { display: flex; align-items: center; gap: 0.8em; }
+.ph-tick { flex: none; display: grid; place-items: center; width: 2.4em; height: 2.4em; border-radius: 50%; background: var(--ph-y); color: #000; }
+.ph-tick svg { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 3; }
+.ph-filled { display: flex; align-items: center; gap: 0.8em; margin-top: 0.9em; padding: 0.7em 0.8em; border-radius: 1em; background: rgba(255, 255, 255, 0.1); font-size: 0.9em; }
+.ph-filled > div { flex: 1; min-width: 0; }
+.ph-filled p:first-child { font-weight: 600; }
+.ph-learn { margin: 1em 0 0.5em !important; color: var(--ph-y); }
+.ph-chips--learn .ph-chip { opacity: 0; transform: translateY(0.4em); }
+.phero.s-l1 .ph-chips--learn .ph-chip--1,
+.phero.s-l2 .ph-chips--learn .ph-chip--2,
+.phero.s-l3 .ph-chips--learn .ph-chip--3 { opacity: 1; transform: none; }
+.ph-rev { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: baseline; padding-top: 0.7em; border-top: 1px solid var(--ph-line); font-size: 0.85em; color: var(--ph-w2); }
+.ph-rev b { font-size: 1.7em; font-weight: 600; color: #FFFFFF; font-variant-numeric: tabular-nums; }
 
 /* ---------------------------------------------------------------
    The demo (p-demo): the app's home, a service in a sheet, then the

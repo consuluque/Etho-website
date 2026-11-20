@@ -73,7 +73,7 @@
         {
           "@type": "Question",
           "name": "What is Etho?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Etho is an AI-powered booking and commerce platform connecting pet businesses with suitable customers. We help businesses fill unused appointments, attract new customers and increase transaction value through intelligent matching, personalised offers and product recommendations." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Etho is the AI-powered intelligence layer for pet services, designed to optimise bookings and grow business revenue. By understanding how your business operates and what your customers need, Etho proactively matches appointments with suitable dogs and owners, brings new customers and increases booking value through personalisation and recommendations." }
         },
         {
           "@type": "Question",
@@ -110,7 +110,7 @@
 <link rel="stylesheet" href="css/consent.css?v=20261107b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
 <link rel="stylesheet" href="css/partners.css?v=20261107g">
-<link rel="stylesheet" href="css/partner-scenes.css?v=20261103g">
+<link rel="stylesheet" href="css/partner-scenes.css?v=20261120b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
      page is readable without it. -->
@@ -136,35 +136,62 @@
       <p class="hero-sub">Etho connects your available appointments with suitable dogs. Fill quiet periods, attract new customers and increase every booking’s value.</p>
       <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Learn more</a>
     </div>
-    <!-- One glass card over a photo: today's book at Dogue Spa, live.
-         Etho spots two open slots this afternoon, suggests a plan in the
-         provider's own rules (service, the dogs it suits, new customers
-         only, when, the offer), the provider adds a breed and approves,
-         and the same afternoon fills with two new customers. Run by
+    <!-- One glass card over a photo, telling how Etho fills an open
+         appointment in four steps, a bar along the top for each:
+         1, it knows the business: Tuesday at Groomie Spa, a 60-minute
+         10:30 slot and its rules (small, calm dogs, no large breeds);
+         2, it searches the business's own customers and Etho's network
+         and ranks the dogs that fit (Louie, a customer, first);
+         3, it texts Sarah an offer for Louie (a free dental treat) and
+         she replies YES; 4, the slot is booked and filled, Etho notes
+         what it learned, and the slot's revenue shows. Run by
          scenes.js (p-hero in partners.js). -->
     <div class="b2b-panels" aria-hidden="true">
       <div class="pscene phero" data-scene="p-hero">
         <img class="ph-bg" src="assets/images/partners/web4b.webp" alt="" loading="lazy" decoding="async">
         <div class="ph-card">
-          <div class="ph-page ph-page--day">
-            <div class="ph-dayhead"><p class="ph-title">Today</p><span class="ph-pulse"><i></i>Live</span></div>
-            <div class="ph-slot "><span class="ph-slot__t">9:00</span><p>Full groom</p><b>Max</b></div>
-            <div class="ph-slot "><span class="ph-slot__t">10:30</span><p>Wash &amp; Dry</p><b>Coco</b></div>
-            <div class="ph-slot "><span class="ph-slot__t">12:00</span><p>Nail care</p><b>Pip</b></div>
-            <div class="ph-slot ph-slot--open ph-slot--a"><span class="ph-slot__t">2:30</span><p><i class="ph-open">Open</i><i class="ph-who">Rocky · Kelpie <em>New</em></i></p><b></b></div>
-            <div class="ph-slot ph-slot--open ph-slot--b"><span class="ph-slot__t">4:00</span><p><i class="ph-open">Open</i><i class="ph-who">Juno · Husky <em>New</em></i></p><b></b></div>
-            <p class="ph-note"><span class="ph-note__a"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>2 open slots this afternoon</span><span class="ph-note__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>2 new customers today</span></p>
+          <div class="ph-steps"><i class="ph-bar ph-bar--1"></i><i class="ph-bar ph-bar--2"></i><i class="ph-bar ph-bar--3"></i><i class="ph-bar ph-bar--4"></i></div>
+
+          <div class="ph-page ph-page--1">
+            <p class="ph-step"><b>1</b>Understand the business</p>
+            <div class="ph-head"><p class="ph-kicker">Groomie Spa · Tue 18 Nov</p><span class="ph-pill">Jess</span></div>
+            <div class="ph-slot"><span class="ph-slot__t">9:00</span><div><p>Full groom</p><p class="ph-sub">Max · Labrador</p></div><b>Booked</b></div>
+            <div class="ph-gap">
+              <div class="ph-gap__top"><span class="ph-slot__t">10:30</span><div><p>Available</p><p class="ph-sub ph-sub--y">60 min open</p></div><span class="ph-pill ph-pill--y">Open slot</span></div>
+              <div class="ph-chips"><span class="ph-chip ph-chip--1">Small dog</span><span class="ph-chip ph-chip--2">Up to 60 min</span><span class="ph-chip ph-chip--3">Calm temperament</span><span class="ph-chip ph-chip--4">No large breeds</span></div>
+            </div>
+            <div class="ph-slot"><span class="ph-slot__t">11:30</span><div><p>Wash &amp; tidy</p><p class="ph-sub">Bella · Golden retriever</p></div><b>Booked</b></div>
           </div>
 
-          <div class="ph-page ph-page--plan">
-            <p class="ph-kicker ph-kicker--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested by Etho</p>
-            <p class="ph-title ph-plan__title">Fill this afternoon</p>
-            <div class="ph-rule ph-rule--1"><p class="ph-label">Service</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Full groom</span></div></div>
-            <div class="ph-rule ph-rule--2"><p class="ph-label">Dogs</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Large dogs</span><span class="ph-chip ph-chip--on">High energy</span><span class="ph-chip ph-chip--add">Husky</span></div></div>
-            <div class="ph-rule ph-rule--3"><p class="ph-label">Who</p><div class="ph-chips"><span class="ph-chip ph-chip--on">New customers</span></div></div>
-            <div class="ph-rule ph-rule--4"><p class="ph-label">When</p><div class="ph-chips"><span class="ph-chip ph-chip--on">Today 2:30 &amp; 4:00</span></div></div>
-            <div class="ph-rule ph-rule--5"><p class="ph-label">Offer</p><div class="ph-chips"><span class="ph-chip ph-chip--on">20% off first visit</span></div></div>
-            <div class="ph-confirm"><span class="ph-confirm__a">Approve</span><span class="ph-confirm__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Live</span></div>
+          <div class="ph-page ph-page--2">
+            <p class="ph-step"><b>2</b>Find the right match</p>
+            <div class="ph-head"><p class="ph-kicker">Best matches · Tue 10:30</p><span class="ph-pill ph-found"><span class="ph-found__a"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/></svg>Searching</span><span class="ph-found__b">3 found</span></span></div>
+            <p class="ph-where">Your customers and Etho’s network</p>
+            <div class="ph-match ph-match--1 ph-match--top">
+              <div class="ph-match__row"><span class="ph-av">L</span><div><p>Louie</p><p class="ph-sub">Cavoodle · Sarah</p></div><span class="ph-src">Your customer</span><span class="ph-pct ph-pct--top">96%</span></div>
+              <div class="ph-chips ph-chips--why"><span class="ph-chip">Due in 8 days</span><span class="ph-chip">Home on Tuesdays</span><span class="ph-chip">Small · calm</span></div>
+            </div>
+            <div class="ph-match ph-match--2"><div class="ph-match__row"><span class="ph-av">R</span><div><p>Ruby</p><p class="ph-sub">Cocker spaniel · Tom</p></div><span class="ph-src">Etho network</span><span class="ph-pct">88%</span></div></div>
+            <div class="ph-match ph-match--3"><div class="ph-match__row"><span class="ph-av">P</span><div><p>Pepper</p><p class="ph-sub">Mini dachshund · Ana</p></div><span class="ph-src">Etho network</span><span class="ph-pct">81%</span></div></div>
+          </div>
+
+          <div class="ph-page ph-page--3">
+            <p class="ph-step"><b>3</b>Send a personalised offer</p>
+            <div class="ph-sms">
+              <p class="ph-sms__from"><span class="ph-av ph-av--biz">G</span>Groomie Spa<em>Text message · now</em></p>
+              <p class="ph-bub ph-bub--in">Hi Sarah, Louie’s groom is due next week. We have Tuesday 10:30 free, and Louie gets a <mark>free dental treat</mark>. Reply YES to book or NO to skip.</p>
+              <p class="ph-bub ph-bub--out"><span class="ph-dots"><i></i><i></i><i></i></span><span class="ph-bub__t" data-type="YES"></span></p>
+              <p class="ph-sms__st">Delivered</p>
+            </div>
+          </div>
+
+          <div class="ph-page ph-page--4">
+            <p class="ph-step"><b>4</b>Book, confirm and learn</p>
+            <div class="ph-done"><span class="ph-tick"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ph-title">Louie is booked</p><p class="ph-sub">Confirmed · added to Jess’s calendar</p></div></div>
+            <div class="ph-filled"><span class="ph-slot__t">10:30</span><div><p>Wash &amp; Dry + dental treat</p><p class="ph-sub">Louie · Cavoodle</p></div><span class="ph-pill ph-pill--w">Filled</span></div>
+            <p class="ph-kicker ph-learn"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Etho learned</p>
+            <div class="ph-chips ph-chips--learn"><span class="ph-chip ph-chip--1">Sarah prefers Tue mornings</span><span class="ph-chip ph-chip--2">Says yes to extras</span><span class="ph-chip ph-chip--3">Next groom in ~6 weeks</span></div>
+            <div class="ph-rev"><p>Revenue from an empty slot</p><b>+<span data-scene-count>$0</span></b></div>
           </div>
         </div>
         <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
@@ -181,38 +208,43 @@
       <div class="b2b-feature__text">
         <h3>Fill the gaps</h3>
         <p>More bookings at the right times.</p>
-        <p class="b2b-feature__desc">Turn unused capacity into revenue by intelligently matching available appointments with suitable dogs.</p>
+        <p class="b2b-feature__desc">Fill your calendar with the right customers, matched to your availability and business requirements.</p>
       </div>
       <div class="b2b-feature__media" data-media="capacity">
-        <!-- A 45-minute cancellation, just long enough for a small dog.
-             The groomer opens that one slot at a discount, for small,
-             short-coated dogs, bookable until 2pm today; Etho shows it
-             only to eligible pet parents, and it is booked. -->
+        <!-- One card, three steps, a bar along the top for each. 1, a
+             12:15 mini wash is cancelled: 45 minutes free. 2, the groomer
+             opens that slot for small, short-coated dogs, bookable until
+             2pm, with a free post-groom portrait, and turns it live for
+             eligible pet parents. 3, back on today's book, Bella takes it. -->
         <div class="pscene pscene--capacity" data-scene="p-capacity" aria-hidden="true">
           <img class="ps-bg ps-bg--web2" src="assets/images/partners/web2.webp" alt="" loading="lazy" decoding="async">
-          <div class="ps-glass ps-day">
-            <p class="ps-cap">Today</p>
-            <div class="ps-appt"><span>10:30</span><p>Full groom</p><b>Booked</b></div>
-            <div class="ps-appt ps-appt--gap">
-              <span>12:15</span>
-              <p class="ps-gap__name"><i class="ps-gap__was">Mini wash</i><i class="ps-gap__free">45 min free</i><i class="ps-gap__who"><em class="ps-av">B</em>Bella</i></p>
-              <b class="ps-gap__st"><i class="ps-gap__was">Booked</i><i class="ps-gap__x">Cancelled</i><i class="ps-gap__ok">Booked</i></b>
+          <div class="ps-glass ps-flow">
+            <div class="ps-steps"><i></i><i></i><i></i></div>
+            <div class="ps-pg ps-pg--day">
+              <p class="ps-cap">Today</p>
+              <p class="ps-h ps-flow__t"><span class="ps-flow__a">A cancellation at 12:15</span><span class="ps-flow__b">Filled by a new customer</span></p>
+              <div class="ps-appt"><span>10:30</span><p>Full groom</p><b>Booked</b></div>
+              <div class="ps-appt ps-appt--gap">
+                <span>12:15</span>
+                <p class="ps-gap__name"><i class="ps-gap__was">Mini wash</i><i class="ps-gap__free">45 min free</i><i class="ps-gap__who"><em class="ps-av">B</em>Bella</i></p>
+                <b class="ps-gap__st"><i class="ps-gap__was">Booked</i><i class="ps-gap__x">Cancelled</i><i class="ps-gap__ok">Booked</i></b>
+              </div>
+              <div class="ps-appt"><span>1:00</span><p>Wash &amp; tidy</p><b>Booked</b></div>
+              <div class="ps-result"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Bella booked 12:15</p><p class="ps-sub">Jack Russell · Mini wash · $45</p></div></div>
             </div>
-            <div class="ps-appt"><span>1:00</span><p>Wash &amp; tidy</p><b>Booked</b></div>
-          </div>
-          <div class="ps-glass ps-ctl">
-            <p class="ps-cap">Open this slot</p>
-            <p class="ps-h">12:15 to 1:00 today</p>
-            <div class="ps-rules">
-              <div class="ps-rule ps-rule--1"><span>Size</span><b>Small · short coat</b></div>
-              <div class="ps-rule ps-rule--2"><span>Duration</span><b>45 min</b></div>
-              <div class="ps-rule ps-rule--3"><span>Bookable until</span><b>2pm today</b></div>
-              <div class="ps-rule ps-rule--4"><span>Bookings</span><b>1</b></div>
-              <div class="ps-rule ps-rule--5"><span>Discount</span><b class="ps-rule__y">25% off</b></div>
+            <div class="ps-pg ps-pg--ctl">
+              <p class="ps-cap">Open this slot</p>
+              <p class="ps-h ps-flow__t">12:15 to 1:00 today</p>
+              <div class="ps-rules">
+                <div class="ps-rule ps-rule--1"><span>Size</span><b>Small · short coat</b></div>
+                <div class="ps-rule ps-rule--2"><span>Duration</span><b>45 min</b></div>
+                <div class="ps-rule ps-rule--3"><span>Bookable until</span><b>2pm today</b></div>
+                <div class="ps-rule ps-rule--4"><span>Bookings</span><b>1</b></div>
+                <div class="ps-rule ps-rule--5"><span>Extra</span><b class="ps-rule__y">Free post-groom portrait</b></div>
+              </div>
+              <div class="ps-live"><div><p class="ps-h">Offer live</p><p class="ps-sub">Shown to eligible pet parents</p></div><span class="ps-toggle"></span></div>
             </div>
-            <div class="ps-live"><div><p class="ps-h">Offer live</p><p class="ps-sub">Shown to eligible pet parents</p></div><span class="ps-toggle"></span></div>
           </div>
-          <div class="ps-glass ps-toast ps-toast--gap"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Bella booked 12:15</p><p class="ps-sub">Jack Russell · Mini wash · $45</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
@@ -224,21 +256,22 @@
         <p class="b2b-feature__desc">Give every dog more personalised care with tailored upsells, service and product recommendations that also grow your revenue.</p>
       </div>
       <div class="b2b-feature__media" data-media="basket">
-        <!-- A puppy school booking becomes a starter package. At checkout
-             for a $220 course, Etho suggests a $45 starter kit (treats,
-             a clicker, enrichment toys) at a bundle price, and an optional
-             follow-up session; the kit is added and the total grows. -->
+        <!-- A grooming booking grows with care that suits the dog. At
+             checkout for an $85 full groom for Milo, a long-coated
+             dachshund, Etho suggests a $35 coat care kit (detangler
+             and brush) at a bundle price, and an optional teeth
+             clean; the kit is added and the total grows. -->
         <div class="pscene pscene--basket" data-scene="p-basket" aria-hidden="true">
           <img class="ps-bg ps-bg--web3" src="assets/images/partners/web3.webp" alt="" loading="lazy" decoding="async">
           <div class="ps-glass ps-cart">
             <p class="ps-cap">Milo’s booking</p>
-            <div class="ps-item ps-item--on"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Puppy school</p><p class="ps-item__sub">6 weeks</p></div><b>$220</b></div>
+            <div class="ps-item ps-item--on"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Full groom</p><p class="ps-item__sub">Long coat</p></div><b>$85</b></div>
             <div class="ps-sugg">
               <p class="ps-sugg__cap"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested for Milo</p>
-              <div class="ps-item ps-item--kit"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Starter kit</p><p class="ps-item__sub">Treats, clicker, toys</p></div><b><s>$62</s> $45</b></div>
-              <div class="ps-item ps-item--follow"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Follow-up session</p><p class="ps-item__sub">Optional</p></div><b>$60</b></div>
+              <div class="ps-item ps-item--kit"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Coat care kit</p><p class="ps-item__sub">Detangler &amp; brush</p></div><b><s>$48</s> $35</b></div>
+              <div class="ps-item ps-item--follow"><span class="ps-box"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p>Teeth clean</p><p class="ps-item__sub">Optional</p></div><b>$25</b></div>
             </div>
-            <div class="ps-cart__total"><p>Total</p><b data-scene-count>$220</b></div>
+            <div class="ps-cart__total"><p>Total</p><b data-scene-count>$85</b></div>
           </div>
           <div class="ps-glass ps-stat">
             <p class="ps-cap">Avg. transaction value</p>
@@ -279,30 +312,32 @@
     <article class="b2b-feature b2b-feature--flip" data-stack id="retention">
       <div class="b2b-feature__text">
         <h3>Get loyal customers</h3>
-        <p>More ways to say yes.</p>
-        <p class="b2b-feature__desc">Offer personalised payment packages, encourage repeat visits and follow-up services.</p>
+        <p>Stay ahead of your customers’ needs.</p>
+        <p class="b2b-feature__desc">Etho anticipates each dog’s care needs and proactively matches them with available appointments, driving repeat bookings and making ongoing care effortless.</p>
       </div>
       <div class="b2b-feature__media" data-media="retention">
-        <!-- More ways to say yes: Cooper's parent picks how to pay for
-             daycare. The 8-day pass comes with free same-day pick-up;
-             they choose it, split it into 4 payments, and the provider
-             sees eight visits booked ahead. -->
+        <!-- Stay ahead: Etho sees that Cooper, a curly-coated doodle, is
+             due for his groom (six weeks since the last) and offers open
+             appointments that suit him. The pick moves to Saturday with
+             his usual groomer, it is set to repeat every 6 weeks and
+             booked, and the provider sees eight grooms booked ahead. -->
         <div class="pscene pscene--retention" data-scene="p-retention" aria-hidden="true">
           <img class="ps-bg ps-bg--web6" src="assets/images/partners/web6.webp" alt="" loading="lazy" decoding="async">
           <div class="ps-glass ps-pay">
-            <p class="ps-cap">Daycare for Cooper</p>
-            <p class="ps-h ps-pay__title">Make Wednesdays Cooper’s day</p>
-            <div class="ps-opt ps-opt--1"><span class="ps-radio"></span><div><p>Single day</p></div><b>$65</b></div>
-            <div class="ps-opt ps-opt--2"><span class="ps-radio"></span><div><p>4-visit pass</p><p class="ps-item__sub">Save 10%</p></div><b>$234</b></div>
-            <div class="ps-opt ps-opt--3"><span class="ps-radio"></span><div><p>8-day pass <em class="ps-tag ps-tag--y">Free pick-up</em></p><p class="ps-item__sub">Same-day pick-up · Save 15%</p></div><b>$440</b></div>
-            <div class="ps-seg"><span class="ps-seg__a">Pay now</span><span class="ps-seg__b">Pay in 4</span><i></i></div>
-            <div class="ps-cta"><span class="ps-cta__a">Pay <b data-scene-count>$65</b><em class="ps-cta__x">&nbsp;× 4</em></span><span class="ps-cta__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Pass active</span></div>
+            <p class="ps-cap ps-cap--y"><svg viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>Suggested by Etho</p>
+            <p class="ps-h ps-pay__title">Cooper is due for a groom</p>
+            <p class="ps-item__sub">Curly coat · last groom 6 weeks ago</p>
+            <div class="ps-opt ps-opt--1"><span class="ps-radio"></span><div><p>Tue 2:00pm</p><p class="ps-item__sub">Full groom</p></div><b>$95</b></div>
+            <div class="ps-opt ps-opt--2"><span class="ps-radio"></span><div><p>Thu 10:00am</p><p class="ps-item__sub">Full groom</p></div><b>$95</b></div>
+            <div class="ps-opt ps-opt--3"><span class="ps-radio"></span><div><p>Sat 9:30am <em class="ps-tag ps-tag--y">With Mia</em></p><p class="ps-item__sub">Full groom · his usual groomer</p></div><b>$95</b></div>
+            <div class="ps-seg"><span class="ps-seg__a">Just once</span><span class="ps-seg__b">Every 6 weeks</span><i></i></div>
+            <div class="ps-cta"><span class="ps-cta__a">Book <b>Tue 2:00pm</b><em class="ps-cta__x">&nbsp;· repeats</em></span><span class="ps-cta__b"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>Booked</span></div>
           </div>
           <div class="ps-glass ps-stat ps-stat--ret">
             <p class="ps-cap">Booked ahead</p>
-            <p class="ps-num"><span data-scene-count>0</span> visits</p>
+            <p class="ps-num"><span data-scene-count>0</span> grooms</p>
           </div>
-          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Cooper’s pass</p><p class="ps-sub">Wed 8am · pick-up 7:30</p></div></div>
+          <div class="ps-glass ps-toast"><span class="ps-toast__ico"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><div><p class="ps-h">Cooper rebooked</p><p class="ps-sub">Sat 9:30am · every 6 weeks</p></div></div>
           <svg class="scene__cursor" viewBox="0 0 18 23"><path d="M2 1.5V19l4.6-4.2 3 6.8 3-1.3-2.9-6.7H16z"/></svg>
         </div>
       </div>
@@ -326,9 +361,9 @@
       <h2 class="b2b-section__title">How it works</h2>
       <p class="b2b-demo__sub">Turn first impressions into lasting relationships.</p>
       <ol class="b2b-demo__steps">
-        <li data-demo-step="1">Tell Etho about your booking requirements.</li>
-        <li data-demo-step="2">Turn interest into storefront visits.</li>
-        <li data-demo-step="3">Drive more bookings with services, bundles and add-ons.</li>
+        <li data-demo-step="1">Define how you want your appointments filled.</li>
+        <li data-demo-step="2">Get matched with the right customers, new and existing.</li>
+        <li data-demo-step="3">Maximise capacity and booking value through personalisation.</li>
       </ol>
     </div>
     <div class="b2b-demo__phone">
@@ -444,7 +479,7 @@
     <div class="b2b-faq__list">
       <details class="b2b-faq__item" open>
         <summary>What is Etho?<span class="b2b-faq__icon" aria-hidden="true"></span></summary>
-        <p>Etho is an AI-powered booking and commerce platform connecting pet businesses with suitable customers. We help businesses fill unused appointments, attract new customers and increase transaction value through intelligent matching, personalised offers and product recommendations.</p>
+        <p>Etho is the AI-powered intelligence layer for pet services, designed to optimise bookings and grow business revenue. By understanding how your business operates and what your customers need, Etho proactively matches appointments with suitable dogs and owners, brings new customers and increases booking value through personalisation and recommendations.</p>
       </details>
       <!-- Hidden for now; when it returns, add it back to the FAQPage
            structured data in the head too. -->
@@ -500,6 +535,6 @@
 <script src="js/meta-pixel.js?v=20261026b"></script>
 <script src="js/landing.js?v=20261111b"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261103a"></script>
+<script src="js/partners.js?v=20261120a"></script>
 </body>
 </html>

@@ -211,51 +211,59 @@ if (window.EthoScenes) {
     finalState({ on }) { on('app', 'sheet', 'store'); },
   });
 
-  // The hero. Today's book at Dogue Spa, live. Etho spots two open slots
-  // this afternoon and suggests a plan in the provider's own rules: the
-  // service, the dogs it suits (large, high energy), new customers only,
-  // when, and the offer. The provider adds Huskies and approves; back on
-  // today's book, the slots fill with two new customers.
+  // The hero: how Etho fills an open appointment, in four steps.
+  // 1, Groomie Spa's Tuesday: the 10:30 slot opens and its rules come in.
+  // 2, Etho searches the business's customers and its own network and
+  // ranks three dogs; Louie, a customer, is picked. 3, Sarah gets a text
+  // with a free dental treat and replies YES. 4, booked and filled; what
+  // Etho learned, and the revenue from the empty slot.
   S.define('p-hero', {
-    loopAt: 14200,
-    script({ at, on }) {
+    loopAt: 17000,
+    script({ at, on, root, type }) {
+      const rev = root.querySelector('.ph-rev [data-scene-count]');
       at(200, () => on('in'));
-      at(1500, () => on('gap'));
-      at(3300, () => on('p2'));
-      [3800, 4150, 4500, 4850, 5200].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
-      at(6500, () => on('edit'));
-      at(7700, () => on('ok'));
-      at(8900, () => on('p3'));
-      at(9600, () => on('m1'));
-      at(10300, () => on('m2'));
-      at(11000, () => on('done'));
-      at(13500, () => on('out'));
+      at(1000, () => on('gap'));
+      [1500, 1800, 2100, 2400].forEach((ms, i) => at(ms, () => on('c' + (i + 1))));
+      at(4000, () => on('p2'));
+      [5400, 5800, 6200].forEach((ms, i) => at(ms, () => on('m' + (i + 1))));
+      at(7000, () => on('pick'));
+      at(8800, () => on('p3'));
+      at(9300, () => on('sms'));
+      at(11000, () => on('typ'));
+      at(11900, () => { on('yes'); type(root.querySelector('.ph-bub__t'), 90); });
+      at(13000, () => on('p4'));
+      [13700, 14000, 14300].forEach((ms, i) => at(ms, () => on('l' + (i + 1))));
+      at(14500, () => countUp(root, rev, 90, 900, (n) => '$' + n));
+      at(16300, () => on('out'));
     },
-    finalState({ on }) { on('in', 'gap', 'p2', 'r1', 'r2', 'r3', 'r4', 'r5', 'edit', 'ok', 'p3', 'm1', 'm2', 'done'); },
+    finalState({ on, root }) {
+      on('in', 'gap', 'c1', 'c2', 'c3', 'c4', 'p2', 'm1', 'm2', 'm3', 'pick', 'p3', 'sms', 'typ', 'yes', 'p4', 'l1', 'l2', 'l3');
+      root.querySelector('.ph-bub__t').textContent = 'YES';
+      root.querySelector('.ph-rev [data-scene-count]').textContent = '$90';
+    },
   });
 
-  // Fill the gaps: a 45-minute cancellation becomes one discounted slot
-  // for a small, short-coated dog, live until 2pm, and it is booked.
+  // Fill the gaps, in one card: the 12:15 is cancelled; the groomer
+  // opens the slot to small, short-coated dogs with a free post-groom
+  // portrait and turns it live; back on today's book, Bella takes it.
   S.define('p-capacity', {
-    loopAt: 10600,
+    loopAt: 11200,
     script({ at, on }) {
       at(200, () => on('in'));
       at(1300, () => on('cancel'));
-      at(2400, () => on('ctl'));
-      [3000, 3450, 3900, 4350, 4800].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
-      at(5800, () => on('live'));
-      at(7200, () => on('booked'));
-      at(9900, () => on('out'));
+      at(2700, () => on('ctl'));
+      [3200, 3550, 3900, 4250, 4600].forEach((ms, i) => at(ms, () => on('r' + (i + 1))));
+      at(5500, () => on('live'));
+      at(6800, () => on('back'));
+      at(7600, () => on('booked'));
+      at(10500, () => on('out'));
     },
-    finalState({ on }) { on('in', 'cancel', 'ctl', 'r1', 'r2', 'r3', 'r4', 'r5', 'live', 'booked'); },
+    finalState({ on }) { on('in', 'cancel', 'ctl', 'r1', 'r2', 'r3', 'r4', 'r5', 'live', 'back', 'booked'); },
   });
 
-  // 2 — Grow each booking. A daycare booking comes in; Etho suggests
-  // add-ons, one is taken and the total climbs; the average booking
-  // value rises, and boarding is booked alongside.
-  // Make every booking worth more: at checkout for a $220 puppy course,
-  // Etho suggests a $45 starter kit and an optional follow-up; the kit
-  // goes in and the total and the average transaction value count up.
+  // Make every booking worth more: at checkout for an $85 full groom,
+  // Etho suggests a $35 coat care kit and an optional teeth clean; the
+  // kit goes in and the total and the average transaction value count up.
   S.define('p-basket', {
     loopAt: 9600,
     script({ at, on, root }) {
@@ -263,13 +271,13 @@ if (window.EthoScenes) {
       const avg = root.querySelector('.ps-stat .ps-num');
       at(200, () => on('in'));
       at(1500, () => on('sug'));
-      at(3300, () => { on('kit'); countUp(root, total, 45, 800, (n) => money(220 + n)); });
+      at(3300, () => { on('kit'); countUp(root, total, 35, 800, (n) => money(85 + n)); });
       at(4600, () => { on('stat'); countUp(root, avg, 20, 1000, (n) => '+' + n + '%'); });
       at(8900, () => on('out'));
     },
     finalState({ on, root }) {
       on('in', 'sug', 'kit', 'stat');
-      root.querySelector('.ps-cart__total b').textContent = '$265';
+      root.querySelector('.ps-cart__total b').textContent = '$120';
       root.querySelector('.ps-stat .ps-num').textContent = '+20%';
     },
   });
@@ -296,21 +304,19 @@ if (window.EthoScenes) {
     finalState({ on }) { on('in', 'q', 'ans', 'booked', 'toast'); },
   });
 
-  // 4 — Get loyal customers. A five-session pack paid upfront, four
-  // sessions in; the month's prepaid revenue, repeat rate and rebookings
-  // count up, and a rebooking arrives.
-  // More ways to say yes: Cooper's parent moves from a single day to the
-  // 8-day pass (free same-day pick-up), splits it into 4 payments, and
-  // the provider sees eight visits booked ahead.
+  // 4 — Get loyal customers. Etho sees Cooper is due for a groom and
+  // offers open appointments that suit him; the pick moves to Saturday
+  // with his usual groomer, set to repeat every 6 weeks, and is booked;
+  // the provider sees eight grooms booked ahead.
   S.define('p-retention', {
     loopAt: 9800,
     script({ at, on, root }) {
-      const each = root.querySelector('.ps-cta [data-scene-count]');
+      const slot = root.querySelector('.ps-cta b');
       const ahead = root.querySelector('.ps-stat [data-scene-count]');
-      at(200, () => on('in'));
-      at(1400, () => { on('o2'); each.textContent = '$234'; });
-      at(2300, () => { on('o3'); each.textContent = '$440'; });
-      at(3500, () => { on('split'); countUp(root, each, 330, 800, (n) => '$' + (440 - n)); });
+      at(200, () => { on('in'); slot.textContent = 'Tue 2:00pm'; });
+      at(1400, () => { on('o2'); slot.textContent = 'Thu 10:00am'; });
+      at(2300, () => { on('o3'); slot.textContent = 'Sat 9:30am'; });
+      at(3500, () => on('split'));
       at(4900, () => on('done'));
       at(5600, () => { on('stat'); countUp(root, ahead, 8, 900, String); });
       at(6400, () => on('toast'));
@@ -318,7 +324,7 @@ if (window.EthoScenes) {
     },
     finalState({ on, root }) {
       on('in', 'o2', 'o3', 'split', 'done', 'stat', 'toast');
-      root.querySelector('.ps-cta [data-scene-count]').textContent = '$110';
+      root.querySelector('.ps-cta b').textContent = 'Sat 9:30am';
       root.querySelector('.ps-stat [data-scene-count]').textContent = '8';
     },
   });
