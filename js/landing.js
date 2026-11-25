@@ -28,7 +28,7 @@ function track(name, params) {
   if (typeof window.plausible === 'function') window.plausible(name, { props: props });
 
   document.dispatchEvent(new CustomEvent('etho:analytics', { detail: payload }));
-  if (name.indexOf('waitlist_') === 0) ship(name, props);
+  if (name.indexOf('waitlist_') === 0 || name.indexOf('partner_') === 0) ship(name, props);
 
   // Set window.ETHO_DEBUG_ANALYTICS = true in the console to watch events.
   if (window.ETHO_DEBUG_ANALYTICS) console.log('[etho]', name, props);
@@ -222,7 +222,7 @@ const TURNSTILE_HOSTS = ['etho.pet', 'www.etho.pet'];
 const TURNSTILE_ACTION = 'waitlist'; // checked by api/waitlist.js
 const TURNSTILE_WAIT_MS = 8000;
 
-const turnstileState = { widgetId: null, token: '', failed: false, loading: false, waiting: [] };
+const turnstileState = { widgetId: null, token: '', failed: false, loading: false, started: false, waiting: [] };
 
 function turnstileEnabled() {
   return Boolean(TURNSTILE_SITE_KEY) && TURNSTILE_HOSTS.includes(window.location.hostname);
@@ -240,8 +240,17 @@ function turnstileFail() {
   turnstileSettle('');
 }
 
+// Pages with a waitlist form start Turnstile as they load. The partners
+// page's form starts it itself (partner-form.js) the first time it
+// opens, so nothing from Cloudflare loads for visitors who never do.
 function initTurnstile() {
-  if (!turnstileEnabled() || !document.querySelector('.access-form')) return;
+  if (!document.querySelector('.access-form')) return;
+  startTurnstile();
+}
+
+function startTurnstile() {
+  if (!turnstileEnabled() || turnstileState.started) return;
+  turnstileState.started = true;
 
   window.ethoTurnstileLoaded = () => {
     turnstileState.loading = false;

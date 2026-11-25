@@ -1,4 +1,4 @@
-/* partners.html only: the intro line, the Typeform popup, the hero's
+/* partners.html only: the intro line, the hero's
    scene, the stacking value cards and their animations. */
 
 /* The intro line lights word by word as it scrolls up the screen, as
@@ -50,54 +50,6 @@ function initScrollWords(el) {
   measure();
 }
 document.querySelectorAll('[data-scroll-words]').forEach(initScrollWords);
-
-/* The partner CTAs ("Learn more", "Grow with us") open the partner Typeform in a popup over the page.
-   Typeform's embed script loads on the first click (nothing from them
-   loads before), and is warmed up on hover or touch. If it can't load,
-   or takes over 4s, the button falls back to its link: the form in a
-   new tab. */
-const TYPEFORM_ID = 'IHpQVqhu';
-let typeformReady = null;
-function loadTypeform() {
-  if (!typeformReady) {
-    typeformReady = new Promise((resolve, reject) => {
-      const css = document.createElement('link');
-      css.rel = 'stylesheet';
-      css.href = 'https://embed.typeform.com/next/css/popup.css';
-      document.head.append(css);
-      const js = document.createElement('script');
-      js.src = 'https://embed.typeform.com/next/embed.js';
-      js.async = true;
-      js.onload = () => (window.tf && window.tf.createPopup ? resolve(window.tf) : reject());
-      js.onerror = reject;
-      document.head.append(js);
-    });
-    typeformReady.catch(() => { typeformReady = null; });
-  }
-  return typeformReady;
-}
-document.querySelectorAll('[data-typeform]').forEach((link) => {
-  const warm = () => { loadTypeform().catch(() => {}); };
-  link.addEventListener('pointerenter', warm, { once: true });
-  link.addEventListener('touchstart', warm, { once: true, passive: true });
-  link.addEventListener('click', (e) => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-    e.preventDefault();
-    let done = false;
-    const fallback = () => {
-      if (done) return;
-      done = true;
-      window.open(link.href, '_blank', 'noopener');
-    };
-    const timer = setTimeout(fallback, 4000);
-    loadTypeform().then((tf) => {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      tf.createPopup(TYPEFORM_ID, { size: 90 }).open();
-    }).catch(() => { clearTimeout(timer); fallback(); });
-  });
-});
 
 /* The value cards stack (partners.css): as the next card rises over a
    pinned one, the pinned one shrinks back and dims a touch. --cover

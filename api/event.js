@@ -1,8 +1,9 @@
 /* POST /api/event — one first-party analytics event into Supabase.
 
-   landing.js sends every waitlist_* event here (the signup and the dog
-   profile funnels). Nothing else is accepted: the name must start with
-   waitlist_, properties are capped and cleaned, and the row carries a
+   landing.js sends every waitlist_* and partner_* event here (the
+   signup and dog profile funnels, and the partners page's form).
+   Nothing else is accepted: the name must start with waitlist_ or
+   partner_, properties are capped and cleaned, and the row carries a
    per-visit session id rather than anything that follows a person. It
    always answers 204: analytics must never get in a visitor's way. */
 
@@ -11,7 +12,7 @@
 const { MAX_BODY_BYTES, readBody, cleanString } = require('./_lib/loops.js');
 const supabase = require('./_lib/supabase.js');
 
-const EVENT_NAME = /^waitlist_[a-z_]{1,50}$/;
+const EVENT_NAME = /^(waitlist|partner)_[a-z_]{1,50}$/;
 const PROP_NAME = /^[a-zA-Z_]{1,40}$/;
 const MAX_PROPS = 20;
 const MAX_VALUE = 200;

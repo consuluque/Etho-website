@@ -660,3 +660,52 @@
   .b2b-demo__steps { display: none; }
   .b2b-demo__phone { --phone-h: clamp(460px, 74svh, 620px); }
 }
+
+/* ---------------------------------------------------------------
+   The partner form
+
+   A native <dialog> in the dog profile modal's sheet (.profile in
+   home.css, opened by partner-form.js); the questions, chips, fields
+   and buttons are all that modal's. What it adds is the agreement box on
+   the last question: a field-sized card holding a checkbox and the
+   sentence it agrees to.
+   --------------------------------------------------------------- */
+.agree {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 16px 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 20px 50px rgba(35, 43, 36, 0.08);
+  font-size: var(--type-small);
+  line-height: 1.5;
+  color: var(--ink);
+  cursor: pointer;
+}
+.agree__input {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  border: 1.5px solid rgba(35, 43, 36, 0.3);
+  border-radius: 8px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.agree__input:checked {
+  background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M2 7.5l3.2 3L12 3.5' fill='none' stroke='%23FFFFFF' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat;
+  border-color: var(--ink);
+}
+.agree__input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .agree__input { transition: none; }
+}
