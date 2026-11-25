@@ -109,7 +109,7 @@
 <link rel="stylesheet" href="css/home.css?v=20261030h">
 <link rel="stylesheet" href="css/consent.css?v=20261107b">
 <link rel="stylesheet" href="css/scenes.css?v=20261101a">
-<link rel="stylesheet" href="css/partners.css?v=20261107g">
+<link rel="stylesheet" href="css/partners.css?v=20261125b">
 <link rel="stylesheet" href="css/partner-scenes.css?v=20261120b">
 <!-- Flags that scripting is on, before anything paints. The reveal
      animation and the word-by-word paragraph are opt-in on this, so the
@@ -129,12 +129,13 @@
   <!-- 1 — Hero ---------------------------------------------------------- -->
   <!-- The pitch on the left; on the right, one storefront card telling
        Etho's story for providers (partners.js). The button opens the partner
-       intake form (Typeform) in a popup (partners.js). -->
+       form, a native dialog (partner-form.js); without scripting it is
+       an email link. -->
   <section id="top" class="hero hero--b2b on-dark" data-section="partners_hero">
     <div class="b2b-hero__copy">
       <h1 class="hero-title">A smarter way to grow your pet business</h1>
       <p class="hero-sub">Etho connects your available appointments with suitable dogs. Fill quiet periods, attract new customers and increase every booking’s value.</p>
-      <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Learn more</a>
+      <a class="btn-solid b2b-cta" href="mailto:maria@etho.pet?subject=Partnering%20with%20Etho" data-partner-open="hero">Learn more</a>
     </div>
     <!-- One glass card over a photo, telling how Etho fills an open
          appointment in four steps, a bar along the top for each:
@@ -510,7 +511,7 @@
   <footer class="b2b-foot on-dark" id="join" data-section="footer">
     <div class="b2b-foot__cta">
       <h2>Become a founding partner</h2>
-      <a class="btn-solid b2b-cta" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
+      <a class="btn-solid b2b-cta" href="mailto:maria@etho.pet?subject=Partnering%20with%20Etho" data-partner-open="footer">Grow with us</a>
     </div>
     <div class="b2b-foot__cols">
       <div class="b2b-foot__brand">
@@ -527,14 +528,111 @@
      (initStickyCta() in landing.js): the same call to action as the
      hero's. -->
 <div class="sticky-cta sticky-cta--b2b" data-sticky-cta>
-  <a class="btn-solid b2b-cta sticky-cta__btn" href="https://form.typeform.com/to/IHpQVqhu" target="_blank" rel="noopener" data-typeform>Grow with us</a>
+  <a class="btn-solid b2b-cta sticky-cta__btn" href="mailto:maria@etho.pet?subject=Partnering%20with%20Etho" data-partner-open="sticky">Grow with us</a>
 </div>
 
 
+<!-- The partner form, opened by every [data-partner-open] button
+     (partner-form.js) and posted to /api/partner, which stores the
+     answers in Supabase: nothing is sent to Loops. It is the dog
+     profile modal's twin (index.html, profile.js): the same sheet, one
+     question a screen and a progress bar across the top, and the same
+     styles (home.css), with a few additions in partners.css. -->
+<dialog id="partner-form" class="profile" aria-labelledby="partner-title">
+  <div class="profile__progress" aria-hidden="true"><span class="profile__bar" data-partner-bar></span></div>
+
+  <form class="profile__form" action="/api/partner" method="POST" novalidate data-partner-form>
+    <div class="hp" aria-hidden="true">
+      <label for="partner-hp-field">Leave this field empty</label>
+      <input id="partner-hp-field" type="text" name="hp_field" tabindex="-1" autocomplete="off" aria-hidden="true">
+    </div>
+
+    <div class="profile__top">
+      <button type="button" class="profile__nav" aria-label="Back" data-partner-back hidden>
+        <svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M8 1.5L2 8l6 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="profile__status">🐾 Join Etho’s launch network</span>
+      <button type="button" class="profile__nav" aria-label="Close" data-partner-close>&times;</button>
+    </div>
+
+    <div class="profile__body">
+    <div class="profile__step" role="group" data-step="bookings" data-optional>
+      <h2 class="profile__question" id="partner-title">Approximately how many extra bookings or customers would you like each week?</h2>
+      <div class="profile__chips" data-chips="bookings">
+        <button type="button" class="chip" data-chip="0–5" aria-pressed="false">0–5</button>
+        <button type="button" class="chip" data-chip="6–10" aria-pressed="false">6–10</button>
+        <button type="button" class="chip" data-chip="11–20" aria-pressed="false">11–20</button>
+        <button type="button" class="chip" data-chip="21–30" aria-pressed="false">21–30</button>
+        <button type="button" class="chip" data-chip="30+" aria-pressed="false">30+</button>
+      </div>
+    </div>
+
+    <div class="profile__step" role="group" data-step="methods" data-optional hidden>
+      <h2 class="profile__question">How do you currently take bookings?</h2>
+      <p class="profile__hint">Pick as many as you like.</p>
+      <div class="profile__chips" data-chips="methods" data-multiple>
+        <button type="button" class="chip" data-chip="online booking platform" aria-pressed="false">Online booking platform</button>
+        <button type="button" class="chip" data-chip="website" aria-pressed="false">Website</button>
+        <button type="button" class="chip" data-chip="whatsapp" aria-pressed="false">WhatsApp</button>
+        <button type="button" class="chip" data-chip="phone calls" aria-pressed="false">Phone calls</button>
+        <button type="button" class="chip" data-chip="instagram/dms" aria-pressed="false">Instagram/DMs</button>
+        <button type="button" class="chip" data-chip="email" aria-pressed="false">Email</button>
+        <button type="button" class="chip" data-chip="other" aria-pressed="false">Other</button>
+      </div>
+    </div>
+
+    <div class="profile__step" role="group" data-step="name" hidden>
+      <h2 class="profile__question">What’s your name?</h2>
+      <input class="profile__input" type="text" name="name" maxlength="80" autocomplete="name"
+             enterkeyhint="next" aria-label="Your name" placeholder="Your name" required>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </div>
+
+    <div class="profile__step" role="group" data-step="email" hidden>
+      <h2 class="profile__question">What’s your email address?</h2>
+      <input class="profile__input" type="email" name="email" maxlength="254" autocomplete="email"
+             inputmode="email" autocapitalize="none" spellcheck="false"
+             enterkeyhint="next" aria-label="Email address" placeholder="you@business.com" required>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </div>
+
+    <div class="profile__step" role="group" data-step="phone" data-optional hidden>
+      <h2 class="profile__question">And a phone number?</h2>
+      <input class="profile__input" type="tel" name="phone" maxlength="30" autocomplete="tel"
+             inputmode="tel" enterkeyhint="next" aria-label="Phone number" placeholder="Phone number">
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </div>
+
+    <div class="profile__step" role="group" data-step="consent" hidden>
+      <h2 class="profile__question">Interested in being part of Etho’s launch network?</h2>
+      <label class="agree">
+        <input class="agree__input" type="checkbox" name="consent" required>
+        <span class="agree__text">Yes, I’m interested in exploring a partnership with Etho and agree to be contacted about next steps. I understand this expression of interest is non-binding.</span>
+      </label>
+      <p class="profile__error" data-step-error aria-live="polite"></p>
+    </div>
+
+    <p class="profile__error" data-partner-error aria-live="polite"></p>
+    <div class="profile__actions">
+      <button type="button" class="profile__skip" data-partner-skip hidden>Skip</button>
+      <button type="submit" class="btn-solid profile__submit" data-partner-next>Next</button>
+    </div>
+    </div>
+  </form>
+
+  <div class="profile__done" data-partner-done hidden>
+    <button type="button" class="profile__nav profile__done-close" aria-label="Close" data-partner-close>&times;</button>
+    <div class="profile__emoji" aria-hidden="true">🎉</div>
+    <h2 class="profile__question" id="partner-done-title">You’re in!</h2>
+    <p class="profile__done-copy">We’re excited to explore how we can give Sydney dogs and their humans more of the good life, together. The Etho team will be in touch soon.</p>
+  </div>
+</dialog>
+
 <script src="js/main.js?v=20261103"></script>
 <script src="js/meta-pixel.js?v=20261026b"></script>
-<script src="js/landing.js?v=20261111b"></script>
+<script src="js/landing.js?v=20261125a"></script>
 <script src="js/scenes.js?v=20261101a"></script>
-<script src="js/partners.js?v=20261120a"></script>
+<script src="js/partners.js?v=20261125a"></script>
+<script src="js/partner-form.js?v=20261125a"></script>
 </body>
 </html>

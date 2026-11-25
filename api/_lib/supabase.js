@@ -75,6 +75,30 @@ function attributionColumns(attribution) {
   return out;
 }
 
+// One submission of the partners page's form. Always a new row; the
+// table is partner_leads (supabase/migrations/20261125_partner_leads.sql).
+async function insertPartnerLead(row) {
+  const base = process.env.SUPABASE_URL.replace(/\/+$/, '');
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const res = await fetch(base + '/rest/v1/partner_leads', {
+    method: 'POST',
+    headers: {
+      apikey: key,
+      Authorization: 'Bearer ' + key,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(row),
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
+  if (!res.ok) {
+    const err = new Error('Supabase insert returned ' + res.status);
+    err.status = res.status;
+    err.detail = await res.text().catch(() => '');
+    throw err;
+  }
+}
+
 // One analytics event; the row is never read back.
 async function insertEvent(row) {
   const base = process.env.SUPABASE_URL.replace(/\/+$/, '');
@@ -145,4 +169,4 @@ async function recordAttempt(ipHash) {
   }
 }
 
-module.exports = { configured, upsertLead, insertEvent, attributionColumns, countAttempts, recordAttempt };
+module.exports = { configured, upsertLead, insertPartnerLead, insertEvent, attributionColumns, countAttempts, recordAttempt };

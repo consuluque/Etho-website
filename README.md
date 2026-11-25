@@ -20,9 +20,10 @@ terms.html     — the terms of service, served at /terms (likewise)
 api/waitlist.js — the serverless function behind every waitlist form
 api/profile.js  — the function behind the dog profile modal
 api/loops-sync.js — the Supabase webhook target that updates Loops
+api/partner.js  — the function behind the partner form on partners.html
 api/event.js    — first-party analytics events into Supabase
-api/_lib/       — what the two functions share (not deployed as a function)
-supabase/       — the migration for the waitlist_leads table
+api/_lib/       — what the functions share (not deployed as a function)
+supabase/       — the migrations: waitlist_leads, partner_leads, and the rest
 .vercelignore  — keeps this README and supabase/ out of the deployment
 vercel.json    — the redirects that point the archived pages at /, and
                  the /privacy and /terms rewrites
@@ -36,11 +37,13 @@ js/home.js     — the word-by-word paragraph and the product story
 
 home-v2.html   — the landing page that was live before the hero-only cut
 home-v1.html   — the original home page, before that
-partners.html  — providers and brands page
+partners.html  — providers and brands page; its buttons open the partner form
 shop.html      — shop page ("coming soon")
 js/main.js       — hero video, reveal-on-scroll, fixed nav
 js/landing.js    — waitlist forms, attribution, logo marquee, sticky CTA, analytics
 js/profile.js    — the dog profile modal; js/breeds.js is its breed list
+js/partner-form.js — the partner form on partners.html, the same sheet as the
+                 profile modal
 assets/images/ — product/lifestyle photos (see below), and the tab and
                  home-screen icons (favicon-32/64, apple-touch-icon)
 ```
@@ -119,6 +122,35 @@ The signup's response carries a token (an HMAC of the email under
 cannot be written against someone else's address. The breed
 autocomplete is the list in `js/breeds.js`; "Other" among the struggles
 opens a text field whose words are stored in the list in its place.
+
+### Partner form
+
+The buttons on `partners.html` ("Learn more", "Grow with us", and the
+pinned one) open a native `<dialog>` (`#partner-form`, `js/partner-form.js`)
+that replaced the Typeform. It is the dog profile modal's twin: the same
+sheet and styles (`.profile` in `home.css`), one question a screen, with
+the consent box styled in `partners.css`. The questions are the
+Typeform's: extra bookings wanted per week, how bookings are taken now,
+name, email, phone, and the consent to be contacted (the only required
+box, with name and email). Without scripting, the buttons are an email
+link to the team.
+
+It posts JSON to `/api/partner` (`api/partner.js`), which inserts a row
+into the `partner_leads` table in Supabase
+(`supabase/migrations/20261125_partner_leads.sql`; run it before the
+form goes live) and does nothing else: **no Loops**. One row per
+submission, with the choices as text, the consent and its time, which
+button opened the form (`form`: hero, footer or sticky) and the same
+first-touch attribution as the waitlist. Read the answers in Supabase's
+Table Editor. The function has the waitlist's guards, from
+`api/_lib/guards.js`: honeypot, a known form name and same-site Origin,
+Turnstile (loaded only when the form is first opened or a button is
+hovered; same site key and `TURNSTILE_SECRET_KEY` as the waitlist) and
+a limit of 5 submissions an hour per connection. It needs only
+`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. The funnel is reported
+as `partner_form_open`, `_step`, `_skip`, `_back`, `_abandon`,
+`_complete` and `_error`, and stored in `analytics_events` like the
+waitlist's.
 
 ### Keeping Loops in step
 
